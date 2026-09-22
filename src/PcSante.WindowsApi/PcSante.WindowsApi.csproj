@@ -7,6 +7,7 @@
     <ProjectReference Include="../PcSante.Core/PcSante.Core.csproj" />
     <ProjectReference Include="../PcSante.Licensing/PcSante.Licensing.csproj" />
     <PackageReference Include="System.Management" />
+    <PackageReference Include="System.Diagnostics.PerformanceCounter" />
     <PackageReference Include="System.ServiceProcess.ServiceController" />
     <PackageReference Include="System.Security.Cryptography.ProtectedData" />
     <PackageReference Include="TaskScheduler" />

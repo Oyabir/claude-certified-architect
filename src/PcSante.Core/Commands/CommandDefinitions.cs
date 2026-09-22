@@ -51,7 +51,6 @@ public static class CommandDefinitions
         Q(CommandId.GetThreatHistory),
         Q(CommandId.GetQuarantine),
         A(CommandId.RestoreQuarantinedItem, SafeguardKind.RestorePoint, ConfirmationKind.ReducesProtection, p: ItemId),
-        A(CommandId.RemoveQuarantinedItem, SafeguardKind.None, ConfirmationKind.DeletesFiles, p: ItemId),
         A(CommandId.EnableRealtimeProtection, SafeguardKind.OwnBackup),
         A(CommandId.EnableCloudProtection, SafeguardKind.OwnBackup),
         A(CommandId.EnableControlledFolderAccess, SafeguardKind.OwnBackup),

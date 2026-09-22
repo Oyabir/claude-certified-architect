@@ -3,6 +3,7 @@ namespace PcSante.Core.Windows;
 public enum StartupLocation
 {
     MachineRun,
+    MachineRun32,
     UserRun,
     MachineStartupFolder,
     UserStartupFolder,

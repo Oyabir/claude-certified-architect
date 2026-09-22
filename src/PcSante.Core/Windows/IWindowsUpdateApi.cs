@@ -17,9 +17,12 @@ public interface IWindowsUpdateApi
 
     /// <summary>
     /// Réparation d'une mise à jour bloquée : arrête les services, renomme le cache de téléchargement
-    /// (sauvegarde), redémarre les services. Renvoie le chemin de la sauvegarde, ou null en cas d'échec.
+    /// vers <paramref name="backupPath"/> (sauvegarde), redémarre les services.
     /// </summary>
-    Task<string?> ResetComponentsAsync(CancellationToken cancellationToken);
+    Task<bool> ResetComponentsAsync(string backupPath, CancellationToken cancellationToken);
+
+    /// <summary>Chemin proposé pour la sauvegarde du cache (ex. C:\Windows\SoftwareDistribution.pcsante-20260922).</summary>
+    string ProposeBackupPath(DateTimeOffset now);
 
     /// <summary>Remet en place le cache sauvegardé par <see cref="ResetComponentsAsync"/>.</summary>
     Task<bool> RestoreComponentsAsync(string backupPath, CancellationToken cancellationToken);

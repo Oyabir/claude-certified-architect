@@ -30,8 +30,7 @@ public class CommandDefinitionsTests
         var deletions = CommandDefinitions.All.Values.Where(d => d.Confirmation == ConfirmationKind.DeletesFiles).ToList();
 
         deletions.Should().NotBeEmpty();
-        deletions.Where(d => d.Id != CommandId.RemoveQuarantinedItem)
-            .Should().OnlyContain(d => d.Safeguard == SafeguardKind.RestorePoint || d.Safeguard == SafeguardKind.RestorePointAndOwnBackup);
+        deletions.Should().OnlyContain(d => d.Safeguard == SafeguardKind.RestorePoint || d.Safeguard == SafeguardKind.RestorePointAndOwnBackup);
     }
 
     [Fact]

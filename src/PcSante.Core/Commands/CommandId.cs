@@ -22,7 +22,6 @@ public enum CommandId
     GetThreatHistory = 205,
     GetQuarantine = 206,
     RestoreQuarantinedItem = 207,
-    RemoveQuarantinedItem = 208,
     EnableRealtimeProtection = 209,
     EnableCloudProtection = 210,
     EnableControlledFolderAccess = 211,

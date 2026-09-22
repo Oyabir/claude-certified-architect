@@ -1,0 +1,144 @@
+using System.Globalization;
+using PcSante.Core.Actions;
+using PcSante.Core.Commands;
+using PcSante.Core.Windows;
+
+namespace PcSante.Service.Actions;
+
+public sealed class SearchUpdatesAction(IWindowsUpdateApi updates) : SystemAction
+{
+    public override CommandId Command => CommandId.SearchUpdates;
+
+    public override Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken) => Task.FromResult(CheckResult.Proceed);
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        var found = await updates.SearchAsync(cancellationToken).ConfigureAwait(false);
+        return found.Count == 0
+            ? ExecutionResult.Ok("Result_NoUpdates")
+            : ExecutionResult.Ok("Result_UpdatesFound", found.Count.ToString(CultureInfo.InvariantCulture));
+    }
+
+    public override Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) => Task.FromResult(true);
+}
+
+public sealed class InstallUpdatesAction(IWindowsUpdateApi updates) : SystemAction
+{
+    public override CommandId Command => CommandId.InstallUpdates;
+
+    public override async Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken) =>
+        (await updates.SearchAsync(cancellationToken).ConfigureAwait(false)).Count == 0
+            ? CheckResult.AlreadyDone("Result_NoUpdates")
+            : CheckResult.Proceed;
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        var result = await updates.InstallAsync(cancellationToken).ConfigureAwait(false);
+        if (result.Installed == 0 && result.Failed > 0)
+        {
+            return ExecutionResult.Fail("Result_UpdatesFailed");
+        }
+
+        var key = result.RebootRequired ? "Result_UpdatesInstalledReboot" : "Result_UpdatesInstalled";
+        return ExecutionResult.Ok(key, result.Installed.ToString(CultureInfo.InvariantCulture), result.Failed.ToString(CultureInfo.InvariantCulture));
+    }
+
+    public override Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) => Task.FromResult(true);
+}
+
+/// <summary>Réparation d'une mise à jour bloquée : le cache est renommé (sauvegarde), jamais supprimé.</summary>
+public sealed class RepairWindowsUpdateAction(IWindowsUpdateApi updates, TimeProvider time) : SystemAction
+{
+    // Les actions sont exécutées une à une (verrou global) : l'état entre les étapes est sûr.
+    private string? _backupPath;
+
+    public override CommandId Command => CommandId.RepairWindowsUpdate;
+
+    public override Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken) => Task.FromResult(CheckResult.Proceed);
+
+    public override Task<BackupData?> BackupAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        _backupPath = updates.ProposeBackupPath(time.GetUtcNow());
+        return Task.FromResult<BackupData?>(new BackupData("Windows Update (cache)", _backupPath));
+    }
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        var backupPath = _backupPath ?? updates.ProposeBackupPath(time.GetUtcNow());
+        return await updates.ResetComponentsAsync(backupPath, cancellationToken).ConfigureAwait(false)
+            ? ExecutionResult.Ok("Result_UpdateRepaired")
+            : ExecutionResult.Fail("Result_UpdateRepairFailed");
+    }
+
+    public override Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) =>
+        updates.AreServicesHealthyAsync(cancellationToken);
+
+    public override Task<bool> UndoAsync(BackupData backup, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(backup);
+        return updates.RestoreComponentsAsync(backup.Payload, cancellationToken);
+    }
+}
+
+public sealed class RepairAction(CommandId command, ISystemRepairApi repair) : SystemAction
+{
+    public override CommandId Command { get; } = command;
+
+    public override Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken) => Task.FromResult(CheckResult.Proceed);
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        var result = Command == CommandId.RunSystemFileCheck
+            ? await repair.RunSystemFileCheckAsync(cancellationToken).ConfigureAwait(false)
+            : await repair.RunDismRestoreHealthAsync(cancellationToken).ConfigureAwait(false);
+        return result.Outcome switch
+        {
+            RepairOutcome.NoProblemFound => ExecutionResult.Ok("Result_RepairNothingFound"),
+            RepairOutcome.Repaired => new ExecutionResult(true, "Result_RepairDone", result.Summary),
+            RepairOutcome.ProblemsRemain => new ExecutionResult(true, Command == CommandId.RunSystemFileCheck ? "Result_RepairRemainsTryDism" : "Result_RepairRemains", result.Summary),
+            _ => ExecutionResult.Fail("Result_RepairFailed", result.Summary),
+        };
+    }
+
+    public override Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) => Task.FromResult(true);
+}
+
+public sealed class CreateRestorePointAction(IRestorePointApi restore, TimeProvider time) : SystemAction
+{
+    public override CommandId Command => CommandId.CreateRestorePoint;
+
+    public override async Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await restore.IsEnabledAsync(cancellationToken).ConfigureAwait(false)
+            ? CheckResult.Proceed
+            : CheckResult.Blocked(FailureReason.PreconditionFailed, "Result_RestoreDisabled");
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await restore.CreateAsync($"{Core.ProductInfo.Name}", cancellationToken).ConfigureAwait(false)
+            ? ExecutionResult.Ok("Result_RestorePointCreated")
+            : ExecutionResult.Fail("Result_RestorePointFailed");
+
+    /// <summary>Windows n'autorise qu'un point par 24 h : un point de moins de 24 h suffit.</summary>
+    public override async Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        var now = time.GetUtcNow();
+        return (await restore.ListAsync(cancellationToken).ConfigureAwait(false)).Any(p => now - p.CreatedAt < TimeSpan.FromHours(24));
+    }
+}
+
+public sealed class EnableSystemRestoreAction(IRestorePointApi restore) : SystemAction
+{
+    public override CommandId Command => CommandId.EnableSystemRestore;
+
+    public override async Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await restore.IsEnabledAsync(cancellationToken).ConfigureAwait(false)
+            ? CheckResult.AlreadyDone("Result_AlreadyDone")
+            : CheckResult.Proceed;
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await restore.EnableAsync(cancellationToken).ConfigureAwait(false)
+            ? ExecutionResult.Ok("Result_RestoreEnabled")
+            : ExecutionResult.Fail("Result_RestoreEnableFailed");
+
+    public override Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) =>
+        restore.IsEnabledAsync(cancellationToken);
+}

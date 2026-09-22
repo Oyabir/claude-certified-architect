@@ -68,6 +68,4 @@ public interface IDefenderApi
     Task<IReadOnlyList<QuarantineItem>> GetQuarantineAsync(CancellationToken cancellationToken);
 
     Task<bool> RestoreFromQuarantineAsync(string id, CancellationToken cancellationToken);
-
-    Task<bool> RemoveFromQuarantineAsync(string id, CancellationToken cancellationToken);
 }
