@@ -1,69 +1,67 @@
 # Plan du chantier PC Santé
 
-Ordre = planning MVP (section 7 du cahier des charges). Statuts : ✅ fait · 🔄 en cours · ⏳ à faire · ⛔ désactivé/justifié.
+Ordre = planning MVP (section 7 du cahier des charges). Statuts : ✅ fait · 🔄 en cours · ⏳ à faire · ⛔ désactivé/justifié · 🖥️ à valider en VM Windows (`docs/TESTS_MANUELS_VM.md`).
 
 Critère commun à tous les lots : `dotnet build PcSante.sln -c Release` sans erreur ni avertissement, `dotnet test` vert, commit en français.
+**État au 22/09/2026 : 0 avertissement, 311 tests verts.**
 
 ## Lot 0 — Démarrage ✅
 - ✅ Lecture complète du cahier des charges
 - ✅ CLAUDE.md, PLAN.md, DECISIONS.md
-- ✅ Solution .NET 8 selon la structure de la section 13
+- ✅ Solution .NET 8 selon la structure de la section 13 (+ `src/PcSante.Reporting`, voir DECISIONS)
 
-Fin : solution vide qui compile, structure en place.
+## Lot 1 — Fondations ✅
+- ✅ Core : catalogue fermé (`CommandId`, `CommandDefinitions`), validation stricte, cycle d'action (`SystemActionPipeline`), abstractions Windows, audit
+- ✅ Ipc : contrat JSON versionné, encadrement borné, `ClientTrustPolicy` (dossier d'installation + signature), ACL du pipe, vérification du serveur côté client
+- ✅ Service : Worker Service Windows, répartiteur unique, verrou d'action, audit SQLite (EF Core), Serilog fichiers tournants, ACL du dossier de données
+- ✅ App : WPF + WPF-UI, navigation latérale, mode Simple/Avancé, ressources fr/en/ar, RTL
 
-## Lot 1 — Fondations (semaines 1–2) ⏳
-- ⏳ Core : modèles, catalogue des identifiants de commande, cycle d'action système, abstractions Windows, audit
-- ⏳ Ipc : contrat JSON, encadrement des messages, validation stricte, authentification du client (ACL + signature)
-- ⏳ Service : Worker Service Windows, serveur named pipe, catalogue de commandes, refus hors catalogue, journal d'audit, SQLite (EF Core), Serilog
-- ⏳ App : squelette WPF-UI, navigation latérale, mode Simple/Avancé, ressources fr/en/ar, RTL
+Fin : ✅ commande hors catalogue refusée et journalisée ; ✅ client non signé refusé par le pipe (tests `SecurityTests`, `PipeEndToEndTests`).
 
-Fin : commande hors catalogue refusée et client non signé refusé (tests de sécurité), audit écrit en base, l'interface s'ouvre sur l'Accueil.
+## Lot 2 — Diagnostic ✅
+- ✅ Collecte des métriques (CPU, RAM, disque, réseau, batterie ; température si WMI la fournit) 🖥️
+- ✅ 8 familles de règles, 18 problèmes, score 0–100 + 4 sous-scores, couleurs cohérentes avec les problèmes
+- ✅ Accueil : score, problèmes (quoi / pourquoi / Corriger), « Analyser mon PC », « Tout corriger » avec récapitulatif
+- ✅ Historique du score en base
 
-## Lot 2 — Diagnostic (semaines 3–4) ⏳
-- ⏳ Collecte des métriques (CPU, RAM, disque, réseau, batterie, températures si disponibles)
-- ⏳ Règles de diagnostic + score 0–100, 4 sous-scores, couleurs
-- ⏳ Écran Accueil : score, problèmes (quoi / pourquoi / Corriger), « Analyser mon PC », « Tout corriger » avec récapitulatif
+## Lot 3 — Protection et système ✅ 🖥️
+- ✅ Defender : état, scans rapide/complet/dossier (arrière-plan), signatures, historique, quarantaine (restauration), protections temps réel/cloud/dossiers contrôlés, note « désactivation bloquée par Windows »
+- ⛔ Suppression d'un élément de quarantaine : aucune API documentée (voir DECISIONS) ; Defender purge lui-même
+- ✅ Pare-feu : activer/désactiver par profil (désactivation en mode Avancé + confirmation), réinitialisation avec export préalable et annulation
+- ✅ Windows Update : rechercher, installer (confirmation), réparer (cache renommé, annulable)
+- ✅ SFC, DISM, point de restauration, activation de la restauration
 
-Fin : tests unitaires du score et des règles verts ; historique du score enregistré.
+## Lot 4 — Performance ✅ 🖥️
+- ✅ Processus : liste, CPU/RAM/disque, historique 7 jours, réputation, signature (intégrée + catalogue), arrêter (programmes de l'appelant, jamais les indispensables), retirer du démarrage, désactiver le service (liste protégée), emplacement
+- ⛔ Réseau par processus : non affiché (ETW trop coûteux, voir DECISIONS)
+- ✅ Optimisations : démarrage (StartupApproved) + tâches tierces, nettoyage (temp, cache WU, corbeille, navigateurs) avec suppression sécurisée anti-jonction, alimentation ; point de restauration + « Annuler »
+- ✅ Mini-affichage Win32 click-through, masquage plein écran, icône de notification, réglages
+- ✅ Écrans Performance, Processus, Optimisation/Nettoyage
 
-## Lot 3 — Protection et système (semaines 5–6) ⏳
-- ⏳ Defender : état, scans rapide/complet/personnalisé, signatures, quarantaine, historique, protections (temps réel, cloud, dossiers contrôlés), limite « désactivation bloquée par Windows »
-- ⏳ Pare-feu : activer/désactiver par profil, réinitialiser (avec export préalable)
-- ⏳ Windows Update : rechercher, installer, réparer
-- ⏳ SFC, DISM, point de restauration
-- ⏳ Écrans Protection et Système
+## Lot 5 — Planification et rapports ✅
+- ✅ 3 modèles (scan quotidien, nettoyage hebdo, point de restauration hebdo), jour/heure/conditions (inactif, secteur), journal ; exécution via Planificateur Windows → `--run-task` → pipe → catalogue 🖥️
+- ✅ Rapport PDF hebdomadaire/mensuel (QuestPDF), fr/en/ar, testé
+- ✅ Écrans Planification et Rapports (+ journal d'audit en mode Avancé)
 
-Fin : chaque action passe par le cycle complet, testée avec simulations.
+## Lot 6 — Licence et installeur ✅
+- ✅ Client : empreinte 4 hachages (tolérance 3/4), jeton Ed25519, DPAPI machine, hors ligne 14 j, revalidation 7 j, détection du recul d'horloge
+- ✅ Serveur : activer / revalider / transférer (2/an) / désactiver, administration (page + API), limitation par IP, journal des refus, clé privée par variable d'environnement, SQLite/PostgreSQL, commande `keygen`
+- ✅ Mises à jour signées (manifeste Ed25519 + SHA-256 + Authenticode) accessibles depuis les Paramètres
+- ✅ Installeur WiX 5 (service, interface, mini-affichage, mise à jour, désinstallation propre) + `build.ps1` (publication, obfuscation, signature) — compilation Windows uniquement 🖥️
+- ✅ Obfuscation Obfuscar (Licensing + Service), vérifiée par les tests
+- ✅ Écran Licence + assistant de premier lancement
 
-## Lot 4 — Performance (semaines 7–8) ⏳
-- ⏳ Processus : liste, CPU/RAM/disque, historique 7 jours, réputation, signature, arrêter / retirer du démarrage / désactiver le service
-- ⏳ Optimisations : démarrage (+ tâches tierces), nettoyage (temp, cache WU, corbeille, navigateurs), plan d'alimentation ; point de restauration + « Annuler »
-- ⏳ Mini-affichage Win32 click-through, masquage plein écran, icône de notification
-- ⏳ Écrans Performance, Processus, Optimisation (Nettoyage)
+Fin : ✅ tests d'intégration serveur (activation, refus 2e PC, transfert, hors ligne, révocation, expiration, famille, limitation).
 
-Fin : annulation testée pour chaque optimisation réversible.
+## Lot 7 — Tests ✅
+- ✅ Couverture : Core 96,9 %, Licensing 97,8 %, serveur de licences 98,1 % (Service 82,8 %, Reporting 98,9 %)
+- ✅ Checklist de tests manuels en VM (`docs/TESTS_MANUELS_VM.md`)
+- 🖥️ Exécution de la checklist et tests sur 20 PC réels : à la charge du commanditaire (section 14)
 
-## Lot 5 — Planification et rapports (semaine 9) ⏳
-- ⏳ 3 modèles de tâches (scan quotidien, nettoyage hebdo, point de restauration hebdo), jour/heure/conditions, journal
-- ⏳ Rapport PDF hebdomadaire/mensuel lisible (QuestPDF)
-- ⏳ Écrans Planification et Rapports
+## Lot 8 — Lancement ✅ (partie livrable)
+- ✅ Guide utilisateur, guide de déploiement
+- ✅ Rapport final (`docs/RAPPORT_FINAL.md`)
+- ⛔ Bêta publique, site de vente, soumission antivirus : interdits (publication) → commanditaire
 
-Fin : PDF généré en test, planification simulée testée.
-
-## Lot 6 — Licence et installeur (semaine 10) ⏳
-- ⏳ Licensing client : empreinte, jeton Ed25519, DPAPI, hors ligne 14 j, horloge, revalidation 7 j
-- ⏳ Serveur de licences : activer / revalider / transférer / désactiver, administration, limitation par IP, journal des refus, clé privée par variable d'environnement
-- ⏳ Mises à jour signées et vérifiées
-- ⏳ Installeur WiX (service, interface, mini-affichage, mise à jour, désinstallation propre)
-- ⏳ Écran Licence + assistant de premier lancement
-
-Fin : tests d'intégration serveur (activation, refus 2e PC, transfert, hors ligne, révocation) verts.
-
-## Lot 7 — Tests (semaine 11) ⏳
-- ⏳ Couverture ≥ 70 % sur Core, Licensing, serveur de licences
-- ⏳ Checklist de tests manuels en VM (`docs/TESTS_MANUELS_VM.md`)
-
-## Lot 8 — Lancement (semaine 12) ⏳
-- ⏳ Guide utilisateur, guide de déploiement
-- ⏳ Rapport final (`docs/RAPPORT_FINAL.md`)
-- ⛔ Bêta publique, site de vente, soumission antivirus : interdits (publication) → à la charge du commanditaire
+## Hors MVP (non développé, section 7)
+M7 Sessions, BitLocker, réseau (DNS/Winsock), comptes, effets visuels, profils de services, antivirus tiers, M10 assistant IA (interface `IAiAssistant` seulement), console PME, export CSV PME.
