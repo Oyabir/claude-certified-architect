@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../../server/PcSante.LicenseServer/PcSante.LicenseServer.csproj" />
+    <ProjectReference Include="../../src/PcSante.Licensing/PcSante.Licensing.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit" />
