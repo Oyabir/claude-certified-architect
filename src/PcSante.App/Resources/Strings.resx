@@ -485,6 +485,9 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Service_UnavailableHelp" xml:space="preserve"><value>Redémarrez le PC. Si le problème continue, réinstallez PC Santé.</value></data>
   <data name="Settings_AdvancedMode" xml:space="preserve"><value>Mode Avancé</value></data>
   <data name="Settings_AdvancedModeHelp" xml:space="preserve"><value>Affiche aussi les écrans Performance, Processus, Système et Planification.</value></data>
+  <data name="Settings_CheckUpdates" xml:space="preserve"><value>Rechercher une nouvelle version</value></data>
+  <data name="Settings_Checking" xml:space="preserve"><value>Recherche d'une nouvelle version…</value></data>
+  <data name="Settings_Downloading" xml:space="preserve"><value>Téléchargement et vérification de la nouvelle version…</value></data>
   <data name="Settings_Language" xml:space="preserve"><value>Langue</value></data>
   <data name="Settings_Overlay" xml:space="preserve"><value>Mini-affichage</value></data>
   <data name="Settings_OverlayEnabled" xml:space="preserve"><value>Afficher le mini-affichage en permanence</value></data>
@@ -497,6 +500,11 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Settings_Save" xml:space="preserve"><value>Enregistrer</value></data>
   <data name="Settings_Saved" xml:space="preserve"><value>Paramètres enregistrés.</value></data>
   <data name="Settings_Theme" xml:space="preserve"><value>Apparence</value></data>
+  <data name="Settings_UpdateAvailable" xml:space="preserve"><value>La version {0} est disponible.</value></data>
+  <data name="Settings_UpdateCheckFailed" xml:space="preserve"><value>Impossible de vérifier les mises à jour pour le moment.</value></data>
+  <data name="Settings_Updates" xml:space="preserve"><value>Mises à jour de PC Santé</value></data>
+  <data name="Settings_UpdatesHelp" xml:space="preserve"><value>Seules les versions signées par l'éditeur sont installées.</value></data>
+  <data name="Settings_Version" xml:space="preserve"><value>Version installée : {0}</value></data>
   <data name="StartupLocation_MachineRun" xml:space="preserve"><value>Tous les utilisateurs</value></data>
   <data name="StartupLocation_MachineRun32" xml:space="preserve"><value>Tous les utilisateurs (32 bits)</value></data>
   <data name="StartupLocation_MachineStartupFolder" xml:space="preserve"><value>Dossier Démarrage commun</value></data>

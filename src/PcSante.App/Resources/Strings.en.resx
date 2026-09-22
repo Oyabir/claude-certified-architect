@@ -485,6 +485,9 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Service_UnavailableHelp" xml:space="preserve"><value>Restart the PC. If the problem continues, reinstall PC Santé.</value></data>
   <data name="Settings_AdvancedMode" xml:space="preserve"><value>Advanced mode</value></data>
   <data name="Settings_AdvancedModeHelp" xml:space="preserve"><value>Also shows the Performance, Processes, System and Scheduling screens.</value></data>
+  <data name="Settings_CheckUpdates" xml:space="preserve"><value>Check for a new version</value></data>
+  <data name="Settings_Checking" xml:space="preserve"><value>Checking for a new version…</value></data>
+  <data name="Settings_Downloading" xml:space="preserve"><value>Downloading and checking the new version…</value></data>
   <data name="Settings_Language" xml:space="preserve"><value>Language</value></data>
   <data name="Settings_Overlay" xml:space="preserve"><value>Mini display</value></data>
   <data name="Settings_OverlayEnabled" xml:space="preserve"><value>Always show the mini display</value></data>
@@ -497,6 +500,11 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Settings_Save" xml:space="preserve"><value>Save</value></data>
   <data name="Settings_Saved" xml:space="preserve"><value>Settings saved.</value></data>
   <data name="Settings_Theme" xml:space="preserve"><value>Appearance</value></data>
+  <data name="Settings_UpdateAvailable" xml:space="preserve"><value>Version {0} is available.</value></data>
+  <data name="Settings_UpdateCheckFailed" xml:space="preserve"><value>Could not check for updates right now.</value></data>
+  <data name="Settings_Updates" xml:space="preserve"><value>PC Santé updates</value></data>
+  <data name="Settings_UpdatesHelp" xml:space="preserve"><value>Only versions signed by the publisher are installed.</value></data>
+  <data name="Settings_Version" xml:space="preserve"><value>Installed version: {0}</value></data>
   <data name="StartupLocation_MachineRun" xml:space="preserve"><value>All users</value></data>
   <data name="StartupLocation_MachineRun32" xml:space="preserve"><value>All users (32-bit)</value></data>
   <data name="StartupLocation_MachineStartupFolder" xml:space="preserve"><value>Shared Startup folder</value></data>

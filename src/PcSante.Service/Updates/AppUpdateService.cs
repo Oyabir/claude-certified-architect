@@ -4,12 +4,11 @@ using System.Text;
 using System.Text.Json;
 using PcSante.Core;
 using PcSante.Core.Commands;
+using PcSante.Core.Updates;
 using PcSante.Core.Windows;
 using PcSante.Licensing;
 
 namespace PcSante.Service.Updates;
-
-public sealed record AppUpdateInfo(bool Available, string CurrentVersion, string? NewVersion);
 
 /// <summary>Lancement de l'installeur (msiexec). Abstrait pour les tests.</summary>
 public interface IInstallerLauncher

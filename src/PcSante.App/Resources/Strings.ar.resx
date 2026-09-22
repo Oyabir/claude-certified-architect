@@ -485,6 +485,9 @@
   <data name="Service_UnavailableHelp" xml:space="preserve"><value>أعد تشغيل الحاسوب. إذا استمرت المشكلة، أعد تثبيت PC Santé.</value></data>
   <data name="Settings_AdvancedMode" xml:space="preserve"><value>الوضع المتقدم</value></data>
   <data name="Settings_AdvancedModeHelp" xml:space="preserve"><value>يعرض أيضاً شاشات الأداء والعمليات والنظام والجدولة.</value></data>
+  <data name="Settings_CheckUpdates" xml:space="preserve"><value>البحث عن إصدار جديد</value></data>
+  <data name="Settings_Checking" xml:space="preserve"><value>جارٍ البحث عن إصدار جديد…</value></data>
+  <data name="Settings_Downloading" xml:space="preserve"><value>جارٍ تنزيل الإصدار الجديد والتحقق منه…</value></data>
   <data name="Settings_Language" xml:space="preserve"><value>اللغة</value></data>
   <data name="Settings_Overlay" xml:space="preserve"><value>العرض المصغّر</value></data>
   <data name="Settings_OverlayEnabled" xml:space="preserve"><value>إظهار العرض المصغّر دائماً</value></data>
@@ -497,6 +500,11 @@
   <data name="Settings_Save" xml:space="preserve"><value>حفظ</value></data>
   <data name="Settings_Saved" xml:space="preserve"><value>تم حفظ الإعدادات.</value></data>
   <data name="Settings_Theme" xml:space="preserve"><value>المظهر</value></data>
+  <data name="Settings_UpdateAvailable" xml:space="preserve"><value>الإصدار {0} متاح.</value></data>
+  <data name="Settings_UpdateCheckFailed" xml:space="preserve"><value>تعذّر التحقق من التحديثات حالياً.</value></data>
+  <data name="Settings_Updates" xml:space="preserve"><value>تحديثات PC Santé</value></data>
+  <data name="Settings_UpdatesHelp" xml:space="preserve"><value>لا يتم تثبيت إلا الإصدارات الموقّعة من الناشر.</value></data>
+  <data name="Settings_Version" xml:space="preserve"><value>الإصدار المثبت: {0}</value></data>
   <data name="StartupLocation_MachineRun" xml:space="preserve"><value>جميع المستخدمين</value></data>
   <data name="StartupLocation_MachineRun32" xml:space="preserve"><value>جميع المستخدمين (32 بت)</value></data>
   <data name="StartupLocation_MachineStartupFolder" xml:space="preserve"><value>مجلد بدء التشغيل المشترك</value></data>

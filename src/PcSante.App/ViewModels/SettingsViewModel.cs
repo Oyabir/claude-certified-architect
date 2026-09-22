@@ -71,11 +71,41 @@ public sealed partial class SettingsViewModel : PageViewModel
     [ObservableProperty]
     private bool _showBattery;
 
+    [ObservableProperty]
+    private string _updateText = string.Empty;
+
+    [ObservableProperty]
+    private bool _updateAvailable;
+
+    public string Version => Loc.F("Settings_Version", Core.ProductInfo.Version);
+
     public override Task LoadAsync()
     {
         Load(Main.Settings);
         return Task.CompletedTask;
     }
+
+    /// <summary>Recherche une nouvelle version (manifeste signé vérifié par le service).</summary>
+    [RelayCommand]
+    private async Task CheckUpdateAsync()
+    {
+        IsBusy = true;
+        BusyText = Loc.T("Settings_Checking");
+        try
+        {
+            var info = await Query<Core.Updates.AppUpdateInfo>(Core.Commands.CommandId.CheckAppUpdate).ConfigureAwait(true);
+            UpdateAvailable = info?.Available == true;
+            UpdateText = info is null ? Loc.T("Settings_UpdateCheckFailed")
+                : UpdateAvailable ? Loc.F("Settings_UpdateAvailable", info.NewVersion ?? string.Empty) : Loc.T("Result_AppUpToDate");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    [RelayCommand]
+    private Task InstallUpdateAsync() => ExecuteAsync(Core.Commands.CommandId.InstallAppUpdate, reload: false, busyKey: "Settings_Downloading");
 
     /// <summary>Bouton principal : enregistrer. Langue, thème ou mode modifiés : l'interface est rechargée.</summary>
     [RelayCommand]
@@ -110,6 +140,7 @@ public sealed partial class SettingsViewModel : PageViewModel
         MainViewModel.ApplyOverlay(updated.Overlay);
         if (!restart)
         {
+            // Rien d'autre à recharger.
             Message.Show(Loc.T("Settings_Saved"), Infrastructure.MessageKind.Success);
         }
     }
