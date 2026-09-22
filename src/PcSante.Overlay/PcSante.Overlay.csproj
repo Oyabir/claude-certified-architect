@@ -8,11 +8,20 @@
     <ServerGarbageCollection>false</ServerGarbageCollection>
     <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
     <TieredPGO>false</TieredPGO>
-    <UseSystemResourceKeys>true</UseSystemResourceKeys>
+    <UseSystemResourceKeys>false</UseSystemResourceKeys>
     <InvariantGlobalization>false</InvariantGlobalization>
+    <RootNamespace>PcSante.Overlay</RootNamespace>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../PcSante.Core/PcSante.Core.csproj" />
     <ProjectReference Include="../PcSante.Ipc/PcSante.Ipc.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Économie de mémoire : tas plus compact (objectif < 30 Mo). -->
+    <RuntimeHostConfigurationOption Include="System.GC.ConserveMemory" Value="7" />
+    <RuntimeHostConfigurationOption Include="System.GC.RetainVM" Value="false" />
   </ItemGroup>
 </Project>

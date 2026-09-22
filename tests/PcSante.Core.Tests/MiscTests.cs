@@ -267,3 +267,34 @@ public class CommandResultTests
         new DriveSpace("C:", 0, 0).FreePercent.Should().Be(0);
     }
 }
+
+public class OverlayFormatterTests
+{
+    private static readonly OverlayLabels Labels = new("CPU", "RAM", "Disque", "Réseau", "Temp.", "Batterie", "n/d");
+    private static readonly System.Globalization.CultureInfo Fr = System.Globalization.CultureInfo.GetCultureInfo("fr-FR");
+
+    [Fact]
+    public void Seuls_les_indicateurs_choisis()
+    {
+        var m = new LiveMetrics { CpuPercent = 12.4, MemoryPercent = 55, DiskActivityPercent = 3 };
+
+        OverlayFormatter.Format(m, OverlayIndicators.Cpu | OverlayIndicators.Memory, Labels, Fr).Should().Be("CPU 12 %   RAM 55 %");
+    }
+
+    [Fact]
+    public void Tous_les_indicateurs()
+    {
+        var m = new LiveMetrics
+        {
+            CpuPercent = 5, MemoryPercent = 40, DiskActivityPercent = 1, NetworkReceivedBytesPerSecond = 2 * 1024 * 1024,
+            NetworkSentBytesPerSecond = 500, CpuTemperatureCelsius = 51, BatteryPercent = 80, OnAcPower = true,
+        };
+
+        var text = OverlayFormatter.Format(m, OverlayIndicators.All, Labels, Fr, " | ");
+
+        text.Should().Contain("Réseau ↓2,0 M ↑500 B").And.Contain("Temp. 51 °C").And.Contain("Batterie 80 % ⚡");
+        OverlayFormatter.Format(m with { CpuTemperatureCelsius = null, BatteryPercent = null }, OverlayIndicators.Temperature | OverlayIndicators.Battery, Labels, Fr)
+            .Should().Be("Temp. n/d");
+        OverlayFormatter.Rate(4096, Fr).Should().Be("4 K");
+    }
+}
