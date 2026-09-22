@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Obfuscation (section 12) : complique la modification du contrôle de licence.
+  - API publique conservée (contrat JSON du named pipe, injection de dépendances, EF Core).
+  - Membres privés et internes renommés, chaînes masquées, désassemblage découragé.
+  Les types persistés en JSON portent [Obfuscation(Exclude = true)].
+  InPath / OutPath sont passés en ligne de commande par le script appelant.
+-->
+<Obfuscator>
+  <Var name="KeepPublicApi" value="true" />
+  <Var name="HidePrivateApi" value="true" />
+  <Var name="HideStrings" value="true" />
+  <Var name="RenameFields" value="true" />
+  <Var name="RenameProperties" value="true" />
+  <Var name="RenameEvents" value="true" />
+  <Var name="OptimizeMethods" value="true" />
+  <Var name="SuppressIldasm" value="true" />
+  <Var name="UseKoreanNames" value="false" />
+  <Var name="ReuseNames" value="true" />
+  <Var name="XmlMapping" value="false" />
+  <Var name="LogFile" value="$(OutPath)/obfuscar-mapping.txt" />
+  <AssemblySearchPath path="$(InPath)" />
+  <!-- Modules ajoutés par le script : PcSante.Licensing.dll et PcSante.Service.dll s'ils sont présents. -->
+  <!--MODULES-->
+</Obfuscator>

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.Build.NoTargets/3.7.56">
+  <!--
+    Télécharge Obfuscar (open source, MIT) dans le cache NuGet, sans installation globale.
+    Utilisé par installer/build.ps1 et tools/obfuscation/obfuscate.sh.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageDownload Include="Obfuscar.GlobalTool" Version="[2.2.49]" />
+  </ItemGroup>
+</Project>

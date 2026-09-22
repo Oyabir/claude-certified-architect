@@ -5,6 +5,7 @@ using PcSante.Core.Windows;
 
 namespace PcSante.Service.Actions;
 
+[System.Reflection.Obfuscation(Exclude = true, ApplyToMembers = true)]
 internal sealed record StartupBackup(string Id, bool Enabled, string? UserSid);
 
 /// <summary>Programme au démarrage : désactivation/réactivation réversible (clés StartupApproved).</summary>
@@ -56,6 +57,7 @@ public sealed class StartupItemAction(CommandId command, IStartupApi startup) : 
     }
 }
 
+[System.Reflection.Obfuscation(Exclude = true, ApplyToMembers = true)]
 internal sealed record TaskBackup(string Path, bool Enabled);
 
 public sealed class ThirdPartyTaskAction(CommandId command, IThirdPartyTaskApi tasks) : SystemAction

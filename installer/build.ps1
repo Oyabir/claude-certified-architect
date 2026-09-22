@@ -1,7 +1,7 @@
 <#
   Construit l'installeur MSI de PC Santé (Windows uniquement).
 
-  Étapes : publication des binaires (win-x64, dépendants du runtime .NET 8), signature facultative
+  Étapes : publication des binaires (win-x64, dépendants du runtime .NET 8), obfuscation (Obfuscar), signature facultative
   des binaires, compilation WiX, signature facultative du MSI.
 
   Signature : définir PCSANTE_SIGN_THUMBPRINT (empreinte du certificat de signature de code installé
@@ -30,6 +30,9 @@ foreach ($p in $projects) {
     dotnet publish (Join-Path $root $p) -c $Configuration -r win-x64 --self-contained false -o $publish -p:DebugType=none
     if ($LASTEXITCODE -ne 0) { throw "Échec de la publication de $p" }
 }
+
+# Obfuscation du contrôle de licence et du service (section 12), AVANT la signature.
+& (Join-Path $root "tools/obfuscation/obfuscate.ps1") -Target $publish
 
 $thumb = $env:PCSANTE_SIGN_THUMBPRINT
 function Sign-Files([string[]]$files) {

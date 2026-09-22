@@ -71,6 +71,7 @@ public partial class InstallerStructureTests
     {
         var script = File.ReadAllText(Path.Combine(Root, "installer", "build.ps1"));
         script.Should().Contain("signtool.exe sign").And.Contain("PCSANTE_SIGN_THUMBPRINT").And.Contain("--self-contained false");
+        script.IndexOf("obfuscate.ps1", StringComparison.Ordinal).Should().BeLessThan(script.IndexOf("Sign-Files (", StringComparison.Ordinal), "on obfusque avant de signer");
     }
 
     private static string FindRoot()
