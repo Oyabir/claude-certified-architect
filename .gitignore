@@ -1,2 +1,18 @@
 .venv/
 __pycache__/
+
+# .NET
+bin/
+obj/
+*.user
+.vs/
+TestResults/
+coverage/
+*.db
+*.db-shm
+*.db-wal
+# Secrets : jamais de clé privée dans le dépôt
+*.key
+*.pfx
+*.snk
+.env

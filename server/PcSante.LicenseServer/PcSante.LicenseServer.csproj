@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/PcSante.Licensing/PcSante.Licensing.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Serilog.Sinks.File" />
+    <InternalsVisibleTo Include="PcSante.LicenseServer.Tests" />
+  </ItemGroup>
+</Project>

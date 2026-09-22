@@ -1,0 +1,41 @@
+<Project>
+  <Import Project="$(MSBuildThisFileDirectory)branding.props" />
+
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <!-- Permet de compiler les projets Windows (WPF, service) depuis n'importe quel OS. -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <Product>$(PcSanteProductName)</Product>
+    <Company>$(PcSanteCompany)</Company>
+    <Copyright>© 2026 $(PcSanteCompany)</Copyright>
+    <Version>$(PcSanteVersion)</Version>
+    <NeutralLanguage>fr</NeutralLanguage>
+    <SatelliteResourceLanguages>fr;en;ar</SatelliteResourceLanguages>
+    <Deterministic>true</Deterministic>
+    <!-- Requis par LibraryImport (P/Invoke générés à la compilation). -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <!-- Identité produit injectée dans chaque assembly (lue par PcSante.Core.ProductInfo). -->
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>PcSante.TechnicalName</_Parameter1>
+      <_Parameter2>$(PcSanteTechnicalName)</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>PcSante.LicenseServerUrl</_Parameter1>
+      <_Parameter2>$(PcSanteLicenseServerUrl)</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>PcSante.LicensePublicKey</_Parameter1>
+      <_Parameter2>$(PcSanteLicensePublicKey)</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+</Project>

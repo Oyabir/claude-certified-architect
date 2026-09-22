@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../PcSante.Core/PcSante.Core.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <InternalsVisibleTo Include="PcSante.Ipc.Tests" />
+  </ItemGroup>
+</Project>
