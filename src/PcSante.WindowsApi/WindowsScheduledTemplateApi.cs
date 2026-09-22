@@ -83,6 +83,16 @@ public sealed class WindowsScheduledTemplateApi(string serviceExecutable) : ISch
             return new ScheduleSettings(day, new TimeOnly(time.Hour, time.Minute), task.Definition.Settings.RunOnlyIfIdle, task.Definition.Settings.DisallowStartIfOnBatteries);
         }, cancellationToken);
 
+    /// <summary>Supprime le dossier \\PcSante\\ du Planificateur (désinstallation).</summary>
+    public static void DeleteFolder()
+    {
+        using var service = new TaskService();
+        if (service.RootFolder.SubFolders.Exists(Core.ProductInfo.TechnicalName))
+        {
+            service.RootFolder.DeleteFolder(Core.ProductInfo.TechnicalName, exceptionOnNotExists: false);
+        }
+    }
+
     internal static DaysOfTheWeek ToDaysOfWeek(DayOfWeek day) => (DaysOfTheWeek)(1 << (int)day);
 
     internal static DayOfWeek FromDaysOfWeek(DaysOfTheWeek days)

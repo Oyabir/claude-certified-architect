@@ -12,7 +12,8 @@
                  WindowStartupLocation="CenterScreen"
                  ExtendsContentIntoTitleBar="True"
                  WindowBackdropType="Mica"
-                 WindowCornerPreference="Round">
+                 WindowCornerPreference="Round"
+                 Icon="pack://application:,,,/Assets/pcsante.ico">
     <ui:FluentWindow.Resources>
         <DataTemplate DataType="{x:Type vm:HomeViewModel}"><v:HomeView /></DataTemplate>
         <DataTemplate DataType="{x:Type vm:ProtectionViewModel}"><v:ProtectionView /></DataTemplate>

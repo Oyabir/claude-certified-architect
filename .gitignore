@@ -16,3 +16,6 @@ coverage/
 *.pfx
 *.snk
 .env
+installer/publish/
+installer/bin/
+installer/obj/

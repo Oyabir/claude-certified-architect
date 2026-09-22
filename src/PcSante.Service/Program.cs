@@ -31,6 +31,19 @@ if (args.Length == 2 && args[0] == "--run-task")
     return result.IsSuccess ? 0 : 1;
 }
 
+// Désinstallation (action personnalisée de l'installeur, en SYSTEM) : retire les tâches planifiées de PC Santé.
+if (args.Length == 1 && args[0] == "--uninstall-cleanup")
+{
+    var scheduler = new PcSante.WindowsApi.WindowsScheduledTemplateApi(paths.ServiceExecutable);
+    foreach (var template in Enum.GetValues<ScheduledTemplateId>())
+    {
+        await scheduler.UnregisterAsync(template, CancellationToken.None).ConfigureAwait(false);
+    }
+
+    PcSante.WindowsApi.WindowsScheduledTemplateApi.DeleteFolder();
+    return 0;
+}
+
 paths.EnsureCreated();
 WindowsHost.ProtectDataFolder(paths);
 
