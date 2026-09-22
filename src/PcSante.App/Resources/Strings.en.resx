@@ -408,6 +408,7 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Result_PowerPlanSet" xml:space="preserve"><value>Power mode changed.</value></data>
   <data name="Result_PremiumRequired" xml:space="preserve"><value>This action is available with the Premium plan.</value></data>
   <data name="Result_ProcessAlreadyStopped" xml:space="preserve"><value>This program is already closed.</value></data>
+  <data name="Result_ProcessOtherUser" xml:space="preserve"><value>This program belongs to another user of this PC: PC Santé will not close it.</value></data>
   <data name="Result_ProcessStopFailed" xml:space="preserve"><value>The program could not be stopped.</value></data>
   <data name="Result_ProcessStopped" xml:space="preserve"><value>Program stopped.</value></data>
   <data name="Result_ProtectedProcess" xml:space="preserve"><value>This program is essential to Windows: it cannot be stopped.</value></data>
@@ -445,6 +446,7 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Result_TaskEnabled" xml:space="preserve"><value>Scheduled task turned back on.</value></data>
   <data name="Result_TaskFailed" xml:space="preserve"><value>The scheduled task could not be changed.</value></data>
   <data name="Result_TaskNotFound" xml:space="preserve"><value>This scheduled task no longer exists.</value></data>
+  <data name="Result_TaskNotScheduled" xml:space="preserve"><value>This automatic task is not scheduled.</value></data>
   <data name="Result_TaskRunSucceeded" xml:space="preserve"><value>Automatic task completed successfully.</value></data>
   <data name="Result_TaskScheduled" xml:space="preserve"><value>Automatic task scheduled.</value></data>
   <data name="Result_TaskUnscheduled" xml:space="preserve"><value>Automatic task stopped.</value></data>

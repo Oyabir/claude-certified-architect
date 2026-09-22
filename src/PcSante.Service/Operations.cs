@@ -61,6 +61,13 @@ public sealed class RunTemplateOperation(IServiceProvider services, HistoryStore
         ArgumentNullException.ThrowIfNull(parameters);
         var dispatcher = services.GetRequiredService<CommandDispatcher>();
         var template = ScheduledTemplates.Get(parameters.GetEnum<ScheduledTemplateId>("template"));
+
+        // Seul un modèle réellement programmé par l'utilisateur peut être exécuté.
+        if (await services.GetRequiredService<IScheduledTemplateApi>().GetAsync(template.Id, cancellationToken).ConfigureAwait(false) is null)
+        {
+            return CommandResult.Refused(FailureReason.PreconditionFailed, "Result_TaskNotScheduled");
+        }
+
         var started = time.GetUtcNow();
         var ok = true;
         string lastKey = "Result_TaskRunSucceeded";

@@ -408,6 +408,7 @@
   <data name="Result_PowerPlanSet" xml:space="preserve"><value>تم تغيير وضع الطاقة.</value></data>
   <data name="Result_PremiumRequired" xml:space="preserve"><value>هذا الإجراء متاح مع اشتراك بريميوم.</value></data>
   <data name="Result_ProcessAlreadyStopped" xml:space="preserve"><value>هذا البرنامج مغلق مسبقاً.</value></data>
+  <data name="Result_ProcessOtherUser" xml:space="preserve"><value>هذا البرنامج يخص مستخدماً آخر على هذا الحاسوب: لن يغلقه PC Santé.</value></data>
   <data name="Result_ProcessStopFailed" xml:space="preserve"><value>تعذّر إيقاف البرنامج.</value></data>
   <data name="Result_ProcessStopped" xml:space="preserve"><value>تم إيقاف البرنامج.</value></data>
   <data name="Result_ProtectedProcess" xml:space="preserve"><value>هذا البرنامج ضروري لويندوز: لا يمكن إيقافه.</value></data>
@@ -445,6 +446,7 @@
   <data name="Result_TaskEnabled" xml:space="preserve"><value>تمت إعادة تفعيل المهمة المجدولة.</value></data>
   <data name="Result_TaskFailed" xml:space="preserve"><value>تعذّر تعديل المهمة المجدولة.</value></data>
   <data name="Result_TaskNotFound" xml:space="preserve"><value>هذه المهمة المجدولة لم تعد موجودة.</value></data>
+  <data name="Result_TaskNotScheduled" xml:space="preserve"><value>هذه المهمة التلقائية غير مجدولة.</value></data>
   <data name="Result_TaskRunSucceeded" xml:space="preserve"><value>اكتملت المهمة التلقائية بنجاح.</value></data>
   <data name="Result_TaskScheduled" xml:space="preserve"><value>تمت جدولة المهمة التلقائية.</value></data>
   <data name="Result_TaskUnscheduled" xml:space="preserve"><value>تم إيقاف المهمة التلقائية.</value></data>

@@ -208,6 +208,9 @@ public sealed class ActionTests
         await using var svc = new ServiceFixture();
 
         (await svc.Run(CommandId.StopProcess, new() { ["pid"] = "4" }, confirmed: true)).Reason.Should().Be(FailureReason.ProtectedItem);
+        svc.System.Owners[100] = "S-1-5-21-999";
+        (await svc.Run(CommandId.StopProcess, new() { ["pid"] = "100" }, confirmed: true)).MessageKey.Should().Be("Result_ProcessOtherUser");
+        svc.System.Owners.Clear();
         (await svc.Run(CommandId.StopProcess, new() { ["pid"] = "100" }, confirmed: true)).MessageKey.Should().Be("Result_ProcessStopped");
         (await svc.Run(CommandId.StopProcess, new() { ["pid"] = "100" }, confirmed: true)).Status.Should().Be(CommandStatus.AlreadyDone);
         (await svc.Run(CommandId.StopProcess, new() { ["pid"] = Environment.ProcessId.ToString(System.Globalization.CultureInfo.InvariantCulture) }, confirmed: true))
@@ -313,6 +316,8 @@ public sealed class ActionTests
         (await svc.Run(CommandId.EnableScheduledTemplate, p)).Status.Should().Be(CommandStatus.AlreadyDone);
         svc.Scheduler.Registered[ScheduledTemplateId.WeeklyCleanup].Day.Should().Be(DayOfWeek.Sunday);
 
+        (await svc.Run(CommandId.RunScheduledTemplate, new() { ["template"] = "DailyAntivirusScan" })).MessageKey
+            .Should().Be("Result_TaskNotScheduled", "un modèle non programmé ne peut pas être déclenché");
         var run = await svc.Run(CommandId.RunScheduledTemplate, new() { ["template"] = "WeeklyCleanup" });
         run.MessageKey.Should().Be("Result_TaskRunSucceeded");
         svc.Cleanup.Cleaned.Should().Equal(CleanupTarget.TemporaryFiles, CleanupTarget.RecycleBin);
@@ -331,6 +336,8 @@ public sealed class ActionTests
     public async Task Tache_planifiee_sans_premium_echoue_proprement()
     {
         await using var svc = new ServiceFixture(premium: false);
+
+        svc.Scheduler.Registered[ScheduledTemplateId.DailyAntivirusScan] = ScheduledTemplates.Get(ScheduledTemplateId.DailyAntivirusScan).Default;
 
         var run = await svc.Run(CommandId.RunScheduledTemplate, new() { ["template"] = "DailyAntivirusScan" });
 

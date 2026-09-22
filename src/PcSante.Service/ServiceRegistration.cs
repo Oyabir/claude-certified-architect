@@ -110,7 +110,7 @@ public static class ServiceRegistration
         yield return new CreateRestorePointAction(S<IRestorePointApi>(), S<TimeProvider>());
         yield return new EnableSystemRestoreAction(S<IRestorePointApi>());
 
-        yield return new StopProcessAction(S<IProcessApi>());
+        yield return new StopProcessAction(S<IProcessApi>(), S<ISystemInfoApi>());
         yield return new DisableServiceAction(S<IServiceControlApi>());
 
         yield return new StartupItemAction(CommandId.DisableStartupItem, S<IStartupApi>());

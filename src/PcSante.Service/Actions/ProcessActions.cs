@@ -5,7 +5,11 @@ using PcSante.Core.Windows;
 
 namespace PcSante.Service.Actions;
 
-public sealed class StopProcessAction(IProcessApi processes) : SystemAction
+/// <summary>
+/// Arrêt d'un programme. Le service tourne en SYSTEM : il ne ferme que les programmes de l'utilisateur
+/// qui le demande (jamais ceux d'un autre utilisateur) et jamais un processus indispensable.
+/// </summary>
+public sealed class StopProcessAction(IProcessApi processes, ISystemInfoApi system) : SystemAction
 {
     public override CommandId Command => CommandId.StopProcess;
 
@@ -24,9 +28,15 @@ public sealed class StopProcessAction(IProcessApi processes) : SystemAction
             return CheckResult.AlreadyDone("Result_ProcessAlreadyStopped");
         }
 
-        return ProcessReputation.IsProtected(process.Name)
-            ? CheckResult.Blocked(FailureReason.ProtectedItem, "Result_ProtectedProcess")
-            : CheckResult.Proceed;
+        if (ProcessReputation.IsProtected(process.Name))
+        {
+            return CheckResult.Blocked(FailureReason.ProtectedItem, "Result_ProtectedProcess");
+        }
+
+        var (_, ownerSid) = system.GetProcessOwner(pid);
+        return ownerSid is not null && string.Equals(ownerSid, context.Caller.UserSid, StringComparison.OrdinalIgnoreCase)
+            ? CheckResult.Proceed
+            : CheckResult.Blocked(FailureReason.ProtectedItem, "Result_ProcessOtherUser");
     }
 
     public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken)

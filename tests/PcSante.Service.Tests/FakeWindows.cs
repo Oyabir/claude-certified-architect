@@ -344,7 +344,10 @@ internal sealed class FakeSystem : ISystemInfoApi
 
     public int CountCrashesSince(DateTimeOffset since) => 0;
 
-    public (string? UserName, string? Sid) GetProcessOwner(int processId) => ("PC\\alice", "S-1-5-21-1");
+    public Dictionary<int, string> Owners { get; } = [];
+
+    public (string? UserName, string? Sid) GetProcessOwner(int processId) =>
+        Owners.TryGetValue(processId, out var sid) ? ("PC\\autre", sid) : ("PC\\alice", "S-1-5-21-1");
 }
 
 internal sealed class FakeScheduler : IScheduledTemplateApi

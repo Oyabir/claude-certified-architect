@@ -408,6 +408,7 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Result_PowerPlanSet" xml:space="preserve"><value>Mode d'alimentation changé.</value></data>
   <data name="Result_PremiumRequired" xml:space="preserve"><value>Cette action est disponible avec l'offre Premium.</value></data>
   <data name="Result_ProcessAlreadyStopped" xml:space="preserve"><value>Ce programme est déjà fermé.</value></data>
+  <data name="Result_ProcessOtherUser" xml:space="preserve"><value>Ce programme appartient à un autre utilisateur du PC : PC Santé ne le ferme pas.</value></data>
   <data name="Result_ProcessStopFailed" xml:space="preserve"><value>Le programme n'a pas pu être arrêté.</value></data>
   <data name="Result_ProcessStopped" xml:space="preserve"><value>Programme arrêté.</value></data>
   <data name="Result_ProtectedProcess" xml:space="preserve"><value>Ce programme est indispensable à Windows : il ne peut pas être arrêté.</value></data>
@@ -445,6 +446,7 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Result_TaskEnabled" xml:space="preserve"><value>Tâche planifiée réactivée.</value></data>
   <data name="Result_TaskFailed" xml:space="preserve"><value>La tâche planifiée n'a pas pu être modifiée.</value></data>
   <data name="Result_TaskNotFound" xml:space="preserve"><value>Cette tâche planifiée n'existe plus.</value></data>
+  <data name="Result_TaskNotScheduled" xml:space="preserve"><value>Cette tâche automatique n'est pas programmée.</value></data>
   <data name="Result_TaskRunSucceeded" xml:space="preserve"><value>Tâche automatique réalisée avec succès.</value></data>
   <data name="Result_TaskScheduled" xml:space="preserve"><value>Tâche automatique programmée.</value></data>
   <data name="Result_TaskUnscheduled" xml:space="preserve"><value>Tâche automatique arrêtée.</value></data>
