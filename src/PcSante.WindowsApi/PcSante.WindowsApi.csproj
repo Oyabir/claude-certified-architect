@@ -12,5 +12,6 @@
     <PackageReference Include="System.Security.Cryptography.ProtectedData" />
     <PackageReference Include="TaskScheduler" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <InternalsVisibleTo Include="PcSante.Service.Tests" />
   </ItemGroup>
 </Project>
