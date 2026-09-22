@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using PcSante.Core.Actions;
 using PcSante.Core.Audit;
 using PcSante.Core.Commands;
+using PcSante.Core.Optimization;
 using PcSante.Core.Processes;
 using PcSante.Core.Reporting;
 using PcSante.Core.Scheduling;
@@ -13,11 +14,6 @@ using PcSante.Service.Dispatch;
 using PcSante.Service.Updates;
 
 namespace PcSante.Service.Queries;
-
-/// <summary>Vue d'un modèle de tâche : définition, réglages, dernière exécution.</summary>
-public sealed record TemplateView(ScheduledTemplateId Id, bool Enabled, ScheduleSettings Settings, IReadOnlyList<CommandId> Commands, TaskRunEntry? LastRun);
-
-public sealed record UndoView(Guid Id, CommandId Command, DateTimeOffset CreatedAt, string Description);
 
 /// <summary>Toutes les requêtes de lecture du catalogue.</summary>
 public sealed class QueryRegistry(

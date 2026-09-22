@@ -5,7 +5,7 @@ using PcSante.Core.Processes;
 using PcSante.Core.Reporting;
 using PcSante.Core.Scheduling;
 using PcSante.Core.Windows;
-using PcSante.Service.Queries;
+using PcSante.Core.Optimization;
 
 namespace PcSante.Service.Tests;
 

@@ -1,0 +1,68 @@
+<UserControl x:Class="PcSante.App.Views.SchedulingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:l="clr-namespace:PcSante.App.Localization"
+             xmlns:vm="clr-namespace:PcSante.App.ViewModels"
+             xmlns:v="clr-namespace:PcSante.App.Views">
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
+            <StackPanel Margin="4,0,12,24">
+                <TextBlock Text="{Binding Title}" Style="{StaticResource PageTitle}" />
+                <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PageSubtitle}" />
+                <ui:Button Style="{StaticResource PrimaryAction}" HorizontalAlignment="Left" Content="{l:T Scheduling_EnableAll}"
+                           Icon="{ui:SymbolIcon CalendarCheckmark24}" Command="{Binding EnableRecommendedCommand}" Margin="0,0,0,16" />
+
+                <ItemsControl ItemsSource="{Binding Templates}" Focusable="False">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type vm:TemplateRow}">
+                            <ui:Card Margin="0,0,0,8" Padding="16">
+                                <StackPanel>
+                                    <DockPanel>
+                                        <Border DockPanel.Dock="Right" Style="{StaticResource Badge}" Background="{Binding Enabled, Converter={StaticResource HealthBrush}}">
+                                            <TextBlock Text="{Binding State}" Foreground="White" />
+                                        </Border>
+                                        <TextBlock Text="{Binding Label}" FontSize="16" FontWeight="SemiBold" />
+                                    </DockPanel>
+                                    <TextBlock Text="{Binding Explanation}" Margin="0,4,0,8" />
+                                    <WrapPanel>
+                                        <StackPanel Margin="0,0,16,8" Visibility="{Binding IsWeekly, Converter={StaticResource Visible}}">
+                                            <TextBlock Text="{l:T Scheduling_Day}" />
+                                            <ComboBox MinWidth="140" SelectedValue="{Binding Day}" SelectedValuePath="Value" DisplayMemberPath="Label"
+                                                      ItemsSource="{Binding DataContext.Days, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                      AutomationProperties.Name="{l:T Scheduling_Day}" />
+                                        </StackPanel>
+                                        <StackPanel Margin="0,0,16,8">
+                                            <TextBlock Text="{l:T Scheduling_Time}" />
+                                            <ComboBox MinWidth="100" SelectedItem="{Binding Time}"
+                                                      ItemsSource="{Binding DataContext.Times, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                      AutomationProperties.Name="{l:T Scheduling_Time}" />
+                                        </StackPanel>
+                                        <StackPanel Margin="0,0,16,8" VerticalAlignment="Bottom">
+                                            <CheckBox Content="{l:T Scheduling_OnlyIdle}" IsChecked="{Binding OnlyWhenIdle}" />
+                                            <CheckBox Content="{l:T Scheduling_OnlyAc}" IsChecked="{Binding OnlyOnAcPower}" />
+                                        </StackPanel>
+                                    </WrapPanel>
+                                    <DockPanel>
+                                        <ui:Button DockPanel.Dock="Right" Style="{StaticResource SecondaryAction}" Content="{l:T Scheduling_Disable}"
+                                                   Command="{Binding DataContext.DisableCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                   CommandParameter="{Binding}" Visibility="{Binding Enabled, Converter={StaticResource Visible}}" />
+                                        <ui:Button DockPanel.Dock="Right" Style="{StaticResource SecondaryAction}" Content="{Binding ActionLabel}"
+                                                   Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                   CommandParameter="{Binding}" />
+                                        <TextBlock Text="{Binding LastRun}" Style="{StaticResource Technical}" VerticalAlignment="Center" />
+                                    </DockPanel>
+                                </StackPanel>
+                            </ui:Card>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <TextBlock Text="{l:T Scheduling_Log}" Style="{StaticResource SectionTitle}" />
+                <TextBlock Text="{l:T Scheduling_LogEmpty}" Visibility="{Binding RunLog.Count, Converter={StaticResource Collapsed}}" />
+                <ItemsControl ItemsSource="{Binding RunLog}" Focusable="False" />
+            </StackPanel>
+        </ScrollViewer>
+        <v:BusyOverlay />
+    </Grid>
+</UserControl>

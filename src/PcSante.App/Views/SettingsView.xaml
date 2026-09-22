@@ -1,0 +1,55 @@
+<UserControl x:Class="PcSante.App.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:l="clr-namespace:PcSante.App.Localization">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
+        <StackPanel Margin="4,0,12,24" MaxWidth="760" HorizontalAlignment="Left">
+            <TextBlock Text="{Binding Title}" Style="{StaticResource PageTitle}" />
+            <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PageSubtitle}" />
+
+            <ui:Card Padding="20">
+                <StackPanel>
+                    <TextBlock Text="{l:T Settings_Language}" FontWeight="SemiBold" />
+                    <ComboBox Margin="0,4,0,12" ItemsSource="{Binding Languages}" SelectedValuePath="Value" DisplayMemberPath="Label"
+                              SelectedValue="{Binding Language}" AutomationProperties.Name="{l:T Settings_Language}" />
+                    <TextBlock Text="{l:T Settings_Theme}" FontWeight="SemiBold" />
+                    <ComboBox Margin="0,4,0,12" ItemsSource="{Binding Themes}" SelectedValuePath="Value" DisplayMemberPath="Label"
+                              SelectedValue="{Binding Theme}" AutomationProperties.Name="{l:T Settings_Theme}" />
+                    <CheckBox Content="{l:T Settings_AdvancedMode}" IsChecked="{Binding AdvancedMode}" />
+                    <TextBlock Text="{l:T Settings_AdvancedModeHelp}" Style="{StaticResource Technical}" Margin="28,0,0,0" />
+                </StackPanel>
+            </ui:Card>
+
+            <TextBlock Text="{l:T Settings_Overlay}" Style="{StaticResource SectionTitle}" />
+            <ui:Card Padding="20">
+                <StackPanel>
+                    <CheckBox Content="{l:T Settings_OverlayEnabled}" IsChecked="{Binding OverlayEnabled}" />
+                    <CheckBox Content="{l:T Settings_OverlayTray}" IsChecked="{Binding OverlayTrayOnly}" Margin="0,4,0,0" />
+                    <CheckBox Content="{l:T Settings_OverlayFullScreen}" IsChecked="{Binding OverlayHideFullScreen}" Margin="0,4,0,12" />
+                    <TextBlock Text="{l:T Settings_OverlayPosition}" FontWeight="SemiBold" />
+                    <ComboBox Margin="0,4,0,12" ItemsSource="{Binding Positions}" SelectedValuePath="Value" DisplayMemberPath="Label"
+                              SelectedValue="{Binding OverlayPosition}" AutomationProperties.Name="{l:T Settings_OverlayPosition}" />
+                    <TextBlock Text="{l:T Settings_OverlaySize}" FontWeight="SemiBold" />
+                    <Slider Minimum="14" Maximum="32" TickFrequency="2" IsSnapToTickEnabled="True" Value="{Binding OverlayFontSize}"
+                            AutomationProperties.Name="{l:T Settings_OverlaySize}" Margin="0,4,0,12" />
+                    <TextBlock Text="{l:T Settings_OverlayOpacity}" FontWeight="SemiBold" />
+                    <Slider Minimum="30" Maximum="100" TickFrequency="10" IsSnapToTickEnabled="True" Value="{Binding OverlayOpacity}"
+                            AutomationProperties.Name="{l:T Settings_OverlayOpacity}" Margin="0,4,0,12" />
+                    <TextBlock Text="{l:T Settings_OverlayIndicators}" FontWeight="SemiBold" />
+                    <WrapPanel Margin="0,4,0,0">
+                        <CheckBox Content="{l:T Metric_Cpu}" IsChecked="{Binding ShowCpu}" Margin="0,0,16,4" />
+                        <CheckBox Content="{l:T Metric_Memory}" IsChecked="{Binding ShowMemory}" Margin="0,0,16,4" />
+                        <CheckBox Content="{l:T Metric_Disk}" IsChecked="{Binding ShowDisk}" Margin="0,0,16,4" />
+                        <CheckBox Content="{l:T Metric_Network}" IsChecked="{Binding ShowNetwork}" Margin="0,0,16,4" />
+                        <CheckBox Content="{l:T Metric_Temperature}" IsChecked="{Binding ShowTemperature}" Margin="0,0,16,4" />
+                        <CheckBox Content="{l:T Metric_Battery}" IsChecked="{Binding ShowBattery}" Margin="0,0,16,4" />
+                    </WrapPanel>
+                </StackPanel>
+            </ui:Card>
+
+            <ui:Button Style="{StaticResource PrimaryAction}" HorizontalAlignment="Left" Content="{l:T Settings_Save}"
+                       Icon="{ui:SymbolIcon Save24}" Command="{Binding SaveCommand}" Margin="0,20,0,0" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

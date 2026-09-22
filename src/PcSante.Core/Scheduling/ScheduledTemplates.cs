@@ -19,6 +19,9 @@ public sealed record TemplateDefinition(ScheduledTemplateId Id, IReadOnlyList<Co
 
 public sealed record TemplateState(ScheduledTemplateId Id, bool Enabled, ScheduleSettings Settings, DateTimeOffset? LastRunAt, bool? LastRunSucceeded);
 
+/// <summary>Vue d'un modèle de tâche : définition, réglages, dernière exécution.</summary>
+public sealed record TemplateView(ScheduledTemplateId Id, bool Enabled, ScheduleSettings Settings, IReadOnlyList<CommandId> Commands, TaskRunEntry? LastRun);
+
 public sealed record TaskRunEntry(ScheduledTemplateId Template, DateTimeOffset StartedAt, DateTimeOffset FinishedAt, bool Succeeded, string MessageKey);
 
 public static class ScheduledTemplates

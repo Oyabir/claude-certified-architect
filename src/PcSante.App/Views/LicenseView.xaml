@@ -1,0 +1,48 @@
+<UserControl x:Class="PcSante.App.Views.LicenseView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:l="clr-namespace:PcSante.App.Localization"
+             xmlns:v="clr-namespace:PcSante.App.Views">
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
+            <StackPanel Margin="4,0,12,24" MaxWidth="760" HorizontalAlignment="Left">
+                <TextBlock Text="{Binding Title}" Style="{StaticResource PageTitle}" />
+                <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PageSubtitle}" />
+
+                <ui:Card Padding="20">
+                    <StackPanel>
+                        <TextBlock Text="{l:T License_CurrentOffer}" Style="{StaticResource Technical}" />
+                        <TextBlock Text="{Binding Offer}" FontSize="22" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding StateText}" Margin="0,4,0,0" />
+                        <TextBlock Text="{Binding Details}" Style="{StaticResource Technical}" Margin="0,4,0,0" />
+                    </StackPanel>
+                </ui:Card>
+
+                <TextBlock Text="{l:T License_EnterKey}" Style="{StaticResource SectionTitle}" />
+                <TextBlock Text="{l:T License_KeyHelp}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
+                <ui:TextBox Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="PCS-XXXXX-XXXXX-XXXXX-XXXXX"
+                            FontSize="18" FontFamily="Consolas" MaxLength="40" FlowDirection="LeftToRight"
+                            AutomationProperties.Name="{l:T License_EnterKey}" />
+                <ui:Button Style="{StaticResource PrimaryAction}" HorizontalAlignment="Left" Content="{l:T License_Activate}"
+                           Icon="{ui:SymbolIcon Key24}" Command="{Binding ActivateCommand}" Margin="0,12,0,0" />
+
+                <ui:Card Padding="16" Margin="0,16,0,0" Visibility="{Binding OfferTransfer, Converter={StaticResource Visible}}">
+                    <StackPanel>
+                        <TextBlock Text="{l:T License_UsedElsewhereHelp}" />
+                        <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T License_Transfer}" Command="{Binding TransferCommand}" Margin="0,8,0,0"
+                                   HorizontalAlignment="Left" />
+                    </StackPanel>
+                </ui:Card>
+
+                <StackPanel Visibility="{Binding IsActive, Converter={StaticResource Visible}}" Margin="0,24,0,0">
+                    <TextBlock Text="{l:T License_ThisPc}" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="{l:T License_DeactivateHelp}" Margin="0,0,0,8" />
+                    <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T Command_DeactivateLicense}" Command="{Binding DeactivateCommand}"
+                               HorizontalAlignment="Left" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+        <v:BusyOverlay />
+    </Grid>
+</UserControl>
