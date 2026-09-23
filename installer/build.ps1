@@ -14,7 +14,7 @@
 
   Build de TEST (serveur de licences local) : -LicenseServerUrl et -LicensePublicKey remplacent, pour cette
   compilation seulement, les valeurs de branding.props (qui restent la référence pour la production).
-    ./installer/build.ps1 -LicenseServerUrl "http://licences.pcsante.test:5080/" -LicensePublicKey "<clé publique base64>"
+    ./installer/build.ps1 -LicenseServerUrl "http://127.0.0.1:5080/" -LicensePublicKey "<clé publique base64>"
 #>
 param(
     [string]$Configuration = "Release",

@@ -6,7 +6,8 @@
     </MappedFolder>
   </MappedFolders>
   <LogonCommand>
-    <Command>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Add-Type -AssemblyName PresentationFramework; &amp; 'C:\Users\WDAGUtilityAccount\Desktop\PcSante-Sandbox\preparer-sandbox.ps1'"</Command>
+    <Command>powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\Users\WDAGUtilityAccount\Desktop\PcSante-Sandbox\preparer-sandbox.ps1</Command>
   </LogonCommand>
   <MemoryInMB>4096</MemoryInMB>
 </Configuration>
+
