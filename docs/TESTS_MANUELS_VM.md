@@ -9,9 +9,18 @@ Les actions système réelles (Defender, pare-feu, Windows Update, SFC/DISM, net
 | P1 | VM Windows 11 Pro 64 bits à jour + VM Windows 10 22H2 Home (idéalement), 4 Go de RAM minimum | ☐ |
 | P2 | **Prendre un instantané « propre »** avant toute installation | ☐ |
 | P3 | Installer le .NET 8 Desktop Runtime x64 | ☐ |
-| P4 | Serveur de licences de test démarré (voir `GUIDE_DEPLOIEMENT.md`), clé publique de test placée dans `branding.props`, MSI reconstruit | ☐ |
+| P4 | Serveur de licences de test démarré (voir `GUIDE_DEPLOIEMENT.md` ou la variante Windows Sandbox ci-dessous) et MSI construit avec sa clé publique (`build.ps1 -LicenseServerUrl … -LicensePublicKey …`, sans modifier `branding.props`) | ☐ |
 | P5 | MSI **signé** avec un certificat de test (ou build Debug + variable `PCSANTE_DEV_UNSIGNED=1` pour le service — jamais en Release) | ☐ |
 | P6 | Outils d'observation : Gestionnaire des tâches, Observateur d'événements, `services.msc`, `taskschd.msc`, Process Explorer | ☐ |
+
+### Variante Windows Sandbox (tests Premium, sans VM)
+
+Scripts dans `tools/sandbox/`. Les clés du serveur de test restent dans `%LOCALAPPDATA%\PcSante-dev\secrets-test.env` (générées par `keygen`, jamais dans le dépôt ni dans la Sandbox).
+
+1. Hôte : `tools/sandbox/demarrer-serveur-licences.ps1` (port 5080) ; une fois, en administrateur : `tools/sandbox/pare-feu-serveur-test.ps1` (retrait : `-Retirer`).
+2. Hôte : `tools/sandbox/nouvelles-cles-premium.ps1` → clés dans `C:\dev\PcSante-Sandbox\cles-premium.txt`. Une Sandbox neuve est un nouveau PC : une clé par lancement.
+3. Hôte : MSI signé avec le certificat de test et `-LicenseServerUrl "http://licences.pcsante.test:5080/" -LicensePublicKey <clé publique>`, copié dans `C:\dev\PcSante-Sandbox` avec `PcSante-test.cer`, le .NET 8 Desktop Runtime, `preparer-sandbox.ps1` et `PcSante.wsb`.
+4. Double-cliquer `PcSante.wsb` : la Sandbox fait confiance au certificat de test, résout `licences.pcsante.test` vers l'hôte, vérifie le serveur et installe .NET 8.
 
 ## 1. Installeur (Définition de terminé : installe, met à jour, désinstalle proprement)
 
