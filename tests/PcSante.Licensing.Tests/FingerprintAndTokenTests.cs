@@ -38,6 +38,36 @@ public class HardwareFingerprintTests
     }
 
     [Fact]
+    public void Machine_virtuelle_a_deux_elements_lisibles_reconnue()
+    {
+        // Valeurs relevées dans Windows Sandbox : disque sans numéro, processeur « 0000000000000000 ».
+        var sandbox = new HardwareIdentity("8733-1355-6204-0729-6041-9154-89|Virtual Machine", null, "0000000000000000", "37628ac8-eefa-4627-a066-95d75d46e045");
+        var reference = HardwareFingerprint.Compute(sandbox);
+
+        reference.ReadableCount.Should().Be(2);
+        reference.Matches(HardwareFingerprint.Compute(sandbox)).Should().BeTrue("même machine, relue à l'identique");
+        reference.Matches(HardwareFingerprint.Compute(sandbox with { MachineGuid = "autre" })).Should().BeFalse("les 2 éléments sont exigés");
+    }
+
+    [Fact]
+    public void Masquer_ses_identifiants_ne_facilite_pas_la_correspondance()
+    {
+        var reference = HardwareFingerprint.Compute(FakeHardware.Pc1);
+        var hidden = HardwareFingerprint.Compute(FakeHardware.Pc1 with { SystemDiskSerial = null, ProcessorId = "0000000000000000" });
+
+        reference.Matches(hidden).Should().BeFalse("référence à 4 éléments : 3 correspondances exigées, seules 2 sont lisibles");
+    }
+
+    [Fact]
+    public void Moins_de_deux_elements_lisibles_aucune_correspondance()
+    {
+        var single = HardwareFingerprint.Compute(new HardwareIdentity(null, null, "None", "guid-111"));
+
+        single.ReadableCount.Should().Be(1);
+        single.Matches(single).Should().BeFalse();
+    }
+
+    [Fact]
     public void Valeurs_generiques_ou_vides_ne_comptent_pas()
     {
         var generic = HardwareFingerprint.Compute(new HardwareIdentity("To be filled by O.E.M.", null, "CPU-111", "guid-111"));
@@ -45,7 +75,9 @@ public class HardwareFingerprintTests
         generic.Components[0].Should().BeEmpty();
         generic.Components[1].Should().BeEmpty();
         generic.CountMatches(generic).Should().Be(2);
-        generic.Matches(generic).Should().BeFalse("deux éléments inconnus ne suffisent pas à identifier le PC");
+        generic.Matches(generic).Should().BeTrue("les 2 éléments lisibles restants correspondent tous");
+        generic.Matches(HardwareFingerprint.Compute(new HardwareIdentity("To be filled by O.E.M.", null, "CPU-222", "guid-111")))
+            .Should().BeFalse("un des 2 éléments lisibles diffère : autre PC");
     }
 
     [Fact]

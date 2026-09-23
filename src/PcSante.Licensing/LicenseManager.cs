@@ -189,7 +189,7 @@ public sealed class LicenseManager
 
             var payload = LicenseTokenCodec.Verify(response.Token, _publicKey!);
             if (payload is null
-                || !Fingerprint.Matches(new HardwareFingerprint(payload.Fingerprint))
+                || !new HardwareFingerprint(payload.Fingerprint).Matches(Fingerprint)
                 || (normalizedKey is not null && payload.KeyHash != LicenseKeyFormat.Hash(normalizedKey)))
             {
                 return Fail(FailureReason.LicenseInvalidKey, "License_InvalidServerAnswer");
@@ -239,7 +239,7 @@ public sealed class LicenseManager
             Seats = payload.Seats,
         };
 
-        if (!Fingerprint.Matches(new HardwareFingerprint(payload.Fingerprint)))
+        if (!new HardwareFingerprint(payload.Fingerprint).Matches(Fingerprint))
         {
             return status with { State = LicenseState.WrongComputer, EffectiveTier = LicenseTier.Free };
         }

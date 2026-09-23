@@ -16,7 +16,8 @@ public sealed partial class LicenseService(LicenseDbContext db, ServerKeys keys,
     {
         var now = time.GetUtcNow();
         var key = LicenseKeyFormat.Normalize(request?.LicenseKey);
-        if (request is null || key is null || !HardwareFingerprint.IsWellFormed(request.Fingerprint) || request.Fingerprint.All(c => c.Length == 0))
+        if (request is null || key is null || !HardwareFingerprint.IsWellFormed(request.Fingerprint)
+            || new HardwareFingerprint(request.Fingerprint).ReadableCount < HardwareFingerprint.MinimumReadable)
         {
             return await RefuseAsync("activate", ip, null, LicenseErrorCode.InvalidRequest, ct).ConfigureAwait(false);
         }
@@ -87,7 +88,8 @@ public sealed partial class LicenseService(LicenseDbContext db, ServerKeys keys,
     {
         var now = time.GetUtcNow();
         var key = LicenseKeyFormat.Normalize(request?.LicenseKey);
-        if (request is null || key is null || !HardwareFingerprint.IsWellFormed(request.Fingerprint) || request.Fingerprint.All(c => c.Length == 0))
+        if (request is null || key is null || !HardwareFingerprint.IsWellFormed(request.Fingerprint)
+            || new HardwareFingerprint(request.Fingerprint).ReadableCount < HardwareFingerprint.MinimumReadable)
         {
             return await RefuseAsync("transfer", ip, null, LicenseErrorCode.InvalidRequest, ct).ConfigureAwait(false);
         }
