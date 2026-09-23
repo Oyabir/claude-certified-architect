@@ -1,5 +1,6 @@
 # Intégration continue PC Santé : compilation Release (zéro avertissement) et tests automatisés.
-# La solution compile sous Linux grâce à EnableWindowsTargeting ; l'installeur WiX (Windows uniquement) n'est pas construit ici.
+# Exécutée sous Linux (EnableWindowsTargeting) et sous Windows : les named pipes et les chemins se comportent
+# différemment selon le système. L'installeur WiX n'est pas construit ici.
 name: CI
 
 on:
@@ -17,8 +18,12 @@ concurrency:
 
 jobs:
   build-test:
-    name: Build et tests
-    runs-on: ubuntu-latest
+    name: Build et tests (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     timeout-minutes: 30
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: "1"
@@ -48,11 +53,12 @@ jobs:
           --logger "trx;LogFilePrefix=results"
           --collect:"XPlat Code Coverage"
           --results-directory TestResults
+          --blame-hang-timeout 5m
 
       - name: Résultats et couverture
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: resultats-tests
+          name: resultats-tests-${{ matrix.os }}
           path: TestResults
           if-no-files-found: ignore

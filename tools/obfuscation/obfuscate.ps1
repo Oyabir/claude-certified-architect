@@ -1,4 +1,4 @@
-<#
+﻿<#
   Obfusque PcSante.Licensing.dll et PcSante.Service.dll d'un dossier publié (appelé par installer/build.ps1).
   La table de correspondance est écrite dans -MappingDir : la conserver HORS du dépôt (analyse de plantages).
 #>

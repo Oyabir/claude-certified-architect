@@ -19,6 +19,9 @@ public sealed partial class PipeServer(
 {
     public static readonly TimeSpan IdleTimeout = TimeSpan.FromMinutes(5);
 
+    /// <summary>Délai laissé à un client refusé pour envoyer sa demande et lire le refus.</summary>
+    public static readonly TimeSpan RefusalTimeout = TimeSpan.FromSeconds(5);
+
     private readonly ILogger<PipeServer> _logger = logger;
 
     public async Task RunAsync(CancellationToken cancellationToken)
@@ -120,21 +123,38 @@ public sealed partial class PipeServer(
         }
     }
 
-    private static async Task RefuseAsync(NamedPipeServerStream pipe, CancellationToken cancellationToken)
+    private async Task RefuseAsync(NamedPipeServerStream pipe, CancellationToken cancellationToken)
     {
+        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        timeout.CancelAfter(RefusalTimeout);
         try
         {
+            // Sous Windows, le pipe n'a pas de tampon : une écriture attend que l'autre côté lise.
+            // Le client écrit toujours sa demande en premier ; la lire (sans l'interpréter) avant de répondre
+            // évite que les deux côtés restent bloqués en écriture et qu'une connexion du service soit perdue.
+            if (!await MessageFraming.DiscardAsync(pipe, MessageFraming.MaxRequestBytes, timeout.Token).ConfigureAwait(false))
+            {
+                return;
+            }
+
             await MessageFraming.WriteAsync(pipe, new IpcResponse
             {
                 RequestId = string.Empty,
                 Result = CommandResult.Refused(FailureReason.ClientNotTrusted, "Result_ClientNotTrusted"),
-            }, MessageFraming.MaxResponseBytes, cancellationToken).ConfigureAwait(false);
+            }, MessageFraming.MaxResponseBytes, timeout.Token).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+        {
+            LogRefusalTimedOut();
         }
         catch (IOException)
         {
             // Client déjà parti.
         }
     }
+
+    [LoggerMessage(Level = LogLevel.Warning, Message = "Client refusé resté inactif : connexion fermée")]
+    private partial void LogRefusalTimedOut();
 
     [LoggerMessage(Level = LogLevel.Warning, Message = "Client du named pipe refusé ({Decision}) : {Path}")]
     private partial void LogClientRefused(TrustDecision decision, string path);
