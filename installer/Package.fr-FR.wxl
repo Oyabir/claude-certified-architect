@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="fr-FR" Codepage="1252" xmlns="http://wixtoolset.org/schemas/v4/wxl">
+  <String Id="DowngradeError" Value="Une version plus récente de PC Santé est déjà installée." />
+  <String Id="WindowsVersionError" Value="PC Santé nécessite Windows 10 (version 22H2) ou Windows 11, en 64 bits." />
+  <String Id="DotNetMissing" Value="PC Santé a besoin du composant gratuit « .NET 8 Desktop Runtime » de Microsoft. Installez-le depuis le site de Microsoft puis relancez l'installation." />
+  <String Id="ServiceDescription" Value="Diagnostique, protège et optimise ce PC. Exécute uniquement les actions de sa liste fermée, demandées par l'application PC Santé." />
+</WixLocalization>

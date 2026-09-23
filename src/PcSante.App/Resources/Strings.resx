@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Busy_CreateRestorePoint" xml:space="preserve"><value>Création du point de restauration…</value></data>
+  <data name="Busy_EnableSystemRestore" xml:space="preserve"><value>Activation de la restauration du système…</value></data>
+  <data name="Busy_InstallUpdates" xml:space="preserve"><value>Installation des mises à jour… Vous pouvez continuer à utiliser votre PC.</value></data>
+  <data name="Busy_RepairWindowsUpdate" xml:space="preserve"><value>Réparation de Windows Update…</value></data>
+  <data name="Busy_ResetFirewallRules" xml:space="preserve"><value>Réinitialisation du pare-feu…</value></data>
+  <data name="Busy_RunDismRepair" xml:space="preserve"><value>Réparation approfondie de Windows (15 à 45 minutes)…</value></data>
+  <data name="Busy_RunSystemFileCheck" xml:space="preserve"><value>Vérification des fichiers de Windows (10 à 30 minutes)…</value></data>
+  <data name="Category_Performance" xml:space="preserve"><value>Performance</value></data>
+  <data name="Category_Security" xml:space="preserve"><value>Sécurité</value></data>
+  <data name="Category_Stability" xml:space="preserve"><value>Stabilité</value></data>
+  <data name="Category_Storage" xml:space="preserve"><value>Stockage</value></data>
+  <data name="Cleanup_Browsers" xml:space="preserve"><value>Cache des navigateurs</value></data>
+  <data name="Cleanup_BrowsersWhy" xml:space="preserve"><value>Copies de pages web. Vos mots de passe et favoris ne sont pas touchés. Navigateurs ouverts ignorés.</value></data>
+  <data name="Cleanup_Button" xml:space="preserve"><value>Nettoyer</value></data>
+  <data name="Cleanup_Confirm" xml:space="preserve"><value>Ces fichiers vont être supprimés définitivement :
+
+{0}
+
+Continuer ?</value></data>
+  <data name="Cleanup_Done" xml:space="preserve"><value>Nettoyage terminé : {0} libérés.</value></data>
+  <data name="Cleanup_RecycleBin" xml:space="preserve"><value>Corbeille</value></data>
+  <data name="Cleanup_RecycleBinWhy" xml:space="preserve"><value>Fichiers que vous avez déjà supprimés.</value></data>
+  <data name="Cleanup_Running" xml:space="preserve"><value>Nettoyage : {0}…</value></data>
+  <data name="Cleanup_Temp" xml:space="preserve"><value>Fichiers temporaires</value></data>
+  <data name="Cleanup_TempWhy" xml:space="preserve"><value>Fichiers laissés par les programmes (plus de 24 heures).</value></data>
+  <data name="Cleanup_Title" xml:space="preserve"><value>Nettoyer les fichiers inutiles</value></data>
+  <data name="Cleanup_Total" xml:space="preserve"><value>Espace récupérable : {0}</value></data>
+  <data name="Cleanup_Update" xml:space="preserve"><value>Anciens téléchargements de Windows Update</value></data>
+  <data name="Cleanup_UpdateWhy" xml:space="preserve"><value>Fichiers déjà installés, Windows les retélécharge si besoin.</value></data>
+  <data name="Cleanup_Warning" xml:space="preserve"><value>Attention : les fichiers supprimés ne peuvent pas être récupérés.</value></data>
+  <data name="Color_Green" xml:space="preserve"><value>Tout va bien</value></data>
+  <data name="Color_Orange" xml:space="preserve"><value>À surveiller</value></data>
+  <data name="Color_Red" xml:space="preserve"><value>À corriger</value></data>
+  <data name="Command_ActivateLicense" xml:space="preserve"><value>Activation de la licence</value></data>
+  <data name="Command_CheckAppUpdate" xml:space="preserve"><value>Recherche d'une nouvelle version</value></data>
+  <data name="Command_CleanBrowserCaches" xml:space="preserve"><value>Vider le cache des navigateurs</value></data>
+  <data name="Command_CleanTemporaryFiles" xml:space="preserve"><value>Supprimer les fichiers temporaires</value></data>
+  <data name="Command_CleanWindowsUpdateCache" xml:space="preserve"><value>Vider le cache de Windows Update</value></data>
+  <data name="Command_CreateRestorePoint" xml:space="preserve"><value>Créer un point de restauration</value></data>
+  <data name="Command_DeactivateLicense" xml:space="preserve"><value>Désactiver la licence sur ce PC</value></data>
+  <data name="Command_DisableFirewallProfile" xml:space="preserve"><value>Désactivation de la protection contre les intrusions</value></data>
+  <data name="Command_DisableScheduledTemplate" xml:space="preserve"><value>Arrêter une tâche automatique</value></data>
+  <data name="Command_DisableServiceForProcess" xml:space="preserve"><value>Désactiver un service</value></data>
+  <data name="Command_DisableStartupItem" xml:space="preserve"><value>Retirer un programme du démarrage</value></data>
+  <data name="Command_DisableThirdPartyTask" xml:space="preserve"><value>Désactiver une tâche planifiée</value></data>
+  <data name="Command_EmptyRecycleBin" xml:space="preserve"><value>Vider la corbeille</value></data>
+  <data name="Command_EnableCloudProtection" xml:space="preserve"><value>Activation de la détection des nouveaux virus</value></data>
+  <data name="Command_EnableControlledFolderAccess" xml:space="preserve"><value>Activation de la protection anti-chantage</value></data>
+  <data name="Command_EnableFirewallProfile" xml:space="preserve"><value>Activation de la protection contre les intrusions</value></data>
+  <data name="Command_EnableRealtimeProtection" xml:space="preserve"><value>Activation de la surveillance permanente</value></data>
+  <data name="Command_EnableScheduledTemplate" xml:space="preserve"><value>Programmer une tâche automatique</value></data>
+  <data name="Command_EnableStartupItem" xml:space="preserve"><value>Remettre un programme au démarrage</value></data>
+  <data name="Command_EnableSystemRestore" xml:space="preserve"><value>Activer la restauration du système</value></data>
+  <data name="Command_EnableThirdPartyTask" xml:space="preserve"><value>Réactiver une tâche planifiée</value></data>
+  <data name="Command_GetAuditLog" xml:space="preserve"><value>Journal des actions</value></data>
+  <data name="Command_GetCleanupEstimate" xml:space="preserve"><value>Estimation du nettoyage</value></data>
+  <data name="Command_GetDefenderStatus" xml:space="preserve"><value>État de l'antivirus</value></data>
+  <data name="Command_GetFirewallStatus" xml:space="preserve"><value>État du pare-feu</value></data>
+  <data name="Command_GetLastHealthReport" xml:space="preserve"><value>Lecture du dernier rapport</value></data>
+  <data name="Command_GetLicenseStatus" xml:space="preserve"><value>État de la licence</value></data>
+  <data name="Command_GetLiveMetrics" xml:space="preserve"><value>Mesures en temps réel</value></data>
+  <data name="Command_GetPowerPlans" xml:space="preserve"><value>Modes d'alimentation</value></data>
+  <data name="Command_GetProcessHistory" xml:space="preserve"><value>Historique des programmes</value></data>
+  <data name="Command_GetProcesses" xml:space="preserve"><value>Liste des programmes</value></data>
+  <data name="Command_GetQuarantine" xml:space="preserve"><value>Liste de la quarantaine</value></data>
+  <data name="Command_GetReportData" xml:space="preserve"><value>Données du rapport</value></data>
+  <data name="Command_GetScheduledTemplates" xml:space="preserve"><value>Tâches automatiques</value></data>
+  <data name="Command_GetScoreHistory" xml:space="preserve"><value>Historique du score</value></data>
+  <data name="Command_GetStartupItems" xml:space="preserve"><value>Programmes au démarrage</value></data>
+  <data name="Command_GetSystemInfo" xml:space="preserve"><value>Informations système</value></data>
+  <data name="Command_GetTaskRunLog" xml:space="preserve"><value>Journal des tâches</value></data>
+  <data name="Command_GetThirdPartyTasks" xml:space="preserve"><value>Tâches planifiées tierces</value></data>
+  <data name="Command_GetThreatHistory" xml:space="preserve"><value>Historique des menaces</value></data>
+  <data name="Command_GetUndoableActions" xml:space="preserve"><value>Modifications annulables</value></data>
+  <data name="Command_GetUpdateStatus" xml:space="preserve"><value>État de Windows Update</value></data>
+  <data name="Command_InstallAppUpdate" xml:space="preserve"><value>Installer la nouvelle version</value></data>
+  <data name="Command_InstallUpdates" xml:space="preserve"><value>Installer les mises à jour</value></data>
+  <data name="Command_RepairWindowsUpdate" xml:space="preserve"><value>Réparer une mise à jour bloquée</value></data>
+  <data name="Command_ResetFirewallRules" xml:space="preserve"><value>Réinitialiser les règles du pare-feu</value></data>
+  <data name="Command_RestoreQuarantinedItem" xml:space="preserve"><value>Restauration d'un fichier en quarantaine</value></data>
+  <data name="Command_RevalidateLicense" xml:space="preserve"><value>Vérification de la licence</value></data>
+  <data name="Command_RunDismRepair" xml:space="preserve"><value>Réparation approfondie de Windows</value></data>
+  <data name="Command_RunHealthAnalysis" xml:space="preserve"><value>Analyse du PC</value></data>
+  <data name="Command_RunScheduledTemplate" xml:space="preserve"><value>Exécution d'une tâche automatique</value></data>
+  <data name="Command_RunSystemFileCheck" xml:space="preserve"><value>Réparer les fichiers de Windows</value></data>
+  <data name="Command_SearchUpdates" xml:space="preserve"><value>Rechercher les mises à jour</value></data>
+  <data name="Command_SetPowerPlan" xml:space="preserve"><value>Changer le mode d'alimentation</value></data>
+  <data name="Command_StartCustomScan" xml:space="preserve"><value>Scan d'un dossier</value></data>
+  <data name="Command_StartFullScan" xml:space="preserve"><value>Scan antivirus complet</value></data>
+  <data name="Command_StartQuickScan" xml:space="preserve"><value>Scan antivirus rapide</value></data>
+  <data name="Command_StopProcess" xml:space="preserve"><value>Arrêter un programme</value></data>
+  <data name="Command_TransferLicense" xml:space="preserve"><value>Transfert de la licence</value></data>
+  <data name="Command_UndoAction" xml:space="preserve"><value>Annuler une modification</value></data>
+  <data name="Command_UndoOf" xml:space="preserve"><value>Annulation : {0}</value></data>
+  <data name="Command_UpdateSignatures" xml:space="preserve"><value>Mise à jour de l'antivirus</value></data>
+  <data name="Common_Cancel" xml:space="preserve"><value>Annuler</value></data>
+  <data name="Common_Continue" xml:space="preserve"><value>Continuer</value></data>
+  <data name="Common_Details" xml:space="preserve"><value>Détails</value></data>
+  <data name="Common_Disable" xml:space="preserve"><value>Désactiver</value></data>
+  <data name="Common_Enable" xml:space="preserve"><value>Activer</value></data>
+  <data name="Common_Never" xml:space="preserve"><value>Jamais</value></data>
+  <data name="Common_NotAvailable" xml:space="preserve"><value>Non disponible sur ce PC</value></data>
+  <data name="Common_Off" xml:space="preserve"><value>Désactivée</value></data>
+  <data name="Common_On" xml:space="preserve"><value>Activée</value></data>
+  <data name="Common_Retry" xml:space="preserve"><value>Réessayer</value></data>
+  <data name="Common_Working" xml:space="preserve"><value>Action en cours, veuillez patienter…</value></data>
+  <data name="Confirm_ClosesProgram" xml:space="preserve"><value>« {0} » va fermer un programme. Les travaux non enregistrés dans ce programme seront perdus. Continuer ?</value></data>
+  <data name="Confirm_DeletesFiles" xml:space="preserve"><value>« {0} » va supprimer des fichiers définitivement. Continuer ?</value></data>
+  <data name="Confirm_ReducesProtection" xml:space="preserve"><value>« {0} » réduit la protection de votre PC. Êtes-vous sûr ?</value></data>
+  <data name="Confirm_RestartsComputer" xml:space="preserve"><value>« {0} » peut nécessiter un redémarrage du PC. Enregistrez votre travail avant de continuer. Continuer ?</value></data>
+  <data name="Day_Everyday" xml:space="preserve"><value>Tous les jours</value></data>
+  <data name="Day_Friday" xml:space="preserve"><value>Vendredi</value></data>
+  <data name="Day_Monday" xml:space="preserve"><value>Lundi</value></data>
+  <data name="Day_Saturday" xml:space="preserve"><value>Samedi</value></data>
+  <data name="Day_Sunday" xml:space="preserve"><value>Dimanche</value></data>
+  <data name="Day_Thursday" xml:space="preserve"><value>Jeudi</value></data>
+  <data name="Day_Tuesday" xml:space="preserve"><value>Mardi</value></data>
+  <data name="Day_Wednesday" xml:space="preserve"><value>Mercredi</value></data>
+  <data name="Duration_CreateRestorePoint" xml:space="preserve"><value>Environ 1 minute.</value></data>
+  <data name="Duration_EnableSystemRestore" xml:space="preserve"><value>Quelques secondes.</value></data>
+  <data name="Duration_InstallUpdates" xml:space="preserve"><value>De quelques minutes à une heure. Un point de restauration est créé avant.</value></data>
+  <data name="Duration_RepairWindowsUpdate" xml:space="preserve"><value>Environ 2 minutes.</value></data>
+  <data name="Duration_ResetFirewallRules" xml:space="preserve"><value>Quelques secondes. Certains programmes pourront redemander l'accès au réseau.</value></data>
+  <data name="Duration_RunDismRepair" xml:space="preserve"><value>15 à 45 minutes, connexion Internet conseillée.</value></data>
+  <data name="Duration_RunSystemFileCheck" xml:space="preserve"><value>10 à 30 minutes. Un point de restauration est créé avant.</value></data>
+  <data name="Explain_CreateRestorePoint" xml:space="preserve"><value>Enregistre l'état actuel de Windows pour pouvoir y revenir.</value></data>
+  <data name="Explain_EnableSystemRestore" xml:space="preserve"><value>Permet de créer des points de restauration sur le disque principal.</value></data>
+  <data name="Explain_InstallUpdates" xml:space="preserve"><value>Télécharge et installe les mises à jour en attente.</value></data>
+  <data name="Explain_RepairWindowsUpdate" xml:space="preserve"><value>Débloque Windows Update quand les mises à jour échouent. L'ancien cache est conservé.</value></data>
+  <data name="Explain_ResetFirewallRules" xml:space="preserve"><value>Remet les règles du pare-feu d'origine. Les règles actuelles sont sauvegardées.</value></data>
+  <data name="Explain_RunDismRepair" xml:space="preserve"><value>Répare la réserve de fichiers de Windows quand la réparation simple ne suffit pas.</value></data>
+  <data name="Explain_RunSystemFileCheck" xml:space="preserve"><value>Vérifie et répare les fichiers de Windows abîmés.</value></data>
+  <data name="Firewall_Domain" xml:space="preserve"><value>Réseau d'entreprise</value></data>
+  <data name="Firewall_DomainTech" xml:space="preserve"><value>Profil domaine</value></data>
+  <data name="Firewall_Private" xml:space="preserve"><value>Réseau domestique</value></data>
+  <data name="Firewall_PrivateTech" xml:space="preserve"><value>Profil privé</value></data>
+  <data name="Firewall_Public" xml:space="preserve"><value>Wi-Fi public (café, hôtel, gare)</value></data>
+  <data name="Firewall_PublicTech" xml:space="preserve"><value>Profil public</value></data>
+  <data name="Fix_CreateRestorePoint" xml:space="preserve"><value>Créer</value></data>
+  <data name="Fix_EnableCloudProtection" xml:space="preserve"><value>Activer</value></data>
+  <data name="Fix_EnableFirewallProfile" xml:space="preserve"><value>Activer</value></data>
+  <data name="Fix_EnableRealtimeProtection" xml:space="preserve"><value>Activer</value></data>
+  <data name="Fix_EnableSystemRestore" xml:space="preserve"><value>Activer</value></data>
+  <data name="Fix_Open" xml:space="preserve"><value>Voir</value></data>
+  <data name="Fix_RepairWindowsUpdate" xml:space="preserve"><value>Réparer</value></data>
+  <data name="Fix_RunSystemFileCheck" xml:space="preserve"><value>Réparer</value></data>
+  <data name="Fix_SearchUpdates" xml:space="preserve"><value>Rechercher</value></data>
+  <data name="Fix_StartQuickScan" xml:space="preserve"><value>Lancer un scan</value></data>
+  <data name="Fix_UpdateSignatures" xml:space="preserve"><value>Mettre à jour</value></data>
+  <data name="Home_AnalysisDone" xml:space="preserve"><value>Analyse terminée : votre score est de {0} sur 100.</value></data>
+  <data name="Home_Analyze" xml:space="preserve"><value>Analyser mon PC</value></data>
+  <data name="Home_Analyzing" xml:space="preserve"><value>Analyse de votre PC en cours (moins d'une minute)…</value></data>
+  <data name="Home_FixAll" xml:space="preserve"><value>Tout corriger</value></data>
+  <data name="Home_FixAllDone" xml:space="preserve"><value>{0} correction(s) effectuée(s) avec succès.</value></data>
+  <data name="Home_FixAllPartial" xml:space="preserve"><value>{0} correction(s) réussie(s), {1} n'a (n'ont) pas pu être faite(s). Voir « Détails ».</value></data>
+  <data name="Home_FixAllRecap" xml:space="preserve"><value>PC Santé va effectuer les corrections suivantes :
+
+{0}
+
+Un point de restauration est créé si nécessaire. Continuer ?</value></data>
+  <data name="Home_Fixing" xml:space="preserve"><value>Correction en cours : {0}</value></data>
+  <data name="Home_Issues" xml:space="preserve"><value>Ce qu'il faut regarder</value></data>
+  <data name="Home_LastAnalysis" xml:space="preserve"><value>Dernière analyse : {0}</value></data>
+  <data name="Home_NoAnalysis" xml:space="preserve"><value>Pas encore analysé</value></data>
+  <data name="Home_NoIssues" xml:space="preserve"><value>Aucun problème détecté. Votre PC est en bonne santé.</value></data>
+  <data name="Home_OutOf100" xml:space="preserve"><value>sur 100</value></data>
+  <data name="Home_Title" xml:space="preserve"><value>Accueil</value></data>
+  <data name="Issue_ActiveThreats_Title" xml:space="preserve"><value>{0} menace(s) détectée(s) attendent une action</value></data>
+  <data name="Issue_ActiveThreats_Why" xml:space="preserve"><value>Un programme dangereux a été trouvé : il faut le traiter pour protéger vos fichiers.</value></data>
+  <data name="Issue_CleanableFiles_Title" xml:space="preserve"><value>{0} Go de fichiers inutiles peuvent être supprimés</value></data>
+  <data name="Issue_CleanableFiles_Why" xml:space="preserve"><value>Ce sont des fichiers temporaires et des caches : les supprimer libère de la place.</value></data>
+  <data name="Issue_CloudProtectionOff_Title" xml:space="preserve"><value>La protection cloud est désactivée</value></data>
+  <data name="Issue_CloudProtectionOff_Why" xml:space="preserve"><value>Elle permet de bloquer en quelques secondes les virus les plus récents.</value></data>
+  <data name="Issue_FirewallOffDomain_Title" xml:space="preserve"><value>La protection contre les intrusions est désactivée (réseau d'entreprise)</value></data>
+  <data name="Issue_FirewallOffDomain_Why" xml:space="preserve"><value>Votre PC est exposé aux autres appareils du réseau.</value></data>
+  <data name="Issue_FirewallOffPrivate_Title" xml:space="preserve"><value>La protection contre les intrusions est désactivée (réseau domestique)</value></data>
+  <data name="Issue_FirewallOffPrivate_Why" xml:space="preserve"><value>Votre PC est exposé aux autres appareils de votre réseau.</value></data>
+  <data name="Issue_FirewallOffPublic_Title" xml:space="preserve"><value>La protection contre les intrusions est désactivée (Wi-Fi public)</value></data>
+  <data name="Issue_FirewallOffPublic_Why" xml:space="preserve"><value>Sur un Wi-Fi de café ou d'hôtel, n'importe qui pourrait tenter d'accéder à votre PC.</value></data>
+  <data name="Issue_HighMemory_Title" xml:space="preserve"><value>La mémoire est presque pleine ({0} %)</value></data>
+  <data name="Issue_HighMemory_Why" xml:space="preserve"><value>Le PC devient lent : fermez les programmes que vous n'utilisez pas.</value></data>
+  <data name="Issue_LowDiskSpace_Title" xml:space="preserve"><value>Il ne reste que {0} Go sur le disque principal</value></data>
+  <data name="Issue_LowDiskSpace_Why" xml:space="preserve"><value>Quand le disque est plein, Windows ralentit et les mises à jour échouent.</value></data>
+  <data name="Issue_ManyStartupPrograms_Title" xml:space="preserve"><value>{0} programmes se lancent au démarrage</value></data>
+  <data name="Issue_ManyStartupPrograms_Why" xml:space="preserve"><value>Ils ralentissent l'allumage du PC : désactivez ceux dont vous n'avez pas besoin.</value></data>
+  <data name="Issue_NoRecentRestorePoint_Title" xml:space="preserve"><value>Aucun point de restauration depuis plus d'un mois</value></data>
+  <data name="Issue_NoRecentRestorePoint_Why" xml:space="preserve"><value>Un point récent permet de revenir à un état qui fonctionnait.</value></data>
+  <data name="Issue_NoRecentScan_Title" xml:space="preserve"><value>Aucun scan antivirus depuis plus de 2 semaines</value></data>
+  <data name="Issue_NoRecentScan_Why" xml:space="preserve"><value>Un scan régulier permet de trouver ce qui aurait échappé à la surveillance.</value></data>
+  <data name="Issue_RealtimeOff_Title" xml:space="preserve"><value>L'antivirus ne surveille pas votre PC en permanence</value></data>
+  <data name="Issue_RealtimeOff_Why" xml:space="preserve"><value>Sans cette protection, un virus peut s'installer sans être arrêté.</value></data>
+  <data name="Issue_RebootPending_Title" xml:space="preserve"><value>Un redémarrage est nécessaire pour terminer des mises à jour</value></data>
+  <data name="Issue_RebootPending_Why" xml:space="preserve"><value>Redémarrez quand vous le pouvez pour que les corrections soient appliquées.</value></data>
+  <data name="Issue_RecentCrashes_Title" xml:space="preserve"><value>Votre PC a planté {0} fois ce mois-ci (écran bleu)</value></data>
+  <data name="Issue_RecentCrashes_Why" xml:space="preserve"><value>Des fichiers système abîmés peuvent en être la cause : une réparation peut aider.</value></data>
+  <data name="Issue_RestoreDisabled_Title" xml:space="preserve"><value>La restauration du système est désactivée</value></data>
+  <data name="Issue_RestoreDisabled_Why" xml:space="preserve"><value>En cas de problème, il serait impossible de revenir en arrière.</value></data>
+  <data name="Issue_SignaturesOutdated_Title" xml:space="preserve"><value>L'antivirus n'a pas été mis à jour depuis {0} jours</value></data>
+  <data name="Issue_SignaturesOutdated_Why" xml:space="preserve"><value>Les nouveaux virus apparaissent chaque jour : un antivirus à jour les reconnaît.</value></data>
+  <data name="Issue_UpdatesBroken_Title" xml:space="preserve"><value>Les mises à jour de Windows semblent bloquées</value></data>
+  <data name="Issue_UpdatesBroken_Why" xml:space="preserve"><value>Sans mises à jour, les failles de sécurité connues restent ouvertes.</value></data>
+  <data name="Issue_UpdatesNotChecked_Title" xml:space="preserve"><value>Windows n'a pas cherché de mises à jour depuis {0} jours</value></data>
+  <data name="Issue_UpdatesNotChecked_Why" xml:space="preserve"><value>Les mises à jour corrigent des failles de sécurité et des bugs.</value></data>
+  <data name="License_Activate" xml:space="preserve"><value>Activer ma licence</value></data>
+  <data name="License_Activated" xml:space="preserve"><value>Licence activée : toutes les fonctions sont débloquées.</value></data>
+  <data name="License_Activating" xml:space="preserve"><value>Vérification de votre clé auprès du serveur…</value></data>
+  <data name="License_CurrentOffer" xml:space="preserve"><value>Offre actuelle</value></data>
+  <data name="License_DeactivateHelp" xml:space="preserve"><value>Vous changez d'ordinateur ? Désactivez la licence ici pour l'utiliser ailleurs.</value></data>
+  <data name="License_Deactivated" xml:space="preserve"><value>Licence désactivée sur ce PC. Vous pouvez l'activer sur un autre ordinateur.</value></data>
+  <data name="License_Details" xml:space="preserve"><value>Clé {0} · Fin de l'abonnement : {1} · Dernière vérification : {2}</value></data>
+  <data name="License_EnterKey" xml:space="preserve"><value>Votre clé de licence</value></data>
+  <data name="License_Expired" xml:space="preserve"><value>Cette licence est expirée. Vous êtes revenu à l'offre Gratuite, sans perte de données.</value></data>
+  <data name="License_GetPremium" xml:space="preserve"><value>Passer à Premium</value></data>
+  <data name="License_InvalidKey" xml:space="preserve"><value>Cette clé n'est pas valide. Vérifiez qu'elle est bien recopiée.</value></data>
+  <data name="License_InvalidServerAnswer" xml:space="preserve"><value>La réponse du serveur de licences n'est pas authentique : elle a été refusée.</value></data>
+  <data name="License_KeyHelp" xml:space="preserve"><value>Elle ressemble à PCS-XXXXX-XXXXX-XXXXX-XXXXX. Majuscules et tirets facultatifs.</value></data>
+  <data name="License_NoEnd" xml:space="preserve"><value>sans limite</value></data>
+  <data name="License_NotActivated" xml:space="preserve"><value>Aucune licence active sur ce PC.</value></data>
+  <data name="License_NotConfigured" xml:space="preserve"><value>Cette version de PC Santé ne permet pas encore l'activation (serveur de licences non configuré).</value></data>
+  <data name="License_RateLimited" xml:space="preserve"><value>Trop de tentatives. Patientez une minute puis réessayez.</value></data>
+  <data name="License_Revalidated" xml:space="preserve"><value>Licence vérifiée.</value></data>
+  <data name="License_Revoked" xml:space="preserve"><value>Cette licence a été révoquée. Vous êtes revenu à l'offre Gratuite, sans perte de données.</value></data>
+  <data name="License_ServerError" xml:space="preserve"><value>Le serveur de licences rencontre un problème. Réessayez plus tard.</value></data>
+  <data name="License_ServerUnreachable" xml:space="preserve"><value>Impossible de joindre le serveur de licences. Vérifiez votre connexion Internet.</value></data>
+  <data name="License_State_Active" xml:space="preserve"><value>Licence active sur ce PC.</value></data>
+  <data name="License_State_ClockTampered" xml:space="preserve"><value>La date du PC semble avoir reculé. Remettez la bonne date puis connectez-vous à Internet.</value></data>
+  <data name="License_State_Expired" xml:space="preserve"><value>Licence expirée : offre Gratuite.</value></data>
+  <data name="License_State_InvalidToken" xml:space="preserve"><value>Les informations de licence sont abîmées. Réactivez votre clé.</value></data>
+  <data name="License_State_NotActivated" xml:space="preserve"><value>Offre Gratuite : score, diagnostic et mini-affichage.</value></data>
+  <data name="License_State_NotConfigured" xml:space="preserve"><value>Offre Gratuite : activation non disponible dans cette version.</value></data>
+  <data name="License_State_OfflineTooLong" xml:space="preserve"><value>Pas de connexion depuis plus de 14 jours : reconnectez-vous à Internet pour retrouver Premium.</value></data>
+  <data name="License_State_Revoked" xml:space="preserve"><value>Licence révoquée : offre Gratuite.</value></data>
+  <data name="License_State_Unknown" xml:space="preserve"><value>État inconnu (service indisponible).</value></data>
+  <data name="License_State_WrongComputer" xml:space="preserve"><value>Cette licence appartient à un autre ordinateur.</value></data>
+  <data name="License_ThisPc" xml:space="preserve"><value>Ce PC</value></data>
+  <data name="License_Transfer" xml:space="preserve"><value>Transférer ma licence</value></data>
+  <data name="License_TransferConfirm" xml:space="preserve"><value>La licence sera désactivée sur l'ancien ordinateur et activée sur celui-ci. Possible 2 fois par an. Continuer ?</value></data>
+  <data name="License_TransferLimit" xml:space="preserve"><value>Vous avez déjà transféré cette licence 2 fois cette année. Contactez le support.</value></data>
+  <data name="License_Transferred" xml:space="preserve"><value>Licence transférée sur ce PC.</value></data>
+  <data name="License_UsedElsewhere" xml:space="preserve"><value>Cette licence est déjà utilisée sur un autre ordinateur.</value></data>
+  <data name="License_UsedElsewhereHelp" xml:space="preserve"><value>Vous avez changé d'ordinateur ? Transférez votre licence : l'ancien PC sera désactivé.</value></data>
+  <data name="Metric_Battery" xml:space="preserve"><value>Batterie</value></data>
+  <data name="Metric_BatteryCharging" xml:space="preserve"><value>{0} % (branché)</value></data>
+  <data name="Metric_BatteryValue" xml:space="preserve"><value>{0} % (sur batterie)</value></data>
+  <data name="Metric_Cpu" xml:space="preserve"><value>Processeur</value></data>
+  <data name="Metric_Disk" xml:space="preserve"><value>Disque</value></data>
+  <data name="Metric_Memory" xml:space="preserve"><value>Mémoire</value></data>
+  <data name="Metric_MemoryValue" xml:space="preserve"><value>{0} % ({1} sur {2})</value></data>
+  <data name="Metric_Network" xml:space="preserve"><value>Réseau</value></data>
+  <data name="Metric_NetworkValue" xml:space="preserve"><value>↓ {0}/s  ↑ {1}/s</value></data>
+  <data name="Metric_NoBattery" xml:space="preserve"><value>Pas de batterie (PC de bureau)</value></data>
+  <data name="Metric_Percent" xml:space="preserve"><value>{0} %</value></data>
+  <data name="Metric_Temperature" xml:space="preserve"><value>Température</value></data>
+  <data name="Metric_TemperatureValue" xml:space="preserve"><value>{0} °C</value></data>
+  <data name="Nav_Home" xml:space="preserve"><value>Accueil</value></data>
+  <data name="Nav_License" xml:space="preserve"><value>Licence</value></data>
+  <data name="Nav_Menu" xml:space="preserve"><value>Menu principal</value></data>
+  <data name="Nav_Offer" xml:space="preserve"><value>Votre offre</value></data>
+  <data name="Nav_Optimization" xml:space="preserve"><value>Optimisation</value></data>
+  <data name="Nav_Optimization_Simple" xml:space="preserve"><value>Nettoyage</value></data>
+  <data name="Nav_Performance" xml:space="preserve"><value>Performance</value></data>
+  <data name="Nav_Processes" xml:space="preserve"><value>Processus</value></data>
+  <data name="Nav_Protection" xml:space="preserve"><value>Protection</value></data>
+  <data name="Nav_Reports" xml:space="preserve"><value>Rapports</value></data>
+  <data name="Nav_Scheduling" xml:space="preserve"><value>Planification</value></data>
+  <data name="Nav_Sessions" xml:space="preserve"><value>Sessions</value></data>
+  <data name="Nav_Settings" xml:space="preserve"><value>Paramètres</value></data>
+  <data name="Nav_System" xml:space="preserve"><value>Système</value></data>
+  <data name="Outcome_AlreadyDone" xml:space="preserve"><value>Déjà fait</value></data>
+  <data name="Outcome_Failed" xml:space="preserve"><value>Échec</value></data>
+  <data name="Outcome_Refused" xml:space="preserve"><value>Refusé</value></data>
+  <data name="Outcome_RolledBack" xml:space="preserve"><value>Annulé automatiquement</value></data>
+  <data name="Outcome_Started" xml:space="preserve"><value>Lancé</value></data>
+  <data name="Outcome_Succeeded" xml:space="preserve"><value>Réussi</value></data>
+  <data name="Performance_HideOverlay" xml:space="preserve"><value>Masquer le mini-affichage</value></data>
+  <data name="Performance_OverlayHidden" xml:space="preserve"><value>Mini-affichage masqué.</value></data>
+  <data name="Performance_OverlayShown" xml:space="preserve"><value>Mini-affichage activé.</value></data>
+  <data name="Performance_ShowOverlay" xml:space="preserve"><value>Afficher le mini-affichage</value></data>
+  <data name="Position_BottomLeft" xml:space="preserve"><value>En bas à gauche</value></data>
+  <data name="Position_BottomRight" xml:space="preserve"><value>En bas à droite</value></data>
+  <data name="Position_TopLeft" xml:space="preserve"><value>En haut à gauche</value></data>
+  <data name="Position_TopRight" xml:space="preserve"><value>En haut à droite</value></data>
+  <data name="Power_Active" xml:space="preserve"><value>Utilisé actuellement</value></data>
+  <data name="Power_Explanation" xml:space="preserve"><value>« Performances élevées » accélère le PC mais consomme plus d'énergie.</value></data>
+  <data name="Power_Title" xml:space="preserve"><value>Mode d'alimentation</value></data>
+  <data name="Power_Use" xml:space="preserve"><value>Utiliser</value></data>
+  <data name="Process_Actions" xml:space="preserve"><value>Actions</value></data>
+  <data name="Process_AvgCpu" xml:space="preserve"><value>Processeur moyen</value></data>
+  <data name="Process_AvgMemory" xml:space="preserve"><value>Mémoire moyenne</value></data>
+  <data name="Process_Cpu" xml:space="preserve"><value>Processeur</value></data>
+  <data name="Process_DisableService" xml:space="preserve"><value>Désactiver le service</value></data>
+  <data name="Process_Disk" xml:space="preserve"><value>Disque</value></data>
+  <data name="Process_HighUsage" xml:space="preserve"><value>{0} % du temps</value></data>
+  <data name="Process_History" xml:space="preserve"><value>Programmes gourmands sur 7 jours</value></data>
+  <data name="Process_Memory" xml:space="preserve"><value>Mémoire</value></data>
+  <data name="Process_Name" xml:space="preserve"><value>Programme</value></data>
+  <data name="Process_Network" xml:space="preserve"><value>Réseau</value></data>
+  <data name="Process_NotSigned" xml:space="preserve"><value>Non signé</value></data>
+  <data name="Process_OpenLocation" xml:space="preserve"><value>Emplacement</value></data>
+  <data name="Process_Presence" xml:space="preserve"><value>Consommation élevée</value></data>
+  <data name="Process_Refresh" xml:space="preserve"><value>Actualiser la liste</value></data>
+  <data name="Process_RemoveStartup" xml:space="preserve"><value>Retirer du démarrage</value></data>
+  <data name="Process_Reputation" xml:space="preserve"><value>Réputation</value></data>
+  <data name="Process_Signature" xml:space="preserve"><value>Éditeur (signature)</value></data>
+  <data name="Process_Signed" xml:space="preserve"><value>Signé</value></data>
+  <data name="Process_Stop" xml:space="preserve"><value>Arrêter</value></data>
+  <data name="Protection_Antivirus" xml:space="preserve"><value>Antivirus</value></data>
+  <data name="Protection_AntivirusTech" xml:space="preserve"><value>Microsoft Defender</value></data>
+  <data name="Protection_Cloud" xml:space="preserve"><value>Détection des nouveaux virus</value></data>
+  <data name="Protection_CloudTech" xml:space="preserve"><value>Protection cloud (MAPS)</value></data>
+  <data name="Protection_CustomScan" xml:space="preserve"><value>Scanner un dossier…</value></data>
+  <data name="Protection_DefenderSummary" xml:space="preserve"><value>Dernière mise à jour : {0} · Dernier scan : {1}</value></data>
+  <data name="Protection_DefenderUnavailable" xml:space="preserve"><value>Microsoft Defender n'est pas disponible sur ce PC.</value></data>
+  <data name="Protection_Firewall" xml:space="preserve"><value>Protection contre les intrusions</value></data>
+  <data name="Protection_FirewallTech" xml:space="preserve"><value>Pare-feu Windows</value></data>
+  <data name="Protection_FullScan" xml:space="preserve"><value>Scan complet</value></data>
+  <data name="Protection_NoThreats" xml:space="preserve"><value>Aucune menace détectée.</value></data>
+  <data name="Protection_OtherAntivirus" xml:space="preserve"><value>Un autre antivirus protège ce PC. Microsoft Defender est en veille : c'est normal.</value></data>
+  <data name="Protection_PickFolder" xml:space="preserve"><value>Choisissez le dossier à analyser</value></data>
+  <data name="Protection_Protections" xml:space="preserve"><value>Protections</value></data>
+  <data name="Protection_Quarantine" xml:space="preserve"><value>Quarantaine</value></data>
+  <data name="Protection_QuarantineEmpty" xml:space="preserve"><value>La quarantaine est vide.</value></data>
+  <data name="Protection_QuarantineNote" xml:space="preserve"><value>Les fichiers en quarantaine sont isolés et sans danger. Windows les supprime automatiquement après un certain temps.</value></data>
+  <data name="Protection_QuickScan" xml:space="preserve"><value>Lancer un scan rapide</value></data>
+  <data name="Protection_Ransomware" xml:space="preserve"><value>Protection de vos documents contre le chantage</value></data>
+  <data name="Protection_RansomwareTech" xml:space="preserve"><value>Dossiers contrôlés (anti-ransomware)</value></data>
+  <data name="Protection_Realtime" xml:space="preserve"><value>Surveillance permanente</value></data>
+  <data name="Protection_RealtimeTech" xml:space="preserve"><value>Protection en temps réel</value></data>
+  <data name="Protection_Restore" xml:space="preserve"><value>Restaurer</value></data>
+  <data name="Protection_TamperNote" xml:space="preserve"><value>Windows empêche toute application de désactiver Microsoft Defender (protection contre les falsifications). PC Santé peut l'activer, jamais le désactiver.</value></data>
+  <data name="Protection_Threats" xml:space="preserve"><value>Menaces détectées</value></data>
+  <data name="Protection_UpdateSignatures" xml:space="preserve"><value>Mettre à jour l'antivirus</value></data>
+  <data name="Protection_Updating" xml:space="preserve"><value>Mise à jour de l'antivirus…</value></data>
+  <data name="Report_Action" xml:space="preserve"><value>Action</value></data>
+  <data name="Report_ActionsTitle" xml:space="preserve"><value>Actions réalisées</value></data>
+  <data name="Report_Date" xml:space="preserve"><value>Date</value></data>
+  <data name="Report_GeneratedBy" xml:space="preserve"><value>Généré par {0} le {1}</value></data>
+  <data name="Report_HistoryTitle" xml:space="preserve"><value>Évolution</value></data>
+  <data name="Report_IssuesTitle" xml:space="preserve"><value>Points à surveiller</value></data>
+  <data name="Report_Machine" xml:space="preserve"><value>Ordinateur : {0}</value></data>
+  <data name="Report_NoActions" xml:space="preserve"><value>Aucune action sur la période.</value></data>
+  <data name="Report_NoAnalysis" xml:space="preserve"><value>Aucune analyse sur la période.</value></data>
+  <data name="Report_NoHistory" xml:space="preserve"><value>Pas d'historique sur la période.</value></data>
+  <data name="Report_NoIssues" xml:space="preserve"><value>Aucun problème : votre PC est en bonne santé.</value></data>
+  <data name="Report_NoThreats" xml:space="preserve"><value>Aucune menace détectée sur la période.</value></data>
+  <data name="Report_PeriodMonth" xml:space="preserve"><value>Mois du {0} au {1}</value></data>
+  <data name="Report_PeriodWeek" xml:space="preserve"><value>Semaine du {0} au {1}</value></data>
+  <data name="Report_Result" xml:space="preserve"><value>Résultat</value></data>
+  <data name="Report_ScoreExplanation" xml:space="preserve"><value>Score calculé à partir de {0} point(s) à surveiller ou à corriger.</value></data>
+  <data name="Report_ScoreTitle" xml:space="preserve"><value>Score de santé</value></data>
+  <data name="Report_Status" xml:space="preserve"><value>État</value></data>
+  <data name="Report_Threat" xml:space="preserve"><value>Menace</value></data>
+  <data name="Report_ThreatsTitle" xml:space="preserve"><value>Menaces détectées</value></data>
+  <data name="Report_Title" xml:space="preserve"><value>Rapport {0}</value></data>
+  <data name="Reports_Evolution" xml:space="preserve"><value>Évolution du score</value></data>
+  <data name="Reports_FileName" xml:space="preserve"><value>Rapport PC Santé {0}</value></data>
+  <data name="Reports_Generate" xml:space="preserve"><value>Générer le rapport PDF</value></data>
+  <data name="Reports_Generating" xml:space="preserve"><value>Préparation du rapport…</value></data>
+  <data name="Reports_Journal" xml:space="preserve"><value>Journal des actions</value></data>
+  <data name="Reports_Monthly" xml:space="preserve"><value>Mois écoulé</value></data>
+  <data name="Reports_NoHistory" xml:space="preserve"><value>Pas encore d'historique : lancez une analyse.</value></data>
+  <data name="Reports_Pdf" xml:space="preserve"><value>Rapport PDF</value></data>
+  <data name="Reports_PdfExplanation" xml:space="preserve"><value>Un résumé clair de l'état de votre PC, à garder ou à imprimer.</value></data>
+  <data name="Reports_PdfFilter" xml:space="preserve"><value>Document PDF</value></data>
+  <data name="Reports_Range" xml:space="preserve"><value>Du {0} au {1}</value></data>
+  <data name="Reports_SaveFailed" xml:space="preserve"><value>Le rapport n'a pas pu être enregistré. Choisissez un autre dossier.</value></data>
+  <data name="Reports_Saved" xml:space="preserve"><value>Rapport enregistré : {0}</value></data>
+  <data name="Reports_Weekly" xml:space="preserve"><value>Semaine écoulée</value></data>
+  <data name="Reports_Who" xml:space="preserve"><value>Par</value></data>
+  <data name="Reputation_Suspicious" xml:space="preserve"><value>Suspect</value></data>
+  <data name="Reputation_Unknown" xml:space="preserve"><value>Inconnu</value></data>
+  <data name="Reputation_Unnecessary" xml:space="preserve"><value>Inutile</value></data>
+  <data name="Reputation_Useful" xml:space="preserve"><value>Utile</value></data>
+  <data name="Result_AlreadyDone" xml:space="preserve"><value>C'était déjà fait : rien à changer.</value></data>
+  <data name="Result_AlreadyProtected" xml:space="preserve"><value>Cette protection est déjà activée.</value></data>
+  <data name="Result_AnalysisDone" xml:space="preserve"><value>Analyse terminée.</value></data>
+  <data name="Result_AppUpToDate" xml:space="preserve"><value>PC Santé est à jour.</value></data>
+  <data name="Result_BackupFailed" xml:space="preserve"><value>La sauvegarde préalable a échoué : rien n'a été modifié.</value></data>
+  <data name="Result_Blocked" xml:space="preserve"><value>Cette action n'est pas possible sur ce PC.</value></data>
+  <data name="Result_CheckFailed" xml:space="preserve"><value>Impossible de vérifier l'état du PC : rien n'a été modifié.</value></data>
+  <data name="Result_Cleaned" xml:space="preserve"><value>Nettoyage terminé : {0} libérés.</value></data>
+  <data name="Result_ClientNotTrusted" xml:space="preserve"><value>Ce programme n'est pas autorisé à piloter PC Santé.</value></data>
+  <data name="Result_CloudEnabled" xml:space="preserve"><value>Détection des nouveaux virus activée.</value></data>
+  <data name="Result_ConfirmationRequired" xml:space="preserve"><value>Cette action doit d'abord être confirmée.</value></data>
+  <data name="Result_DefenderNotActive" xml:space="preserve"><value>Microsoft Defender n'est pas l'antivirus actif sur ce PC.</value></data>
+  <data name="Result_DefenderRefused" xml:space="preserve"><value>Windows a refusé la modification (paramètre géré par l'organisation ou protection contre les falsifications).</value></data>
+  <data name="Result_ExecutionFailed" xml:space="preserve"><value>L'action n'a pas pu être réalisée.</value></data>
+  <data name="Result_FirewallDisabled" xml:space="preserve"><value>Protection contre les intrusions désactivée ({0}).</value></data>
+  <data name="Result_FirewallEnabled" xml:space="preserve"><value>Protection contre les intrusions activée ({0}).</value></data>
+  <data name="Result_FirewallFailed" xml:space="preserve"><value>Le pare-feu n'a pas accepté la modification.</value></data>
+  <data name="Result_FirewallReset" xml:space="preserve"><value>Règles du pare-feu réinitialisées. L'ancienne configuration est sauvegardée.</value></data>
+  <data name="Result_FirewallUnavailable" xml:space="preserve"><value>Le pare-feu Windows n'est pas disponible.</value></data>
+  <data name="Result_InternalError" xml:space="preserve"><value>Une erreur inattendue est survenue. Rien n'a été laissé à moitié.</value></data>
+  <data name="Result_InvalidParameters" xml:space="preserve"><value>La demande n'est pas valide.</value></data>
+  <data name="Result_InvalidRequest" xml:space="preserve"><value>La demande n'est pas valide.</value></data>
+  <data name="Result_NoUpdates" xml:space="preserve"><value>Windows est à jour.</value></data>
+  <data name="Result_NotInCatalog" xml:space="preserve"><value>Cette action n'existe pas dans PC Santé.</value></data>
+  <data name="Result_NothingToClean" xml:space="preserve"><value>Rien à nettoyer.</value></data>
+  <data name="Result_Ok" xml:space="preserve"><value>Terminé.</value></data>
+  <data name="Result_PowerPlanFailed" xml:space="preserve"><value>Le mode d'alimentation n'a pas pu être changé.</value></data>
+  <data name="Result_PowerPlanNotFound" xml:space="preserve"><value>Ce mode d'alimentation n'existe plus.</value></data>
+  <data name="Result_PowerPlanSet" xml:space="preserve"><value>Mode d'alimentation changé.</value></data>
+  <data name="Result_PremiumRequired" xml:space="preserve"><value>Cette action est disponible avec l'offre Premium.</value></data>
+  <data name="Result_ProcessAlreadyStopped" xml:space="preserve"><value>Ce programme est déjà fermé.</value></data>
+  <data name="Result_ProcessOtherUser" xml:space="preserve"><value>Ce programme appartient à un autre utilisateur du PC : PC Santé ne le ferme pas.</value></data>
+  <data name="Result_ProcessStopFailed" xml:space="preserve"><value>Le programme n'a pas pu être arrêté.</value></data>
+  <data name="Result_ProcessStopped" xml:space="preserve"><value>Programme arrêté.</value></data>
+  <data name="Result_ProtectedProcess" xml:space="preserve"><value>Ce programme est indispensable à Windows : il ne peut pas être arrêté.</value></data>
+  <data name="Result_ProtectedService" xml:space="preserve"><value>Ce service est indispensable à Windows ou à votre sécurité : il ne peut pas être désactivé.</value></data>
+  <data name="Result_QuarantineItemNotFound" xml:space="preserve"><value>Ce fichier n'est plus en quarantaine.</value></data>
+  <data name="Result_QuarantineRestoreFailed" xml:space="preserve"><value>Le fichier n'a pas pu être restauré.</value></data>
+  <data name="Result_QuarantineRestored" xml:space="preserve"><value>Fichier restauré.</value></data>
+  <data name="Result_RansomwareEnabled" xml:space="preserve"><value>Protection de vos documents contre le chantage activée.</value></data>
+  <data name="Result_RealtimeEnabled" xml:space="preserve"><value>Surveillance permanente activée.</value></data>
+  <data name="Result_RepairDone" xml:space="preserve"><value>Réparation terminée : des fichiers abîmés ont été réparés.</value></data>
+  <data name="Result_RepairFailed" xml:space="preserve"><value>La réparation n'a pas pu se terminer.</value></data>
+  <data name="Result_RepairNothingFound" xml:space="preserve"><value>Aucun fichier abîmé : Windows est en bon état.</value></data>
+  <data name="Result_RepairRemains" xml:space="preserve"><value>Certains fichiers n'ont pas pu être réparés. Un redémarrage peut aider.</value></data>
+  <data name="Result_RepairRemainsTryDism" xml:space="preserve"><value>Certains fichiers n'ont pas pu être réparés. Lancez la « Réparation approfondie de Windows ».</value></data>
+  <data name="Result_RestoreDisabled" xml:space="preserve"><value>La restauration du système est désactivée. Activez-la d'abord.</value></data>
+  <data name="Result_RestoreEnableFailed" xml:space="preserve"><value>La restauration du système n'a pas pu être activée.</value></data>
+  <data name="Result_RestoreEnabled" xml:space="preserve"><value>Restauration du système activée.</value></data>
+  <data name="Result_RestorePointCreated" xml:space="preserve"><value>Point de restauration créé.</value></data>
+  <data name="Result_RestorePointFailed" xml:space="preserve"><value>Impossible de créer un point de restauration : par prudence, rien n'a été modifié.</value></data>
+  <data name="Result_ScanAlreadyRunning" xml:space="preserve"><value>Un scan est déjà en cours.</value></data>
+  <data name="Result_ScanFailed" xml:space="preserve"><value>Le scan n'a pas pu se terminer.</value></data>
+  <data name="Result_ScanFinished" xml:space="preserve"><value>Scan terminé.</value></data>
+  <data name="Result_ScanStarted" xml:space="preserve"><value>Scan lancé. Vous pouvez continuer à utiliser votre PC ; le résultat apparaîtra dans l'historique.</value></data>
+  <data name="Result_ServiceDisableFailed" xml:space="preserve"><value>Le service n'a pas pu être désactivé.</value></data>
+  <data name="Result_ServiceDisabled" xml:space="preserve"><value>Service désactivé. Vous pouvez annuler depuis « Annuler une modification ».</value></data>
+  <data name="Result_ServiceNotFound" xml:space="preserve"><value>Ce service n'existe pas sur ce PC.</value></data>
+  <data name="Result_ServiceUnavailable" xml:space="preserve"><value>Le service PC Santé ne répond pas.</value></data>
+  <data name="Result_SignaturesFailed" xml:space="preserve"><value>La mise à jour de l'antivirus a échoué. Vérifiez votre connexion Internet.</value></data>
+  <data name="Result_SignaturesUpdated" xml:space="preserve"><value>Antivirus mis à jour.</value></data>
+  <data name="Result_StartupDisabled" xml:space="preserve"><value>Ce programme ne se lancera plus au démarrage.</value></data>
+  <data name="Result_StartupEnabled" xml:space="preserve"><value>Ce programme se lancera de nouveau au démarrage.</value></data>
+  <data name="Result_StartupFailed" xml:space="preserve"><value>La modification du démarrage a échoué.</value></data>
+  <data name="Result_StartupItemNotFound" xml:space="preserve"><value>Ce programme n'est plus dans la liste de démarrage.</value></data>
+  <data name="Result_TaskDisabled" xml:space="preserve"><value>Tâche planifiée désactivée.</value></data>
+  <data name="Result_TaskEnabled" xml:space="preserve"><value>Tâche planifiée réactivée.</value></data>
+  <data name="Result_TaskFailed" xml:space="preserve"><value>La tâche planifiée n'a pas pu être modifiée.</value></data>
+  <data name="Result_TaskNotFound" xml:space="preserve"><value>Cette tâche planifiée n'existe plus.</value></data>
+  <data name="Result_TaskNotScheduled" xml:space="preserve"><value>Cette tâche automatique n'est pas programmée.</value></data>
+  <data name="Result_TaskRunSucceeded" xml:space="preserve"><value>Tâche automatique réalisée avec succès.</value></data>
+  <data name="Result_TaskScheduled" xml:space="preserve"><value>Tâche automatique programmée.</value></data>
+  <data name="Result_TaskUnscheduled" xml:space="preserve"><value>Tâche automatique arrêtée.</value></data>
+  <data name="Result_UndoFailed" xml:space="preserve"><value>L'annulation n'a pas pu se faire. Vous pouvez utiliser le point de restauration créé avant la modification.</value></data>
+  <data name="Result_UndoNotFound" xml:space="preserve"><value>Cette modification a déjà été annulée.</value></data>
+  <data name="Result_Undone" xml:space="preserve"><value>Modification annulée : {0}.</value></data>
+  <data name="Result_UpdateDownloadFailed" xml:space="preserve"><value>Le téléchargement de la nouvelle version a échoué.</value></data>
+  <data name="Result_UpdateInstalling" xml:space="preserve"><value>Installation de la version {0} en cours. PC Santé va redémarrer.</value></data>
+  <data name="Result_UpdateLaunchFailed" xml:space="preserve"><value>L'installation de la nouvelle version n'a pas pu démarrer.</value></data>
+  <data name="Result_UpdateRepairFailed" xml:space="preserve"><value>La réparation de Windows Update a échoué. Rien n'a été perdu.</value></data>
+  <data name="Result_UpdateRepaired" xml:space="preserve"><value>Windows Update a été réparé. Relancez une recherche de mises à jour.</value></data>
+  <data name="Result_UpdateSignatureInvalid" xml:space="preserve"><value>La nouvelle version n'est pas signée par l'éditeur : elle a été refusée par sécurité.</value></data>
+  <data name="Result_UpdatesFailed" xml:space="preserve"><value>Les mises à jour n'ont pas pu être installées. Essayez « Réparer une mise à jour bloquée ».</value></data>
+  <data name="Result_UpdatesFound" xml:space="preserve"><value>{0} mise(s) à jour disponible(s).</value></data>
+  <data name="Result_UpdatesInstalled" xml:space="preserve"><value>{0} mise(s) à jour installée(s).</value></data>
+  <data name="Result_UpdatesInstalledReboot" xml:space="preserve"><value>{0} mise(s) à jour installée(s). Redémarrez le PC pour terminer.</value></data>
+  <data name="Result_VerificationFailed" xml:space="preserve"><value>L'action n'a pas eu l'effet attendu.</value></data>
+  <data name="Result_VerificationFailedRolledBack" xml:space="preserve"><value>L'action n'a pas eu l'effet attendu : l'état précédent a été rétabli.</value></data>
+  <data name="Scheduling_Active" xml:space="preserve"><value>Active</value></data>
+  <data name="Scheduling_AllEnabled" xml:space="preserve"><value>Les 3 tâches recommandées sont activées.</value></data>
+  <data name="Scheduling_Day" xml:space="preserve"><value>Jour</value></data>
+  <data name="Scheduling_Disable" xml:space="preserve"><value>Arrêter</value></data>
+  <data name="Scheduling_Enable" xml:space="preserve"><value>Activer</value></data>
+  <data name="Scheduling_EnableAll" xml:space="preserve"><value>Activer les 3 tâches recommandées</value></data>
+  <data name="Scheduling_EnableAllConfirm" xml:space="preserve"><value>PC Santé fera automatiquement : un scan antivirus chaque jour, un nettoyage (fichiers temporaires et corbeille) chaque semaine, un point de restauration chaque semaine. Continuer ?</value></data>
+  <data name="Scheduling_Inactive" xml:space="preserve"><value>Inactive</value></data>
+  <data name="Scheduling_LastRunFailed" xml:space="preserve"><value>Dernière exécution en échec : {0}</value></data>
+  <data name="Scheduling_LastRunOk" xml:space="preserve"><value>Dernière exécution réussie : {0}</value></data>
+  <data name="Scheduling_Log" xml:space="preserve"><value>Journal d'exécution</value></data>
+  <data name="Scheduling_LogEmpty" xml:space="preserve"><value>Aucune exécution pour l'instant.</value></data>
+  <data name="Scheduling_LogLine" xml:space="preserve"><value>{0} — {1} : {2}</value></data>
+  <data name="Scheduling_NeverRun" xml:space="preserve"><value>Jamais exécutée</value></data>
+  <data name="Scheduling_OnlyAc" xml:space="preserve"><value>Seulement sur secteur (portable branché)</value></data>
+  <data name="Scheduling_OnlyIdle" xml:space="preserve"><value>Seulement quand je n'utilise pas le PC</value></data>
+  <data name="Scheduling_Save" xml:space="preserve"><value>Enregistrer l'horaire</value></data>
+  <data name="Scheduling_Time" xml:space="preserve"><value>Heure</value></data>
+  <data name="Service_Unavailable" xml:space="preserve"><value>Le service PC Santé ne répond pas.</value></data>
+  <data name="Service_UnavailableHelp" xml:space="preserve"><value>Redémarrez le PC. Si le problème continue, réinstallez PC Santé.</value></data>
+  <data name="Settings_AdvancedMode" xml:space="preserve"><value>Mode Avancé</value></data>
+  <data name="Settings_AdvancedModeHelp" xml:space="preserve"><value>Affiche aussi les écrans Performance, Processus, Système et Planification.</value></data>
+  <data name="Settings_CheckUpdates" xml:space="preserve"><value>Rechercher une nouvelle version</value></data>
+  <data name="Settings_Checking" xml:space="preserve"><value>Recherche d'une nouvelle version…</value></data>
+  <data name="Settings_Downloading" xml:space="preserve"><value>Téléchargement et vérification de la nouvelle version…</value></data>
+  <data name="Settings_Language" xml:space="preserve"><value>Langue</value></data>
+  <data name="Settings_Overlay" xml:space="preserve"><value>Mini-affichage</value></data>
+  <data name="Settings_OverlayEnabled" xml:space="preserve"><value>Afficher le mini-affichage en permanence</value></data>
+  <data name="Settings_OverlayFullScreen" xml:space="preserve"><value>Le masquer pendant les jeux, vidéos et présentations</value></data>
+  <data name="Settings_OverlayIndicators" xml:space="preserve"><value>Indicateurs affichés</value></data>
+  <data name="Settings_OverlayOpacity" xml:space="preserve"><value>Opacité</value></data>
+  <data name="Settings_OverlayPosition" xml:space="preserve"><value>Position</value></data>
+  <data name="Settings_OverlaySize" xml:space="preserve"><value>Taille du texte</value></data>
+  <data name="Settings_OverlayTray" xml:space="preserve"><value>Utiliser une icône près de l'horloge au lieu de la barre</value></data>
+  <data name="Settings_Save" xml:space="preserve"><value>Enregistrer</value></data>
+  <data name="Settings_Saved" xml:space="preserve"><value>Paramètres enregistrés.</value></data>
+  <data name="Settings_Theme" xml:space="preserve"><value>Apparence</value></data>
+  <data name="Settings_UpdateAvailable" xml:space="preserve"><value>La version {0} est disponible.</value></data>
+  <data name="Settings_UpdateCheckFailed" xml:space="preserve"><value>Impossible de vérifier les mises à jour pour le moment.</value></data>
+  <data name="Settings_Updates" xml:space="preserve"><value>Mises à jour de PC Santé</value></data>
+  <data name="Settings_UpdatesHelp" xml:space="preserve"><value>Seules les versions signées par l'éditeur sont installées.</value></data>
+  <data name="Settings_Version" xml:space="preserve"><value>Version installée : {0}</value></data>
+  <data name="StartupLocation_MachineRun" xml:space="preserve"><value>Tous les utilisateurs</value></data>
+  <data name="StartupLocation_MachineRun32" xml:space="preserve"><value>Tous les utilisateurs (32 bits)</value></data>
+  <data name="StartupLocation_MachineStartupFolder" xml:space="preserve"><value>Dossier Démarrage commun</value></data>
+  <data name="StartupLocation_UserRun" xml:space="preserve"><value>Votre compte</value></data>
+  <data name="StartupLocation_UserStartupFolder" xml:space="preserve"><value>Votre dossier Démarrage</value></data>
+  <data name="Startup_Disable" xml:space="preserve"><value>Ne plus lancer</value></data>
+  <data name="Startup_Disabled" xml:space="preserve"><value>Ne se lance plus au démarrage</value></data>
+  <data name="Startup_Enable" xml:space="preserve"><value>Relancer au démarrage</value></data>
+  <data name="Startup_Enabled" xml:space="preserve"><value>Se lance au démarrage</value></data>
+  <data name="Startup_Explanation" xml:space="preserve"><value>Moins de programmes au démarrage = un PC qui s'allume plus vite. Rien n'est supprimé.</value></data>
+  <data name="Startup_None" xml:space="preserve"><value>Aucun programme au démarrage.</value></data>
+  <data name="Startup_Title" xml:space="preserve"><value>Programmes au démarrage</value></data>
+  <data name="Subtitle_Home" xml:space="preserve"><value>L'état de santé de votre PC, expliqué simplement.</value></data>
+  <data name="Subtitle_License" xml:space="preserve"><value>Votre clé de licence et votre offre.</value></data>
+  <data name="Subtitle_Optimization" xml:space="preserve"><value>Libérez de la place et accélérez le démarrage. Chaque changement peut être annulé.</value></data>
+  <data name="Subtitle_Performance" xml:space="preserve"><value>Ce que votre PC utilise en ce moment.</value></data>
+  <data name="Subtitle_Processes" xml:space="preserve"><value>Les programmes qui tournent et ce qu'ils consomment.</value></data>
+  <data name="Subtitle_Protection" xml:space="preserve"><value>Antivirus et protection contre les intrusions.</value></data>
+  <data name="Subtitle_Reports" xml:space="preserve"><value>L'évolution de votre PC et un rapport à imprimer.</value></data>
+  <data name="Subtitle_Scheduling" xml:space="preserve"><value>Laissez PC Santé veiller sur votre PC automatiquement.</value></data>
+  <data name="Subtitle_Sessions" xml:space="preserve"><value>Utilisateurs connectés à ce PC.</value></data>
+  <data name="Subtitle_Settings" xml:space="preserve"><value>Langue, apparence et mini-affichage.</value></data>
+  <data name="Subtitle_System" xml:space="preserve"><value>Réparer et mettre à jour Windows en un clic.</value></data>
+  <data name="System_Repair" xml:space="preserve"><value>Réparer Windows</value></data>
+  <data name="System_RepairTech" xml:space="preserve"><value>SFC et DISM</value></data>
+  <data name="System_Restore" xml:space="preserve"><value>Points de restauration</value></data>
+  <data name="System_RestoreTech" xml:space="preserve"><value>Restauration du système</value></data>
+  <data name="System_Searching" xml:space="preserve"><value>Recherche des mises à jour…</value></data>
+  <data name="System_Summary" xml:space="preserve"><value>{0} ({1}) · {2}</value></data>
+  <data name="System_UpdateSummary" xml:space="preserve"><value>Dernière recherche : {0} · Dernière installation : {1}</value></data>
+  <data name="System_UpdateSummaryReboot" xml:space="preserve"><value>Dernière recherche : {0} · Dernière installation : {1} · Un redémarrage est nécessaire.</value></data>
+  <data name="System_Updates" xml:space="preserve"><value>Mises à jour de Windows</value></data>
+  <data name="System_UpdatesTech" xml:space="preserve"><value>Windows Update</value></data>
+  <data name="Tasks_Explanation" xml:space="preserve"><value>Tâches ajoutées par vos logiciels (hors Windows). Les désactiver est réversible.</value></data>
+  <data name="Tasks_Title" xml:space="preserve"><value>Tâches planifiées d'autres programmes</value></data>
+  <data name="Template_DailyAntivirusScan" xml:space="preserve"><value>Scan antivirus quotidien</value></data>
+  <data name="Template_DailyAntivirusScan_Why" xml:space="preserve"><value>Un scan rapide chaque jour pour détecter les menaces tôt.</value></data>
+  <data name="Template_WeeklyCleanup" xml:space="preserve"><value>Nettoyage hebdomadaire</value></data>
+  <data name="Template_WeeklyCleanup_Why" xml:space="preserve"><value>Supprime les fichiers temporaires et vide la corbeille chaque semaine.</value></data>
+  <data name="Template_WeeklyRestorePoint" xml:space="preserve"><value>Point de restauration hebdomadaire</value></data>
+  <data name="Template_WeeklyRestorePoint_Why" xml:space="preserve"><value>Garde toujours un état récent de Windows pour revenir en arrière.</value></data>
+  <data name="Theme_Dark" xml:space="preserve"><value>Sombre</value></data>
+  <data name="Theme_Light" xml:space="preserve"><value>Clair</value></data>
+  <data name="Theme_System" xml:space="preserve"><value>Comme Windows</value></data>
+  <data name="Threat_ActionRequired" xml:space="preserve"><value>Action nécessaire</value></data>
+  <data name="Threat_Handled" xml:space="preserve"><value>Traitée</value></data>
+  <data name="Tier_Family" xml:space="preserve"><value>Famille</value></data>
+  <data name="Tier_Free" xml:space="preserve"><value>Gratuite</value></data>
+  <data name="Tier_Premium" xml:space="preserve"><value>Premium</value></data>
+  <data name="Undo_Button" xml:space="preserve"><value>Annuler</value></data>
+  <data name="Undo_None" xml:space="preserve"><value>Aucune modification à annuler.</value></data>
+  <data name="Undo_Title" xml:space="preserve"><value>Annuler une modification</value></data>
+  <data name="Unit_B" xml:space="preserve"><value>o</value></data>
+  <data name="Unit_GB" xml:space="preserve"><value>Go</value></data>
+  <data name="Unit_KB" xml:space="preserve"><value>Ko</value></data>
+  <data name="Unit_MB" xml:space="preserve"><value>Mo</value></data>
+  <data name="Unit_PerSecond" xml:space="preserve"><value>/s</value></data>
+  <data name="Unit_TB" xml:space="preserve"><value>To</value></data>
+  <data name="Welcome_Analysis" xml:space="preserve"><value>Première analyse de votre PC</value></data>
+  <data name="Welcome_Finish" xml:space="preserve"><value>Voir mon tableau de bord</value></data>
+  <data name="Welcome_Language" xml:space="preserve"><value>Choisissez votre langue</value></data>
+  <data name="Welcome_License" xml:space="preserve"><value>Activez votre licence</value></data>
+  <data name="Welcome_LicenseHelp" xml:space="preserve"><value>Saisissez la clé reçue à l'achat. Vous pouvez aussi continuer avec l'offre Gratuite.</value></data>
+  <data name="Welcome_Promise" xml:space="preserve"><value>Votre PC en bonne santé, expliqué simplement, réparé en un clic.</value></data>
+  <data name="Welcome_ScoreHelp" xml:space="preserve"><value>Voici le score de santé de votre PC. Vert : tout va bien. Orange : à surveiller. Rouge : à corriger.</value></data>
+  <data name="Welcome_SkipLicense" xml:space="preserve"><value>Continuer en version gratuite</value></data>
+  <data name="Welcome_Step" xml:space="preserve"><value>Étape {0} sur {1}</value></data>
+  <data name="Welcome_Tasks" xml:space="preserve"><value>Laisser PC Santé veiller automatiquement ?</value></data>
+  <data name="Welcome_TasksHelp" xml:space="preserve"><value>Un scan antivirus chaque jour, un nettoyage et un point de restauration chaque semaine.</value></data>
+  <data name="Welcome_Title" xml:space="preserve"><value>Bienvenue dans PC Santé</value></data>
+</root>

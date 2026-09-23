@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>PcSante</AssemblyName>
+    <RootNamespace>PcSante.App</RootNamespace>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\pcsante.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../PcSante.Core/PcSante.Core.csproj" />
+    <ProjectReference Include="../PcSante.Ipc/PcSante.Ipc.csproj" />
+    <ProjectReference Include="../PcSante.Reporting/PcSante.Reporting.csproj" />
+    <PackageReference Include="WPF-UI" />
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\pcsante.ico" />
+  </ItemGroup>
+</Project>

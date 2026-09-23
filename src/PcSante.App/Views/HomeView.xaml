@@ -1,0 +1,99 @@
+<UserControl x:Class="PcSante.App.Views.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:l="clr-namespace:PcSante.App.Localization"
+             xmlns:vm="clr-namespace:PcSante.App.ViewModels"
+             xmlns:v="clr-namespace:PcSante.App.Views">
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
+            <StackPanel Margin="4,0,12,24">
+                <TextBlock Text="{Binding Title}" Style="{StaticResource PageTitle}" />
+                <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PageSubtitle}" />
+
+                <!-- Score de santé -->
+                <ui:Card Padding="24">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Width="150" Height="150" CornerRadius="75" Background="{Binding Color, Converter={StaticResource HealthBrush}}"
+                                AutomationProperties.Name="{Binding ScoreLabel}">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Score}" FontSize="56" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"
+                                           Visibility="{Binding HasReport, Converter={StaticResource Visible}}" />
+                                <TextBlock Text="{l:T Home_OutOf100}" Foreground="White" HorizontalAlignment="Center"
+                                           Visibility="{Binding HasReport, Converter={StaticResource Visible}}" />
+                            </StackPanel>
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="24,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding ScoreLabel}" FontSize="24" FontWeight="SemiBold" />
+                            <TextBlock Text="{Binding LastAnalysis}" Style="{StaticResource Technical}" Margin="0,4,0,16" />
+                            <ItemsControl ItemsSource="{Binding SubScores}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate><UniformGrid Columns="4" /></ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type vm:SubScoreItem}">
+                                        <StackPanel Margin="0,0,12,0">
+                                            <TextBlock Text="{Binding Label}" />
+                                            <Border Style="{StaticResource Badge}" Background="{Binding Value, Converter={StaticResource HealthBrush}}" Margin="0,4,0,0">
+                                                <TextBlock Text="{Binding Value}" Foreground="White" FontWeight="SemiBold" FontSize="16" />
+                                            </Border>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Grid>
+                </ui:Card>
+
+                <!-- Un seul bouton principal -->
+                <StackPanel Orientation="Horizontal" Margin="0,20,0,4">
+                    <ui:Button Style="{StaticResource PrimaryAction}" Content="{l:T Home_FixAll}" Command="{Binding FixAllCommand}"
+                               Icon="{ui:SymbolIcon Wrench24}"
+                               Visibility="{Binding PrimaryIsFixAll, Converter={StaticResource Visible}}" />
+                    <ui:Button Style="{StaticResource PrimaryAction}" Content="{l:T Home_Analyze}" Command="{Binding AnalyzeCommand}"
+                               Icon="{ui:SymbolIcon Search24}"
+                               Visibility="{Binding PrimaryIsFixAll, Converter={StaticResource Collapsed}}" />
+                    <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T Home_Analyze}" Command="{Binding AnalyzeCommand}" Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Visibility="{Binding PrimaryIsFixAll, Converter={StaticResource Visible}}" />
+                </StackPanel>
+
+                <!-- Problèmes : ce qui ne va pas, pourquoi, Corriger -->
+                <TextBlock Text="{l:T Home_Issues}" Style="{StaticResource SectionTitle}" />
+                <TextBlock Text="{l:T Home_NoIssues}" Visibility="{Binding HasIssues, Converter={StaticResource Collapsed}}" />
+                <ItemsControl ItemsSource="{Binding Issues}" Focusable="False">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type vm:IssueItem}">
+                            <ui:Card Margin="0,0,0,8" Padding="0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Background="{Binding Severity, Converter={StaticResource HealthBrush}}" CornerRadius="4,0,0,4" />
+                                    <StackPanel Grid.Column="1" Margin="16,12">
+                                        <TextBlock Text="{Binding Title}" FontSize="16" FontWeight="SemiBold" />
+                                        <TextBlock Text="{Binding Why}" Margin="0,4,0,0" />
+                                        <TextBlock Text="{Binding Category}" Style="{StaticResource Technical}" Margin="0,4,0,0" />
+                                    </StackPanel>
+                                    <ui:Button Grid.Column="2" Margin="12" VerticalAlignment="Center" Style="{StaticResource SecondaryAction}"
+                                               Content="{Binding FixLabel}"
+                                               AutomationProperties.Name="{Binding Title}"
+                                               Command="{Binding DataContext.FixCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                               CommandParameter="{Binding}"
+                                               Visibility="{Binding CanFix, Converter={StaticResource Visible}}" />
+                                </Grid>
+                            </ui:Card>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+        <v:BusyOverlay />
+    </Grid>
+</UserControl>

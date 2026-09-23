@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>PcSante.Service</AssemblyName>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../PcSante.Core/PcSante.Core.csproj" />
+    <ProjectReference Include="../PcSante.Ipc/PcSante.Ipc.csproj" />
+    <ProjectReference Include="../PcSante.Licensing/PcSante.Licensing.csproj" />
+    <ProjectReference Include="../PcSante.WindowsApi/PcSante.WindowsApi.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" />
+    <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <PackageReference Include="Serilog.Extensions.Hosting" />
+    <PackageReference Include="Serilog.Sinks.File" />
+    <InternalsVisibleTo Include="PcSante.Service.Tests" />
+  </ItemGroup>
+</Project>

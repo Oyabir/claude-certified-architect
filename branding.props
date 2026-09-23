@@ -1,0 +1,22 @@
+<Project>
+  <!--
+    Fichier UNIQUE de marque et d'identité du produit (cahier des charges, section 10).
+    Changer le nom commercial ici suffit : applications, service, installeur et serveur le reprennent.
+  -->
+  <PropertyGroup>
+    <PcSanteProductName>PC Santé</PcSanteProductName>
+    <PcSanteCompany>PC Santé</PcSanteCompany>
+    <!-- Identifiant technique sans espace ni accent : dossiers, named pipe, nom du service Windows. -->
+    <PcSanteTechnicalName>PcSante</PcSanteTechnicalName>
+    <PcSanteVersion>1.0.0</PcSanteVersion>
+    <!-- URL du serveur de licences (à renseigner par le commanditaire après hébergement). -->
+    <PcSanteLicenseServerUrl>https://licences.example.invalid/</PcSanteLicenseServerUrl>
+    <!--
+      Clé PUBLIQUE Ed25519 du serveur de licences (base64, 32 octets).
+      Vide = licence non configurée : l'application reste en offre Gratuite.
+      Générer la paire avec : voir docs/GUIDE_DEPLOIEMENT.md (commande keygen du serveur)
+      La clé privée ne va JAMAIS dans ce dépôt (variable d'environnement du serveur).
+    -->
+    <PcSanteLicensePublicKey></PcSanteLicensePublicKey>
+  </PropertyGroup>
+</Project>

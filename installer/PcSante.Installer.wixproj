@@ -1,0 +1,22 @@
+<Project Sdk="WixToolset.Sdk/5.0.2">
+  <!--
+    Installeur MSI de PC Santé (WiX 5). Compilation sous Windows uniquement : voir build.ps1.
+    Les binaires sont d'abord publiés dans $(PublishRoot) par build.ps1.
+  -->
+  <PropertyGroup>
+    <OutputName>PcSante-$(PcSanteVersion)</OutputName>
+    <Platform>x64</Platform>
+    <InstallerPlatform>x64</InstallerPlatform>
+    <Cultures>fr-FR</Cultures>
+    <PublishRoot Condition="'$(PublishRoot)' == ''">$(MSBuildThisFileDirectory)publish\</PublishRoot>
+    <DefineConstants>ProductName=$(PcSanteProductName);Company=$(PcSanteCompany);Version=$(PcSanteVersion);TechnicalName=$(PcSanteTechnicalName);PublishRoot=$(PublishRoot)</DefineConstants>
+    <SuppressValidation>false</SuppressValidation>
+    <!-- Les avertissements WiX sont des erreurs, comme pour le code. -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="WixToolset.Util.wixext" Version="5.0.2" />
+    <PackageReference Include="WixToolset.Netfx.wixext" Version="5.0.2" />
+    <PackageReference Include="WixToolset.UI.wixext" Version="5.0.2" />
+  </ItemGroup>
+</Project>

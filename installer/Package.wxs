@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Installeur MSI de PC Santé : installe, met à jour (MajorUpgrade) et désinstalle proprement.
+  - Service Windows en compte SYSTEM, démarrage automatique, redémarrage en cas d'échec.
+  - Interface et mini-affichage sans privilège ; lancement automatique du mini-affichage
+    (il se ferme aussitôt si l'utilisateur ne l'a pas activé).
+  - Vérifie la présence du .NET 8 Desktop Runtime.
+  - Prêt pour la signature : voir build.ps1 (signtool sur les binaires puis sur le MSI).
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util"
+     xmlns:netfx="http://wixtoolset.org/schemas/v4/wxs/netfx"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+
+  <Package Name="$(ProductName)"
+           Manufacturer="$(Company)"
+           Version="$(Version)"
+           UpgradeCode="3F2B8C51-7D4E-4A6B-9C1D-5E8F0A2B4C6D"
+           Scope="perMachine"
+           Compressed="yes"
+           Language="1036">
+
+    <SummaryInformation Description="$(ProductName) $(Version)" Manufacturer="$(Company)" />
+
+    <!-- Mises à jour : la nouvelle version remplace l'ancienne ; retour à une version antérieure interdit. -->
+    <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" Schedule="afterInstallInitialize" />
+    <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+
+    <!-- Windows 64 bits (Windows 10 22H2 / 11 : garanti par le .NET 8 Desktop Runtime exigé ci-dessous). -->
+    <Launch Condition="Installed OR VersionNT64" Message="!(loc.WindowsVersionError)" />
+
+    <!-- .NET 8 Desktop Runtime obligatoire. -->
+    <netfx:DotNetCompatibilityCheck Property="DOTNET_DESKTOP_8" RollForward="latestMinor" RuntimeType="desktop" Platform="x64" Version="8.0.0" />
+    <Launch Condition="Installed OR DOTNET_DESKTOP_8 = &quot;0&quot;" Message="!(loc.DotNetMissing)" />
+
+    <Icon Id="AppIcon" SourceFile="$(PublishRoot)PcSante.exe" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon" />
+    <Property Id="ARPNOMODIFY" Value="1" />
+    <Property Id="ARPURLINFOABOUT" Value="https://example.invalid/" />
+
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="$(TechnicalName)" />
+    </StandardDirectory>
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="ProgramMenuDir" Name="$(ProductName)" />
+    </StandardDirectory>
+    <StandardDirectory Id="CommonAppDataFolder" />
+
+    <!-- Tous les binaires publiés (interface, service, mini-affichage, satellites fr/en/ar). -->
+    <ComponentGroup Id="AppFiles" Directory="INSTALLFOLDER">
+      <Files Include="$(PublishRoot)**">
+        <Exclude Files="$(PublishRoot)PcSante.Service.exe" />
+        <Exclude Files="$(PublishRoot)**.pdb" />
+      </Files>
+    </ComponentGroup>
+
+    <!-- Service Windows SYSTEM -->
+    <Component Id="ServiceComponent" Directory="INSTALLFOLDER" Guid="8D1E5A40-2B3C-4D5E-8F90-1A2B3C4D5E6F">
+      <File Id="ServiceExe" Source="$(PublishRoot)PcSante.Service.exe" KeyPath="yes" />
+      <ServiceInstall Id="PcSanteService"
+                      Name="$(TechnicalName)Service"
+                      DisplayName="$(ProductName)"
+                      Description="!(loc.ServiceDescription)"
+                      Type="ownProcess"
+                      Start="auto"
+                      Account="LocalSystem"
+                      ErrorControl="normal"
+                      Vital="yes">
+        <util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart" ThirdFailureActionType="none"
+                            RestartServiceDelayInSeconds="30" ResetPeriodInDays="1" />
+      </ServiceInstall>
+      <ServiceControl Id="PcSanteServiceControl" Name="$(TechnicalName)Service" Start="install" Stop="both" Remove="uninstall" Wait="yes" />
+    </Component>
+
+    <!-- Raccourci du menu Démarrer et lancement automatique du mini-affichage -->
+    <Component Id="ShortcutComponent" Directory="ProgramMenuDir" Guid="2C4E6A8B-1D3F-4B5A-9C7E-0F1A2B3C4D5E">
+      <Shortcut Id="AppShortcut" Name="$(ProductName)" Target="[INSTALLFOLDER]PcSante.exe" WorkingDirectory="INSTALLFOLDER" />
+      <RemoveFolder Id="RemoveProgramMenuDir" On="uninstall" />
+      <RegistryValue Root="HKLM" Key="Software\$(TechnicalName)" Name="Installed" Type="integer" Value="1" KeyPath="yes" />
+    </Component>
+    <Component Id="OverlayAutostart" Directory="INSTALLFOLDER" Guid="5B7D9F1A-3C5E-4F6A-8B0C-2D4E6F8A0B1C">
+      <RegistryValue Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\Run" Name="$(TechnicalName)Overlay"
+                     Type="string" Value="&quot;[INSTALLFOLDER]PcSante.Overlay.exe&quot; --autostart" KeyPath="yes" />
+    </Component>
+
+    <!-- Désinstallation propre : données du service (journal, historique, jeton) et tâches planifiées. -->
+    <SetProperty Id="PCSANTE_DATA" Value="[CommonAppDataFolder]$(TechnicalName)" Before="CostFinalize" Sequence="execute" />
+    <Component Id="DataCleanup" Directory="INSTALLFOLDER" Guid="9E1F3A5B-7C9D-4E0F-A2B4-C6D8E0F2A4B6">
+      <RegistryValue Root="HKLM" Key="Software\$(TechnicalName)" Name="DataFolder" Type="string" Value="[PCSANTE_DATA]" KeyPath="yes" />
+      <util:RemoveFolderEx On="uninstall" Property="PCSANTE_DATA" Condition="NOT UPGRADINGPRODUCTCODE" />
+    </Component>
+    <CustomAction Id="UninstallCleanup" FileRef="ServiceExe" ExeCommand="--uninstall-cleanup" Execute="deferred" Impersonate="no" Return="ignore" />
+    <InstallExecuteSequence>
+      <Custom Action="UninstallCleanup" Before="StopServices" Condition="REMOVE=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE" />
+    </InstallExecuteSequence>
+
+    <Feature Id="Main" Title="$(ProductName)" Level="1">
+      <ComponentGroupRef Id="AppFiles" />
+      <ComponentRef Id="ServiceComponent" />
+      <ComponentRef Id="ShortcutComponent" />
+      <ComponentRef Id="OverlayAutostart" />
+      <ComponentRef Id="DataCleanup" />
+    </Feature>
+
+    <!-- Interface d'installation minimale (bienvenue + conditions + installation). -->
+    <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+    <ui:WixUI Id="WixUI_Minimal" />
+  </Package>
+</Wix>

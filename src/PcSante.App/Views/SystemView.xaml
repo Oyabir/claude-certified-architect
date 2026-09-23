@@ -1,0 +1,52 @@
+<UserControl x:Class="PcSante.App.Views.SystemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:l="clr-namespace:PcSante.App.Localization"
+             xmlns:vm="clr-namespace:PcSante.App.ViewModels"
+             xmlns:v="clr-namespace:PcSante.App.Views">
+    <UserControl.Resources>
+        <DataTemplate x:Key="ActionRow" DataType="{x:Type vm:SystemActionItem}">
+            <ui:Card Margin="0,0,0,6" Padding="16,10">
+                <DockPanel>
+                    <ui:Button DockPanel.Dock="Right" Style="{StaticResource SecondaryAction}" Content="{Binding Label}"
+                               Command="{Binding DataContext.RunCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                               CommandParameter="{Binding}" VerticalAlignment="Center" />
+                    <StackPanel Margin="0,0,12,0">
+                        <TextBlock Text="{Binding Explanation}" />
+                        <TextBlock Text="{Binding Duration}" Style="{StaticResource Technical}" />
+                    </StackPanel>
+                </DockPanel>
+            </ui:Card>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
+            <StackPanel Margin="4,0,12,24">
+                <TextBlock Text="{Binding Title}" Style="{StaticResource PageTitle}" />
+                <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PageSubtitle}" />
+                <TextBlock Text="{Binding SystemSummary}" Style="{StaticResource Technical}" Margin="0,0,0,12" />
+
+                <TextBlock Text="{l:T System_Updates}" Style="{StaticResource SectionTitle}" />
+                <TextBlock Text="{l:T System_UpdatesTech}" Style="{StaticResource Technical}" Margin="0,-6,0,4" />
+                <TextBlock Text="{Binding UpdateSummary}" Margin="0,0,0,12" />
+                <ui:Button Style="{StaticResource PrimaryAction}" HorizontalAlignment="Left" Content="{l:T Command_SearchUpdates}"
+                           Icon="{ui:SymbolIcon ArrowDownload24}" Command="{Binding SearchUpdatesCommand}" Margin="0,0,0,12" />
+                <ItemsControl ItemsSource="{Binding UpdateActions}" ItemTemplate="{StaticResource ActionRow}" Focusable="False" />
+
+                <TextBlock Text="{l:T System_Repair}" Style="{StaticResource SectionTitle}" />
+                <TextBlock Text="{l:T System_RepairTech}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
+                <ItemsControl ItemsSource="{Binding RepairActions}" ItemTemplate="{StaticResource ActionRow}" Focusable="False" />
+
+                <TextBlock Text="{l:T System_Restore}" Style="{StaticResource SectionTitle}" />
+                <TextBlock Text="{l:T System_RestoreTech}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
+                <ItemsControl ItemsSource="{Binding RestoreActions}" ItemTemplate="{StaticResource ActionRow}" Focusable="False" />
+
+                <TextBlock Text="{l:T Protection_Firewall}" Style="{StaticResource SectionTitle}" />
+                <TextBlock Text="{l:T Protection_FirewallTech}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
+                <ItemsControl ItemsSource="{Binding FirewallActions}" ItemTemplate="{StaticResource ActionRow}" Focusable="False" />
+            </StackPanel>
+        </ScrollViewer>
+        <v:BusyOverlay />
+    </Grid>
+</UserControl>
