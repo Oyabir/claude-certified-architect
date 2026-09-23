@@ -41,6 +41,13 @@ public abstract partial class PageViewModel(MainViewModel main) : ObservableObje
         bool reload = true,
         string? busyKey = null)
     {
+        // Offre Gratuite : pas de confirmation suivie d'un refus, on explique tout de suite.
+        if (Main.NeedsPremium(command))
+        {
+            Main.ShowPremiumRequired();
+            return null;
+        }
+
         var descriptor = CommandDefinitions.Get(command);
         if (descriptor.RequiresConfirmation && !await Dialogs.ConfirmCommandAsync(command, confirmSubject).ConfigureAwait(true))
         {

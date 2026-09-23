@@ -60,6 +60,10 @@
                     <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T Home_Analyze}" Command="{Binding AnalyzeCommand}" Margin="12,0,0,0"
                                VerticalAlignment="Center"
                                Visibility="{Binding PrimaryIsFixAll, Converter={StaticResource Visible}}" />
+                    <!-- Offre Gratuite : « Tout corriger » annoncé comme Premium, en bouton secondaire. -->
+                    <ui:Button Style="{StaticResource SecondaryAction}" Content="{Binding FixAllPremiumLabel}" Command="{Binding FixAllCommand}" Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Visibility="{Binding ShowFixAllPremium, Converter={StaticResource Visible}}" />
                 </StackPanel>
 
                 <!-- Problèmes : ce qui ne va pas, pourquoi, Corriger -->

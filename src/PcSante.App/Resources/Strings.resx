@@ -109,6 +109,7 @@ Continuer ?</value></data>
   <data name="Common_Off" xml:space="preserve"><value>Désactivée</value></data>
   <data name="Common_On" xml:space="preserve"><value>Activée</value></data>
   <data name="Common_Retry" xml:space="preserve"><value>Réessayer</value></data>
+  <data name="Common_WithPremium" xml:space="preserve"><value>{0} · Premium</value></data>
   <data name="Common_Working" xml:space="preserve"><value>Action en cours, veuillez patienter…</value></data>
   <data name="Confirm_ClosesProgram" xml:space="preserve"><value>« {0} » va fermer un programme. Les travaux non enregistrés dans ce programme seront perdus. Continuer ?</value></data>
   <data name="Confirm_DeletesFiles" xml:space="preserve"><value>« {0} » va supprimer des fichiers définitivement. Continuer ?</value></data>

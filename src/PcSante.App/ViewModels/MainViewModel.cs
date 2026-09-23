@@ -69,6 +69,12 @@ public sealed partial class MainViewModel : ObservableObject
 
     public bool IsPremium => License?.IsPremium == true;
 
+    /// <summary>La commande exige Premium et l'offre active est Gratuite : l'interface le dit avant d'agir.</summary>
+    public bool NeedsPremium(CommandId command) => !IsPremium && CommandDefinitions.Get(command).Tier != RequiredTier.Free;
+
+    /// <summary>Explique que l'action fait partie de Premium, avec le bouton « Passer à Premium ».</summary>
+    public void ShowPremiumRequired() => Message.Show(CommandResult.Refused(FailureReason.LicenseRequired, "Result_PremiumRequired"));
+
     public string LicenseBadge => IsPremium ? Loc.T($"Tier_{License!.EffectiveTier}") : Loc.T("Tier_Free");
 
     public WelcomeViewModel? Welcome { get; private set; }
