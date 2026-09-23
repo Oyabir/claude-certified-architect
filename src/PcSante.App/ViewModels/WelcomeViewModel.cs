@@ -37,6 +37,10 @@ public sealed partial class WelcomeViewModel(MainViewModel main) : ObservableObj
     [ObservableProperty]
     private HealthReport? _report;
 
+    /// <summary>La première analyse a échoué (service absent ou en démarrage) : proposer de réessayer ou de continuer.</summary>
+    [ObservableProperty]
+    private bool _analysisFailed;
+
     [ObservableProperty]
     private bool _tasksEnabled;
 
@@ -122,9 +126,13 @@ public sealed partial class WelcomeViewModel(MainViewModel main) : ObservableObj
     [RelayCommand]
     private void Finish() => _main.CompleteWelcome();
 
+    [RelayCommand]
+    private Task RetryAnalysisAsync() => StartAnalysisAsync();
+
     private async Task StartAnalysisAsync()
     {
         Step = 3;
+        AnalysisFailed = false;
         IsBusy = true;
         try
         {
@@ -137,6 +145,8 @@ public sealed partial class WelcomeViewModel(MainViewModel main) : ObservableObj
             {
                 Message.Show(result);
             }
+
+            AnalysisFailed = Report is null;
 
             OnPropertyChanged(nameof(CanEnableTasks));
         }

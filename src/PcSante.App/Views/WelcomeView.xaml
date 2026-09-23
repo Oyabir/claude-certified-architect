@@ -48,6 +48,15 @@
                             <ui:ProgressRing IsIndeterminate="True" />
                             <TextBlock Text="{l:T Home_Analyzing}" HorizontalAlignment="Center" Margin="0,8,0,0" />
                         </StackPanel>
+                        <!-- Échec (service absent ou en démarrage) : jamais d'impasse, on peut réessayer ou continuer. -->
+                        <StackPanel Visibility="{Binding AnalysisFailed, Converter={StaticResource Visible}}" Margin="0,12,0,0">
+                            <TextBlock Text="{l:T Welcome_AnalysisFailed}" TextWrapping="Wrap" FontSize="16" />
+                            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                                <ui:Button Style="{StaticResource PrimaryAction}" Content="{l:T Common_Retry}" Command="{Binding RetryAnalysisCommand}" />
+                                <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T Welcome_ContinueLater}" Command="{Binding FinishCommand}"
+                                           Margin="16,0,0,0" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </StackPanel>
                         <StackPanel Visibility="{Binding Report, Converter={StaticResource Visible}}" Margin="0,16,0,0">
                             <StackPanel Orientation="Horizontal">
                                 <Border Width="110" Height="110" CornerRadius="55" Background="{Binding Report.Color, Converter={StaticResource HealthBrush}}">

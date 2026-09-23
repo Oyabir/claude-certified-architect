@@ -566,6 +566,8 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Unit_PerSecond" xml:space="preserve"><value>/s</value></data>
   <data name="Unit_TB" xml:space="preserve"><value>To</value></data>
   <data name="Welcome_Analysis" xml:space="preserve"><value>Première analyse de votre PC</value></data>
+  <data name="Welcome_AnalysisFailed" xml:space="preserve"><value>La première analyse n'a pas pu se faire. Le service PC Santé est peut-être encore en train de démarrer : réessayez dans quelques secondes. Vous pouvez aussi continuer et lancer l'analyse plus tard depuis l'Accueil.</value></data>
+  <data name="Welcome_ContinueLater" xml:space="preserve"><value>Continuer sans analyse</value></data>
   <data name="Welcome_Finish" xml:space="preserve"><value>Voir mon tableau de bord</value></data>
   <data name="Welcome_Language" xml:space="preserve"><value>Choisissez votre langue</value></data>
   <data name="Welcome_License" xml:space="preserve"><value>Activez votre licence</value></data>

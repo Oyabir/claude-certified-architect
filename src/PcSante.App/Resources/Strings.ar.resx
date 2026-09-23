@@ -566,6 +566,8 @@
   <data name="Unit_PerSecond" xml:space="preserve"><value>/ث</value></data>
   <data name="Unit_TB" xml:space="preserve"><value>ت.ب</value></data>
   <data name="Welcome_Analysis" xml:space="preserve"><value>الفحص الأول لحاسوبك</value></data>
+  <data name="Welcome_AnalysisFailed" xml:space="preserve"><value>تعذّر إجراء الفحص الأول. ربما لا تزال خدمة PC Santé قيد التشغيل: أعد المحاولة بعد بضع ثوانٍ. يمكنك أيضًا المتابعة وإجراء الفحص لاحقًا من الصفحة الرئيسية.</value></data>
+  <data name="Welcome_ContinueLater" xml:space="preserve"><value>المتابعة دون فحص</value></data>
   <data name="Welcome_Finish" xml:space="preserve"><value>عرض لوحة التحكم</value></data>
   <data name="Welcome_Language" xml:space="preserve"><value>اختر لغتك</value></data>
   <data name="Welcome_License" xml:space="preserve"><value>فعّل ترخيصك</value></data>
