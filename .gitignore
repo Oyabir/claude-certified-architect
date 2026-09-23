@@ -19,3 +19,8 @@ coverage/
 installer/publish/
 installer/bin/
 installer/obj/
+
+# Sorties d obfuscation : jamais de binaire dans le depot
+/*.dll
+/*.exe
+obfuscar-mapping.txt
