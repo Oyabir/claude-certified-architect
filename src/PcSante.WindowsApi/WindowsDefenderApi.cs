@@ -18,7 +18,7 @@ public sealed partial class WindowsDefenderApi : IDefenderApi
             var prefs = WmiHelper.Query(WmiHelper.DefenderNamespace, "SELECT * FROM MSFT_MpPreference").FirstOrDefault();
             if (status is null)
             {
-                return DefenderStatus.Unavailable;
+                return DefenderStatus.Unavailable with { OtherActiveAntivirus = OtherActiveAntivirus() };
             }
 
             var threats = WmiHelper.Query(WmiHelper.DefenderNamespace, "SELECT * FROM MSFT_MpThreat WHERE IsActive = TRUE").Count;
@@ -36,13 +36,40 @@ public sealed partial class WindowsDefenderApi : IDefenderApi
                 LastQuickScanAt = WmiHelper.Date(status, "QuickScanEndTime"),
                 LastFullScanAt = WmiHelper.Date(status, "FullScanEndTime"),
                 ActiveThreats = threats,
+                OtherActiveAntivirus = OtherActiveAntivirus(),
             };
         }
         catch (ManagementException)
         {
-            return DefenderStatus.Unavailable;
+            return DefenderStatus.Unavailable with { OtherActiveAntivirus = OtherActiveAntivirus() };
         }
     }, cancellationToken);
+
+    /// <summary>Antivirus tiers actifs selon le Centre de sécurité Windows (celui de « Sécurité Windows »).</summary>
+    private static List<string>? OtherActiveAntivirus()
+    {
+        try
+        {
+            return WmiHelper.Query(WmiHelper.SecurityCenterNamespace, "SELECT displayName, productState, pathToSignedProductExe FROM AntiVirusProduct")
+                .Where(p => !IsDefenderProduct(WmiHelper.Get<string>(p, "pathToSignedProductExe")) && IsProductEnabled(WmiHelper.Get<uint>(p, "productState")))
+                .Select(p => WmiHelper.Get<string>(p, "displayName"))
+                .OfType<string>()
+                .Where(n => n.Length > 0)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+        }
+        catch (Exception ex) when (ex is ManagementException or UnauthorizedAccessException or System.Runtime.InteropServices.COMException)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>Defender se déclare au Centre de sécurité avec le chemin « windowsdefender:// ».</summary>
+    internal static bool IsDefenderProduct(string? pathToSignedProductExe) =>
+        pathToSignedProductExe?.StartsWith("windowsdefender://", StringComparison.OrdinalIgnoreCase) == true;
+
+    /// <summary>productState : les bits 12 à 15 valent 1 quand l'antivirus est activé (ex. 0x061100), 0 sinon (0x060100).</summary>
+    internal static bool IsProductEnabled(uint productState) => ((productState >> 12) & 0xF) == 1;
 
     public Task<DefenderPreferences> GetPreferencesAsync(CancellationToken cancellationToken) => Task.Run(() =>
     {

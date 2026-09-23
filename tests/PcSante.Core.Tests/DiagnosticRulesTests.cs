@@ -65,6 +65,29 @@ public class DiagnosticRulesTests
         DiagnosticRules.EvaluateAll(snapshot).Should().BeEmpty();
     }
 
+    [Fact]
+    public void Aucun_antivirus_du_tout_probleme_rouge()
+    {
+        // Cas vu en test : Defender absent et aucun autre antivirus déclaré → Sécurité affichait 100.
+        var none = Healthy with { Defender = DefenderStatus.Unavailable with { OtherActiveAntivirus = [] } };
+
+        var issue = DiagnosticRules.EvaluateAll(none).Should().ContainSingle().Subject;
+        issue.Code.Should().Be("NoAntivirus");
+        issue.Severity.Should().Be(IssueSeverity.Critical);
+        HealthScoreCalculator.BuildReport(Now, [issue], TimeSpan.Zero).SubScores.Security.Should().BeLessThan(HealthScoreCalculator.OrangeThreshold);
+    }
+
+    [Fact]
+    public void Defender_absent_mais_autre_antivirus_ou_inconnu_aucun_probleme()
+    {
+        DiagnosticRules.EvaluateAll(Healthy with { Defender = DefenderStatus.Unavailable with { OtherActiveAntivirus = ["Norton 360"] } })
+            .Should().BeEmpty("un autre antivirus protège le PC");
+        DiagnosticRules.EvaluateAll(Healthy with { Defender = DefenderStatus.Unavailable })
+            .Should().BeEmpty("centre de sécurité inconnu : aucune conclusion");
+        DiagnosticRules.EvaluateAll(Healthy with { Defender = HealthyDefender with { IsActiveAntivirus = false, OtherActiveAntivirus = ["Kaspersky"] } })
+            .Should().BeEmpty();
+    }
+
     [Theory]
     [InlineData(2, null)]
     [InlineData(4, IssueSeverity.Warning)]

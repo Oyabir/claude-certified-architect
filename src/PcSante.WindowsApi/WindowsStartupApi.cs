@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Runtime.Versioning;
 using System.Security.Principal;
 using Microsoft.Win32;
@@ -99,8 +100,9 @@ public sealed class WindowsStartupApi : IStartupApi
         foreach (var name in run.GetValueNames().Where(n => n.Length > 0))
         {
             var command = run.GetValue(name)?.ToString() ?? string.Empty;
-            items.Add(new StartupItem($"{location}|{name}", name, command, location,
-                IsApproved(approved?.GetValue(name) as byte[]), ExtractExecutable(command)));
+            var executable = ExtractExecutable(command);
+            items.Add(new StartupItem($"{location}|{name}", DisplayName(name, DescriptionOf(executable)), command, location,
+                IsApproved(approved?.GetValue(name) as byte[]), executable));
         }
     }
 
@@ -139,6 +141,31 @@ public sealed class WindowsStartupApi : IStartupApi
     }
 
     /// <summary>Extrait le chemin de l'exécutable d'une ligne de commande (entre guillemets ou jusqu'à « .exe »).</summary>
+    /// <summary>
+    /// Nom affiché : la description de l'exécutable (« Microsoft Edge ») plutôt que le nom technique de la valeur
+    /// de registre (« MicrosoftEdgeAutoLaunch_507B… »), qui reste l'identifiant.
+    /// </summary>
+    internal static string DisplayName(string registryName, string? description) =>
+        string.IsNullOrWhiteSpace(description) ? registryName : description.Trim();
+
+    private static string? DescriptionOf(string? executable)
+    {
+        if (string.IsNullOrEmpty(executable))
+        {
+            return null;
+        }
+
+        try
+        {
+            var info = FileVersionInfo.GetVersionInfo(Environment.ExpandEnvironmentVariables(executable));
+            return string.IsNullOrWhiteSpace(info.FileDescription) ? info.ProductName : info.FileDescription;
+        }
+        catch (Exception ex) when (ex is FileNotFoundException or ArgumentException or IOException or UnauthorizedAccessException)
+        {
+            return null;
+        }
+    }
+
     internal static string? ExtractExecutable(string command)
     {
         var c = command.Trim();

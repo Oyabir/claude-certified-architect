@@ -193,6 +193,8 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Issue_NoRecentRestorePoint_Why" xml:space="preserve"><value>Un point récent permet de revenir à un état qui fonctionnait.</value></data>
   <data name="Issue_NoRecentScan_Title" xml:space="preserve"><value>Aucun scan antivirus depuis plus de 2 semaines</value></data>
   <data name="Issue_NoRecentScan_Why" xml:space="preserve"><value>Un scan régulier permet de trouver ce qui aurait échappé à la surveillance.</value></data>
+  <data name="Issue_NoAntivirus_Title" xml:space="preserve"><value>Aucun antivirus ne protège votre PC</value></data>
+  <data name="Issue_NoAntivirus_Why" xml:space="preserve"><value>Sans antivirus, un virus peut s'installer sans être détecté. Réactivez Microsoft Defender dans Sécurité Windows ou installez un antivirus.</value></data>
   <data name="Issue_RealtimeOff_Title" xml:space="preserve"><value>L'antivirus ne surveille pas votre PC en permanence</value></data>
   <data name="Issue_RealtimeOff_Why" xml:space="preserve"><value>Sans cette protection, un virus peut s'installer sans être arrêté.</value></data>
   <data name="Issue_RebootPending_Title" xml:space="preserve"><value>Un redémarrage est nécessaire pour terminer des mises à jour</value></data>
@@ -321,6 +323,8 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Protection_FirewallTech" xml:space="preserve"><value>Pare-feu Windows</value></data>
   <data name="Protection_FullScan" xml:space="preserve"><value>Scan complet</value></data>
   <data name="Protection_NoThreats" xml:space="preserve"><value>Aucune menace détectée.</value></data>
+  <data name="Protection_NoAntivirus" xml:space="preserve"><value>Aucun antivirus actif sur ce PC. Réactivez Microsoft Defender dans Sécurité Windows, ou installez un antivirus de confiance.</value></data>
+  <data name="Protection_OtherAntivirusNamed" xml:space="preserve"><value>Votre PC est protégé par : {0}. Microsoft Defender est en veille : c'est normal.</value></data>
   <data name="Protection_OtherAntivirus" xml:space="preserve"><value>Un autre antivirus protège ce PC. Microsoft Defender est en veille : c'est normal.</value></data>
   <data name="Protection_PickFolder" xml:space="preserve"><value>Choisissez le dossier à analyser</value></data>
   <data name="Protection_Protections" xml:space="preserve"><value>Protections</value></data>
@@ -521,7 +525,7 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Startup_Title" xml:space="preserve"><value>Programmes au démarrage</value></data>
   <data name="Subtitle_Home" xml:space="preserve"><value>L'état de santé de votre PC, expliqué simplement.</value></data>
   <data name="Subtitle_License" xml:space="preserve"><value>Votre clé de licence et votre offre.</value></data>
-  <data name="Subtitle_Optimization" xml:space="preserve"><value>Libérez de la place et accélérez le démarrage. Chaque changement peut être annulé.</value></data>
+  <data name="Subtitle_Optimization" xml:space="preserve"><value>Libérez de la place et accélérez le démarrage. Les programmes retirés du démarrage peuvent être réactivés.</value></data>
   <data name="Subtitle_Performance" xml:space="preserve"><value>Ce que votre PC utilise en ce moment.</value></data>
   <data name="Subtitle_Processes" xml:space="preserve"><value>Les programmes qui tournent et ce qu'ils consomment.</value></data>
   <data name="Subtitle_Protection" xml:space="preserve"><value>Antivirus et protection contre les intrusions.</value></data>

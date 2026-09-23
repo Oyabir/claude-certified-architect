@@ -193,6 +193,8 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Issue_NoRecentRestorePoint_Why" xml:space="preserve"><value>A recent point lets you go back to a state that worked.</value></data>
   <data name="Issue_NoRecentScan_Title" xml:space="preserve"><value>No antivirus scan for more than 2 weeks</value></data>
   <data name="Issue_NoRecentScan_Why" xml:space="preserve"><value>A regular scan finds anything that may have slipped through.</value></data>
+  <data name="Issue_NoAntivirus_Title" xml:space="preserve"><value>No antivirus is protecting your PC</value></data>
+  <data name="Issue_NoAntivirus_Why" xml:space="preserve"><value>Without an antivirus, a virus can install itself unnoticed. Turn Microsoft Defender back on in Windows Security or install an antivirus.</value></data>
   <data name="Issue_RealtimeOff_Title" xml:space="preserve"><value>The antivirus is not watching your PC all the time</value></data>
   <data name="Issue_RealtimeOff_Why" xml:space="preserve"><value>Without this protection, a virus can install itself without being stopped.</value></data>
   <data name="Issue_RebootPending_Title" xml:space="preserve"><value>A restart is needed to finish updates</value></data>
@@ -321,6 +323,8 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Protection_FirewallTech" xml:space="preserve"><value>Windows Firewall</value></data>
   <data name="Protection_FullScan" xml:space="preserve"><value>Full scan</value></data>
   <data name="Protection_NoThreats" xml:space="preserve"><value>No threats found.</value></data>
+  <data name="Protection_NoAntivirus" xml:space="preserve"><value>No active antivirus on this PC. Turn Microsoft Defender back on in Windows Security, or install a trusted antivirus.</value></data>
+  <data name="Protection_OtherAntivirusNamed" xml:space="preserve"><value>Your PC is protected by: {0}. Microsoft Defender is on standby: this is normal.</value></data>
   <data name="Protection_OtherAntivirus" xml:space="preserve"><value>Another antivirus protects this PC. Microsoft Defender is on standby: this is normal.</value></data>
   <data name="Protection_PickFolder" xml:space="preserve"><value>Choose the folder to scan</value></data>
   <data name="Protection_Protections" xml:space="preserve"><value>Protections</value></data>
@@ -521,7 +525,7 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Startup_Title" xml:space="preserve"><value>Start-up programs</value></data>
   <data name="Subtitle_Home" xml:space="preserve"><value>Your PC's health, explained simply.</value></data>
   <data name="Subtitle_License" xml:space="preserve"><value>Your license key and plan.</value></data>
-  <data name="Subtitle_Optimization" xml:space="preserve"><value>Free up space and speed up start-up. Every change can be undone.</value></data>
+  <data name="Subtitle_Optimization" xml:space="preserve"><value>Free up space and speed up start-up. Programs removed from start-up can be turned back on.</value></data>
   <data name="Subtitle_Performance" xml:space="preserve"><value>What your PC is using right now.</value></data>
   <data name="Subtitle_Processes" xml:space="preserve"><value>Running programs and what they use.</value></data>
   <data name="Subtitle_Protection" xml:space="preserve"><value>Antivirus and protection against intrusions.</value></data>

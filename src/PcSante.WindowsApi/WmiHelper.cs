@@ -8,6 +8,7 @@ namespace PcSante.WindowsApi;
 internal static class WmiHelper
 {
     public const string DefenderNamespace = @"root\Microsoft\Windows\Defender";
+    public const string SecurityCenterNamespace = @"root\SecurityCenter2";
 
     public static List<ManagementObject> Query(string scope, string query)
     {
