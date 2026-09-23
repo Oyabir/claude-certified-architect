@@ -35,7 +35,7 @@
 
     <Icon Id="AppIcon" SourceFile="$(PublishRoot)PcSante.exe" />
     <Property Id="ARPPRODUCTICON" Value="AppIcon" />
-    <Property Id="ARPNOMODIFY" Value="1" />
+    <!-- ARPNOMODIFY est déjà défini par WixUI_Minimal. -->
     <Property Id="ARPURLINFOABOUT" Value="https://example.invalid/" />
 
     <StandardDirectory Id="ProgramFiles64Folder">

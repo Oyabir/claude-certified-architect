@@ -1,4 +1,4 @@
-<#
+﻿<#
   Construit l'installeur MSI de PC Santé (Windows uniquement).
 
   Étapes : publication des binaires (win-x64, dépendants du runtime .NET 8), obfuscation (Obfuscar), signature facultative

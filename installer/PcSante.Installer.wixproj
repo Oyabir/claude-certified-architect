@@ -11,12 +11,18 @@
     <PublishRoot Condition="'$(PublishRoot)' == ''">$(MSBuildThisFileDirectory)publish\</PublishRoot>
     <DefineConstants>ProductName=$(PcSanteProductName);Company=$(PcSanteCompany);Version=$(PcSanteVersion);TechnicalName=$(PcSanteTechnicalName);PublishRoot=$(PublishRoot)</DefineConstants>
     <SuppressValidation>false</SuppressValidation>
+    <!--
+      Faux positifs des ICE pour un paquet perMachine :
+      ICE38/ICE43/ICE57 : le menu Démarrer est celui de tous les utilisateurs, la clé HKLM est donc la bonne KeyPath ;
+      ICE60 : polices privées (LatoFont) et satellites .NET versionnés sans langue, copiés tels quels.
+    -->
+    <SuppressIces>ICE38;ICE43;ICE57;ICE60</SuppressIces>
     <!-- Les avertissements WiX sont des erreurs, comme pour le code. -->
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="WixToolset.Util.wixext" Version="5.0.2" />
-    <PackageReference Include="WixToolset.Netfx.wixext" Version="5.0.2" />
-    <PackageReference Include="WixToolset.UI.wixext" Version="5.0.2" />
+    <PackageReference Include="WixToolset.Util.wixext" />
+    <PackageReference Include="WixToolset.Netfx.wixext" />
+    <PackageReference Include="WixToolset.UI.wixext" />
   </ItemGroup>
 </Project>
