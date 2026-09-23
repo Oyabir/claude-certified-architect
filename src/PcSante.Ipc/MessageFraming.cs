@@ -50,6 +50,29 @@ public static class MessageFraming
         return JsonSerializer.Deserialize<T>(payload, PcSanteJson.Options);
     }
 
+    /// <summary>
+    /// Lit et jette un message sans le désérialiser (client non vérifié : son contenu n'est jamais interprété).
+    /// </summary>
+    /// <returns>Faux si le flux est fermé proprement avant un nouvel en-tête.</returns>
+    public static async Task<bool> DiscardAsync(Stream stream, int maxBytes, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(stream);
+        var header = new byte[4];
+        if (!await ReadExactAsync(stream, header, allowEof: true, cancellationToken).ConfigureAwait(false))
+        {
+            return false;
+        }
+
+        var length = BinaryPrimitives.ReadInt32LittleEndian(header);
+        if (length <= 0 || length > maxBytes)
+        {
+            throw new InvalidDataException("Taille de message invalide.");
+        }
+
+        await ReadExactAsync(stream, new byte[length], allowEof: false, cancellationToken).ConfigureAwait(false);
+        return true;
+    }
+
     private static async Task<bool> ReadExactAsync(Stream stream, byte[] buffer, bool allowEof, CancellationToken cancellationToken)
     {
         var read = 0;

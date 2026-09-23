@@ -31,7 +31,8 @@ public sealed class ClientTrustPolicy
     public ClientTrustPolicy(string installDirectory, IEnumerable<string> allowedExecutables, bool requireSignature)
     {
         ArgumentException.ThrowIfNullOrEmpty(installDirectory);
-        _installDirectory = Path.TrimEndingDirectorySeparator(installDirectory);
+        // Normalisé comme le chemin du client (séparateurs, « .. », lettre de lecteur) pour une comparaison fiable.
+        _installDirectory = Path.TrimEndingDirectorySeparator(Path.GetFullPath(installDirectory));
         _allowedExecutables = new HashSet<string>(allowedExecutables, StringComparer.OrdinalIgnoreCase);
         _requireSignature = requireSignature;
     }

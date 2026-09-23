@@ -73,6 +73,29 @@ public sealed class PipeEndToEndTests : IAsyncDisposable
     }
 
     [Fact]
+    public async Task Client_refuse_deconnecte_sans_bloquer_le_service()
+    {
+        var handler = Start(trusted: false);
+
+        await using (var raw = new NamedPipeClientStream(".", _pipeName, PipeDirection.InOut, PipeOptions.Asynchronous))
+        {
+            await raw.ConnectAsync(3000);
+            await raw.WriteAsync(BitConverter.GetBytes(int.MaxValue));
+            await raw.FlushAsync();
+            (await raw.ReadAsync(new byte[4])).Should().Be(0, "une demande trop volumineuse d'un client refusé ferme la connexion");
+        }
+
+        // Plusieurs refus successifs n'épuisent pas les connexions du service.
+        for (var i = 0; i < 6; i++)
+        {
+            await using var client = new PipeClient(_pipeName, new AcceptAnyServer());
+            (await client.SendAsync(CommandId.RunHealthAnalysis)).Reason.Should().Be(FailureReason.ClientNotTrusted);
+        }
+
+        handler.Received.Should().BeEmpty();
+    }
+
+    [Fact]
     public async Task Version_de_protocole_inconnue_refusee()
     {
         var handler = Start(trusted: true);
