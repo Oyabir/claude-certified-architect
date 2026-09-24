@@ -38,6 +38,13 @@ public class HardwareFingerprintTests
     }
 
     [Fact]
+    public void Build_normal_sans_deblocage_premium_de_test()
+    {
+        // Le déblocage « toutes fonctions » n'existe que dans un build de test (build.ps1 -TestPremium).
+        LicenseManager.IsTestPremiumBuild.Should().BeFalse();
+    }
+
+    [Fact]
     public void Machine_virtuelle_a_deux_elements_lisibles_reconnue()
     {
         // Valeurs relevées dans Windows Sandbox : disque sans numéro, processeur « 0000000000000000 ».

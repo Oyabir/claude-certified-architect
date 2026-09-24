@@ -20,7 +20,9 @@ param(
     [string]$Configuration = "Release",
     [string]$TimestampUrl = "http://timestamp.digicert.com",
     [string]$LicenseServerUrl,
-    [string]$LicensePublicKey
+    [string]$LicensePublicKey,
+    # Build de TEST : toutes les fonctions Premium sans licence. Jamais pour un MSI distribué.
+    [switch]$TestPremium
 )
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
@@ -41,7 +43,11 @@ if ($LicensePublicKey) {
     if ([Convert]::FromBase64String($LicensePublicKey).Length -ne 32) { throw "Clé publique Ed25519 invalide (32 octets en base64 attendus)." }
     $overrides += "-p:PcSanteLicensePublicKey=$LicensePublicKey"
 }
-if ($overrides) { Write-Warning "Build de TEST : serveur de licences $LicenseServerUrl (valeurs de branding.props remplacées)." }
+if ($TestPremium) {
+    $overrides += "-p:PcSanteTestPremium=true"
+    Write-Warning "Build de TEST « toutes fonctions » : Premium débloqué sans licence. NE PAS DISTRIBUER."
+}
+if ($LicenseServerUrl -or $LicensePublicKey) { Write-Warning "Build de TEST : serveur de licences $LicenseServerUrl (valeurs de branding.props remplacées)." }
 
 foreach ($p in $projects) {
     dotnet publish (Join-Path $root $p) -c $Configuration -r win-x64 --self-contained false -o $publish -p:DebugType=none @overrides

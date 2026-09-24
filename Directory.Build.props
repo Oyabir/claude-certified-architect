@@ -23,6 +23,14 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <!--
+    Build de TEST uniquement (installer/build.ps1 -TestPremium) : toutes les fonctions Premium sans licence,
+    pour vérifier l'application complète. Absent de toute autre compilation : le code concerné n'existe pas en production.
+  -->
+  <PropertyGroup Condition="'$(PcSanteTestPremium)' == 'true'">
+    <DefineConstants>$(DefineConstants);PCSANTE_TEST_PREMIUM</DefineConstants>
+  </PropertyGroup>
+
   <!-- Identité produit injectée dans chaque assembly (lue par PcSante.Core.ProductInfo). -->
   <ItemGroup>
     <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
