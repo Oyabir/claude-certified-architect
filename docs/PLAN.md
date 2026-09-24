@@ -63,5 +63,22 @@ Fin : ✅ tests d'intégration serveur (activation, refus 2e PC, transfert, hors
 - ✅ Rapport final (`docs/RAPPORT_FINAL.md`)
 - ⛔ Bêta publique, site de vente, soumission antivirus : interdits (publication) → commanditaire
 
-## Hors MVP (non développé, section 7)
-M7 Sessions, BitLocker, réseau (DNS/Winsock), comptes, effets visuels, profils de services, antivirus tiers, M10 assistant IA (interface `IAiAssistant` seulement), console PME, export CSV PME.
+## V2 — périmètre étendu par le commanditaire (2026-09-24)
+
+Accord du commanditaire : modules locaux V2 + console PME. Hors périmètre : M10 assistant IA (interface `IAiAssistant` seulement), V3 (modèle IA local, marque blanche). Toute action V2 est Premium, passe par le catalogue fermé et le cycle `SystemActionPipeline`, texte fr/en/ar, confirmation si elle ferme un programme, redémarre ou supprime. Critère de fin de chaque lot : compilation sans avertissement, tests verts, version déposée dans `C:\dev\PcSante-Installation`.
+
+- ⏳ V2-1 Planification (M9) : modèles « vérification des mises à jour » et « rapport mensuel »
+- ⏳ V2-2 Réseau (M4/M6) : vidage DNS, réinitialisation Winsock et TCP/IP (redémarrage demandé, confirmation)
+- ⏳ V2-3 Comptes (M6) : administrateurs locaux affichés, compte Invité désactivable (réversible)
+- ⏳ V2-4 Antivirus tiers (M2) : produits du Centre de sécurité Windows et leur état sur l'écran Protection
+- ⏳ V2-5 BitLocker (M6, éditions Pro) : état, activation, sauvegarde de la clé de récupération ; masqué sur Famille
+- ⏳ V2-6 Sessions (M7, mode Avancé) : sessions locales et RDP (état, heure, IP), message, déconnexion, fermeture ; alerte RDP depuis une adresse jamais vue
+- ⏳ V2-7 Optimisation (M4) : profils de services (bureautique, jeu, portable ; liste prudente, passage en Manuel, annulable), effets visuels, disque (TRIM SSD, défragmentation HDD), fichier d'échange (état, retour à la gestion automatique)
+- ⏳ V2-8 Rapports (M8) : export CSV (historique des scores, problèmes, actions)
+- ⏳ V2-9 Processus (M3) : base de réputation enrichie (éditeurs et programmes connus, fichier de données local)
+- ⛔ V2-10 Températures GPU (M5) : LibreHardwareMonitor écarté (pilote WinRing0 détecté par Defender) ; reste « non disponible »
+- ⏳ V2-11 Console PME — serveur : ASP.NET Core + SQLite/PostgreSQL, organisations, comptes gérants, codes d'inscription des postes, offre PME au serveur de licences
+- ⏳ V2-12 Console PME — postes : inscription depuis l'application, envoi périodique par le service (HTTPS, métriques techniques uniquement, loi 09-08)
+- ⏳ V2-13 Console PME — interface web : liste des postes avec score, carte des alertes, détail d'un poste, utilisateurs et licences
+- ⏳ V2-14 Console PME — alertes e-mail et rapport consolidé mensuel (SMTP configurable, aucun service payant ; en local, fichiers .eml)
+- ⛔ Mise en ligne de la console (hébergement, domaine, HTTPS) : payante et publique → accord du commanditaire requis
