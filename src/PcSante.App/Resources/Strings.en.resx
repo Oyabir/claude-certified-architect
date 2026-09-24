@@ -566,6 +566,8 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Unit_PerSecond" xml:space="preserve"><value>/s</value></data>
   <data name="Unit_TB" xml:space="preserve"><value>TB</value></data>
   <data name="Welcome_Analysis" xml:space="preserve"><value>First check of your PC</value></data>
+  <data name="Welcome_AnalysisFailed" xml:space="preserve"><value>The first check could not run. The PC Santé service may still be starting: try again in a few seconds. You can also continue and run the check later from the Home page.</value></data>
+  <data name="Welcome_ContinueLater" xml:space="preserve"><value>Continue without checking</value></data>
   <data name="Welcome_Finish" xml:space="preserve"><value>See my dashboard</value></data>
   <data name="Welcome_Language" xml:space="preserve"><value>Choose your language</value></data>
   <data name="Welcome_License" xml:space="preserve"><value>Activate your license</value></data>
