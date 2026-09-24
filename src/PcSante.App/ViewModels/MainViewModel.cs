@@ -87,6 +87,7 @@ public sealed partial class MainViewModel : ObservableObject
             Welcome = new WelcomeViewModel(this) { Step = PendingWelcomeStep };
             OnPropertyChanged(nameof(Welcome));
             ShowWelcome = true;
+            await Welcome.SkipLicenseIfActiveAsync().ConfigureAwait(true);
             return;
         }
 
