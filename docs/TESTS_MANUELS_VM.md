@@ -20,7 +20,7 @@ Scripts dans `tools/sandbox/`. Les clés du serveur de test restent dans `%LOCAL
 1. Hôte : `tools/sandbox/demarrer-serveur-licences.ps1` (port 5080) ; une fois, en administrateur : `tools/sandbox/pare-feu-serveur-test.ps1` (retrait : `-Retirer`).
 2. Hôte : `tools/sandbox/nouvelles-cles-premium.ps1` → clés dans `C:\dev\PcSante-Sandbox\cles-premium.txt`. Une Sandbox neuve est un nouveau PC : une clé par lancement.
 3. Hôte : MSI signé avec le certificat de test et `-LicenseServerUrl "http://127.0.0.1:5080/" -LicensePublicKey <clé publique>`, copié dans `C:\dev\PcSante-Sandbox` avec `PcSante-test.cer`, le .NET 8 Desktop Runtime, `preparer-sandbox.ps1` et `PcSante.wsb`.
-4. Double-cliquer `PcSante.wsb`, puis accepter la demande d'élévation (« Oui ») : la Sandbox fait confiance au certificat de test, redirige `127.0.0.1:5080` vers l'hôte (`netsh interface portproxy`), vérifie le serveur et installe .NET 8.
+4. Double-cliquer `PcSante.wsb`. Dans la Sandbox, double-cliquer `Preparer-la-Sandbox.cmd` dans le dossier du bureau (les scripts .ps1 y sont bloqués, et la commande de démarrage automatique ne s'exécute pas toujours), puis accepter la demande d'élévation (« Oui ») : la Sandbox fait confiance au certificat de test, redirige `127.0.0.1:5080` vers l'hôte (`netsh interface portproxy`), vérifie le serveur et installe .NET 8. À refaire à chaque nouvelle Sandbox (elle repart de zéro), et après un redémarrage de l'hôte (l'adresse de la passerelle change).
 
 ## 1. Installeur (Définition de terminé : installe, met à jour, désinstalle proprement)
 
