@@ -59,7 +59,7 @@ public sealed partial class WelcomeViewModel(MainViewModel main) : ObservableObj
     public bool CanEnableTasks => Report is not null && _main.IsPremium && !TasksEnabled;
 
     [RelayCommand]
-    private void ChooseLanguage()
+    private async Task ChooseLanguageAsync()
     {
         if (Language != _main.Settings.Language)
         {
@@ -70,6 +70,16 @@ public sealed partial class WelcomeViewModel(MainViewModel main) : ObservableObj
         }
 
         Step = 2;
+        await SkipLicenseIfActiveAsync().ConfigureAwait(true);
+    }
+
+    /// <summary>Licence déjà active (réinstallation, version de test) : l'étape « licence » est sautée.</summary>
+    public async Task SkipLicenseIfActiveAsync()
+    {
+        if (Step == 2 && _main.IsPremium)
+        {
+            await StartAnalysisAsync().ConfigureAwait(true);
+        }
     }
 
     [RelayCommand]

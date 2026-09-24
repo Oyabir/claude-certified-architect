@@ -2,8 +2,8 @@ namespace PcSante.Core.Health;
 
 /// <summary>
 /// Calcul du score de santé (0 à 100) et des 4 sous-scores.
-/// Le score global ne peut pas être vert s'il reste un problème orange, ni orange s'il reste un problème rouge :
-/// la couleur du score est toujours cohérente avec la liste des problèmes.
+/// Un score (global ou sous-score) ne peut pas être vert s'il reste un problème orange, ni orange s'il reste
+/// un problème rouge : sa couleur est toujours cohérente avec la liste des problèmes concernés.
 /// </summary>
 public static class HealthScoreCalculator
 {
@@ -42,19 +42,7 @@ public static class HealthScoreCalculator
             + (sub.Performance * PerformanceWeight)
             + (sub.Stability * StabilityWeight)
             + (sub.Storage * StorageWeight);
-        var score = (int)Math.Round(weighted, MidpointRounding.AwayFromZero);
-
-        var list = issues.ToList();
-        if (list.Any(i => i.Severity == IssueSeverity.Critical))
-        {
-            score = Math.Min(score, OrangeThreshold - 1);
-        }
-        else if (list.Any(i => i.Severity == IssueSeverity.Warning))
-        {
-            score = Math.Min(score, GreenThreshold - 1);
-        }
-
-        return Math.Clamp(score, 0, 100);
+        return CapBySeverity((int)Math.Round(weighted, MidpointRounding.AwayFromZero), issues.ToList());
     }
 
     public static HealthColor ColorOf(int score) => score switch
@@ -83,6 +71,23 @@ public static class HealthScoreCalculator
         return new HealthReport(at, score, ColorOf(score), sub, ordered, duration);
     }
 
-    private static int Sub(IReadOnlyCollection<HealthIssue> issues, HealthCategory category) =>
-        Math.Clamp(100 - issues.Where(i => i.Category == category).Sum(i => Penalty(i.Severity)), 0, 100);
+    private static int Sub(IReadOnlyCollection<HealthIssue> issues, HealthCategory category)
+    {
+        var inCategory = issues.Where(i => i.Category == category).ToList();
+        return CapBySeverity(100 - inCategory.Sum(i => Penalty(i.Severity)), inCategory);
+    }
+
+    private static int CapBySeverity(int score, IReadOnlyCollection<HealthIssue> issues)
+    {
+        if (issues.Any(i => i.Severity == IssueSeverity.Critical))
+        {
+            score = Math.Min(score, OrangeThreshold - 1);
+        }
+        else if (issues.Any(i => i.Severity == IssueSeverity.Warning))
+        {
+            score = Math.Min(score, GreenThreshold - 1);
+        }
+
+        return Math.Clamp(score, 0, 100);
+    }
 }

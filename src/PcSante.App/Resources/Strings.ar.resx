@@ -109,6 +109,7 @@
   <data name="Common_Off" xml:space="preserve"><value>متوقفة</value></data>
   <data name="Common_On" xml:space="preserve"><value>مفعّلة</value></data>
   <data name="Common_Retry" xml:space="preserve"><value>إعادة المحاولة</value></data>
+  <data name="Common_WithPremium" xml:space="preserve"><value>{0} · Premium</value></data>
   <data name="Common_Working" xml:space="preserve"><value>جارٍ التنفيذ، يرجى الانتظار…</value></data>
   <data name="Confirm_ClosesProgram" xml:space="preserve"><value>«{0}» سيغلق برنامجاً. سيتم فقدان العمل غير المحفوظ فيه. هل تريد المتابعة؟</value></data>
   <data name="Confirm_DeletesFiles" xml:space="preserve"><value>«{0}» سيحذف ملفات نهائياً. هل تريد المتابعة؟</value></data>
@@ -193,6 +194,8 @@
   <data name="Issue_NoRecentRestorePoint_Why" xml:space="preserve"><value>النقطة الحديثة تتيح العودة إلى حالة كانت تعمل.</value></data>
   <data name="Issue_NoRecentScan_Title" xml:space="preserve"><value>لم يتم إجراء فحص منذ أكثر من أسبوعين</value></data>
   <data name="Issue_NoRecentScan_Why" xml:space="preserve"><value>الفحص المنتظم يكشف ما قد يفلت من المراقبة.</value></data>
+  <data name="Issue_NoAntivirus_Title" xml:space="preserve"><value>لا يوجد برنامج مكافحة فيروسات يحمي حاسوبك</value></data>
+  <data name="Issue_NoAntivirus_Why" xml:space="preserve"><value>بدون برنامج مكافحة فيروسات، يمكن لفيروس أن يثبّت نفسه دون أن يُكتشف. أعد تفعيل Microsoft Defender من أمان Windows أو ثبّت برنامج مكافحة فيروسات.</value></data>
   <data name="Issue_RealtimeOff_Title" xml:space="preserve"><value>برنامج مكافحة الفيروسات لا يراقب حاسوبك باستمرار</value></data>
   <data name="Issue_RealtimeOff_Why" xml:space="preserve"><value>بدون هذه الحماية، يمكن لفيروس أن يتثبت دون أن يتم إيقافه.</value></data>
   <data name="Issue_RebootPending_Title" xml:space="preserve"><value>يلزم إعادة التشغيل لإكمال التحديثات</value></data>
@@ -321,6 +324,8 @@
   <data name="Protection_FirewallTech" xml:space="preserve"><value>جدار حماية ويندوز</value></data>
   <data name="Protection_FullScan" xml:space="preserve"><value>فحص كامل</value></data>
   <data name="Protection_NoThreats" xml:space="preserve"><value>لم يتم اكتشاف أي تهديد.</value></data>
+  <data name="Protection_NoAntivirus" xml:space="preserve"><value>لا يوجد برنامج مكافحة فيروسات نشط على هذا الحاسوب. أعد تفعيل Microsoft Defender من أمان Windows، أو ثبّت برنامج مكافحة فيروسات موثوقًا.</value></data>
+  <data name="Protection_OtherAntivirusNamed" xml:space="preserve"><value>حاسوبك محمي بواسطة: {0}. Microsoft Defender في وضع الاستعداد: هذا طبيعي.</value></data>
   <data name="Protection_OtherAntivirus" xml:space="preserve"><value>برنامج آخر لمكافحة الفيروسات يحمي هذا الحاسوب. Microsoft Defender في وضع الاستعداد: هذا طبيعي.</value></data>
   <data name="Protection_PickFolder" xml:space="preserve"><value>اختر المجلد المراد فحصه</value></data>
   <data name="Protection_Protections" xml:space="preserve"><value>وسائل الحماية</value></data>
@@ -521,7 +526,7 @@
   <data name="Startup_Title" xml:space="preserve"><value>برامج بدء التشغيل</value></data>
   <data name="Subtitle_Home" xml:space="preserve"><value>صحة حاسوبك، بشرح بسيط.</value></data>
   <data name="Subtitle_License" xml:space="preserve"><value>مفتاح الترخيص واشتراكك.</value></data>
-  <data name="Subtitle_Optimization" xml:space="preserve"><value>وفّر مساحة وسرّع بدء التشغيل. يمكن التراجع عن كل تغيير.</value></data>
+  <data name="Subtitle_Optimization" xml:space="preserve"><value>وفّر مساحة وسرّع بدء التشغيل. يمكن إعادة تفعيل البرامج التي أُزيلت من بدء التشغيل.</value></data>
   <data name="Subtitle_Performance" xml:space="preserve"><value>ما يستخدمه حاسوبك الآن.</value></data>
   <data name="Subtitle_Processes" xml:space="preserve"><value>البرامج قيد التشغيل وما تستهلكه.</value></data>
   <data name="Subtitle_Protection" xml:space="preserve"><value>مكافحة الفيروسات والحماية من الاختراق.</value></data>

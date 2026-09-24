@@ -20,6 +20,9 @@ public sealed record HardwareFingerprint
 {
     public const int ComponentCount = 4;
     public const int RequiredMatches = 3;
+
+    /// <summary>En dessous de 2 éléments lisibles, l'empreinte n'identifie pas un PC : aucune correspondance.</summary>
+    public const int MinimumReadable = 2;
     private const string Salt = "PcSante.Fingerprint.v1";
     private static readonly string[] ComponentNames = ["board", "disk", "cpu", "machine"];
 
@@ -67,7 +70,22 @@ public sealed record HardwareFingerprint
         return matches;
     }
 
-    public bool Matches(HardwareFingerprint other) => CountMatches(other) >= RequiredMatches;
+    /// <summary>Nombre d'éléments lisibles (non vides).</summary>
+    public int ReadableCount => Components.Count(c => c.Length > 0);
+
+    /// <summary>
+    /// <c>this</c> = empreinte de RÉFÉRENCE (enregistrée à l'activation ou contenue dans le jeton signé),
+    /// <paramref name="other"/> = le PC qui se présente.
+    /// Référence à 4 éléments lisibles : 3 sur 4 doivent correspondre (inchangé). Référence à moins de 4 éléments
+    /// lisibles (machines virtuelles, Windows Sandbox : disque sans numéro, processeur « 0000… ») : tous ses éléments
+    /// lisibles doivent correspondre, avec un minimum de 2. Le seuil dépend uniquement de la référence :
+    /// masquer ses propres identifiants ne facilite jamais la correspondance.
+    /// </summary>
+    public bool Matches(HardwareFingerprint other)
+    {
+        var readable = ReadableCount;
+        return readable >= MinimumReadable && CountMatches(other) >= Math.Min(RequiredMatches, readable);
+    }
 
     public static bool IsWellFormed(IReadOnlyList<string>? components) =>
         components is { Count: ComponentCount }

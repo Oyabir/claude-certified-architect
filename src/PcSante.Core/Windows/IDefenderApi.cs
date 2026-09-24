@@ -34,6 +34,12 @@ public sealed record DefenderStatus
 
     public int ActiveThreats { get; init; }
 
+    /// <summary>
+    /// Autres antivirus actifs déclarés au Centre de sécurité Windows (hors Defender).
+    /// Liste vide = aucun ; null = inconnu (centre de sécurité non interrogeable) : aucune conclusion.
+    /// </summary>
+    public IReadOnlyList<string>? OtherActiveAntivirus { get; init; }
+
     public static DefenderStatus Unavailable { get; } = new() { IsAvailable = false };
 }
 

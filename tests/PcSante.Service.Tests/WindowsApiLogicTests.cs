@@ -43,6 +43,34 @@ public class WindowsApiLogicTests
     }
 
     [Theory]
+    [InlineData(0x061100u, true)]
+    [InlineData(0x041000u, true)]
+    [InlineData(0x060100u, false)]
+    [InlineData(0x062000u, false)]
+    [InlineData(0u, false)]
+    public void Etat_d_un_antivirus_du_centre_de_securite(uint productState, bool enabled)
+    {
+        WindowsDefenderApi.IsProductEnabled(productState).Should().Be(enabled);
+    }
+
+    [Fact]
+    public void Defender_exclu_des_antivirus_tiers()
+    {
+        WindowsDefenderApi.IsDefenderProduct("windowsdefender://").Should().BeTrue();
+        WindowsDefenderApi.IsDefenderProduct(@"C:\Program Files\Norton\wsc_proxy.exe").Should().BeFalse();
+        WindowsDefenderApi.IsDefenderProduct(null).Should().BeFalse();
+    }
+
+    [Theory]
+    [InlineData("MicrosoftEdgeAutoLaunch_507B6EAB61E0461F18F13A409140A5A9", "Microsoft Edge", "Microsoft Edge")]
+    [InlineData("OneDrive", "  ", "OneDrive")]
+    [InlineData("Outil", null, "Outil")]
+    public void Nom_affiche_d_un_programme_au_demarrage(string registryName, string? description, string expected)
+    {
+        WindowsStartupApi.DisplayName(registryName, description).Should().Be(expected);
+    }
+
+    [Theory]
     [InlineData("\"C:\\Program Files\\App\\app.exe\" --tray", @"C:\Program Files\App\app.exe")]
     [InlineData(@"C:\Tools\sync.exe -minimized", @"C:\Tools\sync.exe")]
     [InlineData("rundll32 shell32.dll,Control_RunDLL", null)]

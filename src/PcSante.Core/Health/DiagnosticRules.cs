@@ -53,9 +53,20 @@ public static class DiagnosticRules
     {
         var d = s.Defender;
 
-        // Defender absent ou passif (autre antivirus actif) : on ne conclut rien, pas de faux problème.
-        if (d is null || !d.IsAvailable || !d.IsActiveAntivirus)
+        if (d is null)
         {
+            yield break;
+        }
+
+        // Defender absent ou passif : un autre antivirus actif protège le PC (rien à signaler) ;
+        // centre de sécurité non interrogeable (null) : on ne conclut rien, pas de faux problème.
+        if (!d.IsAvailable || !d.IsActiveAntivirus)
+        {
+            if (d.OtherActiveAntivirus is { Count: 0 })
+            {
+                yield return Issue("NoAntivirus", HealthCategory.Security, IssueSeverity.Critical, IssueFix.Open(ScreenId.Protection));
+            }
+
             yield break;
         }
 

@@ -11,10 +11,18 @@
   Exemple :
     $env:PCSANTE_SIGN_THUMBPRINT = "0123…"
     ./installer/build.ps1 -Configuration Release
+
+  Build de TEST (serveur de licences local) : -LicenseServerUrl et -LicensePublicKey remplacent, pour cette
+  compilation seulement, les valeurs de branding.props (qui restent la référence pour la production).
+    ./installer/build.ps1 -LicenseServerUrl "http://127.0.0.1:5080/" -LicensePublicKey "<clé publique base64>"
 #>
 param(
     [string]$Configuration = "Release",
-    [string]$TimestampUrl = "http://timestamp.digicert.com"
+    [string]$TimestampUrl = "http://timestamp.digicert.com",
+    [string]$LicenseServerUrl,
+    [string]$LicensePublicKey,
+    # Build de TEST : toutes les fonctions Premium sans licence. Jamais pour un MSI distribué.
+    [switch]$TestPremium
 )
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
@@ -26,8 +34,23 @@ $projects = @(
     "src/PcSante.Service/PcSante.Service.csproj",
     "src/PcSante.Overlay/PcSante.Overlay.csproj"
 )
+$overrides = @()
+if ($LicenseServerUrl) {
+    if (-not $LicenseServerUrl.EndsWith("/")) { throw "L'URL du serveur de licences doit se terminer par « / »." }
+    $overrides += "-p:PcSanteLicenseServerUrl=$LicenseServerUrl"
+}
+if ($LicensePublicKey) {
+    if ([Convert]::FromBase64String($LicensePublicKey).Length -ne 32) { throw "Clé publique Ed25519 invalide (32 octets en base64 attendus)." }
+    $overrides += "-p:PcSanteLicensePublicKey=$LicensePublicKey"
+}
+if ($TestPremium) {
+    $overrides += "-p:PcSanteTestPremium=true"
+    Write-Warning "Build de TEST « toutes fonctions » : Premium débloqué sans licence. NE PAS DISTRIBUER."
+}
+if ($LicenseServerUrl -or $LicensePublicKey) { Write-Warning "Build de TEST : serveur de licences $LicenseServerUrl (valeurs de branding.props remplacées)." }
+
 foreach ($p in $projects) {
-    dotnet publish (Join-Path $root $p) -c $Configuration -r win-x64 --self-contained false -o $publish -p:DebugType=none
+    dotnet publish (Join-Path $root $p) -c $Configuration -r win-x64 --self-contained false -o $publish -p:DebugType=none @overrides
     if ($LASTEXITCODE -ne 0) { throw "Échec de la publication de $p" }
 }
 

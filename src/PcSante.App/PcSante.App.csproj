@@ -4,6 +4,8 @@
     <OutputType>WinExe</OutputType>
     <UseWPF>true</UseWPF>
     <AssemblyName>PcSante</AssemblyName>
+    <!-- Description du fichier : nom lisible dans le Gestionnaire des tâches et la liste de démarrage. -->
+    <AssemblyTitle>$(PcSanteProductName)</AssemblyTitle>
     <RootNamespace>PcSante.App</RootNamespace>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <SelfContained>false</SelfContained>

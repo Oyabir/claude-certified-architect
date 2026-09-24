@@ -44,6 +44,8 @@ public sealed partial class ProtectionViewModel(MainViewModel main) : PageViewMo
 
     public string DefenderSummary => Defender switch
     {
+        { OtherActiveAntivirus.Count: > 0 } when !DefenderActive => Loc.F("Protection_OtherAntivirusNamed", string.Join(", ", Defender.OtherActiveAntivirus)),
+        { OtherActiveAntivirus.Count: 0 } when !DefenderActive => Loc.T("Protection_NoAntivirus"),
         null or { IsAvailable: false } => Loc.T("Protection_DefenderUnavailable"),
         { IsActiveAntivirus: false } => Loc.T("Protection_OtherAntivirus"),
         _ => Loc.F("Protection_DefenderSummary", Loc.Date(Defender.SignaturesUpdatedAt), Loc.Date(Max(Defender.LastQuickScanAt, Defender.LastFullScanAt))),

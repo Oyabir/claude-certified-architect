@@ -44,8 +44,17 @@ public sealed partial class HomeViewModel(MainViewModel main) : PageViewModel(ma
 
     public bool HasIssues => Issues.Count > 0;
 
-    /// <summary>Un seul bouton principal : « Tout corriger » s'il y a des corrections possibles, sinon « Analyser mon PC ».</summary>
-    public bool PrimaryIsFixAll => Issues.Any(i => i.Issue.Fix?.Command is not null);
+    /// <summary>
+    /// Un seul bouton principal : « Tout corriger » s'il y a des corrections possibles et l'offre Premium,
+    /// sinon « Analyser mon PC » (en Gratuit, « Tout corriger · Premium » reste visible en bouton secondaire).
+    /// </summary>
+    public bool PrimaryIsFixAll => Main.IsPremium && HasFixable;
+
+    public bool ShowFixAllPremium => !Main.IsPremium && HasFixable;
+
+    public string FixAllPremiumLabel => Loc.F("Common_WithPremium", Loc.T("Home_FixAll"));
+
+    private bool HasFixable => Issues.Any(i => i.Issue.Fix?.Command is not null);
 
     public override async Task LoadAsync()
     {
@@ -116,6 +125,12 @@ public sealed partial class HomeViewModel(MainViewModel main) : PageViewModel(ma
             return;
         }
 
+        if (!Main.IsPremium)
+        {
+            Main.ShowPremiumRequired();
+            return;
+        }
+
         var recap = string.Join(Environment.NewLine, fixable.Select(i => "• " + i.FixLabel + " — " + i.Title));
         if (!await Dialogs.ConfirmAsync(Loc.T("Home_FixAll"), Loc.F("Home_FixAllRecap", recap), Loc.T("Home_FixAll")).ConfigureAwait(true))
         {
@@ -165,6 +180,17 @@ public sealed partial class HomeViewModel(MainViewModel main) : PageViewModel(ma
         }
     }
 
+    private string FixLabelOf(IssueFix? fix)
+    {
+        if (fix?.Command is not { } command)
+        {
+            return Loc.T("Fix_Open");
+        }
+
+        var label = Loc.T($"Fix_{command}");
+        return Main.NeedsPremium(command) ? Loc.F("Common_WithPremium", label) : label;
+    }
+
     private async Task ReanalyzeQuietlyAsync()
     {
         var result = await Service.RunAsync(CommandId.RunHealthAnalysis).ConfigureAwait(true);
@@ -185,7 +211,7 @@ public sealed partial class HomeViewModel(MainViewModel main) : PageViewModel(ma
             {
                 var args = issue.Args.Cast<object?>().ToArray();
                 Issues.Add(new IssueItem(issue, Loc.F(issue.TitleKey, args), Loc.F(issue.WhyKey, args), Loc.T($"Category_{issue.Category}"),
-                    issue.Fix?.Command is { } c ? Loc.T($"Fix_{c}") : Loc.T("Fix_Open")));
+                    FixLabelOf(issue.Fix)));
             }
 
             SubScores.Add(new SubScoreItem(Loc.T("Category_Security"), report.SubScores.Security));
@@ -201,5 +227,6 @@ public sealed partial class HomeViewModel(MainViewModel main) : PageViewModel(ma
         OnPropertyChanged(nameof(HasReport));
         OnPropertyChanged(nameof(HasIssues));
         OnPropertyChanged(nameof(PrimaryIsFixAll));
+        OnPropertyChanged(nameof(ShowFixAllPremium));
     }
 }

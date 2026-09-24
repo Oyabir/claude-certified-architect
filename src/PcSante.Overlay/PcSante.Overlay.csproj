@@ -3,6 +3,8 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
     <AssemblyName>PcSante.Overlay</AssemblyName>
+    <!-- Description du fichier : nom lisible dans le Gestionnaire des tâches et la liste de démarrage. -->
+    <AssemblyTitle>$(PcSanteProductName) – mini-affichage</AssemblyTitle>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <!-- Empreinte mémoire minimale (objectif < 30 Mo) -->
     <ServerGarbageCollection>false</ServerGarbageCollection>

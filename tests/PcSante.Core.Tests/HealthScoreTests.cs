@@ -23,7 +23,7 @@ public class HealthScoreTests
 
         report.Score.Should().BeLessThan(HealthScoreCalculator.OrangeThreshold);
         report.Color.Should().Be(HealthColor.Red);
-        report.SubScores.Storage.Should().Be(55);
+        report.SubScores.Storage.Should().Be(49, "un problème rouge rend aussi son sous-score rouge");
     }
 
     [Fact]
@@ -32,6 +32,18 @@ public class HealthScoreTests
         var report = HealthScoreCalculator.BuildReport(DateTimeOffset.UnixEpoch, [I(HealthCategory.Performance, IssueSeverity.Warning)], TimeSpan.Zero);
 
         report.Score.Should().Be(79);
+        report.Color.Should().Be(HealthColor.Orange);
+    }
+
+    [Fact]
+    public void Sous_score_avec_probleme_orange_n_est_jamais_vert()
+    {
+        // Cas vu en test : restauration désactivée → Stabilité à 80 (vert) alors que le problème est orange.
+        var report = HealthScoreCalculator.BuildReport(DateTimeOffset.UnixEpoch, [I(HealthCategory.Stability, IssueSeverity.Warning)], TimeSpan.Zero);
+
+        report.SubScores.Stability.Should().Be(79);
+        HealthScoreCalculator.ColorOf(report.SubScores.Stability).Should().Be(HealthColor.Orange);
+        report.SubScores.Security.Should().Be(100, "les autres catégories ne sont pas touchées");
         report.Color.Should().Be(HealthColor.Orange);
     }
 

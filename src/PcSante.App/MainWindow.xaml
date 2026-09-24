@@ -107,25 +107,28 @@
                     </DockPanel>
                 </Border>
 
-                <!-- Message de résultat après chaque action (jamais de silence). -->
-                <ui:InfoBar Grid.Row="1" Margin="0,0,0,12"
-                            IsOpen="{Binding Message.IsOpen, Mode=TwoWay}"
-                            Severity="{Binding Message.Severity}"
-                            Title="{Binding Message.Text}"
-                            IsClosable="True"
-                            AutomationProperties.LiveSetting="Assertive">
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal">
+                <!--
+                  Message de résultat après chaque action (jamais de silence).
+                  L'InfoBar de WPF-UI 3 n'affiche pas son contenu : « Détails » et « Passer à Premium » sont donc placés dessous.
+                -->
+                <StackPanel Grid.Row="1" Margin="0,0,0,12">
+                    <ui:InfoBar IsOpen="{Binding Message.IsOpen, Mode=TwoWay}"
+                                Severity="{Binding Message.Severity}"
+                                Title="{Binding Message.Text}"
+                                IsClosable="True"
+                                AutomationProperties.LiveSetting="Assertive" />
+                    <StackPanel Visibility="{Binding Message.IsOpen, Converter={StaticResource Visible}}">
+                        <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                            <ui:Button Content="{l:T License_GetPremium}" Appearance="Primary" Command="{Binding GoToLicenseCommand}"
+                                       Visibility="{Binding Message.SuggestPremium, Converter={StaticResource Visible}}" Margin="0,0,8,0" />
                             <ui:Button Content="{l:T Common_Details}" Appearance="Transparent" Command="{Binding ToggleDetailsCommand}"
                                        Visibility="{Binding Message.HasDetails, Converter={StaticResource Visible}}" />
-                            <ui:Button Content="{l:T License_GetPremium}" Appearance="Primary" Command="{Binding GoToLicenseCommand}"
-                                       Visibility="{Binding Message.SuggestPremium, Converter={StaticResource Visible}}" />
                         </StackPanel>
                         <TextBox Text="{Binding Message.Details, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" Margin="0,6,0,0"
                                  FontFamily="Consolas" FontSize="13"
                                  Visibility="{Binding Message.ShowDetails, Converter={StaticResource Visible}}" />
                     </StackPanel>
-                </ui:InfoBar>
+                </StackPanel>
 
                 <ContentControl Grid.Row="2" Content="{Binding CurrentPage}" Focusable="False" />
             </Grid>

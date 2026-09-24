@@ -39,9 +39,20 @@ public sealed class LicenseManager
 
     public HardwareFingerprint Fingerprint => _fingerprint ??= HardwareFingerprint.Compute(_hardware.Read());
 
+#if PCSANTE_TEST_PREMIUM
+    public const bool IsTestPremiumBuild = true;
+#else
+    /// <summary>Vrai uniquement dans un build de test (build.ps1 -TestPremium) ; faux dans tout build de production.</summary>
+    public const bool IsTestPremiumBuild = false;
+#endif
+
     /// <summary>État actuel, calculé hors ligne à partir du jeton stocké.</summary>
     public LicenseStatus GetStatus()
     {
+#if PCSANTE_TEST_PREMIUM
+        // Build de TEST : toutes les fonctions Premium sans licence (jamais compilé en production).
+        return new LicenseStatus { State = LicenseState.Active, EffectiveTier = LicenseTier.Premium, KeyHint = "TEST", Seats = 1 };
+#else
         if (_publicKey is null)
         {
             return LicenseStatus.Free(LicenseState.NotConfigured);
@@ -71,6 +82,7 @@ public sealed class LicenseManager
 
             return Evaluate(state, now);
         }
+#endif
     }
 
     public bool IsRevalidationDue()
@@ -189,7 +201,7 @@ public sealed class LicenseManager
 
             var payload = LicenseTokenCodec.Verify(response.Token, _publicKey!);
             if (payload is null
-                || !Fingerprint.Matches(new HardwareFingerprint(payload.Fingerprint))
+                || !new HardwareFingerprint(payload.Fingerprint).Matches(Fingerprint)
                 || (normalizedKey is not null && payload.KeyHash != LicenseKeyFormat.Hash(normalizedKey)))
             {
                 return Fail(FailureReason.LicenseInvalidKey, "License_InvalidServerAnswer");
@@ -239,7 +251,7 @@ public sealed class LicenseManager
             Seats = payload.Seats,
         };
 
-        if (!Fingerprint.Matches(new HardwareFingerprint(payload.Fingerprint)))
+        if (!new HardwareFingerprint(payload.Fingerprint).Matches(Fingerprint))
         {
             return status with { State = LicenseState.WrongComputer, EffectiveTier = LicenseTier.Free };
         }
