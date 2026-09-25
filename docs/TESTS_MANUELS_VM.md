@@ -149,4 +149,27 @@ Mesures avec l'Analyseur de performances (`perfmon`) sur 10 minutes, PC au repos
 
 Si N3 dépasse 30 Mo : vérifier `System.GC.ConserveMemory` dans `PcSante.Overlay.runtimeconfig.json` ; en dernier recours, publier le mini-affichage en NativeAOT (compilation sous Windows).
 
+## 10. Modules V2 (actions réelles : en VM uniquement)
+
+| # | Action | Résultat attendu | OK |
+| --- | --- | --- | --- |
+| V1 | Planification : activer « Rapport mensuel » en anglais, puis « Exécuter maintenant » via le Planificateur (`taskschd.msc`, dossier \PcSante) | PDF en anglais dans Documents publics\PC Santé\Rapports ; « Ouvrir le dossier des rapports » l'affiche | ☐ |
+| V2 | Planification : « Vérification hebdomadaire des mises à jour », jour « Le 1er du mois » | Tâche mensuelle dans le Planificateur, recherche de mises à jour à l'exécution | ☐ |
+| V3 | Système : « Vider le cache des adresses Internet » | Message de réussite, aucun point de restauration | ☐ |
+| V4 | Système : « Réparer la connexion réseau » | Confirmation, point de restauration créé, message « redémarrez » ; Internet fonctionne après redémarrage | ☐ |
+| V5 | Activer le compte Invité (`lusrmgr.msc`), relancer l'analyse | Problème orange « Le compte Invité est ouvert » ; « Désactiver » puis « Annuler » depuis Optimisation | ☐ |
+| V6 | Protection : installer un antivirus tiers gratuit | Il apparaît dans « Antivirus installés » ; Defender passe en veille sans problème rouge | ☐ |
+| V7 | BitLocker (Windows Pro avec TPM virtuel) : compte standard | « Seul un compte administrateur… » ; aucune clé obtenue | ☐ |
+| V8 | BitLocker : compte administrateur, « Chiffrer le disque » puis annuler l'enregistrement du fichier | Chiffrement NON lancé (« Clé non enregistrée ») | ☐ |
+| V9 | BitLocker : enregistrer la clé sur une clé USB, confirmer | Chiffrement en cours (pourcentage) ; la clé du fichier correspond à `manage-bde -protectors -get C:` | ☐ |
+| V10 | BitLocker sur Windows Famille | Section « Chiffrement du disque » absente | ☐ |
+| V11 | Sessions : se connecter en Bureau à distance depuis une autre VM | Session « À distance depuis <IP> » ; analyse : « Connexion à distance depuis une adresse inhabituelle » | ☐ |
+| V12 | Sessions : envoyer un message, déconnecter, fermer la session (compte administrateur) ; même chose avec un compte standard | Message reçu, déconnexion, fermeture ; compte standard refusé | ☐ |
+| V13 | Optimisation : profil « Bureautique » puis « Annuler » | DiagTrack et MapsBroker en Manuel, puis de nouveau Automatique | ☐ |
+| V14 | Optimisation : « Alléger » les effets visuels, fermer puis rouvrir la session, puis « Annuler » | Animations coupées, texte lisse ; retour à l'état initial | ☐ |
+| V15 | Optimisation : « Optimiser » le disque (SSD puis HDD) | Tâche en arrière-plan ; journal d'audit « Disque optimisé » | ☐ |
+| V16 | Fichier d'échange réglé à la main, puis « Laisser Windows le gérer » et redémarrer | Gestion automatique active ; « Annuler » la désactive | ☐ |
+| V17 | Rapports : « Exporter en CSV » et ouvrir dans Excel | Accents et arabe corrects, colonnes séparées | ☐ |
+| V18 | Processus : Chrome, Edge Update, Adobe | Description en langage simple sous le nom | ☐ |
+
 **Restaurer l'instantané « propre » entre deux campagnes.**
