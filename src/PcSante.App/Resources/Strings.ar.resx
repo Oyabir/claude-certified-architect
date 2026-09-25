@@ -594,4 +594,17 @@
   <data name="Reports_MonthlyAuto" xml:space="preserve"><value>التقارير الشهرية التلقائية (مهمة «التقرير الشهري» في الجدولة) تُحفظ في المستندات العامة، مجلد «PC Santé»، المجلد الفرعي «Rapports».</value></data>
   <data name="Reports_OpenFolder" xml:space="preserve"><value>فتح مجلد التقارير</value></data>
   <data name="Reports_NoMonthlyReport" xml:space="preserve"><value>لا يوجد تقرير شهري حتى الآن. فعّل مهمة «التقرير الشهري» في الجدولة.</value></data>
+  <data name="Command_FlushDnsCache" xml:space="preserve"><value>مسح ذاكرة عناوين الإنترنت</value></data>
+  <data name="Explain_FlushDnsCache" xml:space="preserve"><value>مفيد إذا تعذّر فتح موقع بينما يعمل الإنترنت. بدون أي خطر (مسح DNS).</value></data>
+  <data name="Duration_FlushDnsCache" xml:space="preserve"><value>بضع ثوانٍ</value></data>
+  <data name="Busy_FlushDnsCache" xml:space="preserve"><value>جارٍ مسح ذاكرة العناوين…</value></data>
+  <data name="Command_ResetNetworkStack" xml:space="preserve"><value>إصلاح الاتصال بالشبكة</value></data>
+  <data name="Explain_ResetNetworkStack" xml:space="preserve"><value>يعيد ضبط إعدادات الشبكة في Windows إذا توقف الإنترنت تمامًا. تُنشأ نقطة استعادة أولًا؛ تلزم إعادة التشغيل (Winsock وTCP/IP).</value></data>
+  <data name="Duration_ResetNetworkStack" xml:space="preserve"><value>أقل من دقيقة، ثم إعادة التشغيل</value></data>
+  <data name="Busy_ResetNetworkStack" xml:space="preserve"><value>جارٍ إصلاح الاتصال بالشبكة…</value></data>
+  <data name="Result_DnsFlushed" xml:space="preserve"><value>تم مسح ذاكرة عناوين الإنترنت. أعد محاولة فتح الموقع.</value></data>
+  <data name="Result_NetworkResetRestart" xml:space="preserve"><value>تمت إعادة ضبط إعدادات الشبكة. أعد تشغيل الحاسوب لإكمال الإصلاح.</value></data>
+  <data name="Result_NetworkRepairFailed" xml:space="preserve"><value>لم يكتمل إصلاح الشبكة. لم تُغيَّر إعداداتك، أو يمكنك الرجوع عبر نقطة استعادة.</value></data>
+  <data name="System_Network" xml:space="preserve"><value>الاتصال بالإنترنت</value></data>
+  <data name="System_NetworkTech" xml:space="preserve"><value>الشبكة (DNS، Winsock، TCP/IP)</value></data>
 </root>

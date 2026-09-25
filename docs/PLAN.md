@@ -68,7 +68,7 @@ Fin : ✅ tests d'intégration serveur (activation, refus 2e PC, transfert, hors
 Accord du commanditaire : modules locaux V2 + console PME. Hors périmètre : M10 assistant IA (interface `IAiAssistant` seulement), V3 (modèle IA local, marque blanche). Toute action V2 est Premium, passe par le catalogue fermé et le cycle `SystemActionPipeline`, texte fr/en/ar, confirmation si elle ferme un programme, redémarre ou supprime. Critère de fin de chaque lot : compilation sans avertissement, tests verts, version déposée dans `C:\dev\PcSante-Installation`.
 
 - ✅ V2-1 Planification (M9) : modèles « vérification des mises à jour » (hebdomadaire) et « rapport mensuel » (le 1er du mois, PDF produit par le service dans la langue choisie, Documents publics) ; fréquence « 1er du mois » pour tous les modèles 🖥️
-- ⏳ V2-2 Réseau (M4/M6) : vidage DNS, réinitialisation Winsock et TCP/IP (redémarrage demandé, confirmation)
+- ✅ V2-2 Réseau (M4/M6) : vidage DNS, réinitialisation Winsock et TCP/IP (point de restauration, confirmation, redémarrage laissé à l'utilisateur), écran Système 🖥️
 - ⏳ V2-3 Comptes (M6) : administrateurs locaux affichés, compte Invité désactivable (réversible)
 - ⏳ V2-4 Antivirus tiers (M2) : produits du Centre de sécurité Windows et leur état sur l'écran Protection
 - ⏳ V2-5 BitLocker (M6, éditions Pro) : état, activation, sauvegarde de la clé de récupération ; masqué sur Famille

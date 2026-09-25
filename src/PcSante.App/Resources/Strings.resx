@@ -594,4 +594,17 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Reports_MonthlyAuto" xml:space="preserve"><value>Rapports mensuels automatiques (tâche « Rapport mensuel » dans Planification) : ils sont rangés dans Documents publics, dossier « PC Santé », sous-dossier « Rapports ».</value></data>
   <data name="Reports_OpenFolder" xml:space="preserve"><value>Ouvrir le dossier des rapports</value></data>
   <data name="Reports_NoMonthlyReport" xml:space="preserve"><value>Aucun rapport mensuel pour l'instant. Activez la tâche « Rapport mensuel » dans Planification.</value></data>
+  <data name="Command_FlushDnsCache" xml:space="preserve"><value>Vider le cache des adresses Internet</value></data>
+  <data name="Explain_FlushDnsCache" xml:space="preserve"><value>Utile si un site ne s'ouvre plus alors qu'Internet fonctionne. Sans risque (vidage DNS).</value></data>
+  <data name="Duration_FlushDnsCache" xml:space="preserve"><value>Quelques secondes</value></data>
+  <data name="Busy_FlushDnsCache" xml:space="preserve"><value>Vidage du cache des adresses…</value></data>
+  <data name="Command_ResetNetworkStack" xml:space="preserve"><value>Réparer la connexion réseau</value></data>
+  <data name="Explain_ResetNetworkStack" xml:space="preserve"><value>Remet à zéro les réglages réseau de Windows si Internet ne marche plus du tout. Un point de restauration est créé avant ; redémarrage nécessaire (Winsock et TCP/IP).</value></data>
+  <data name="Duration_ResetNetworkStack" xml:space="preserve"><value>Moins d'une minute, puis redémarrage</value></data>
+  <data name="Busy_ResetNetworkStack" xml:space="preserve"><value>Réparation de la connexion réseau…</value></data>
+  <data name="Result_DnsFlushed" xml:space="preserve"><value>Cache des adresses Internet vidé. Réessayez d'ouvrir le site.</value></data>
+  <data name="Result_NetworkResetRestart" xml:space="preserve"><value>Réglages réseau réinitialisés. Redémarrez le PC pour terminer la réparation.</value></data>
+  <data name="Result_NetworkRepairFailed" xml:space="preserve"><value>La réparation réseau n'a pas abouti. Vos réglages n'ont pas été modifiés, ou un point de restauration permet de revenir en arrière.</value></data>
+  <data name="System_Network" xml:space="preserve"><value>Connexion Internet</value></data>
+  <data name="System_NetworkTech" xml:space="preserve"><value>Réseau (DNS, Winsock, TCP/IP)</value></data>
 </root>

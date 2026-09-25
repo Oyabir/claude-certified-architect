@@ -24,6 +24,8 @@ public static class SystemTools
 
     public static string Netsh => Path.Combine(System32, "netsh.exe");
 
+    public static string Ipconfig => Path.Combine(System32, "ipconfig.exe");
+
     public static string MsiExec => Path.Combine(System32, "msiexec.exe");
 
     public static string MpCmdRun => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Windows Defender", "MpCmdRun.exe");

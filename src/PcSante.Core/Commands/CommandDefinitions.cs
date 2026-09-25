@@ -61,6 +61,8 @@ public static class CommandDefinitions
         A(CommandId.EnableFirewallProfile, SafeguardKind.OwnBackup, p: Profile),
         A(CommandId.DisableFirewallProfile, SafeguardKind.OwnBackup, ConfirmationKind.ReducesProtection, p: Profile),
         A(CommandId.ResetFirewallRules, SafeguardKind.RestorePointAndOwnBackup, ConfirmationKind.ReducesProtection),
+        A(CommandId.FlushDnsCache, SafeguardKind.None),
+        A(CommandId.ResetNetworkStack, SafeguardKind.RestorePoint, ConfirmationKind.RestartsComputer),
 
         // Windows Update
         Q(CommandId.GetUpdateStatus),

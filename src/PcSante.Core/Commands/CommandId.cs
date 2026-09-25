@@ -39,6 +39,8 @@ public enum CommandId
     RunDismRepair = 321,
     CreateRestorePoint = 322,
     EnableSystemRestore = 323,
+    FlushDnsCache = 330,
+    ResetNetworkStack = 331,
 
     // --- Processus (M3) ---
     GetProcesses = 400,

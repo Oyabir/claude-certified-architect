@@ -31,6 +31,8 @@ public sealed partial class SystemViewModel(MainViewModel main) : PageViewModel(
 
     public ObservableCollection<SystemActionItem> FirewallActions { get; } = [];
 
+    public ObservableCollection<SystemActionItem> NetworkActions { get; } = [];
+
     public override async Task LoadAsync()
     {
         var info = await Query<SystemInfo>(CommandId.GetSystemInfo).ConfigureAwait(true);
@@ -43,6 +45,7 @@ public sealed partial class SystemViewModel(MainViewModel main) : PageViewModel(
         Fill(RepairActions, [CommandId.RunSystemFileCheck, CommandId.RunDismRepair]);
         Fill(RestoreActions, [CommandId.CreateRestorePoint, CommandId.EnableSystemRestore]);
         Fill(FirewallActions, [CommandId.ResetFirewallRules]);
+        Fill(NetworkActions, [CommandId.FlushDnsCache, CommandId.ResetNetworkStack]);
     }
 
     /// <summary>Bouton principal de l'écran.</summary>

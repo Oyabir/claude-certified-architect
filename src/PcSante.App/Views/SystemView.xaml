@@ -45,6 +45,10 @@
                 <TextBlock Text="{l:T Protection_Firewall}" Style="{StaticResource SectionTitle}" />
                 <TextBlock Text="{l:T Protection_FirewallTech}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
                 <ItemsControl ItemsSource="{Binding FirewallActions}" ItemTemplate="{StaticResource ActionRow}" Focusable="False" />
+
+                <TextBlock Text="{l:T System_Network}" Style="{StaticResource SectionTitle}" />
+                <TextBlock Text="{l:T System_NetworkTech}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
+                <ItemsControl ItemsSource="{Binding NetworkActions}" ItemTemplate="{StaticResource ActionRow}" Focusable="False" />
             </StackPanel>
         </ScrollViewer>
         <v:BusyOverlay />

@@ -333,6 +333,25 @@ public sealed class ActionTests
     }
 
     [Fact]
+    public async Task Reparation_reseau_dns_sans_risque_et_reinitialisation_protegee()
+    {
+        await using var svc = new ServiceFixture();
+
+        (await svc.Run(CommandId.FlushDnsCache)).MessageKey.Should().Be("Result_DnsFlushed");
+        svc.Restore.Points.Should().BeEmpty("vider le cache DNS ne modifie pas Windows");
+
+        (await svc.Run(CommandId.ResetNetworkStack)).Reason.Should().Be(FailureReason.ConfirmationRequired);
+        svc.Network.Calls.Should().Equal("dns");
+
+        (await svc.Run(CommandId.ResetNetworkStack, confirmed: true)).MessageKey.Should().Be("Result_NetworkResetRestart");
+        svc.Restore.Points.Should().ContainSingle("point de restauration avant la réinitialisation");
+        svc.Network.Calls.Should().Equal("dns", "reset");
+
+        svc.Network.Succeeds = false;
+        (await svc.Run(CommandId.FlushDnsCache)).MessageKey.Should().Be("Result_NetworkRepairFailed");
+    }
+
+    [Fact]
     public async Task Rapport_mensuel_planifie_dans_la_langue_choisie()
     {
         await using var svc = new ServiceFixture();

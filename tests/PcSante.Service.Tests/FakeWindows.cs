@@ -392,3 +392,22 @@ internal sealed class FakeLauncher : IInstallerLauncher
         return true;
     }
 }
+
+internal sealed class FakeNetwork : INetworkRepairApi
+{
+    public List<string> Calls { get; } = [];
+
+    public bool Succeeds { get; set; } = true;
+
+    public Task<bool> FlushDnsAsync(CancellationToken cancellationToken)
+    {
+        Calls.Add("dns");
+        return Task.FromResult(Succeeds);
+    }
+
+    public Task<bool> ResetNetworkStackAsync(CancellationToken cancellationToken)
+    {
+        Calls.Add("reset");
+        return Task.FromResult(Succeeds);
+    }
+}

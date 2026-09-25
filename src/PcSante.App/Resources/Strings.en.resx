@@ -594,4 +594,17 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Reports_MonthlyAuto" xml:space="preserve"><value>Automatic monthly reports ("Monthly report" task in Scheduling) are saved in Public Documents, folder "PC Santé", subfolder "Rapports".</value></data>
   <data name="Reports_OpenFolder" xml:space="preserve"><value>Open the reports folder</value></data>
   <data name="Reports_NoMonthlyReport" xml:space="preserve"><value>No monthly report yet. Turn on the "Monthly report" task in Scheduling.</value></data>
+  <data name="Command_FlushDnsCache" xml:space="preserve"><value>Clear the Internet address cache</value></data>
+  <data name="Explain_FlushDnsCache" xml:space="preserve"><value>Useful if a website won't open while the Internet works. Risk-free (DNS flush).</value></data>
+  <data name="Duration_FlushDnsCache" xml:space="preserve"><value>A few seconds</value></data>
+  <data name="Busy_FlushDnsCache" xml:space="preserve"><value>Clearing the address cache…</value></data>
+  <data name="Command_ResetNetworkStack" xml:space="preserve"><value>Repair the network connection</value></data>
+  <data name="Explain_ResetNetworkStack" xml:space="preserve"><value>Resets Windows network settings if the Internet doesn't work at all. A restore point is created first; restart required (Winsock and TCP/IP).</value></data>
+  <data name="Duration_ResetNetworkStack" xml:space="preserve"><value>Under a minute, then a restart</value></data>
+  <data name="Busy_ResetNetworkStack" xml:space="preserve"><value>Repairing the network connection…</value></data>
+  <data name="Result_DnsFlushed" xml:space="preserve"><value>Internet address cache cleared. Try opening the website again.</value></data>
+  <data name="Result_NetworkResetRestart" xml:space="preserve"><value>Network settings reset. Restart the PC to finish the repair.</value></data>
+  <data name="Result_NetworkRepairFailed" xml:space="preserve"><value>The network repair did not complete. Your settings were not changed, or a restore point lets you go back.</value></data>
+  <data name="System_Network" xml:space="preserve"><value>Internet connection</value></data>
+  <data name="System_NetworkTech" xml:space="preserve"><value>Network (DNS, Winsock, TCP/IP)</value></data>
 </root>

@@ -142,3 +142,36 @@ public sealed class EnableSystemRestoreAction(IRestorePointApi restore) : System
     public override Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) =>
         restore.IsEnabledAsync(cancellationToken);
 }
+
+/// <summary>Vidage du cache DNS : corrige les sites qui ne s'ouvrent plus après un changement d'adresse.</summary>
+public sealed class FlushDnsAction(INetworkRepairApi network) : SystemAction
+{
+    public override CommandId Command => CommandId.FlushDnsCache;
+
+    public override Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken) => Task.FromResult(CheckResult.Proceed);
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await network.FlushDnsAsync(cancellationToken).ConfigureAwait(false)
+            ? ExecutionResult.Ok("Result_DnsFlushed")
+            : ExecutionResult.Fail("Result_NetworkRepairFailed");
+
+    public override Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) => Task.FromResult(true);
+}
+
+/// <summary>
+/// Réinitialisation de Winsock et TCP/IP (point de restauration avant). Effet au redémarrage : le résultat le dit,
+/// le PC n'est jamais redémarré sans l'utilisateur.
+/// </summary>
+public sealed class ResetNetworkStackAction(INetworkRepairApi network) : SystemAction
+{
+    public override CommandId Command => CommandId.ResetNetworkStack;
+
+    public override Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken) => Task.FromResult(CheckResult.Proceed);
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await network.ResetNetworkStackAsync(cancellationToken).ConfigureAwait(false)
+            ? ExecutionResult.Ok("Result_NetworkResetRestart")
+            : ExecutionResult.Fail("Result_NetworkRepairFailed");
+
+    public override Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) => Task.FromResult(true);
+}
