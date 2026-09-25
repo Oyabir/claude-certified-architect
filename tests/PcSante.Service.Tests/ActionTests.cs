@@ -352,6 +352,17 @@ public sealed class ActionTests
     }
 
     [Fact]
+    public async Task Antivirus_declares_consultables_en_offre_gratuite()
+    {
+        await using var svc = new ServiceFixture(premium: false);
+        svc.SecurityCenter.Products.Add(new AntivirusProduct("Norton 360", true, false, false));
+
+        var products = (await svc.Run(CommandId.GetAntivirusProducts)).GetData<List<AntivirusProduct>>()!;
+
+        products.Should().HaveCount(2).And.Contain(p => p.Name == "Norton 360" && p.Enabled && !p.UpToDate && !p.IsDefender);
+    }
+
+    [Fact]
     public async Task Compte_invite_desactive_puis_annule_et_signale_par_l_analyse()
     {
         await using var svc = new ServiceFixture();

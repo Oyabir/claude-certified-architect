@@ -33,6 +33,7 @@ internal sealed class ServiceFixture : IAsyncDisposable
         services.AddSingleton<ISystemRepairApi>(Repair);
         services.AddSingleton<INetworkRepairApi>(Network);
         services.AddSingleton<ILocalAccountsApi>(Accounts);
+        services.AddSingleton<ISecurityCenterApi>(SecurityCenter);
         services.AddSingleton<IRestorePointApi>(Restore);
         services.AddSingleton<IProcessApi>(Processes);
         services.AddSingleton<IServiceControlApi>(ServicesApi);
@@ -76,6 +77,8 @@ internal sealed class ServiceFixture : IAsyncDisposable
     public FakeNetwork Network { get; } = new();
 
     public FakeAccounts Accounts { get; } = new();
+
+    public FakeSecurityCenter SecurityCenter { get; } = new();
 
     public FakeRestore Restore { get; } = new();
 

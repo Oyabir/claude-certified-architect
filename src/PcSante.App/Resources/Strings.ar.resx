@@ -628,4 +628,9 @@
   <data name="Account_Guest" xml:space="preserve"><value>ضيف</value></data>
   <data name="Account_Enabled" xml:space="preserve"><value>نشط</value></data>
   <data name="Account_Disabled" xml:space="preserve"><value>معطّل</value></data>
+  <data name="Command_GetAntivirusProducts" xml:space="preserve"><value>برامج مكافحة الفيروسات المثبتة</value></data>
+  <data name="Protection_AvInstalled" xml:space="preserve"><value>برامج مكافحة الفيروسات المثبتة</value></data>
+  <data name="Protection_AvInstalledTech" xml:space="preserve"><value>مسجّلة في مركز أمان Windows</value></data>
+  <data name="Protection_AvUpToDate" xml:space="preserve"><value>الحماية محدّثة</value></data>
+  <data name="Protection_AvOutdated" xml:space="preserve"><value>الحماية غير محدّثة: افتح برنامج مكافحة الفيروسات لتحديثه</value></data>
 </root>

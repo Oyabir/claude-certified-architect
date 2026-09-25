@@ -36,6 +36,8 @@ public sealed partial class ProtectionViewModel(MainViewModel main) : PageViewMo
 
     public ObservableCollection<ProtectionItem> Firewall { get; } = [];
 
+    public ObservableCollection<ProtectionItem> AntivirusProducts { get; } = [];
+
     public ObservableCollection<ThreatItem> Threats { get; } = [];
 
     public ObservableCollection<QuarantineRow> Quarantine { get; } = [];
@@ -64,6 +66,13 @@ public sealed partial class ProtectionViewModel(MainViewModel main) : PageViewMo
             Protections.Add(new ProtectionItem(Loc.T("Protection_Realtime"), Loc.T("Protection_RealtimeTech"), Defender.RealTimeProtectionEnabled, Defender.RealTimeProtectionEnabled ? null : CommandId.EnableRealtimeProtection));
             Protections.Add(new ProtectionItem(Loc.T("Protection_Cloud"), Loc.T("Protection_CloudTech"), Defender.CloudProtectionEnabled, Defender.CloudProtectionEnabled ? null : CommandId.EnableCloudProtection));
             Protections.Add(new ProtectionItem(Loc.T("Protection_Ransomware"), Loc.T("Protection_RansomwareTech"), Defender.ControlledFolderAccessEnabled, Defender.ControlledFolderAccessEnabled ? null : CommandId.EnableControlledFolderAccess));
+        }
+
+        // Antivirus déclarés à Windows (Defender et antivirus tiers) : consultation seulement.
+        AntivirusProducts.Clear();
+        foreach (var av in await Query<List<AntivirusProduct>>(CommandId.GetAntivirusProducts).ConfigureAwait(true) ?? [])
+        {
+            AntivirusProducts.Add(new ProtectionItem(av.Name, Loc.T(av.UpToDate ? "Protection_AvUpToDate" : "Protection_AvOutdated"), av.Enabled, null));
         }
 
         Firewall.Clear();

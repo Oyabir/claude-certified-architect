@@ -628,4 +628,9 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Account_Guest" xml:space="preserve"><value>Invité</value></data>
   <data name="Account_Enabled" xml:space="preserve"><value>Actif</value></data>
   <data name="Account_Disabled" xml:space="preserve"><value>Désactivé</value></data>
+  <data name="Command_GetAntivirusProducts" xml:space="preserve"><value>Antivirus installés</value></data>
+  <data name="Protection_AvInstalled" xml:space="preserve"><value>Antivirus installés</value></data>
+  <data name="Protection_AvInstalledTech" xml:space="preserve"><value>Déclarés au Centre de sécurité Windows</value></data>
+  <data name="Protection_AvUpToDate" xml:space="preserve"><value>Protection à jour</value></data>
+  <data name="Protection_AvOutdated" xml:space="preserve"><value>Protection pas à jour : ouvrez cet antivirus pour le mettre à jour</value></data>
 </root>

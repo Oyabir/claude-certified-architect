@@ -65,6 +65,15 @@ public class WindowsApiLogicTests
         WindowsDefenderApi.IsProductEnabled(productState).Should().Be(enabled);
     }
 
+    [Theory]
+    [InlineData(0x061100u, true)]
+    [InlineData(0x061110u, false)]
+    [InlineData(0x041000u, true)]
+    public void Signatures_a_jour_selon_le_centre_de_securite(uint productState, bool upToDate)
+    {
+        WindowsSecurityCenterApi.IsSignatureUpToDate(productState).Should().Be(upToDate);
+    }
+
     [Fact]
     public void Defender_exclu_des_antivirus_tiers()
     {

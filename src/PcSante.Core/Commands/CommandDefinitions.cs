@@ -58,6 +58,7 @@ public static class CommandDefinitions
 
         // Pare-feu
         Q(CommandId.GetFirewallStatus),
+        Q(CommandId.GetAntivirusProducts),
         A(CommandId.EnableFirewallProfile, SafeguardKind.OwnBackup, p: Profile),
         A(CommandId.DisableFirewallProfile, SafeguardKind.OwnBackup, ConfirmationKind.ReducesProtection, p: Profile),
         A(CommandId.ResetFirewallRules, SafeguardKind.RestorePointAndOwnBackup, ConfirmationKind.ReducesProtection),

@@ -628,4 +628,9 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Account_Guest" xml:space="preserve"><value>Guest</value></data>
   <data name="Account_Enabled" xml:space="preserve"><value>Active</value></data>
   <data name="Account_Disabled" xml:space="preserve"><value>Turned off</value></data>
+  <data name="Command_GetAntivirusProducts" xml:space="preserve"><value>Installed antivirus</value></data>
+  <data name="Protection_AvInstalled" xml:space="preserve"><value>Installed antivirus</value></data>
+  <data name="Protection_AvInstalledTech" xml:space="preserve"><value>Registered with Windows Security Center</value></data>
+  <data name="Protection_AvUpToDate" xml:space="preserve"><value>Protection up to date</value></data>
+  <data name="Protection_AvOutdated" xml:space="preserve"><value>Protection not up to date: open this antivirus to update it</value></data>
 </root>

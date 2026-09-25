@@ -25,6 +25,7 @@ public enum CommandId
     EnableRealtimeProtection = 209,
     EnableCloudProtection = 210,
     EnableControlledFolderAccess = 211,
+    GetAntivirusProducts = 212,
 
     // --- Actions système (M6) ---
     GetFirewallStatus = 300,

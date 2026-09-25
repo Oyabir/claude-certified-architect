@@ -435,3 +435,11 @@ internal sealed class FakeAccounts : ILocalAccountsApi
         return Task.FromResult(true);
     }
 }
+
+internal sealed class FakeSecurityCenter : ISecurityCenterApi
+{
+    public List<AntivirusProduct> Products { get; } = [new("Windows Defender", true, true, true)];
+
+    public Task<IReadOnlyList<AntivirusProduct>> ListAntivirusAsync(CancellationToken cancellationToken) =>
+        Task.FromResult<IReadOnlyList<AntivirusProduct>>(Products.ToList());
+}
