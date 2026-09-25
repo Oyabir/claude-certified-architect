@@ -203,6 +203,56 @@ public sealed class ConsoleTests : IDisposable
     }
 
     [Fact]
+    public async Task Nouvelles_alertes_envoyees_une_seule_fois_aux_gerants()
+    {
+        var org = await _console.CreateOrganizationAsync();
+        var device = await _console.EnrollAsync(org.EnrollmentCode, "<b>PC-PIRATE</b>");
+        await _console.ReportAsync(device, 30, new ReportedIssue("RealtimeOff", IssueSeverity.Critical, []));
+
+        await _console.RunJobsAsync();
+        await _console.RunJobsAsync();
+
+        var mail = _console.Outbox.Mails.Should().ContainSingle("un seul e-mail regroupant les alertes, envoyé une seule fois").Subject;
+        mail.To.Should().Equal("gerant@cabinet.ma");
+        mail.Subject.Should().Contain("2 nouvelle(s) alerte(s)");
+        mail.HtmlBody.Should().NotContain("<b>PC-PIRATE</b>", "le nom du poste est échappé dans le HTML").And.Contain("&lt;b&gt;PC-PIRATE");
+    }
+
+    [Fact]
+    public async Task Rapport_mensuel_envoye_le_premier_du_mois_avec_le_csv()
+    {
+        var org = await _console.CreateOrganizationAsync();
+        var device = await _console.EnrollAsync(org.EnrollmentCode);
+        await _console.ReportAsync(device, 88);
+
+        await _console.RunJobsAsync();
+        _console.Outbox.Mails.Should().NotContain(m => m.Subject.Contains("rapport de", StringComparison.Ordinal), "l'organisation vient d'être créée ce mois-ci");
+
+        _console.Time.Now = new DateTimeOffset(2026, 10, 1, 7, 0, 0, TimeSpan.Zero);
+        await _console.RunJobsAsync();
+        await _console.RunJobsAsync();
+
+        var report = _console.Outbox.Mails.Where(m => m.Subject.Contains("rapport de", StringComparison.Ordinal)).Should().ContainSingle().Subject;
+        report.Subject.Should().Contain("septembre 2026");
+        report.AttachmentName.Should().Be("pcsante-pme-2026-09.csv");
+        report.Attachment!.Take(3).Should().Equal(0xEF, 0xBB, 0xBF);
+    }
+
+    [Fact]
+    public async Task Sans_serveur_smtp_les_e_mails_sont_deposes_en_fichiers_eml()
+    {
+        var folder = Path.Combine(Path.GetTempPath(), $"pcsante-eml-{Guid.NewGuid():N}");
+        var sender = new SmtpMailSender(new EmailOptions { PickupDirectory = folder, From = "console@exemple.ma" },
+            Microsoft.Extensions.Logging.Abstractions.NullLogger<SmtpMailSender>.Instance);
+
+        (await sender.SendAsync(new OutgoingMail(["gerant@cabinet.ma"], "Essai", "<p>ok</p>"), default)).Should().BeTrue();
+
+        var eml = File.ReadAllText(Directory.GetFiles(folder, "*.eml").Should().ContainSingle().Subject);
+        eml.Should().Contain("X-Receiver: gerant@cabinet.ma");
+        Directory.Delete(folder, recursive: true);
+    }
+
+    [Fact]
     public async Task Changement_du_mot_de_passe_provisoire()
     {
         var org = await _console.CreateOrganizationAsync();

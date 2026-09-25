@@ -13,6 +13,18 @@ using PcSante.PmeConsole.Services;
 
 namespace PcSante.PmeConsole.Tests;
 
+/// <summary>Boîte d'envoi simulée : garde les e-mails au lieu de les envoyer.</summary>
+public sealed class Outbox : IMailSender
+{
+    public List<OutgoingMail> Mails { get; } = [];
+
+    public Task<bool> SendAsync(OutgoingMail mail, CancellationToken cancellationToken)
+    {
+        Mails.Add(mail);
+        return Task.FromResult(true);
+    }
+}
+
 public sealed class AdjustableTime(DateTimeOffset start) : TimeProvider
 {
     public DateTimeOffset Now { get; set; } = start;
@@ -27,6 +39,16 @@ public sealed class ConsoleFactory : WebApplicationFactory<Program>
 
     public AdjustableTime Time { get; } = new(new DateTimeOffset(2026, 9, 25, 10, 0, 0, TimeSpan.Zero));
 
+    public string MailFolder { get; } = Path.Combine(Path.GetTempPath(), $"pcsante-console-mails-{Guid.NewGuid():N}");
+
+    public Outbox Outbox { get; } = new();
+
+    public async Task RunJobsAsync()
+    {
+        using var scope = Services.CreateScope();
+        await scope.ServiceProvider.GetRequiredService<ConsoleJobs>().RunAsync(default);
+    }
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
@@ -34,8 +56,13 @@ public sealed class ConsoleFactory : WebApplicationFactory<Program>
         builder.UseSetting("RateLimiting:DevicesPerMinute", "1000");
         builder.UseSetting("RateLimiting:ManagersPerMinute", "1000");
         builder.UseSetting("Logging:Directory", Path.Combine(Path.GetTempPath(), "pcsante-console-logs"));
-        builder.UseSetting("Email:PickupDirectory", Path.Combine(Path.GetTempPath(), $"pcsante-console-mails-{Guid.NewGuid():N}"));
-        builder.ConfigureTestServices(services => services.AddSingleton<TimeProvider>(Time));
+        builder.UseSetting("Email:PickupDirectory", MailFolder);
+        builder.UseSetting("Jobs:Enabled", "false");
+        builder.ConfigureTestServices(services =>
+        {
+            services.AddSingleton<TimeProvider>(Time);
+            services.AddSingleton<IMailSender>(Outbox);
+        });
     }
 
     public async Task<NewOrganization> CreateOrganizationAsync(string name = "Cabinet Test", string email = "gerant@cabinet.ma", int seats = 2)

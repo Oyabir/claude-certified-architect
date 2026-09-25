@@ -31,6 +31,13 @@ public static class PmeConsoleApp
         builder.Services.AddScoped<DeviceService>();
         builder.Services.AddScoped<ManagerService>();
         builder.Services.AddScoped<ReportService>();
+        builder.Services.AddScoped<ConsoleJobs>();
+        builder.Services.AddSingleton(config.GetSection("Email").Get<EmailOptions>() ?? new EmailOptions());
+        builder.Services.AddSingleton<IMailSender, SmtpMailSender>();
+        if (config.GetValue("Jobs:Enabled", true))
+        {
+            builder.Services.AddHostedService<ConsoleJobsWorker>();
+        }
         AddDatabase(builder.Services, config);
 
         builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
