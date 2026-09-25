@@ -99,30 +99,26 @@ public sealed partial class HomeViewModel(MainViewModel main) : PageViewModel(ma
     }.Where(t => !string.IsNullOrEmpty(t)));
 
     /// <summary>Phrase de conclusion, construite à partir des problèmes réellement détectés.</summary>
-    public string Conclusion
+    public string Conclusion => Report is null ? Loc.T("Home_NoAnalysis") : ConclusionFor(Report);
+
+    /// <summary>Phrase de conclusion d'un rapport (Accueil et premier lancement).</summary>
+    public static string ConclusionFor(HealthReport report)
     {
-        get
+        ArgumentNullException.ThrowIfNull(report);
+        if (report.Issues.Count == 0)
         {
-            if (Report is null)
-            {
-                return Loc.T("Home_NoAnalysis");
-            }
-
-            if (Issues.Count == 0)
-            {
-                return Loc.T("Home_Hero_AllGood");
-            }
-
-            var categories = Issues.Select(i => i.Issue.Category).Distinct().ToList();
-            if (categories.Contains(HealthCategory.Security))
-            {
-                return Loc.T("Home_Hero_Security");
-            }
-
-            return categories.Count == 1
-                ? Loc.F("Home_Hero_ProtectedOne", Loc.T($"Category_{categories[0]}_Subject"))
-                : Loc.T("Home_Hero_ProtectedMany");
+            return Loc.T("Home_Hero_AllGood");
         }
+
+        var categories = report.Issues.Select(i => i.Category).Distinct().ToList();
+        if (categories.Contains(HealthCategory.Security))
+        {
+            return Loc.T("Home_Hero_Security");
+        }
+
+        return categories.Count == 1
+            ? Loc.F("Home_Hero_ProtectedOne", Loc.T($"Category_{categories[0]}_Subject"))
+            : Loc.T("Home_Hero_ProtectedMany");
     }
 
     /// <summary>« 2 points à regarder · rien n'est supprimé sans votre accord. » (durée estimée non fournie : masquée).</summary>

@@ -600,6 +600,7 @@
   <data name="Scheduling_Settings" xml:space="preserve"><value>متى</value></data>
   <data name="Scheduling_TaskState" xml:space="preserve"><value>المهمة {0}</value></data>
   <data name="Scheduling_Time" xml:space="preserve"><value>الساعة</value></data>
+  <data name="Score_Range" xml:space="preserve"><value>{0} إلى {1}</value></data>
   <data name="Service_Unavailable" xml:space="preserve"><value>خدمة PC Santé لا تستجيب.</value></data>
   <data name="Service_UnavailableHelp" xml:space="preserve"><value>أعد تشغيل الحاسوب. إذا استمرت المشكلة، أعد تثبيت PC Santé.</value></data>
   <data name="Sessions_MessageCard" xml:space="preserve"><value>رسالة للمستخدمين الآخرين</value></data>
@@ -759,14 +760,28 @@
   <data name="Watch_Text" xml:space="preserve"><value>فحص يومي للفيروسات، وتنظيف ونقطة استعادة كل أسبوع.</value></data>
   <data name="Watch_Title" xml:space="preserve"><value>المراقبة التلقائية</value></data>
   <data name="Welcome_Analysis" xml:space="preserve"><value>الفحص الأول لحاسوبك</value></data>
+  <data name="Welcome_AnalysisDone" xml:space="preserve"><value>اكتمل الفحص الأول</value></data>
   <data name="Welcome_AnalysisFailed" xml:space="preserve"><value>تعذّر إجراء الفحص الأول. ربما لا تزال خدمة PC Santé قيد التشغيل: أعد المحاولة بعد بضع ثوانٍ. يمكنك أيضًا المتابعة وإجراء الفحص لاحقًا من الصفحة الرئيسية.</value></data>
+  <data name="Welcome_Back" xml:space="preserve"><value>رجوع</value></data>
   <data name="Welcome_ContinueLater" xml:space="preserve"><value>المتابعة دون فحص</value></data>
   <data name="Welcome_Finish" xml:space="preserve"><value>عرض لوحة التحكم</value></data>
   <data name="Welcome_Language" xml:space="preserve"><value>اختر لغتك</value></data>
+  <data name="Welcome_LanguageHelp" xml:space="preserve"><value>يمكنك تغييرها في أي وقت من الإعدادات.</value></data>
+  <data name="Welcome_LanguageTitle" xml:space="preserve"><value>مرحبًا! ما اللغة التي تفضّلها؟</value></data>
   <data name="Welcome_License" xml:space="preserve"><value>فعّل ترخيصك</value></data>
   <data name="Welcome_LicenseHelp" xml:space="preserve"><value>أدخل المفتاح الذي حصلت عليه عند الشراء. يمكنك أيضاً المتابعة بالاشتراك المجاني.</value></data>
+  <data name="Welcome_ModeAdvanced" xml:space="preserve"><value>متقدم</value></data>
+  <data name="Welcome_ModeAdvancedScreens" xml:space="preserve"><value>بالإضافة إلى: الأداء، العمليات، النظام، الجلسات، الجدولة</value></data>
+  <data name="Welcome_ModeHelp" xml:space="preserve"><value>يمكن تغييره في أي وقت من الإعدادات.</value></data>
+  <data name="Welcome_ModeSimple" xml:space="preserve"><value>بسيط</value></data>
+  <data name="Welcome_ModeSimpleScreens" xml:space="preserve"><value>الرئيسية، الحماية، التنظيف، التقارير</value></data>
+  <data name="Welcome_ModeTitle" xml:space="preserve"><value>أي عرض يناسبك؟</value></data>
   <data name="Welcome_Promise" xml:space="preserve"><value>حاسوبك بصحة جيدة، بشرح بسيط، وإصلاح بنقرة واحدة.</value></data>
+  <data name="Welcome_Promise1" xml:space="preserve"><value>نتيجة واضحة من 100، تُحدَّث مع كل فحص</value></data>
+  <data name="Welcome_Promise2" xml:space="preserve"><value>لكل مشكلة زر لإصلاحها</value></data>
+  <data name="Welcome_Promise3" xml:space="preserve"><value>لا يُحذف شيء دون موافقتك</value></data>
   <data name="Welcome_ScoreHelp" xml:space="preserve"><value>هذه نتيجة صحة حاسوبك. الأخضر: كل شيء جيد. البرتقالي: يحتاج إلى متابعة. الأحمر: يحتاج إلى إصلاح.</value></data>
+  <data name="Welcome_ScoreLegend" xml:space="preserve"><value>كيف تقرأ النتيجة</value></data>
   <data name="Welcome_SkipLicense" xml:space="preserve"><value>المتابعة بالنسخة المجانية</value></data>
   <data name="Welcome_Step" xml:space="preserve"><value>الخطوة {0} من {1}</value></data>
   <data name="Welcome_Tasks" xml:space="preserve"><value>هل تريد أن يعتني PC Santé بحاسوبك تلقائياً؟</value></data>
@@ -1002,4 +1017,5 @@
   <data name="Pme_Enroll" xml:space="preserve"><value>ربط هذا الحاسوب</value></data>
   <data name="Pme_Leave" xml:space="preserve"><value>فصل هذا الحاسوب</value></data>
   <data name="Pme_LeaveConfirm" xml:space="preserve"><value>لن يرسل هذا الحاسوب حالته الصحية إلى وحدة تحكم الشركة بعد الآن. متابعة؟</value></data>
+  <data name="Welcome_WatchTitle" xml:space="preserve"><value>دع PC Santé يراقب تلقائيًا</value></data>
 </root>

@@ -600,6 +600,7 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Scheduling_Settings" xml:space="preserve"><value>Quand</value></data>
   <data name="Scheduling_TaskState" xml:space="preserve"><value>Tâche {0}</value></data>
   <data name="Scheduling_Time" xml:space="preserve"><value>Heure</value></data>
+  <data name="Score_Range" xml:space="preserve"><value>{0} à {1}</value></data>
   <data name="Service_Unavailable" xml:space="preserve"><value>Le service PC Santé ne répond pas.</value></data>
   <data name="Service_UnavailableHelp" xml:space="preserve"><value>Redémarrez le PC. Si le problème continue, réinstallez PC Santé.</value></data>
   <data name="Sessions_MessageCard" xml:space="preserve"><value>Message pour les autres utilisateurs</value></data>
@@ -759,14 +760,28 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Watch_Text" xml:space="preserve"><value>Un scan antivirus chaque jour, un nettoyage et un point de restauration chaque semaine.</value></data>
   <data name="Watch_Title" xml:space="preserve"><value>Veille automatique</value></data>
   <data name="Welcome_Analysis" xml:space="preserve"><value>Première analyse de votre PC</value></data>
+  <data name="Welcome_AnalysisDone" xml:space="preserve"><value>Première analyse terminée</value></data>
   <data name="Welcome_AnalysisFailed" xml:space="preserve"><value>La première analyse n'a pas pu se faire. Le service PC Santé est peut-être encore en train de démarrer : réessayez dans quelques secondes. Vous pouvez aussi continuer et lancer l'analyse plus tard depuis l'Accueil.</value></data>
+  <data name="Welcome_Back" xml:space="preserve"><value>Retour</value></data>
   <data name="Welcome_ContinueLater" xml:space="preserve"><value>Continuer sans analyse</value></data>
   <data name="Welcome_Finish" xml:space="preserve"><value>Voir mon tableau de bord</value></data>
   <data name="Welcome_Language" xml:space="preserve"><value>Choisissez votre langue</value></data>
+  <data name="Welcome_LanguageHelp" xml:space="preserve"><value>Vous pourrez la changer à tout moment dans Paramètres.</value></data>
+  <data name="Welcome_LanguageTitle" xml:space="preserve"><value>Bienvenue ! Quelle langue préférez-vous ?</value></data>
   <data name="Welcome_License" xml:space="preserve"><value>Activez votre licence</value></data>
   <data name="Welcome_LicenseHelp" xml:space="preserve"><value>Saisissez la clé reçue à l'achat. Vous pouvez aussi continuer avec l'offre Gratuite.</value></data>
+  <data name="Welcome_ModeAdvanced" xml:space="preserve"><value>Avancé</value></data>
+  <data name="Welcome_ModeAdvancedScreens" xml:space="preserve"><value>En plus : Performance, Processus, Système, Sessions, Planification</value></data>
+  <data name="Welcome_ModeHelp" xml:space="preserve"><value>Modifiable à tout moment dans Paramètres.</value></data>
+  <data name="Welcome_ModeSimple" xml:space="preserve"><value>Simple</value></data>
+  <data name="Welcome_ModeSimpleScreens" xml:space="preserve"><value>Accueil, Protection, Nettoyage, Rapports</value></data>
+  <data name="Welcome_ModeTitle" xml:space="preserve"><value>Quel affichage vous convient ?</value></data>
   <data name="Welcome_Promise" xml:space="preserve"><value>Votre PC en bonne santé, expliqué simplement, réparé en un clic.</value></data>
+  <data name="Welcome_Promise1" xml:space="preserve"><value>Un score clair sur 100, mis à jour à chaque analyse</value></data>
+  <data name="Welcome_Promise2" xml:space="preserve"><value>Chaque problème a son bouton pour le corriger</value></data>
+  <data name="Welcome_Promise3" xml:space="preserve"><value>Rien n'est supprimé sans votre accord</value></data>
   <data name="Welcome_ScoreHelp" xml:space="preserve"><value>Voici le score de santé de votre PC. Vert : tout va bien. Orange : à surveiller. Rouge : à corriger.</value></data>
+  <data name="Welcome_ScoreLegend" xml:space="preserve"><value>Comment lire le score</value></data>
   <data name="Welcome_SkipLicense" xml:space="preserve"><value>Continuer en version gratuite</value></data>
   <data name="Welcome_Step" xml:space="preserve"><value>Étape {0} sur {1}</value></data>
   <data name="Welcome_Tasks" xml:space="preserve"><value>Laisser PC Santé veiller automatiquement ?</value></data>
@@ -1002,4 +1017,5 @@ Gardez ce fichier hors du PC (clé USB, papier).</value></data>
   <data name="Pme_Enroll" xml:space="preserve"><value>Rattacher ce PC</value></data>
   <data name="Pme_Leave" xml:space="preserve"><value>Détacher ce PC</value></data>
   <data name="Pme_LeaveConfirm" xml:space="preserve"><value>Ce PC n'enverra plus son état de santé à la console d'entreprise. Continuer ?</value></data>
+  <data name="Welcome_WatchTitle" xml:space="preserve"><value>Laisser PC Santé veiller automatiquement</value></data>
 </root>

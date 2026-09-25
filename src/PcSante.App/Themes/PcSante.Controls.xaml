@@ -631,6 +631,48 @@
         </Setter>
     </Style>
 
+    <!-- ===== Grande tuile de choix (premier lancement : langue, mode) : sélection = bordure 2 px Brand + halo BrandSoft ===== -->
+    <Style x:Key="PcsChoiceTile" TargetType="RadioButton">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource PcsFocusVisual}" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsTextPrimaryBrush}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border x:Name="Halo" CornerRadius="20" Padding="3" Background="Transparent">
+                        <Border x:Name="Root" CornerRadius="17" BorderThickness="1" BorderBrush="{DynamicResource PcsBorderBrush}"
+                                Background="{DynamicResource PcsSurfaceBrush}" Padding="20,18">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter />
+                                <Grid Grid.Column="1" Width="22" Height="22" VerticalAlignment="Top" Margin="12,0,0,0">
+                                    <Ellipse x:Name="Ring" Stroke="{DynamicResource PcsControlBorderBrush}" StrokeThickness="1.5" />
+                                    <Ellipse x:Name="Dot" Width="12" Height="12" Fill="{DynamicResource PcsBrandBrush}" Visibility="Collapsed" />
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Halo" Property="Background" Value="{DynamicResource PcsBrandSoftBrush}" />
+                            <Setter TargetName="Root" Property="BorderBrush" Value="{DynamicResource PcsBrandBrush}" />
+                            <Setter TargetName="Root" Property="BorderThickness" Value="2" />
+                            <Setter TargetName="Ring" Property="Stroke" Value="{DynamicResource PcsBrandBrush}" />
+                            <Setter TargetName="Dot" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Root" Property="BorderBrush" Value="{DynamicResource PcsBrandBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- ===== Filtres en pilules ===== -->
     <Style x:Key="PcsPill" TargetType="RadioButton">
         <Setter Property="FocusVisualStyle" Value="{StaticResource PcsFocusVisual}" />
