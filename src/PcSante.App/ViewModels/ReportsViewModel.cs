@@ -64,6 +64,20 @@ public sealed partial class ReportsViewModel(MainViewModel main) : PageViewModel
         OnPropertyChanged(nameof(IsAdvanced));
     }
 
+    /// <summary>Ouvre le dossier des rapports mensuels planifiés, ou explique qu'il n'y en a pas encore.</summary>
+    [RelayCommand]
+    private void OpenReportsFolder()
+    {
+        var folder = ReportLocations.MonthlyReportsFolder;
+        if (!Directory.Exists(folder) || Directory.GetFiles(folder, "*.pdf").Length == 0)
+        {
+            Message.Show(Loc.T("Reports_NoMonthlyReport"), MessageKind.Info);
+            return;
+        }
+
+        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("explorer.exe", $"\"{folder}\"") { UseShellExecute = true });
+    }
+
     /// <summary>Bouton principal : générer le rapport PDF (hebdomadaire ou mensuel).</summary>
     [RelayCommand]
     private async Task GenerateAsync()

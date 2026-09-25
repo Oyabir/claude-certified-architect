@@ -73,6 +73,7 @@ public enum CommandId
     // --- Rapports (M8) ---
     GetReportData = 700,
     GetAuditLog = 701,
+    GenerateMonthlyReport = 702,
 
     // --- Licence (section 12) ---
     GetLicenseStatus = 800,

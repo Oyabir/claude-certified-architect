@@ -1,3 +1,4 @@
+using PcSante.Core.Scheduling;
 using Microsoft.Win32.TaskScheduler;
 using PcSante.Core.Windows;
 using PcSante.WindowsApi;
@@ -40,6 +41,17 @@ public class WindowsApiLogicTests
         WindowsStartupApi.IsApproved(null).Should().BeTrue("sans valeur, le programme démarre");
         WindowsStartupApi.IsApproved([0x06, 0, 0]).Should().BeTrue();
         WindowsStartupApi.IsApproved([0x03, 0, 0]).Should().BeFalse();
+    }
+
+    [Fact]
+    public void Arguments_de_tache_avec_langue_du_rapport()
+    {
+        WindowsScheduledTemplateApi.Arguments(ScheduledTemplateId.WeeklyCleanup, null).Should().Be("--run-task WeeklyCleanup");
+        var withLanguage = WindowsScheduledTemplateApi.Arguments(ScheduledTemplateId.MonthlyReport, "ar");
+        withLanguage.Should().Be("--run-task MonthlyReport --lang ar");
+        WindowsScheduledTemplateApi.LanguageOf(withLanguage).Should().Be("ar");
+        WindowsScheduledTemplateApi.LanguageOf("--run-task WeeklyCleanup").Should().BeNull();
+        WindowsScheduledTemplateApi.LanguageOf(null).Should().BeNull();
     }
 
     [Theory]

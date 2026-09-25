@@ -20,7 +20,7 @@ public sealed partial class TemplateRow : ObservableObject
         ArgumentNullException.ThrowIfNull(view);
         Id = view.Id;
         Enabled = view.Enabled;
-        _day = view.Settings.Day?.ToString() ?? "Everyday";
+        _day = view.Settings.Monthly ? ScheduleSettings.MonthStart : view.Settings.Day?.ToString() ?? "Everyday";
         _time = view.Settings.Time.ToString("HH:mm", CultureInfo.InvariantCulture);
         _onlyWhenIdle = view.Settings.OnlyWhenIdle;
         _onlyOnAcPower = view.Settings.OnlyOnAcPower;
@@ -55,13 +55,15 @@ public sealed partial class TemplateRow : ObservableObject
     [ObservableProperty]
     private bool _onlyOnAcPower;
 
-    public Dictionary<string, string> ToParameters() => new()
+    /// <param name="language">Langue de l'interface : celle des documents produits par la tâche (rapport mensuel).</param>
+    public Dictionary<string, string> ToParameters(string language) => new()
     {
         ["template"] = Id.ToString(),
         ["day"] = IsWeekly ? Day : "Everyday",
         ["time"] = Time,
         ["onlyWhenIdle"] = OnlyWhenIdle ? "true" : "false",
         ["onlyOnAcPower"] = OnlyOnAcPower ? "true" : "false",
+        ["language"] = language,
     };
 }
 
@@ -102,14 +104,14 @@ public sealed partial class SchedulingViewModel(MainViewModel main) : PageViewMo
             return;
         }
 
-        await EnableAllAsync(this).ConfigureAwait(true);
+        await EnableAllAsync(this, Main.Settings.Language).ConfigureAwait(true);
     }
 
     [RelayCommand]
     private Task SaveAsync(TemplateRow row)
     {
         ArgumentNullException.ThrowIfNull(row);
-        return ExecuteAsync(CommandId.EnableScheduledTemplate, row.ToParameters());
+        return ExecuteAsync(CommandId.EnableScheduledTemplate, row.ToParameters(Main.Settings.Language));
     }
 
     [RelayCommand]
@@ -119,15 +121,15 @@ public sealed partial class SchedulingViewModel(MainViewModel main) : PageViewMo
         return ExecuteAsync(CommandId.DisableScheduledTemplate, new Dictionary<string, string> { ["template"] = row.Id.ToString() });
     }
 
-    /// <summary>Active les 3 modèles avec leurs réglages par défaut (utilisé aussi au premier lancement).</summary>
-    public static async Task<bool> EnableAllAsync(PageViewModel page)
+    /// <summary>Active les 3 modèles recommandés avec leurs réglages par défaut (les autres restent au choix).</summary>
+    public static async Task<bool> EnableAllAsync(PageViewModel page, string language)
     {
         ArgumentNullException.ThrowIfNull(page);
         var ok = true;
-        foreach (var template in ScheduledTemplates.All)
+        foreach (var template in ScheduledTemplates.Recommended)
         {
             var row = new TemplateRow(new TemplateView(template.Id, false, template.Default, template.Commands, null));
-            var result = await page.RunForOtherAsync(CommandId.EnableScheduledTemplate, row.ToParameters()).ConfigureAwait(true);
+            var result = await page.RunForOtherAsync(CommandId.EnableScheduledTemplate, row.ToParameters(language)).ConfigureAwait(true);
             ok &= result.IsSuccess;
             if (!result.IsSuccess)
             {

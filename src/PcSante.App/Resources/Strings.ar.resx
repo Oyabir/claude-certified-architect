@@ -584,4 +584,14 @@
   <data name="Welcome_Tasks" xml:space="preserve"><value>هل تريد أن يعتني PC Santé بحاسوبك تلقائياً؟</value></data>
   <data name="Welcome_TasksHelp" xml:space="preserve"><value>فحص للفيروسات يومياً، وتنظيف ونقطة استعادة أسبوعياً.</value></data>
   <data name="Welcome_Title" xml:space="preserve"><value>مرحباً بك في PC Santé</value></data>
+  <data name="Command_GenerateMonthlyReport" xml:space="preserve"><value>التقرير الشهري التلقائي</value></data>
+  <data name="Template_WeeklyUpdateCheck" xml:space="preserve"><value>التحقق الأسبوعي من التحديثات</value></data>
+  <data name="Template_WeeklyUpdateCheck_Why" xml:space="preserve"><value>يبحث عن تحديثات Windows كل أسبوع حتى لا تبقى أي ثغرة مفتوحة.</value></data>
+  <data name="Template_MonthlyReport" xml:space="preserve"><value>التقرير الشهري</value></data>
+  <data name="Template_MonthlyReport_Why" xml:space="preserve"><value>يُعدّ كل شهر تقريرًا بصيغة PDF عن صحة الحاسوب، يُحفظ في المستندات العامة.</value></data>
+  <data name="Day_MonthStart" xml:space="preserve"><value>أول الشهر</value></data>
+  <data name="Result_MonthlyReportSaved" xml:space="preserve"><value>تم حفظ التقرير الشهري: {0}</value></data>
+  <data name="Reports_MonthlyAuto" xml:space="preserve"><value>التقارير الشهرية التلقائية (مهمة «التقرير الشهري» في الجدولة) تُحفظ في المستندات العامة، مجلد «PC Santé»، المجلد الفرعي «Rapports».</value></data>
+  <data name="Reports_OpenFolder" xml:space="preserve"><value>فتح مجلد التقارير</value></data>
+  <data name="Reports_NoMonthlyReport" xml:space="preserve"><value>لا يوجد تقرير شهري حتى الآن. فعّل مهمة «التقرير الشهري» في الجدولة.</value></data>
 </root>

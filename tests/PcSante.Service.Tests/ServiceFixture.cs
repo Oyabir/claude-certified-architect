@@ -20,7 +20,7 @@ internal sealed class ServiceFixture : IAsyncDisposable
     public ServiceFixture(bool premium = true)
     {
         var root = Path.Combine(Path.GetTempPath(), "pcsante-svc-" + Guid.NewGuid().ToString("N"));
-        Paths = new ServicePaths(Path.Combine(root, "data"), Path.Combine(root, "install"));
+        Paths = new ServicePaths(Path.Combine(root, "data"), Path.Combine(root, "install"), Path.Combine(root, "reports"));
         Paths.EnsureCreated();
         Directory.CreateDirectory(Paths.InstallDirectory);
 

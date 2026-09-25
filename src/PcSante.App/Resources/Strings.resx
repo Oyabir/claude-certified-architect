@@ -584,4 +584,14 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Welcome_Tasks" xml:space="preserve"><value>Laisser PC Santé veiller automatiquement ?</value></data>
   <data name="Welcome_TasksHelp" xml:space="preserve"><value>Un scan antivirus chaque jour, un nettoyage et un point de restauration chaque semaine.</value></data>
   <data name="Welcome_Title" xml:space="preserve"><value>Bienvenue dans PC Santé</value></data>
+  <data name="Command_GenerateMonthlyReport" xml:space="preserve"><value>Rapport mensuel automatique</value></data>
+  <data name="Template_WeeklyUpdateCheck" xml:space="preserve"><value>Vérification hebdomadaire des mises à jour</value></data>
+  <data name="Template_WeeklyUpdateCheck_Why" xml:space="preserve"><value>Cherche les mises à jour de Windows chaque semaine, pour ne pas laisser de faille ouverte.</value></data>
+  <data name="Template_MonthlyReport" xml:space="preserve"><value>Rapport mensuel</value></data>
+  <data name="Template_MonthlyReport_Why" xml:space="preserve"><value>Prépare chaque mois un rapport PDF sur la santé du PC, rangé dans Documents publics.</value></data>
+  <data name="Day_MonthStart" xml:space="preserve"><value>Le 1er du mois</value></data>
+  <data name="Result_MonthlyReportSaved" xml:space="preserve"><value>Rapport mensuel enregistré : {0}</value></data>
+  <data name="Reports_MonthlyAuto" xml:space="preserve"><value>Rapports mensuels automatiques (tâche « Rapport mensuel » dans Planification) : ils sont rangés dans Documents publics, dossier « PC Santé », sous-dossier « Rapports ».</value></data>
+  <data name="Reports_OpenFolder" xml:space="preserve"><value>Ouvrir le dossier des rapports</value></data>
+  <data name="Reports_NoMonthlyReport" xml:space="preserve"><value>Aucun rapport mensuel pour l'instant. Activez la tâche « Rapport mensuel » dans Planification.</value></data>
 </root>

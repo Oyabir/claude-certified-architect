@@ -584,4 +584,14 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Welcome_Tasks" xml:space="preserve"><value>Let PC Santé keep watch automatically?</value></data>
   <data name="Welcome_TasksHelp" xml:space="preserve"><value>An antivirus scan every day, a clean-up and a restore point every week.</value></data>
   <data name="Welcome_Title" xml:space="preserve"><value>Welcome to PC Santé</value></data>
+  <data name="Command_GenerateMonthlyReport" xml:space="preserve"><value>Automatic monthly report</value></data>
+  <data name="Template_WeeklyUpdateCheck" xml:space="preserve"><value>Weekly update check</value></data>
+  <data name="Template_WeeklyUpdateCheck_Why" xml:space="preserve"><value>Looks for Windows updates every week, so no security hole stays open.</value></data>
+  <data name="Template_MonthlyReport" xml:space="preserve"><value>Monthly report</value></data>
+  <data name="Template_MonthlyReport_Why" xml:space="preserve"><value>Prepares a PDF report on the PC's health every month, saved in Public Documents.</value></data>
+  <data name="Day_MonthStart" xml:space="preserve"><value>1st of the month</value></data>
+  <data name="Result_MonthlyReportSaved" xml:space="preserve"><value>Monthly report saved: {0}</value></data>
+  <data name="Reports_MonthlyAuto" xml:space="preserve"><value>Automatic monthly reports ("Monthly report" task in Scheduling) are saved in Public Documents, folder "PC Santé", subfolder "Rapports".</value></data>
+  <data name="Reports_OpenFolder" xml:space="preserve"><value>Open the reports folder</value></data>
+  <data name="Reports_NoMonthlyReport" xml:space="preserve"><value>No monthly report yet. Turn on the "Monthly report" task in Scheduling.</value></data>
 </root>

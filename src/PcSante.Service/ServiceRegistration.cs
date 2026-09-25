@@ -67,6 +67,7 @@ public static class ServiceRegistration
             new UndoOperation(sp.GetRequiredService<SystemActionPipeline>(), sp),
             new RunTemplateOperation(sp, sp.GetRequiredService<HistoryStore>(), sp.GetRequiredService<TimeProvider>()),
             new InstallUpdateOperation(sp.GetRequiredService<AppUpdateService>()),
+            new GenerateMonthlyReportOperation(sp.GetRequiredService<QueryRegistry>(), sp.GetRequiredService<ServicePaths>(), sp.GetRequiredService<TimeProvider>()),
         });
         services.AddSingleton<IEnumerable<SystemAction>>(sp => CreateActions(sp).ToList());
         services.AddSingleton<CommandCatalog>();

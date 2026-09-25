@@ -12,7 +12,8 @@ public static class CommandDefinitions
     public static readonly IReadOnlyList<string> ScanTypes = ["Quick", "Full"];
     public static readonly IReadOnlyList<string> TemplateIds = Enum.GetNames<Scheduling.ScheduledTemplateId>();
     public static readonly IReadOnlyList<string> Days =
-        ["Everyday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        ["Everyday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", Scheduling.ScheduleSettings.MonthStart];
+    public static readonly IReadOnlyList<string> Languages = ["fr", "en", "ar"];
     public static readonly IReadOnlyList<string> Periods = ["Week", "Month"];
 
     private static readonly ParameterSpec[] None = [];
@@ -108,14 +109,20 @@ public static class CommandDefinitions
             new ParameterSpec("time", ParameterType.TimeOfDay),
             new ParameterSpec("onlyWhenIdle", ParameterType.Boolean),
             new ParameterSpec("onlyOnAcPower", ParameterType.Boolean),
+            new ParameterSpec("language", ParameterType.Choice, Required: false, AllowedValues: Languages),
         ]),
         A(CommandId.DisableScheduledTemplate, SafeguardKind.None, p: Template),
-        A(CommandId.RunScheduledTemplate, SafeguardKind.None, p: Template),
+        A(CommandId.RunScheduledTemplate, SafeguardKind.None, p:
+        [
+            Template,
+            new ParameterSpec("language", ParameterType.Choice, Required: false, AllowedValues: Languages),
+        ]),
         Q(CommandId.GetTaskRunLog),
 
         // Rapports
         Q(CommandId.GetReportData, RequiredTier.Premium, new ParameterSpec("period", ParameterType.Choice, AllowedValues: Periods)),
         Q(CommandId.GetAuditLog),
+        A(CommandId.GenerateMonthlyReport, SafeguardKind.None, p: new ParameterSpec("language", ParameterType.Choice, Required: false, AllowedValues: Languages)),
 
         // Licence : toujours accessible, sinon impossible d'activer
         Q(CommandId.GetLicenseStatus),

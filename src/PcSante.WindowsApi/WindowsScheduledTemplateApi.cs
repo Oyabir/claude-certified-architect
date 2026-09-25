@@ -32,11 +32,14 @@ public sealed class WindowsScheduledTemplateApi(string serviceExecutable) : ISch
             definition.Principal.RunLevel = TaskRunLevel.Highest;
 
             var start = DateTime.Today.Add(settings.Time.ToTimeSpan());
-            Trigger trigger = settings.Day is { } day
-                ? new WeeklyTrigger(ToDaysOfWeek(day)) { StartBoundary = start }
-                : new DailyTrigger { StartBoundary = start };
+            Trigger trigger = settings switch
+            {
+                { Monthly: true } => new MonthlyTrigger(1) { StartBoundary = start },
+                { Day: { } day } => new WeeklyTrigger(ToDaysOfWeek(day)) { StartBoundary = start },
+                _ => new DailyTrigger { StartBoundary = start },
+            };
             definition.Triggers.Add(trigger);
-            definition.Actions.Add(new ExecAction(serviceExecutable, $"--run-task {template}", Path.GetDirectoryName(serviceExecutable)));
+            definition.Actions.Add(new ExecAction(serviceExecutable, Arguments(template, settings.Language), Path.GetDirectoryName(serviceExecutable)));
 
             definition.Settings.StartWhenAvailable = true;
             definition.Settings.ExecutionTimeLimit = TimeSpan.FromHours(4);
@@ -80,8 +83,21 @@ public sealed class WindowsScheduledTemplateApi(string serviceExecutable) : ISch
             var trigger = task.Definition.Triggers.FirstOrDefault();
             DayOfWeek? day = trigger is WeeklyTrigger weekly ? FromDaysOfWeek(weekly.DaysOfWeek) : null;
             var time = TimeOnly.FromDateTime(trigger?.StartBoundary ?? DateTime.Today);
-            return new ScheduleSettings(day, new TimeOnly(time.Hour, time.Minute), task.Definition.Settings.RunOnlyIfIdle, task.Definition.Settings.DisallowStartIfOnBatteries);
+            var arguments = task.Definition.Actions.OfType<ExecAction>().FirstOrDefault()?.Arguments;
+            return new ScheduleSettings(day, new TimeOnly(time.Hour, time.Minute), task.Definition.Settings.RunOnlyIfIdle,
+                task.Definition.Settings.DisallowStartIfOnBatteries, Monthly: trigger is MonthlyTrigger, Language: LanguageOf(arguments));
         }, cancellationToken);
+
+    /// <summary>Arguments de la tâche : « --run-task Modèle [--lang fr|en|ar] » (langue des documents produits).</summary>
+    internal static string Arguments(ScheduledTemplateId template, string? language) =>
+        language is null ? $"--run-task {template}" : $"--run-task {template} --lang {language}";
+
+    internal static string? LanguageOf(string? arguments)
+    {
+        var parts = (arguments ?? string.Empty).Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var index = Array.IndexOf(parts, "--lang");
+        return index >= 0 && index + 1 < parts.Length ? parts[index + 1] : null;
+    }
 
     /// <summary>Supprime le dossier \\PcSante\\ du Planificateur (désinstallation).</summary>
     public static void DeleteFolder()

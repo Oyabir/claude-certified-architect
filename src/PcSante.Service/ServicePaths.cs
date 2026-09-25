@@ -5,11 +5,15 @@ namespace PcSante.Service;
 /// <summary>Emplacements du service. Le dossier de données est réservé à SYSTEM et aux administrateurs.</summary>
 public sealed class ServicePaths
 {
-    public ServicePaths(string dataRoot, string installDirectory)
+    /// <param name="reportsDirectory">Rapports mensuels planifiés (par défaut : Documents publics, lisibles par tous les comptes).</param>
+    public ServicePaths(string dataRoot, string installDirectory, string? reportsDirectory = null)
     {
         DataRoot = dataRoot;
         InstallDirectory = installDirectory;
+        Reports = reportsDirectory ?? Core.Reporting.ReportLocations.MonthlyReportsFolder;
     }
+
+    public string Reports { get; }
 
     public string DataRoot { get; }
 

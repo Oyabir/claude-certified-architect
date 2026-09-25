@@ -209,12 +209,19 @@ public class SettingsStoreTests : IDisposable
 public class ScheduledTemplatesTests
 {
     [Fact]
-    public void Trois_modeles_MVP()
+    public void Cinq_modeles_dont_trois_proposes_au_premier_lancement()
     {
         ScheduledTemplates.All.Select(t => t.Id).Should().Equal(
+            ScheduledTemplateId.DailyAntivirusScan, ScheduledTemplateId.WeeklyCleanup, ScheduledTemplateId.WeeklyRestorePoint,
+            ScheduledTemplateId.WeeklyUpdateCheck, ScheduledTemplateId.MonthlyReport);
+        ScheduledTemplates.Recommended.Select(t => t.Id).Should().Equal(
             ScheduledTemplateId.DailyAntivirusScan, ScheduledTemplateId.WeeklyCleanup, ScheduledTemplateId.WeeklyRestorePoint);
         ScheduledTemplates.Get(ScheduledTemplateId.DailyAntivirusScan).Default.IsDaily.Should().BeTrue();
         ScheduledTemplates.Get(ScheduledTemplateId.WeeklyCleanup).Commands.Should().Contain(CommandId.CleanTemporaryFiles);
+        ScheduledTemplates.Get(ScheduledTemplateId.WeeklyUpdateCheck).Commands.Should().Equal(CommandId.SearchUpdates);
+        var monthly = ScheduledTemplates.Get(ScheduledTemplateId.MonthlyReport).Default;
+        monthly.Monthly.Should().BeTrue();
+        monthly.IsDaily.Should().BeFalse();
     }
 
     [Fact]

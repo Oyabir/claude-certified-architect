@@ -323,13 +323,49 @@ public sealed class ActionTests
         svc.Cleanup.Cleaned.Should().Equal(CleanupTarget.TemporaryFiles, CleanupTarget.RecycleBin);
 
         var templates = (await svc.Run(CommandId.GetScheduledTemplates)).GetData<List<TemplateView>>()!;
-        templates.Should().HaveCount(3);
+        templates.Should().HaveCount(ScheduledTemplates.All.Count);
         templates.Single(t => t.Id == ScheduledTemplateId.WeeklyCleanup).Should().Match<TemplateView>(t => t.Enabled && t.LastRun!.Succeeded);
         (await svc.Run(CommandId.GetTaskRunLog)).GetData<List<TaskRunEntry>>().Should().ContainSingle();
         (await svc.AuditAsync()).Should().Contain(a => a.Who == "Planificateur" && a.Command == "CleanTemporaryFiles");
 
         (await svc.Run(CommandId.DisableScheduledTemplate, new() { ["template"] = "WeeklyCleanup" })).MessageKey.Should().Be("Result_TaskUnscheduled");
         (await svc.Run(CommandId.DisableScheduledTemplate, new() { ["template"] = "WeeklyCleanup" })).Status.Should().Be(CommandStatus.AlreadyDone);
+    }
+
+    [Fact]
+    public async Task Rapport_mensuel_planifie_dans_la_langue_choisie()
+    {
+        await using var svc = new ServiceFixture();
+        var p = new Dictionary<string, string>
+        {
+            ["template"] = "MonthlyReport",
+            ["day"] = "MonthStart",
+            ["time"] = "09:00",
+            ["onlyWhenIdle"] = "false",
+            ["onlyOnAcPower"] = "false",
+            ["language"] = "en",
+        };
+
+        (await svc.Run(CommandId.EnableScheduledTemplate, p)).MessageKey.Should().Be("Result_TaskScheduled");
+        svc.Scheduler.Registered[ScheduledTemplateId.MonthlyReport].Should().Match<ScheduleSettings>(s => s.Monthly && s.Day == null && s.Language == "en");
+
+        var run = await svc.Run(CommandId.RunScheduledTemplate, new() { ["template"] = "MonthlyReport", ["language"] = "en" });
+
+        run.MessageKey.Should().Be("Result_TaskRunSucceeded");
+        var report = Directory.GetFiles(svc.Paths.Reports, "*.pdf").Should().ContainSingle().Subject;
+        (await File.ReadAllBytesAsync(report)).Take(4).Should().Equal("%PDF"u8.ToArray());
+        (await svc.AuditAsync()).Should().Contain(a => a.Who == "Planificateur" && a.Command == "GenerateMonthlyReport");
+    }
+
+    [Fact]
+    public async Task Rapport_mensuel_refuse_une_langue_inconnue_et_exige_premium()
+    {
+        await using var svc = new ServiceFixture();
+        (await svc.Run(CommandId.GenerateMonthlyReport, new() { ["language"] = "de" })).Status.Should().Be(CommandStatus.Refused);
+        (await svc.Run(CommandId.GenerateMonthlyReport, new() { ["language"] = "ar" })).MessageKey.Should().Be("Result_MonthlyReportSaved");
+
+        await using var free = new ServiceFixture(premium: false);
+        (await free.Run(CommandId.GenerateMonthlyReport)).Status.Should().Be(CommandStatus.Refused);
     }
 
     [Fact]
