@@ -179,6 +179,7 @@ public sealed class ResetNetworkStackAction(INetworkRepairApi network) : SystemA
 /// <summary>Désactivation du compte Invité (réversible : l'état précédent est sauvegardé pour « Annuler »).</summary>
 public sealed class DisableGuestAccountAction(ILocalAccountsApi accounts) : SystemAction
 {
+    [System.Reflection.Obfuscation(Exclude = true, ApplyToMembers = true)]
     private sealed record GuestState(string Sid);
 
     public override CommandId Command => CommandId.DisableGuestAccount;

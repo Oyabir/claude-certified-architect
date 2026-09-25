@@ -246,6 +246,7 @@ public sealed class ScheduleTemplateAction(CommandId command, Core.Scheduling.IS
 /// </summary>
 public sealed class ServiceProfileAction(IServiceControlApi services) : SystemAction
 {
+    [System.Reflection.Obfuscation(Exclude = true, ApplyToMembers = true)]
     private sealed record PreviousModes(Dictionary<string, ServiceStartMode> Modes);
 
     public override CommandId Command => CommandId.ApplyServiceProfile;
@@ -314,6 +315,7 @@ public sealed class ServiceProfileAction(IServiceControlApi services) : SystemAc
 /// </summary>
 public sealed class LightenVisualEffectsAction(IVisualEffectsApi visualEffects) : SystemAction
 {
+    [System.Reflection.Obfuscation(Exclude = true, ApplyToMembers = true)]
     private sealed record Previous(string Sid, VisualEffectsSettings Settings);
 
     public override CommandId Command => CommandId.LightenVisualEffects;
@@ -385,6 +387,7 @@ public sealed class OptimizeSystemDriveAction(IDiskOptimizationApi disk, Backgro
 /// <summary>Fichier d'échange rendu à la gestion automatique de Windows (conseillé) ; effet au redémarrage, annulable.</summary>
 public sealed class PageFileAutomaticAction(IDiskOptimizationApi disk) : SystemAction
 {
+    [System.Reflection.Obfuscation(Exclude = true, ApplyToMembers = true)]
     private sealed record Previous(bool Automatic);
 
     public override CommandId Command => CommandId.SetPageFileAutomatic;
