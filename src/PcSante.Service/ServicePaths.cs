@@ -29,6 +29,8 @@ public sealed class ServicePaths
 
     public string LicenseState => Path.Combine(DataRoot, "license.dat");
 
+    public string PmeEnrollment => Path.Combine(DataRoot, "pme-device.dat");
+
     public string ServiceExecutable => Path.Combine(InstallDirectory, "PcSante.Service.exe");
 
     public static ServicePaths Default() => new(

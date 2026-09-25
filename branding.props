@@ -11,6 +11,8 @@
     <PcSanteVersion>1.0.0</PcSanteVersion>
     <!-- URL du serveur de licences (à renseigner par le commanditaire après hébergement). -->
     <PcSanteLicenseServerUrl>https://licences.example.invalid/</PcSanteLicenseServerUrl>
+    <!-- URL de la console PME (offre PME, V2). Vide = fonction masquée dans l'application. -->
+    <PcSanteConsoleUrl></PcSanteConsoleUrl>
     <!--
       Clé PUBLIQUE Ed25519 du serveur de licences (base64, 32 octets).
       Vide = licence non configurée : l'application reste en offre Gratuite.

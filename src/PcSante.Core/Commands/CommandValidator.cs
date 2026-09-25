@@ -100,6 +100,7 @@ public static partial class CommandValidator
         ParameterType.Identifier => IdentifierRegex().IsMatch(value) && !value.Contains("..", StringComparison.Ordinal),
         ParameterType.LocalPath => IsSafeLocalPath(value) && pathExists(value),
         ParameterType.LicenseKey => Licensing.LicenseKeyFormat.IsWellFormed(value),
+        ParameterType.EnrollmentCode => Pme.EnrollmentCodeFormat.IsWellFormed(value),
         ParameterType.TimeOfDay => TimeRegex().IsMatch(value),
         ParameterType.Boolean => value is "true" or "false",
         ParameterType.Guid => Guid.TryParseExact(value, "D", out _),

@@ -38,6 +38,10 @@ internal sealed class ServiceFixture : IAsyncDisposable
         services.AddSingleton<ISessionApi>(Sessions);
         services.AddSingleton<IVisualEffectsApi>(VisualEffects);
         services.AddSingleton<IDiskOptimizationApi>(Disk);
+        services.AddSingleton<Service.Pme.IPmeClient>(Pme);
+        services.AddSingleton(sp => new Service.Pme.PmeReporter(Pme, sp.GetRequiredService<Service.Pme.PmeEnrollmentStore>(),
+            sp.GetRequiredService<ISystemInfoApi>(), TimeProvider.System,
+            Microsoft.Extensions.Logging.Abstractions.NullLogger<Service.Pme.PmeReporter>.Instance, "https://console.test/"));
         services.AddSingleton<IRestorePointApi>(Restore);
         services.AddSingleton<IProcessApi>(Processes);
         services.AddSingleton<IServiceControlApi>(ServicesApi);
@@ -91,6 +95,8 @@ internal sealed class ServiceFixture : IAsyncDisposable
     public FakeVisualEffects VisualEffects { get; } = new();
 
     public FakeDisk Disk { get; } = new();
+
+    public FakePmeClient Pme { get; } = new();
 
     public FakeRestore Restore { get; } = new();
 

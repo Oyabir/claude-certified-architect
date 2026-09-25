@@ -150,3 +150,17 @@ public sealed class BitLockerRecoveryKeyOperation(IBitLockerApi bitLocker, ILoca
             : CommandResult.Failure(FailureReason.ExecutionFailed, "Result_BitLockerFailed");
     }
 }
+
+/// <summary>Rattachement du poste à une console PME, ou détachement (le gérant peut aussi le retirer depuis la console).</summary>
+public sealed class PmeOperation(CommandId command, Pme.PmeReporter pme) : IOperationHandler
+{
+    public CommandId Command { get; } = command;
+
+    public Task<CommandResult> ExecuteAsync(CommandParameters parameters, CallerIdentity caller, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(parameters);
+        return Command == CommandId.EnrollInPme
+            ? pme.EnrollAsync(Core.Pme.EnrollmentCodeFormat.Normalize(parameters.GetString("code"))!, cancellationToken)
+            : Task.FromResult(pme.Leave());
+    }
+}

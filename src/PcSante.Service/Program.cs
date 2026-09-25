@@ -72,6 +72,7 @@ try
     builder.Services.AddHostedService<ProcessHistoryWorker>();
     builder.Services.AddHostedService<LicenseWorker>();
     builder.Services.AddHostedService<RemoteSessionWorker>();
+    builder.Services.AddHostedService<PmeReportWorker>();
 
     using var host = builder.Build();
     ServiceRegistration.EnsureDatabase(host.Services);

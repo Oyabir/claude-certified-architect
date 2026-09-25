@@ -790,4 +790,28 @@ Keep this file off the PC (USB drive, paper).</value></data>
   <data name="Pme_Alert_ScoreRed" xml:space="preserve"><value>Health score in the red: this PC needs fixing.</value></data>
   <data name="Pme_Alert_CriticalIssue" xml:space="preserve"><value>Serious problem: {0}</value></data>
   <data name="Pme_Alert_Silent" xml:space="preserve"><value>No news from this PC for more than 3 days (off, offline or PC Santé uninstalled).</value></data>
+  <data name="Command_GetPmeStatus" xml:space="preserve"><value>Company console status</value></data>
+  <data name="Command_EnrollInPme" xml:space="preserve"><value>Link this PC to the company console</value></data>
+  <data name="Command_LeavePme" xml:space="preserve"><value>Unlink this PC from the company console</value></data>
+  <data name="Result_PmeEnrolled" xml:space="preserve"><value>This PC is linked to the console of "{0}". Its health status will be sent automatically.</value></data>
+  <data name="Result_PmeLeft" xml:space="preserve"><value>This PC no longer sends anything to the company console.</value></data>
+  <data name="Result_PmeNotEnrolled" xml:space="preserve"><value>This PC is not linked to any console.</value></data>
+  <data name="Result_PmeNotConfigured" xml:space="preserve"><value>This version of PC Santé is not connected to a company console.</value></data>
+  <data name="Result_PmeUnreachable" xml:space="preserve"><value>Cannot reach the company console. Check the Internet connection and try again.</value></data>
+  <data name="Result_PmeInvalidRequest" xml:space="preserve"><value>Request refused by the console. Check the code.</value></data>
+  <data name="Result_PmeInvalidCode" xml:space="preserve"><value>Unknown enrollment code. Ask your manager for the current code.</value></data>
+  <data name="Result_PmeNoSeatLeft" xml:space="preserve"><value>All PCs in the subscription are in use. The manager must free one or add more.</value></data>
+  <data name="Result_PmeUnauthorized" xml:space="preserve"><value>The console no longer recognizes this PC. Link it again.</value></data>
+  <data name="Result_PmeRevoked" xml:space="preserve"><value>This PC was removed from the console by the manager.</value></data>
+  <data name="Result_PmeNone" xml:space="preserve"><value>Operation completed.</value></data>
+  <data name="Pme_Title" xml:space="preserve"><value>Company console (business plan)</value></data>
+  <data name="Pme_Explanation" xml:space="preserve"><value>The manager sees the health status of each company PC. Only technical data is sent (score, problems, Windows version), never your files.</value></data>
+  <data name="Pme_NotEnrolled" xml:space="preserve"><value>This PC is not linked to any console. Enter the code given by your manager.</value></data>
+  <data name="Pme_EnrolledTo" xml:space="preserve"><value>Linked to "{0}". Last sent: {1}.</value></data>
+  <data name="Pme_NeverSent" xml:space="preserve"><value>not yet</value></data>
+  <data name="Pme_Revoked" xml:space="preserve"><value>Removed from the console of "{0}" by the manager: nothing is sent anymore.</value></data>
+  <data name="Pme_Code" xml:space="preserve"><value>Enrollment code</value></data>
+  <data name="Pme_Enroll" xml:space="preserve"><value>Link this PC</value></data>
+  <data name="Pme_Leave" xml:space="preserve"><value>Unlink this PC</value></data>
+  <data name="Pme_LeaveConfirm" xml:space="preserve"><value>This PC will no longer send its health status to the company console. Continue?</value></data>
 </root>

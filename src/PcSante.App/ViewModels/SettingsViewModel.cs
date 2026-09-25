@@ -1,6 +1,7 @@
 using System.Runtime.Versioning;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using PcSante.App.Infrastructure;
 using PcSante.App.Localization;
 using PcSante.Core.Settings;
 using PcSante.Core.Ui;
@@ -79,10 +80,60 @@ public sealed partial class SettingsViewModel : PageViewModel
 
     public string Version => Loc.F("Settings_Version", Core.ProductInfo.Version);
 
-    public override Task LoadAsync()
+    [ObservableProperty]
+    private bool _pmeAvailable;
+
+    [ObservableProperty]
+    private bool _pmeEnrolled;
+
+    [ObservableProperty]
+    private string _pmeStatusText = string.Empty;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(PmeCodeLooksValid))]
+    private string _pmeCode = string.Empty;
+
+    public bool PmeCodeLooksValid => Core.Pme.EnrollmentCodeFormat.IsWellFormed(PmeCode);
+
+    public override async Task LoadAsync()
     {
         Load(Main.Settings);
-        return Task.CompletedTask;
+        await LoadPmeAsync().ConfigureAwait(true);
+    }
+
+    private async Task LoadPmeAsync()
+    {
+        var status = await Query<PmeStatusView>(Core.Commands.CommandId.GetPmeStatus).ConfigureAwait(true);
+        PmeAvailable = status?.Available == true;
+        PmeEnrolled = status?.Enrolled == true;
+        PmeStatusText = status switch
+        {
+            null or { Available: false } => string.Empty,
+            { Enrolled: false } => Loc.T("Pme_NotEnrolled"),
+            { LastError: Core.Pme.PmeError.Revoked } => Loc.F("Pme_Revoked", status.OrganizationName ?? string.Empty),
+            _ => Loc.F("Pme_EnrolledTo", status.OrganizationName ?? string.Empty,
+                status.LastReportAt is { } at ? Loc.Date(at) : Loc.T("Pme_NeverSent")),
+        };
+    }
+
+    [RelayCommand]
+    private async Task EnrollPmeAsync()
+    {
+        await ExecuteAsync(Core.Commands.CommandId.EnrollInPme, new Dictionary<string, string> { ["code"] = PmeCode }, reload: false).ConfigureAwait(true);
+        PmeCode = string.Empty;
+        await LoadPmeAsync().ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    private async Task LeavePmeAsync()
+    {
+        if (!await Dialogs.ConfirmAsync(Loc.T("Pme_Leave"), Loc.T("Pme_LeaveConfirm"), Loc.T("Pme_Leave")).ConfigureAwait(true))
+        {
+            return;
+        }
+
+        await ExecuteAsync(Core.Commands.CommandId.LeavePme, reload: false).ConfigureAwait(true);
+        await LoadPmeAsync().ConfigureAwait(true);
     }
 
     /// <summary>Recherche une nouvelle version (manifeste signé vérifié par le service).</summary>
@@ -164,3 +215,6 @@ public sealed partial class SettingsViewModel : PageViewModel
         ShowBattery = s.Overlay.Indicators.HasFlag(OverlayIndicators.Battery);
     }
 }
+
+/// <summary>État de rattachement à la console PME, tel que renvoyé par le service (sans le secret du poste).</summary>
+public sealed record PmeStatusView(bool Available, bool Enrolled, string? OrganizationName, DateTimeOffset? LastReportAt, Core.Pme.PmeError LastError);

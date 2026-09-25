@@ -539,3 +539,30 @@ internal sealed class FakeDisk : IDiskOptimizationApi
         return Task.FromResult(true);
     }
 }
+
+internal sealed class FakePmeClient : Service.Pme.IPmeClient
+{
+    public Guid DeviceId { get; } = Guid.NewGuid();
+
+    public string Secret { get; } = "secret-de-test-tres-long-0123456789";
+
+    public Core.Pme.PmeError EnrollError { get; set; }
+
+    public Core.Pme.PmeError ReportError { get; set; }
+
+    public List<Core.Pme.DeviceReport> Reports { get; } = [];
+
+    public string? LastCredentials { get; private set; }
+
+    public Task<Core.Pme.EnrollResponse?> EnrollAsync(Core.Pme.EnrollRequest request, CancellationToken cancellationToken) =>
+        Task.FromResult<Core.Pme.EnrollResponse?>(EnrollError == Core.Pme.PmeError.None
+            ? new Core.Pme.EnrollResponse(Core.Pme.PmeError.None, DeviceId, Secret, "Cabinet Test")
+            : Core.Pme.EnrollResponse.Fail(EnrollError));
+
+    public Task<Core.Pme.PmeResponse?> ReportAsync(Guid deviceId, string secret, Core.Pme.DeviceReport report, CancellationToken cancellationToken)
+    {
+        Reports.Add(report);
+        LastCredentials = $"{deviceId}:{secret}";
+        return Task.FromResult<Core.Pme.PmeResponse?>(new Core.Pme.PmeResponse(ReportError));
+    }
+}

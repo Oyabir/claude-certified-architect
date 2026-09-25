@@ -790,4 +790,28 @@ Gardez ce fichier hors du PC (clé USB, papier).</value></data>
   <data name="Pme_Alert_ScoreRed" xml:space="preserve"><value>Score de santé dans le rouge : ce poste doit être corrigé.</value></data>
   <data name="Pme_Alert_CriticalIssue" xml:space="preserve"><value>Problème grave : {0}</value></data>
   <data name="Pme_Alert_Silent" xml:space="preserve"><value>Aucune nouvelle de ce poste depuis plus de 3 jours (éteint, hors réseau ou PC Santé désinstallé).</value></data>
+  <data name="Command_GetPmeStatus" xml:space="preserve"><value>État de la console d'entreprise</value></data>
+  <data name="Command_EnrollInPme" xml:space="preserve"><value>Rattacher ce PC à la console d'entreprise</value></data>
+  <data name="Command_LeavePme" xml:space="preserve"><value>Détacher ce PC de la console d'entreprise</value></data>
+  <data name="Result_PmeEnrolled" xml:space="preserve"><value>Ce PC est rattaché à la console de « {0} ». Son état de santé sera envoyé automatiquement.</value></data>
+  <data name="Result_PmeLeft" xml:space="preserve"><value>Ce PC n'envoie plus rien à la console d'entreprise.</value></data>
+  <data name="Result_PmeNotEnrolled" xml:space="preserve"><value>Ce PC n'est rattaché à aucune console.</value></data>
+  <data name="Result_PmeNotConfigured" xml:space="preserve"><value>Cette version de PC Santé n'est pas reliée à une console d'entreprise.</value></data>
+  <data name="Result_PmeUnreachable" xml:space="preserve"><value>Impossible de joindre la console d'entreprise. Vérifiez la connexion Internet et réessayez.</value></data>
+  <data name="Result_PmeInvalidRequest" xml:space="preserve"><value>Demande refusée par la console. Vérifiez le code.</value></data>
+  <data name="Result_PmeInvalidCode" xml:space="preserve"><value>Code d'inscription inconnu. Demandez le code actuel à votre gérant.</value></data>
+  <data name="Result_PmeNoSeatLeft" xml:space="preserve"><value>Tous les postes de l'abonnement sont utilisés. Le gérant doit en libérer un ou en ajouter.</value></data>
+  <data name="Result_PmeUnauthorized" xml:space="preserve"><value>La console ne reconnaît plus ce PC. Rattachez-le de nouveau.</value></data>
+  <data name="Result_PmeRevoked" xml:space="preserve"><value>Ce PC a été retiré de la console par le gérant.</value></data>
+  <data name="Result_PmeNone" xml:space="preserve"><value>Opération réussie.</value></data>
+  <data name="Pme_Title" xml:space="preserve"><value>Console d'entreprise (offre PME)</value></data>
+  <data name="Pme_Explanation" xml:space="preserve"><value>Le gérant voit l'état de santé de chaque PC de l'entreprise. Seules des données techniques sont envoyées (score, problèmes, version de Windows), jamais vos fichiers.</value></data>
+  <data name="Pme_NotEnrolled" xml:space="preserve"><value>Ce PC n'est rattaché à aucune console. Saisissez le code donné par votre gérant.</value></data>
+  <data name="Pme_EnrolledTo" xml:space="preserve"><value>Rattaché à « {0} ». Dernier envoi : {1}.</value></data>
+  <data name="Pme_NeverSent" xml:space="preserve"><value>pas encore</value></data>
+  <data name="Pme_Revoked" xml:space="preserve"><value>Retiré de la console de « {0} » par le gérant : plus rien n'est envoyé.</value></data>
+  <data name="Pme_Code" xml:space="preserve"><value>Code d'inscription</value></data>
+  <data name="Pme_Enroll" xml:space="preserve"><value>Rattacher ce PC</value></data>
+  <data name="Pme_Leave" xml:space="preserve"><value>Détacher ce PC</value></data>
+  <data name="Pme_LeaveConfirm" xml:space="preserve"><value>Ce PC n'enverra plus son état de santé à la console d'entreprise. Continuer ?</value></data>
 </root>

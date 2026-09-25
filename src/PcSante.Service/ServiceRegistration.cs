@@ -14,6 +14,7 @@ using PcSante.Service.Actions;
 using PcSante.Service.Data;
 using PcSante.Service.Diagnostics;
 using PcSante.Service.Dispatch;
+using PcSante.Service.Pme;
 using PcSante.Service.Queries;
 using PcSante.Service.Updates;
 
@@ -49,6 +50,18 @@ public static class ServiceRegistration
             c.Timeout = TimeSpan.FromSeconds(20);
         });
         services.AddHttpClient("updates", c => c.Timeout = TimeSpan.FromMinutes(10));
+        services.AddHttpClient<IPmeClient, HttpPmeClient>(c =>
+        {
+            if (Uri.TryCreate(ProductInfo.ConsoleUrl, UriKind.Absolute, out var url))
+            {
+                c.BaseAddress = url;
+            }
+
+            c.Timeout = TimeSpan.FromSeconds(20);
+        });
+        services.AddSingleton(sp => new PmeEnrollmentStore(paths.PmeEnrollment, sp.GetRequiredService<ISecretProtector>()));
+        services.AddSingleton(sp => new PmeReporter(sp.GetRequiredService<IPmeClient>(), sp.GetRequiredService<PmeEnrollmentStore>(),
+            sp.GetRequiredService<ISystemInfoApi>(), sp.GetRequiredService<TimeProvider>(), sp.GetRequiredService<ILogger<PmeReporter>>(), ProductInfo.ConsoleUrl));
         services.AddSingleton<ILicenseStateStore>(sp => new ProtectedFileLicenseStateStore(paths.LicenseState, sp.GetRequiredService<ISecretProtector>()));
         services.AddSingleton(sp => new LicenseManager(
             sp.GetRequiredService<ILicenseServerClient>(),
@@ -69,6 +82,8 @@ public static class ServiceRegistration
             new RunTemplateOperation(sp, sp.GetRequiredService<HistoryStore>(), sp.GetRequiredService<TimeProvider>()),
             new InstallUpdateOperation(sp.GetRequiredService<AppUpdateService>()),
             new BitLockerRecoveryKeyOperation(sp.GetRequiredService<IBitLockerApi>(), sp.GetRequiredService<ILocalAccountsApi>()),
+            new PmeOperation(CommandId.EnrollInPme, sp.GetRequiredService<PmeReporter>()),
+            new PmeOperation(CommandId.LeavePme, sp.GetRequiredService<PmeReporter>()),
             new GenerateMonthlyReportOperation(sp.GetRequiredService<QueryRegistry>(), sp.GetRequiredService<ServicePaths>(), sp.GetRequiredService<TimeProvider>()),
         });
         services.AddSingleton<IEnumerable<SystemAction>>(sp => CreateActions(sp).ToList());

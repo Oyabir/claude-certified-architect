@@ -790,4 +790,28 @@
   <data name="Pme_Alert_ScoreRed" xml:space="preserve"><value>درجة الصحة في المنطقة الحمراء: يجب إصلاح هذا الحاسوب.</value></data>
   <data name="Pme_Alert_CriticalIssue" xml:space="preserve"><value>مشكلة خطيرة: {0}</value></data>
   <data name="Pme_Alert_Silent" xml:space="preserve"><value>لا أخبار من هذا الحاسوب منذ أكثر من 3 أيام (مطفأ أو غير متصل أو أُلغي تثبيت PC Santé).</value></data>
+  <data name="Command_GetPmeStatus" xml:space="preserve"><value>حالة وحدة تحكم الشركة</value></data>
+  <data name="Command_EnrollInPme" xml:space="preserve"><value>ربط هذا الحاسوب بوحدة تحكم الشركة</value></data>
+  <data name="Command_LeavePme" xml:space="preserve"><value>فصل هذا الحاسوب عن وحدة تحكم الشركة</value></data>
+  <data name="Result_PmeEnrolled" xml:space="preserve"><value>هذا الحاسوب مرتبط بوحدة تحكم «{0}». ستُرسل حالته الصحية تلقائيًا.</value></data>
+  <data name="Result_PmeLeft" xml:space="preserve"><value>لم يعد هذا الحاسوب يرسل أي شيء إلى وحدة تحكم الشركة.</value></data>
+  <data name="Result_PmeNotEnrolled" xml:space="preserve"><value>هذا الحاسوب غير مرتبط بأي وحدة تحكم.</value></data>
+  <data name="Result_PmeNotConfigured" xml:space="preserve"><value>هذا الإصدار من PC Santé غير متصل بوحدة تحكم شركة.</value></data>
+  <data name="Result_PmeUnreachable" xml:space="preserve"><value>تعذّر الوصول إلى وحدة تحكم الشركة. تحقق من الاتصال بالإنترنت وأعد المحاولة.</value></data>
+  <data name="Result_PmeInvalidRequest" xml:space="preserve"><value>رفضت وحدة التحكم الطلب. تحقق من الرمز.</value></data>
+  <data name="Result_PmeInvalidCode" xml:space="preserve"><value>رمز التسجيل غير معروف. اطلب الرمز الحالي من مديرك.</value></data>
+  <data name="Result_PmeNoSeatLeft" xml:space="preserve"><value>جميع الحواسيب في الاشتراك مستخدمة. يجب على المدير تحرير واحد أو إضافة المزيد.</value></data>
+  <data name="Result_PmeUnauthorized" xml:space="preserve"><value>لم تعد وحدة التحكم تتعرف على هذا الحاسوب. اربطه مجددًا.</value></data>
+  <data name="Result_PmeRevoked" xml:space="preserve"><value>أزال المدير هذا الحاسوب من وحدة التحكم.</value></data>
+  <data name="Result_PmeNone" xml:space="preserve"><value>تمت العملية بنجاح.</value></data>
+  <data name="Pme_Title" xml:space="preserve"><value>وحدة تحكم الشركة (عرض الشركات)</value></data>
+  <data name="Pme_Explanation" xml:space="preserve"><value>يرى المدير الحالة الصحية لكل حاسوب في الشركة. تُرسل بيانات تقنية فقط (الدرجة، المشاكل، إصدار Windows)، وليس ملفاتك أبدًا.</value></data>
+  <data name="Pme_NotEnrolled" xml:space="preserve"><value>هذا الحاسوب غير مرتبط بأي وحدة تحكم. أدخل الرمز الذي أعطاك إياه مديرك.</value></data>
+  <data name="Pme_EnrolledTo" xml:space="preserve"><value>مرتبط بـ «{0}». آخر إرسال: {1}.</value></data>
+  <data name="Pme_NeverSent" xml:space="preserve"><value>ليس بعد</value></data>
+  <data name="Pme_Revoked" xml:space="preserve"><value>أزاله المدير من وحدة تحكم «{0}»: لم يعد يُرسل شيء.</value></data>
+  <data name="Pme_Code" xml:space="preserve"><value>رمز التسجيل</value></data>
+  <data name="Pme_Enroll" xml:space="preserve"><value>ربط هذا الحاسوب</value></data>
+  <data name="Pme_Leave" xml:space="preserve"><value>فصل هذا الحاسوب</value></data>
+  <data name="Pme_LeaveConfirm" xml:space="preserve"><value>لن يرسل هذا الحاسوب حالته الصحية إلى وحدة تحكم الشركة بعد الآن. متابعة؟</value></data>
 </root>

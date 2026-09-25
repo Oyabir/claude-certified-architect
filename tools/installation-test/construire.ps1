@@ -6,7 +6,8 @@
 # - Premium débloqué sans licence (build.ps1 -TestPremium) : NE JAMAIS DISTRIBUER ce MSI.
 # - Signé avec le certificat de test du développeur (magasin utilisateur, créé au besoin) : le service
 #   n'accepte l'interface que si les deux sont signés par le même certificat.
-param([string]$Destination = "C:\dev\PcSante-Installation")
+# Console PME de test : lancer server/PcSante.PmeConsole en local (http://127.0.0.1:5090/), voir tools/pme/.
+param([string]$Destination = "C:\dev\PcSante-Installation", [string]$ConsoleUrl = "http://127.0.0.1:5090/")
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $dev = Join-Path $env:LOCALAPPDATA "PcSante-dev"
@@ -28,7 +29,7 @@ $env:PCSANTE_SIGN_THUMBPRINT = $cert.Thumbprint
 
 $installer = Join-Path $root "installer"
 foreach ($d in "bin", "obj") { if (Test-Path "$installer\$d") { Remove-Item "$installer\$d" -Recurse -Force } }
-& (Join-Path $installer "build.ps1") -Configuration Release -TestPremium
+& (Join-Path $installer "build.ps1") -Configuration Release -TestPremium -ConsoleUrl $ConsoleUrl
 $msi = Get-ChildItem "$installer\bin" -Recurse -Filter *.msi | Select-Object -First 1
 
 New-Item -ItemType Directory -Force $Destination | Out-Null
