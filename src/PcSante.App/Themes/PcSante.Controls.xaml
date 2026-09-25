@@ -23,6 +23,8 @@
 
     <!-- Texte des cartes de marque (Nuit) : blanc dans les deux thèmes, la carte Nuit ne change pas (§ 8). -->
     <SolidColorBrush x:Key="PcsOnNightBrush" Color="#FFFFFF" />
+    <!-- Curseur des interrupteurs : blanc sur Brand comme sur SwitchOff, dans les deux thèmes (§ 4). -->
+    <SolidColorBrush x:Key="PcsSwitchThumbBrush" Color="#FFFFFF" />
 
     <!-- ===== Anneau de focus : 2 px FocusRing décalé de 2 px ===== -->
     <Style x:Key="PcsFocusVisual">
@@ -482,7 +484,7 @@
                         <ContentPresenter x:Name="Label" VerticalAlignment="Center" Margin="0,0,10,0" />
                         <Border x:Name="Track" Grid.Column="1" Width="{DynamicResource PcsSwitchWidth}" Height="{DynamicResource PcsSwitchHeight}"
                                 CornerRadius="13" Background="{DynamicResource PcsSwitchOffBrush}">
-                            <Ellipse x:Name="Thumb" Width="{DynamicResource PcsSwitchThumb}" Height="{DynamicResource PcsSwitchThumb}" Fill="White"
+                            <Ellipse x:Name="Thumb" Width="{DynamicResource PcsSwitchThumb}" Height="{DynamicResource PcsSwitchThumb}" Fill="{DynamicResource PcsSwitchThumbBrush}"
                                      HorizontalAlignment="Left" Margin="3,0" />
                         </Border>
                     </Grid>
@@ -516,7 +518,7 @@
                 <ControlTemplate TargetType="ButtonBase">
                     <Border x:Name="Track" Width="{DynamicResource PcsSwitchWidth}" Height="{DynamicResource PcsSwitchHeight}"
                             CornerRadius="13" Background="{DynamicResource PcsSwitchOffBrush}">
-                        <Ellipse x:Name="Thumb" Width="{DynamicResource PcsSwitchThumb}" Height="{DynamicResource PcsSwitchThumb}" Fill="White"
+                        <Ellipse x:Name="Thumb" Width="{DynamicResource PcsSwitchThumb}" Height="{DynamicResource PcsSwitchThumb}" Fill="{DynamicResource PcsSwitchThumbBrush}"
                                  HorizontalAlignment="Left" Margin="3,0" />
                     </Border>
                     <ControlTemplate.Triggers>

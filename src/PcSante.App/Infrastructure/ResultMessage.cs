@@ -106,7 +106,7 @@ public sealed partial class ResultMessage : ObservableObject
 
         return long.TryParse(arg, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var n) && n >= 1024
             ? Loc.Bytes(n)
-            : arg;
+            : Loc.Number(arg);
     }
 
     public void Close() => IsOpen = false;

@@ -236,7 +236,7 @@ public sealed partial class OptimizationViewModel(MainViewModel main) : PageView
             DiskState = disk is null ? string.Empty : Loc.F($"Disk_{disk.MediaType}", disk.Drive);
             PageFileState = disk is null ? string.Empty
                 : disk.PageFileAutomatic ? Loc.T("PageFile_Automatic")
-                : Loc.F("PageFile_Manual", disk.PageFileSizeMb?.ToString(System.Globalization.CultureInfo.CurrentCulture) ?? "?");
+                : Loc.F("PageFile_Manual", disk.PageFileSizeMb?.ToString("N0", Loc.Culture) ?? "?");
             CanSetPageFileAutomatic = disk is { PageFileAutomatic: false };
         }
 

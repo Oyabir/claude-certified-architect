@@ -82,3 +82,12 @@ Accord du commanditaire : modules locaux V2 + console PME. Hors périmètre : M1
 - ✅ V2-13 Console PME — interface web (React 18 + htm, sans compilation ni CDN, CSP stricte) : connexion et changement du mot de passe provisoire, postes (synthèse, score coloré, silencieux), détail d'un poste (sous-scores, problèmes expliqués), carte des alertes, rapport consolidé et CSV, organisation (postes de l'abonnement, code d'inscription, utilisateurs) ; fr, en, ar (RTL) ; vérifiée par captures d'écran
 - ✅ V2-14 Console PME — tâches toutes les 5 min : postes silencieux, e-mail groupé des nouvelles alertes aux gérants, rapport consolidé du mois écoulé le 1er du mois (CSV joint) ; SMTP TLS configurable (mot de passe en variable d'environnement), sinon fichiers .eml ; guide de déploiement § 5 bis
 - ⛔ Mise en ligne de la console (hébergement, domaine, HTTPS) : payante et publique → accord du commanditaire requis
+
+## Refonte visuelle (2026-09-25, docs/redesign/HANDOFF.md)
+
+Présentation seulement, un commit par lot, compte rendu : `docs/redesign/COMPTE-RENDU.md`.
+
+- ✅ Lot 1 Jetons, polices, icône, accent Windows remplacé · ✅ Lot 2 Composants · ✅ Lot 3 Coque · ✅ Lot 4 Accueil
+- ✅ Lot 5 Protection, Optimisation, Système · ✅ Lot 6 Performance et thème sombre · ✅ Lot 7 Processus, Sessions, Planification, Rapports, Licence, Paramètres
+- ✅ Lot 8 Premier lancement · ✅ Lot 9 Arabe / RTL · ✅ Lot 10 Console PME · ✅ Lot 11 Formats et accessibilité
+- ⏳ Vérification visuelle par le commanditaire (version de test dans `C:\dev\PcSante-Installation`), relecture des textes arabes par un arabophone
