@@ -114,6 +114,7 @@ public static class ServiceRegistration
         yield return new ResetNetworkStackAction(S<INetworkRepairApi>());
         yield return new DisableGuestAccountAction(S<ILocalAccountsApi>());
         yield return new EnableBitLockerAction(S<IBitLockerApi>(), S<ILocalAccountsApi>());
+        yield return new ServiceProfileAction(S<IServiceControlApi>());
         foreach (var command in new[] { CommandId.SendSessionMessage, CommandId.DisconnectSession, CommandId.LogOffSession })
         {
             yield return new SessionAction(command, S<ISessionApi>(), S<ILocalAccountsApi>());

@@ -15,6 +15,7 @@ public static class CommandDefinitions
         ["Everyday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", Scheduling.ScheduleSettings.MonthStart];
     public static readonly IReadOnlyList<string> Languages = ["fr", "en", "ar"];
     public static readonly IReadOnlyList<string> SessionMessages = ["SaveWork", "RestartSoon", "Maintenance"];
+    public static readonly IReadOnlyList<string> ServiceProfileNames = Enum.GetNames<Optimization.ServiceProfile>();
     public static readonly IReadOnlyList<string> Periods = ["Week", "Month"];
 
     private static readonly ParameterSpec[] None = [];
@@ -35,6 +36,7 @@ public static class CommandDefinitions
     private static readonly ParameterSpec Key = new("key", ParameterType.LicenseKey);
     private static readonly ParameterSpec Template = new("template", ParameterType.Choice, AllowedValues: TemplateIds);
     private static readonly ParameterSpec SessionId = new("sessionId", ParameterType.PositiveInteger);
+    private static readonly ParameterSpec ServiceProfileParameter = new("profile", ParameterType.Choice, AllowedValues: ServiceProfileNames);
 
     public static FrozenDictionary<CommandId, CommandDescriptor> All { get; } = new[]
     {
@@ -69,6 +71,10 @@ public static class CommandDefinitions
         Q(CommandId.GetLocalAccounts),
         A(CommandId.DisableGuestAccount, SafeguardKind.OwnBackup),
         Q(CommandId.GetBitLockerStatus),
+
+        // Profils de services (M4) : passage en Manuel seulement, point de restauration + sauvegarde pour « Annuler »
+        Q(CommandId.GetServiceProfileChanges, RequiredTier.Free, ServiceProfileParameter),
+        A(CommandId.ApplyServiceProfile, SafeguardKind.RestorePointAndOwnBackup, p: ServiceProfileParameter),
 
         // Sessions (M7) : messages d'une liste fermée, actions réservées aux administrateurs (vérifié par le service)
         Q(CommandId.GetSessions),

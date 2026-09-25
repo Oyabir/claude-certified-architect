@@ -1,6 +1,7 @@
 using System.Globalization;
 using PcSante.Core.Actions;
 using PcSante.Core.Commands;
+using PcSante.Core.Optimization;
 using PcSante.Core.Windows;
 
 namespace PcSante.Service.Actions;
@@ -237,4 +238,72 @@ public sealed class ScheduleTemplateAction(CommandId command, Core.Scheduling.IS
         var current = await scheduler.GetAsync(Template(context), cancellationToken).ConfigureAwait(false);
         return Enable ? current is not null : current is null;
     }
+}
+
+/// <summary>
+/// Profil de services (M4) : services automatiques de la liste prudente passés en « Manuel » (jamais désactivés).
+/// Point de restauration et sauvegarde des modes précédents : « Annuler » les rétablit.
+/// </summary>
+public sealed class ServiceProfileAction(IServiceControlApi services) : SystemAction
+{
+    private sealed record PreviousModes(Dictionary<string, ServiceStartMode> Modes);
+
+    public override CommandId Command => CommandId.ApplyServiceProfile;
+
+    /// <summary>Services du profil qui démarrent automatiquement aujourd'hui (absents du PC ignorés).</summary>
+    public static async Task<IReadOnlyList<ServiceChange>> ChangesAsync(IServiceControlApi services, ServiceProfile profile, CancellationToken ct)
+    {
+        ArgumentNullException.ThrowIfNull(services);
+        var changes = new List<ServiceChange>();
+        foreach (var name in ServiceProfiles.ServicesOf(profile))
+        {
+            if (await services.GetAsync(name, ct).ConfigureAwait(false) is { } info && ServiceProfiles.ShouldChange(info))
+            {
+                changes.Add(new ServiceChange(info.Name, info.DisplayName, info.StartMode));
+            }
+        }
+
+        return changes;
+    }
+
+    public override async Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken) =>
+        (await ChangesAsync(services, Profile(context), cancellationToken).ConfigureAwait(false)).Count == 0
+            ? CheckResult.AlreadyDone("Result_ProfileNothingToDo")
+            : CheckResult.Proceed;
+
+    public override async Task<BackupData?> BackupAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        var changes = await ChangesAsync(services, Profile(context), cancellationToken).ConfigureAwait(false);
+        return Backup.Of("Services", new PreviousModes(changes.ToDictionary(c => c.Name, c => c.From)));
+    }
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        var changes = await ChangesAsync(services, Profile(context), cancellationToken).ConfigureAwait(false);
+        foreach (var change in changes)
+        {
+            if (!await services.SetStartModeAsync(change.Name, ServiceStartMode.Manual, cancellationToken).ConfigureAwait(false))
+            {
+                return ExecutionResult.Fail("Result_ProfileFailed", change.Name);
+            }
+        }
+
+        return new ExecutionResult(true, "Result_ProfileApplied", MessageArgs: [changes.Count.ToString(CultureInfo.InvariantCulture)]);
+    }
+
+    public override async Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) =>
+        (await ChangesAsync(services, Profile(context), cancellationToken).ConfigureAwait(false)).Count == 0;
+
+    public override async Task<bool> UndoAsync(BackupData backup, CancellationToken cancellationToken)
+    {
+        var ok = true;
+        foreach (var (name, mode) in Backup.Read<PreviousModes>(backup).Modes)
+        {
+            ok &= await services.SetStartModeAsync(name, mode, cancellationToken).ConfigureAwait(false);
+        }
+
+        return ok;
+    }
+
+    private static ServiceProfile Profile(ActionContext context) => context.Parameters.GetEnum<ServiceProfile>("profile");
 }

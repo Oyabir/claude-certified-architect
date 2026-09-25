@@ -702,4 +702,18 @@ Gardez ce fichier hors du PC (clé USB, papier).</value></data>
   <data name="SessionState_Other" xml:space="preserve"><value>En cours de changement</value></data>
   <data name="Issue_NewRemoteConnection_Title" xml:space="preserve"><value>Connexion à distance depuis une adresse inhabituelle ({0})</value></data>
   <data name="Issue_NewRemoteConnection_Why" xml:space="preserve"><value>Quelqu'un s'est connecté à ce PC par le Bureau à distance depuis {0}, une adresse jamais vue. Si ce n'est pas vous, fermez la session.</value></data>
+  <data name="Command_GetServiceProfileChanges" xml:space="preserve"><value>Aperçu du profil de services</value></data>
+  <data name="Command_ApplyServiceProfile" xml:space="preserve"><value>Appliquer un profil de services</value></data>
+  <data name="Result_ProfileApplied" xml:space="preserve"><value>{0} service(s) passé(s) en démarrage manuel. Vous pouvez annuler ci-dessous.</value></data>
+  <data name="Result_ProfileNothingToDo" xml:space="preserve"><value>Rien à changer : ces services ne démarrent déjà plus automatiquement.</value></data>
+  <data name="Result_ProfileFailed" xml:space="preserve"><value>Un service n'a pas pu être modifié. Les changements ont été annulés.</value></data>
+  <data name="Profile_Title" xml:space="preserve"><value>Services Windows selon votre usage</value></data>
+  <data name="Profile_Explanation" xml:space="preserve"><value>Des services inutiles pour votre usage passent en démarrage manuel : Windows les relance si un programme en a besoin. Aucun n'est désactivé, et vous pouvez annuler.</value></data>
+  <data name="Profile_Office" xml:space="preserve"><value>Bureautique (travail, Internet)</value></data>
+  <data name="Profile_Gaming" xml:space="preserve"><value>Jeux vidéo</value></data>
+  <data name="Profile_Laptop" xml:space="preserve"><value>Portable (autonomie de la batterie)</value></data>
+  <data name="Profile_Preview" xml:space="preserve"><value>{0} service(s) passeront en démarrage manuel : {1}.</value></data>
+  <data name="Profile_NothingToDo" xml:space="preserve"><value>Rien à changer pour ce profil sur ce PC.</value></data>
+  <data name="Profile_Apply" xml:space="preserve"><value>Appliquer le profil</value></data>
+  <data name="Profile_Applying" xml:space="preserve"><value>Application du profil…</value></data>
 </root>

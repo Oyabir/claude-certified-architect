@@ -57,6 +57,29 @@ public sealed partial class OptimizationViewModel(MainViewModel main) : PageView
 
     public ObservableCollection<PowerRow> PowerPlans { get; } = [];
 
+    public IReadOnlyList<Choice> ServiceProfiles { get; } =
+        CommandDefinitions.ServiceProfileNames.Select(p => new Choice(p, Loc.T($"Profile_{p}"))).ToList();
+
+    [ObservableProperty]
+    private string _selectedProfile = CommandDefinitions.ServiceProfileNames[0];
+
+    [ObservableProperty]
+    private string _profilePreview = string.Empty;
+
+    partial void OnSelectedProfileChanged(string value) => _ = LoadProfilePreviewAsync();
+
+    private async Task LoadProfilePreviewAsync()
+    {
+        var changes = await Query<List<ServiceChange>>(CommandId.GetServiceProfileChanges, new Dictionary<string, string> { ["profile"] = SelectedProfile }).ConfigureAwait(true);
+        ProfilePreview = changes is null ? string.Empty
+            : changes.Count == 0 ? Loc.T("Profile_NothingToDo")
+            : Loc.F("Profile_Preview", changes.Count, string.Join(", ", changes.Select(c => c.DisplayName)));
+    }
+
+    [RelayCommand]
+    private Task ApplyProfileAsync() =>
+        ExecuteAsync(CommandId.ApplyServiceProfile, new Dictionary<string, string> { ["profile"] = SelectedProfile }, busyKey: "Profile_Applying");
+
     public ObservableCollection<UndoRow> Undoable { get; } = [];
 
     [ObservableProperty]
@@ -96,6 +119,8 @@ public sealed partial class OptimizationViewModel(MainViewModel main) : PageView
             {
                 PowerPlans.Add(new PowerRow(p.Id, p.Name, p.IsActive));
             }
+
+            await LoadProfilePreviewAsync().ConfigureAwait(true);
         }
 
         Undoable.Clear();

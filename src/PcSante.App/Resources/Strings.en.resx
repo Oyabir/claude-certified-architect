@@ -702,4 +702,18 @@ Keep this file off the PC (USB drive, paper).</value></data>
   <data name="SessionState_Other" xml:space="preserve"><value>Changing</value></data>
   <data name="Issue_NewRemoteConnection_Title" xml:space="preserve"><value>Remote connection from an unusual address ({0})</value></data>
   <data name="Issue_NewRemoteConnection_Why" xml:space="preserve"><value>Someone connected to this PC through Remote Desktop from {0}, a never-seen address. If it wasn't you, sign out the session.</value></data>
+  <data name="Command_GetServiceProfileChanges" xml:space="preserve"><value>Service profile preview</value></data>
+  <data name="Command_ApplyServiceProfile" xml:space="preserve"><value>Apply a service profile</value></data>
+  <data name="Result_ProfileApplied" xml:space="preserve"><value>{0} service(s) switched to manual start. You can undo below.</value></data>
+  <data name="Result_ProfileNothingToDo" xml:space="preserve"><value>Nothing to change: these services no longer start automatically.</value></data>
+  <data name="Result_ProfileFailed" xml:space="preserve"><value>A service could not be changed. The changes were undone.</value></data>
+  <data name="Profile_Title" xml:space="preserve"><value>Windows services for your use</value></data>
+  <data name="Profile_Explanation" xml:space="preserve"><value>Services you don't need switch to manual start: Windows restarts them if a program needs them. None is turned off, and you can undo.</value></data>
+  <data name="Profile_Office" xml:space="preserve"><value>Office (work, Internet)</value></data>
+  <data name="Profile_Gaming" xml:space="preserve"><value>Gaming</value></data>
+  <data name="Profile_Laptop" xml:space="preserve"><value>Laptop (battery life)</value></data>
+  <data name="Profile_Preview" xml:space="preserve"><value>{0} service(s) will switch to manual start: {1}.</value></data>
+  <data name="Profile_NothingToDo" xml:space="preserve"><value>Nothing to change for this profile on this PC.</value></data>
+  <data name="Profile_Apply" xml:space="preserve"><value>Apply the profile</value></data>
+  <data name="Profile_Applying" xml:space="preserve"><value>Applying the profile…</value></data>
 </root>

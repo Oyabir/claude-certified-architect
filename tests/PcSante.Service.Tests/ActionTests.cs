@@ -442,6 +442,33 @@ public sealed class ActionTests
     }
 
     [Fact]
+    public async Task Profil_de_services_en_manuel_seulement_et_annulable()
+    {
+        await using var svc = new ServiceFixture();
+        svc.ServicesApi.Services["DiagTrack"] = new ServiceInfo("DiagTrack", "Télémétrie", ServiceStartMode.Automatic, true, null);
+        svc.ServicesApi.Services["XblGameSave"] = new ServiceInfo("XblGameSave", "Xbox", ServiceStartMode.AutomaticDelayed, false, null);
+        svc.ServicesApi.Services["MapsBroker"] = new ServiceInfo("MapsBroker", "Cartes", ServiceStartMode.Manual, false, null);
+        var office = new Dictionary<string, string> { ["profile"] = "Office" };
+
+        var preview = (await svc.Run(CommandId.GetServiceProfileChanges, office)).GetData<List<ServiceChange>>()!;
+        preview.Select(c => c.Name).Should().BeEquivalentTo(["DiagTrack", "XblGameSave"], "seuls les services automatiques changent");
+        (await svc.Run(CommandId.GetServiceProfileChanges, new() { ["profile"] = "Gaming" })).GetData<List<ServiceChange>>()!
+            .Should().ContainSingle(c => c.Name == "DiagTrack", "le profil jeu garde les services Xbox");
+
+        var result = await svc.Run(CommandId.ApplyServiceProfile, office);
+        result.MessageKey.Should().Be("Result_ProfileApplied");
+        result.MessageArgs.Should().Equal("2");
+        svc.Restore.Points.Should().ContainSingle();
+        svc.ServicesApi.Services["DiagTrack"].StartMode.Should().Be(ServiceStartMode.Manual);
+        svc.ServicesApi.Services.Values.Should().NotContain(s => s.StartMode == ServiceStartMode.Disabled, "aucun service n'est désactivé");
+        (await svc.Run(CommandId.ApplyServiceProfile, office)).Status.Should().Be(CommandStatus.AlreadyDone);
+
+        (await svc.Run(CommandId.UndoAction, new() { ["undoId"] = result.UndoId!.Value.ToString() })).Status.Should().Be(CommandStatus.Succeeded);
+        svc.ServicesApi.Services["DiagTrack"].StartMode.Should().Be(ServiceStartMode.Automatic);
+        svc.ServicesApi.Services["XblGameSave"].StartMode.Should().Be(ServiceStartMode.AutomaticDelayed);
+    }
+
+    [Fact]
     public async Task Antivirus_declares_consultables_en_offre_gratuite()
     {
         await using var svc = new ServiceFixture(premium: false);

@@ -93,6 +93,10 @@ public enum CommandId
     // --- Mises à jour de l'application (section 5) ---
     CheckAppUpdate = 900,
     InstallAppUpdate = 901,
+    // --- Optimisations V2 (M4) ---
+    GetServiceProfileChanges = 1100,
+    ApplyServiceProfile = 1101,
+
     // --- Sessions (M7) ---
     GetSessions = 1000,
     SendSessionMessage = 1001,

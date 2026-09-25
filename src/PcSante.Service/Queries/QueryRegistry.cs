@@ -8,6 +8,7 @@ using PcSante.Core.Reporting;
 using PcSante.Core.Scheduling;
 using PcSante.Core.Windows;
 using PcSante.Licensing;
+using PcSante.Service.Actions;
 using PcSante.Service.Data;
 using PcSante.Service.Diagnostics;
 using PcSante.Service.Dispatch;
@@ -27,6 +28,7 @@ public sealed class QueryRegistry(
     ISecurityCenterApi securityCenter,
     IBitLockerApi bitLocker,
     ISessionApi sessions,
+    IServiceControlApi services,
     IWindowsUpdateApi updates,
     IProcessApi processes,
     ISignatureVerifier signatures,
@@ -59,6 +61,8 @@ public sealed class QueryRegistry(
         yield return Q(CommandId.GetAntivirusProducts, async (_, _, ct) => CommandResult.WithData(await securityCenter.ListAntivirusAsync(ct).ConfigureAwait(false)));
         yield return Q(CommandId.GetBitLockerStatus, async (_, _, ct) => CommandResult.WithData(await bitLocker.GetStatusAsync(ct).ConfigureAwait(false)));
         yield return Q(CommandId.GetSessions, async (_, _, ct) => CommandResult.WithData(await sessions.ListAsync(ct).ConfigureAwait(false)));
+        yield return Q(CommandId.GetServiceProfileChanges, async (p, _, ct) =>
+            CommandResult.WithData(await ServiceProfileAction.ChangesAsync(services, p.GetEnum<ServiceProfile>("profile"), ct).ConfigureAwait(false)));
         yield return Q(CommandId.GetLocalAccounts, async (_, _, ct) => CommandResult.WithData(await accounts.ListAsync(ct).ConfigureAwait(false)));
         yield return Q(CommandId.GetUpdateStatus, async (_, _, ct) => CommandResult.WithData(await updates.GetStatusAsync(ct).ConfigureAwait(false)));
 
