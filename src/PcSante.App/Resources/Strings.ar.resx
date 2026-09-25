@@ -783,4 +783,11 @@
   <data name="Proc_AmdDriver" xml:space="preserve"><value>برنامج تشغيل بطاقة الرسومات AMD.</value></data>
   <data name="Proc_WindowsSecurity" xml:space="preserve"><value>أيقونة أمان Windows.</value></data>
   <data name="Proc_Defender" xml:space="preserve"><value>مكافح الفيروسات Microsoft Defender: ضروري.</value></data>
+  <data name="Pme_AverageScore" xml:space="preserve"><value>متوسط درجة الشهر</value></data>
+  <data name="Pme_Reports" xml:space="preserve"><value>التحليلات المستلمة</value></data>
+  <data name="Pme_OpenAlerts" xml:space="preserve"><value>التنبيهات المفتوحة</value></data>
+  <data name="Pme_LastReport" xml:space="preserve"><value>آخر اتصال</value></data>
+  <data name="Pme_Alert_ScoreRed" xml:space="preserve"><value>درجة الصحة في المنطقة الحمراء: يجب إصلاح هذا الحاسوب.</value></data>
+  <data name="Pme_Alert_CriticalIssue" xml:space="preserve"><value>مشكلة خطيرة: {0}</value></data>
+  <data name="Pme_Alert_Silent" xml:space="preserve"><value>لا أخبار من هذا الحاسوب منذ أكثر من 3 أيام (مطفأ أو غير متصل أو أُلغي تثبيت PC Santé).</value></data>
 </root>

@@ -783,4 +783,11 @@ Keep this file off the PC (USB drive, paper).</value></data>
   <data name="Proc_AmdDriver" xml:space="preserve"><value>AMD graphics card driver.</value></data>
   <data name="Proc_WindowsSecurity" xml:space="preserve"><value>Windows Security icon.</value></data>
   <data name="Proc_Defender" xml:space="preserve"><value>Microsoft Defender antivirus: essential.</value></data>
+  <data name="Pme_AverageScore" xml:space="preserve"><value>Average score for the month</value></data>
+  <data name="Pme_Reports" xml:space="preserve"><value>Reports received</value></data>
+  <data name="Pme_OpenAlerts" xml:space="preserve"><value>Open alerts</value></data>
+  <data name="Pme_LastReport" xml:space="preserve"><value>Last contact</value></data>
+  <data name="Pme_Alert_ScoreRed" xml:space="preserve"><value>Health score in the red: this PC needs fixing.</value></data>
+  <data name="Pme_Alert_CriticalIssue" xml:space="preserve"><value>Serious problem: {0}</value></data>
+  <data name="Pme_Alert_Silent" xml:space="preserve"><value>No news from this PC for more than 3 days (off, offline or PC Santé uninstalled).</value></data>
 </root>

@@ -77,7 +77,7 @@ Accord du commanditaire : modules locaux V2 + console PME. Hors périmètre : M1
 - ✅ V2-8 Rapports (M8) : export CSV de la période (scores, actions, menaces), « ; » et UTF-8 avec BOM pour Excel, cellules protégées contre l'injection de formules (Premium)
 - ✅ V2-9 Processus (M3) : base de réputation enrichie dans un fichier de données embarqué (ReputationBase.json : programmes inutiles au démarrage et programmes courants), description en langage simple sur l'écran Processus (fr, en, ar)
 - ⛔ V2-10 Températures GPU (M5) : LibreHardwareMonitor écarté (pilote WinRing0 détecté par Defender) ; reste « non disponible »
-- ⏳ V2-11 Console PME — serveur : ASP.NET Core + SQLite/PostgreSQL, organisations, comptes gérants, codes d'inscription des postes, offre PME au serveur de licences
+- ✅ V2-11 Console PME — serveur (server/PcSante.PmeConsole) : ASP.NET Core + SQLite/PostgreSQL ; organisations (postes = sièges), gérants et lecteurs (PBKDF2, verrouillage après 5 échecs), code d'inscription PME-XXXXX-XXXXX-XXXXX (empreinte seulement), postes authentifiés par secret (empreinte seulement), alertes (score rouge, problème critique, poste silencieux 3 jours), rapport consolidé et CSV ; cookie SameSite=Strict + en-tête anti-CSRF, CSP stricte, limitation de débit ; 13 tests d'intégration
 - ⏳ V2-12 Console PME — postes : inscription depuis l'application, envoi périodique par le service (HTTPS, métriques techniques uniquement, loi 09-08)
 - ⏳ V2-13 Console PME — interface web : liste des postes avec score, carte des alertes, détail d'un poste, utilisateurs et licences
 - ⏳ V2-14 Console PME — alertes e-mail et rapport consolidé mensuel (SMTP configurable, aucun service payant ; en local, fichiers .eml)

@@ -24,3 +24,7 @@ installer/obj/
 /*.dll
 /*.exe
 obfuscar-mapping.txt
+# Console PME en local (base, journaux, e-mails de test)
+server/PcSante.PmeConsole/pmeconsole.db*
+server/PcSante.PmeConsole/logs/
+server/PcSante.PmeConsole/mails/

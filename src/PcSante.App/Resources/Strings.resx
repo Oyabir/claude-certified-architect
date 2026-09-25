@@ -783,4 +783,11 @@ Gardez ce fichier hors du PC (clé USB, papier).</value></data>
   <data name="Proc_AmdDriver" xml:space="preserve"><value>Pilote de la carte graphique AMD.</value></data>
   <data name="Proc_WindowsSecurity" xml:space="preserve"><value>Icône de Sécurité Windows.</value></data>
   <data name="Proc_Defender" xml:space="preserve"><value>Antivirus Microsoft Defender : indispensable.</value></data>
+  <data name="Pme_AverageScore" xml:space="preserve"><value>Score moyen du mois</value></data>
+  <data name="Pme_Reports" xml:space="preserve"><value>Analyses reçues</value></data>
+  <data name="Pme_OpenAlerts" xml:space="preserve"><value>Alertes ouvertes</value></data>
+  <data name="Pme_LastReport" xml:space="preserve"><value>Dernier contact</value></data>
+  <data name="Pme_Alert_ScoreRed" xml:space="preserve"><value>Score de santé dans le rouge : ce poste doit être corrigé.</value></data>
+  <data name="Pme_Alert_CriticalIssue" xml:space="preserve"><value>Problème grave : {0}</value></data>
+  <data name="Pme_Alert_Silent" xml:space="preserve"><value>Aucune nouvelle de ce poste depuis plus de 3 jours (éteint, hors réseau ou PC Santé désinstallé).</value></data>
 </root>

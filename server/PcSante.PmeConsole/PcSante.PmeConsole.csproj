@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <!--
+    Console PME (V2) : postes d'une organisation, alertes, rapports consolidés.
+    ASP.NET Core + SQLite (PostgreSQL en production), interface web React servie par la console elle-même.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/PcSante.Core/PcSante.Core.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Serilog.Sinks.File" />
+    <InternalsVisibleTo Include="PcSante.PmeConsole.Tests" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Mêmes fichiers de traduction que l'application (titres des problèmes des postes), sans doublon. -->
+    <EmbeddedResource Include="../../src/PcSante.App/Resources/Strings*.resx" LinkBase="Resources" />
+  </ItemGroup>
+</Project>
