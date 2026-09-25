@@ -100,6 +100,7 @@
   <data name="Command_UndoOf" xml:space="preserve"><value>تراجع: {0}</value></data>
   <data name="Command_UpdateSignatures" xml:space="preserve"><value>تحديث مكافحة الفيروسات</value></data>
   <data name="Common_Cancel" xml:space="preserve"><value>إلغاء</value></data>
+  <data name="Common_Close" xml:space="preserve"><value>إغلاق الرسالة</value></data>
   <data name="Common_Continue" xml:space="preserve"><value>متابعة</value></data>
   <data name="Common_Details" xml:space="preserve"><value>التفاصيل</value></data>
   <data name="Common_Disable" xml:space="preserve"><value>إيقاف</value></data>
@@ -261,8 +262,11 @@
   <data name="Metric_Percent" xml:space="preserve"><value>{0}٪</value></data>
   <data name="Metric_Temperature" xml:space="preserve"><value>درجة الحرارة</value></data>
   <data name="Metric_TemperatureValue" xml:space="preserve"><value>{0} °م</value></data>
+  <data name="Nav_Advanced" xml:space="preserve"><value>متقدم</value></data>
+  <data name="Nav_Essential" xml:space="preserve"><value>أساسي</value></data>
   <data name="Nav_Home" xml:space="preserve"><value>الرئيسية</value></data>
   <data name="Nav_License" xml:space="preserve"><value>الترخيص</value></data>
+  <data name="Nav_LicenseActive" xml:space="preserve"><value>الترخيص مفعّل على هذا الحاسوب</value></data>
   <data name="Nav_Menu" xml:space="preserve"><value>القائمة الرئيسية</value></data>
   <data name="Nav_Offer" xml:space="preserve"><value>اشتراكك</value></data>
   <data name="Nav_Optimization" xml:space="preserve"><value>التحسين</value></data>

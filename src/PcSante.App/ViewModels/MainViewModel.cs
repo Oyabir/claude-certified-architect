@@ -14,7 +14,24 @@ using PcSante.Core.Ui;
 
 namespace PcSante.App.ViewModels;
 
-public sealed record NavItem(ScreenId Screen, string Label, Wpf.Ui.Controls.SymbolRegular Icon);
+/// <summary>Élément de la barre latérale : groupe ESSENTIEL ou AVANCÉ, icône, pastille (nombre de points à regarder).</summary>
+public sealed partial class NavItem(ScreenId screen, string label, string icon, string group) : ObservableObject
+{
+    public ScreenId Screen { get; } = screen;
+
+    public string Label { get; } = label;
+
+    /// <summary>Clé de l'icône (Themes/PcSante.Icons.xaml, « PcsIcon.… »).</summary>
+    public string Icon { get; } = icon;
+
+    public string Group { get; } = group;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasBadge))]
+    private int _badge;
+
+    public bool HasBadge => Badge > 0;
+}
 
 /// <summary>Fenêtre principale : navigation latérale (mode Simple / Avancé), écran courant, message de résultat.</summary>
 [SupportedOSPlatform("windows")]
@@ -52,6 +69,15 @@ public sealed partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private NavItem? _selectedItem;
 
+    /// <summary>Licence ou Paramètres (bas de la barre latérale), même style que les autres éléments.</summary>
+    [ObservableProperty]
+    private NavItem? _selectedFooterItem;
+
+    /// <summary>Nombre de points à regarder, affiché en pastille sur « Accueil ».</summary>
+    private int _attentionCount;
+
+    private bool _rebuilding;
+
     [ObservableProperty]
     private bool _serviceAvailable = true;
 
@@ -77,6 +103,18 @@ public sealed partial class MainViewModel : ObservableObject
 
     public string LicenseBadge => IsPremium ? Loc.T($"Tier_{License!.EffectiveTier}") : Loc.T("Tier_Free");
 
+    /// <summary>Sous-titre de la carte d'offre : « Licence active sur ce PC » ou « Votre offre ».</summary>
+    public string LicenseCaption => IsPremium ? Loc.T("Nav_LicenseActive") : Loc.T("Nav_Offer");
+
+    public void SetAttentionCount(int count)
+    {
+        _attentionCount = count;
+        foreach (var item in Items)
+        {
+            item.Badge = item.Screen == ScreenId.Home ? count : 0;
+        }
+    }
+
     public WelcomeViewModel? Welcome { get; private set; }
 
     public async Task StartAsync()
@@ -101,6 +139,7 @@ public sealed partial class MainViewModel : ObservableObject
         License = result.GetData<LicenseStatus>();
         OnPropertyChanged(nameof(IsPremium));
         OnPropertyChanged(nameof(LicenseBadge));
+        OnPropertyChanged(nameof(LicenseCaption));
     }
 
     /// <summary>
@@ -113,6 +152,13 @@ public sealed partial class MainViewModel : ObservableObject
         if (item is not null)
         {
             SelectedItem = item;
+            return;
+        }
+
+        var footer = FooterItems.FirstOrDefault(i => i.Screen == screen);
+        if (footer is not null)
+        {
+            SelectedFooterItem = footer;
             return;
         }
 
@@ -168,12 +214,27 @@ public sealed partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void CloseMessage() => Message.Close();
 
+    partial void OnSelectedFooterItemChanged(NavItem? value)
+    {
+        if (value is null || _rebuilding)
+        {
+            return;
+        }
+
+        SelectedItem = null;
+        Message.Close();
+        CurrentPage = GetPage(value.Screen);
+        _ = CurrentPage.LoadAsync();
+    }
+
     partial void OnSelectedItemChanged(NavItem? value)
     {
         if (value is null)
         {
             return;
         }
+
+        SelectedFooterItem = null;
 
         Message.Close();
         CurrentPage = GetPage(value.Screen);
@@ -208,16 +269,34 @@ public sealed partial class MainViewModel : ObservableObject
     {
         var current = SelectedItem?.Screen;
         Items.Clear();
-        foreach (var screen in ScreenCatalog.VisibleScreens(Settings.Mode))
+        // Groupe ESSENTIEL (écrans du mode Simple) puis AVANCÉ, masqué en mode Simple.
+        var visible = ScreenCatalog.VisibleScreens(Settings.Mode);
+        var essential = visible.Where(s => ScreenCatalog.GetAvailability(s, DisplayMode.Simple) == ScreenAvailability.Visible);
+        var advanced = visible.Where(s => ScreenCatalog.GetAvailability(s, DisplayMode.Simple) != ScreenAvailability.Visible);
+        foreach (var screen in essential)
         {
-            Items.Add(new NavItem(screen, Loc.T(IsSimpleMode && screen == ScreenId.Optimization ? "Nav_Optimization_Simple" : $"Nav_{screen}"), IconOf(screen)));
+            Items.Add(new NavItem(screen, Loc.T(IsSimpleMode && screen == ScreenId.Optimization ? "Nav_Optimization_Simple" : $"Nav_{screen}"), IconOf(screen), Loc.T("Nav_Essential"))
+            {
+                Badge = screen == ScreenId.Home ? _attentionCount : 0,
+            });
         }
 
+        foreach (var screen in advanced)
+        {
+            Items.Add(new NavItem(screen, Loc.T($"Nav_{screen}"), IconOf(screen), Loc.T("Nav_Advanced")));
+        }
+
+        var footerScreen = SelectedFooterItem?.Screen;
         FooterItems.Clear();
         foreach (var screen in ScreenCatalog.FooterScreens)
         {
-            FooterItems.Add(new NavItem(screen, Loc.T($"Nav_{screen}"), IconOf(screen)));
+            FooterItems.Add(new NavItem(screen, Loc.T($"Nav_{screen}"), IconOf(screen), string.Empty));
         }
+
+        // L'écran du bas reste sélectionné (Paramètres enregistrés sans rechargement de la page).
+        _rebuilding = true;
+        SelectedFooterItem = footerScreen is { } f ? FooterItems.FirstOrDefault(i => i.Screen == f) : null;
+        _rebuilding = false;
 
         _pages.Clear();
         if (current is { } c)
@@ -226,20 +305,20 @@ public sealed partial class MainViewModel : ObservableObject
         }
     }
 
-    private static Wpf.Ui.Controls.SymbolRegular IconOf(ScreenId screen) => screen switch
+    private static string IconOf(ScreenId screen) => screen switch
     {
-        ScreenId.Home => Wpf.Ui.Controls.SymbolRegular.Home24,
-        ScreenId.Protection => Wpf.Ui.Controls.SymbolRegular.Shield24,
-        ScreenId.Optimization => Wpf.Ui.Controls.SymbolRegular.Broom24,
-        ScreenId.Performance => Wpf.Ui.Controls.SymbolRegular.DataArea24,
-        ScreenId.Processes => Wpf.Ui.Controls.SymbolRegular.AppsList24,
-        ScreenId.System => Wpf.Ui.Controls.SymbolRegular.Wrench24,
-        ScreenId.Reports => Wpf.Ui.Controls.SymbolRegular.DocumentPdf24,
-        ScreenId.Scheduling => Wpf.Ui.Controls.SymbolRegular.CalendarClock24,
-        ScreenId.Sessions => Wpf.Ui.Controls.SymbolRegular.People24,
-        ScreenId.Settings => Wpf.Ui.Controls.SymbolRegular.Settings24,
-        ScreenId.License => Wpf.Ui.Controls.SymbolRegular.Key24,
-        _ => Wpf.Ui.Controls.SymbolRegular.Circle24,
+        ScreenId.Home => "PcsIcon.home",
+        ScreenId.Protection => "PcsIcon.shield",
+        ScreenId.Optimization => "PcsIcon.sparkle",
+        ScreenId.Performance => "PcsIcon.pulse",
+        ScreenId.Processes => "PcsIcon.list",
+        ScreenId.System => "PcsIcon.monitor",
+        ScreenId.Reports => "PcsIcon.report",
+        ScreenId.Scheduling => "PcsIcon.calendar",
+        ScreenId.Sessions => "PcsIcon.users",
+        ScreenId.Settings => "PcsIcon.sliders",
+        ScreenId.License => "PcsIcon.key",
+        _ => "PcsIcon.home",
     };
 
     /// <summary>Démarre ou arrête le mini-affichage selon les réglages.</summary>

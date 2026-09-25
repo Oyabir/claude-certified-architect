@@ -16,6 +16,8 @@
     <infra:ToneIconConverter x:Key="ToneIcon" />
     <infra:PercentToFractionConverter x:Key="PercentToFraction" />
     <infra:UpperConverter x:Key="Upper" />
+    <infra:ResourceKeyConverter x:Key="ResourceKey" />
+    <infra:AllTrueToVisibilityConverter x:Key="AllTrue" />
 
     <!-- ===== Anneau de focus : 2 px FocusRing décalé de 2 px ===== -->
     <Style x:Key="PcsFocusVisual">

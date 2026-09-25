@@ -100,6 +100,7 @@ Continue?</value></data>
   <data name="Command_UndoOf" xml:space="preserve"><value>Undo: {0}</value></data>
   <data name="Command_UpdateSignatures" xml:space="preserve"><value>Antivirus update</value></data>
   <data name="Common_Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="Common_Close" xml:space="preserve"><value>Close the message</value></data>
   <data name="Common_Continue" xml:space="preserve"><value>Continue</value></data>
   <data name="Common_Details" xml:space="preserve"><value>Details</value></data>
   <data name="Common_Disable" xml:space="preserve"><value>Turn off</value></data>
@@ -261,8 +262,11 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Metric_Percent" xml:space="preserve"><value>{0}%</value></data>
   <data name="Metric_Temperature" xml:space="preserve"><value>Temperature</value></data>
   <data name="Metric_TemperatureValue" xml:space="preserve"><value>{0} °C</value></data>
+  <data name="Nav_Advanced" xml:space="preserve"><value>Advanced</value></data>
+  <data name="Nav_Essential" xml:space="preserve"><value>Essential</value></data>
   <data name="Nav_Home" xml:space="preserve"><value>Home</value></data>
   <data name="Nav_License" xml:space="preserve"><value>License</value></data>
+  <data name="Nav_LicenseActive" xml:space="preserve"><value>Licence active on this PC</value></data>
   <data name="Nav_Menu" xml:space="preserve"><value>Main menu</value></data>
   <data name="Nav_Offer" xml:space="preserve"><value>Your plan</value></data>
   <data name="Nav_Optimization" xml:space="preserve"><value>Optimization</value></data>

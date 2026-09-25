@@ -7,7 +7,7 @@
              xmlns:v="clr-namespace:PcSante.App.Views">
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
-            <StackPanel Margin="4,0,12,24">
+            <StackPanel Margin="40,28,40,32">
                 <TextBlock Text="{Binding Title}" Style="{StaticResource PageTitle}" />
                 <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PageSubtitle}" />
                 <TextBlock Text="{l:T Sessions_AdminNote}" Style="{StaticResource Technical}" TextWrapping="Wrap" Margin="0,0,0,12" />

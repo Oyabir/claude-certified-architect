@@ -101,6 +101,24 @@ public sealed class ToneIconConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 }
 
+/// <summary>Visible si toutes les valeurs liées sont vraies.</summary>
+public sealed class AllTrueToVisibilityConverter : IMultiValueConverter
+{
+    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) =>
+        values is not null && values.All(v => v is true) ? Visibility.Visible : Visibility.Collapsed;
+
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => [];
+}
+
+/// <summary>Clé de ressource (« PcsIcon.home ») → ressource (icône).</summary>
+public sealed class ResourceKeyConverter : IValueConverter
+{
+    public object? Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
+        value is string key && key.Length > 0 ? Application.Current?.TryFindResource(key) : null;
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+}
+
 /// <summary>Valeur de 0 à 100 → fraction (barres, anneaux).</summary>
 public sealed class PercentToFractionConverter : IValueConverter
 {

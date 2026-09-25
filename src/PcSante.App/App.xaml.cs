@@ -62,6 +62,9 @@ public partial class App : Application
             Language = System.Windows.Markup.XmlLanguage.GetLanguage(Loc.Culture.IetfLanguageTag),
             FontFamily = (FontFamily)Resources[Loc.IsRightToLeft ? "PcsFontArabic" : "PcsFontLatin"],
         };
+
+        // Chiffres latins partout, y compris en arabe (28,7 Go, 15:20) : maquette 06 et § 7 du dossier de refonte.
+        NumberSubstitution.SetSubstitution(window, NumberSubstitutionMethod.European);
         viewModel.RestartRequested += (_, _) =>
         {
             OpenMainWindow();

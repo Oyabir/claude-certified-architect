@@ -224,6 +224,7 @@ public sealed partial class HomeViewModel(MainViewModel main) : PageViewModel(ma
         OnPropertyChanged(nameof(Color));
         OnPropertyChanged(nameof(ScoreLabel));
         OnPropertyChanged(nameof(LastAnalysis));
+        Main.SetAttentionCount(Issues.Count);
         OnPropertyChanged(nameof(HasReport));
         OnPropertyChanged(nameof(HasIssues));
         OnPropertyChanged(nameof(PrimaryIsFixAll));

@@ -6,7 +6,7 @@
              xmlns:vm="clr-namespace:PcSante.App.ViewModels"
              xmlns:v="clr-namespace:PcSante.App.Views">
     <Grid>
-        <Grid Margin="4,0,12,12">
+        <Grid Margin="40,28,40,32">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />

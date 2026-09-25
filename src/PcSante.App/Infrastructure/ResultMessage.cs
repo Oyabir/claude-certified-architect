@@ -44,6 +44,17 @@ public sealed partial class ResultMessage : ObservableObject
         _ => Wpf.Ui.Controls.InfoBarSeverity.Informational,
     };
 
+    /// <summary>Couleur du message : vert (réussi), marque (information), orange (attention), rouge (échec).</summary>
+    public Tone Tone => Kind switch
+    {
+        MessageKind.Success => Tone.Good,
+        MessageKind.Warning => Tone.Warn,
+        MessageKind.Error => Tone.Critical,
+        _ => Tone.Brand,
+    };
+
+    public bool IsSuccess => Kind == MessageKind.Success;
+
     public bool HasDetails => !string.IsNullOrWhiteSpace(Details);
 
     public void Show(string text, MessageKind kind, string? details = null)
@@ -55,6 +66,8 @@ public sealed partial class ResultMessage : ObservableObject
         SuggestPremium = false;
         IsOpen = true;
         OnPropertyChanged(nameof(Severity));
+        OnPropertyChanged(nameof(Tone));
+        OnPropertyChanged(nameof(IsSuccess));
         OnPropertyChanged(nameof(HasDetails));
     }
 
