@@ -100,6 +100,13 @@ public partial class ResourceCompletenessTests
     }
 
     [Fact]
+    public void Chaque_programme_connu_de_la_base_de_reputation_a_sa_description()
+    {
+        Core.Processes.ReputationBase.DescriptionKeys.Should().HaveCountGreaterThan(10);
+        Core.Processes.ReputationBase.DescriptionKeys.Select(k => $"Proc_{k}").Where(k => !French.ContainsKey(k)).Should().BeEmpty();
+    }
+
+    [Fact]
     public void Chaque_probleme_detectable_a_titre_explication_et_bouton()
     {
         var rules = File.ReadAllText(Path.Combine(Root, "src", "PcSante.Core", "Health", "DiagnosticRules.cs"));

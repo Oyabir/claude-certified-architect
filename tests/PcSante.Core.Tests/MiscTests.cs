@@ -150,6 +150,18 @@ public class ScreenCatalogTests
     }
 
     [Fact]
+    public void Base_de_reputation_enrichie_chargee_depuis_le_fichier_de_donnees()
+    {
+        ReputationBase.Unnecessary.Should().Contain(["adobearm", "googleupdate", "microsoftedgeupdate"]);
+        ReputationBase.Useful.Should().Contain("chrome");
+        ReputationBase.DescriptionKeyOf("AdobeARM.exe").Should().Be("AdobeUpdater");
+        ReputationBase.DescriptionKeyOf("msedge").Should().Be("Browser");
+        ReputationBase.DescriptionKeyOf("inconnu").Should().BeNull();
+        ProcessReputation.Classify("igfxtray.exe", @"C:\Windows\System32\igfxtray.exe", new SignatureInfo(true, true, "Intel Corporation", "X"))
+            .Should().Be(Reputation.Unnecessary);
+    }
+
+    [Fact]
     public void Disponibilites()
     {
         ScreenCatalog.GetAvailability(ScreenId.Processes, DisplayMode.Simple).Should().Be(ScreenAvailability.HiddenInSimpleMode);

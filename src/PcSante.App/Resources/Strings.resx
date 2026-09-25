@@ -758,4 +758,29 @@ Gardez ce fichier hors du PC (clé USB, papier).</value></data>
   <data name="Csv_Action" xml:space="preserve"><value>Action</value></data>
   <data name="Csv_Threat" xml:space="preserve"><value>Menace</value></data>
   <data name="Csv_SubScores" xml:space="preserve"><value>Sécurité {0} · Performance {1} · Stabilité {2} · Stockage {3}</value></data>
+  <data name="Proc_AdobeUpdater" xml:space="preserve"><value>Mise à jour automatique d'Adobe (Reader, Acrobat) : inutile au démarrage.</value></data>
+  <data name="Proc_AcroTray" xml:space="preserve"><value>Icône d'Adobe Acrobat dans la barre des tâches : rarement utile.</value></data>
+  <data name="Proc_JavaUpdater" xml:space="preserve"><value>Vérification des mises à jour de Java : inutile au démarrage.</value></data>
+  <data name="Proc_ITunesHelper" xml:space="preserve"><value>Assistant d'iTunes pour les iPhone : utile seulement si vous branchez un iPhone.</value></data>
+  <data name="Proc_GoogleUpdater" xml:space="preserve"><value>Mise à jour de Google Chrome : Chrome se met aussi à jour à son ouverture.</value></data>
+  <data name="Proc_EdgeUpdater" xml:space="preserve"><value>Mise à jour de Microsoft Edge : Edge se met aussi à jour à son ouverture.</value></data>
+  <data name="Proc_CCleaner" xml:space="preserve"><value>CCleaner en surveillance permanente : inutile, PC Santé fait le nettoyage.</value></data>
+  <data name="Proc_Skype" xml:space="preserve"><value>Skype : utile seulement si vous l'utilisez pour appeler.</value></data>
+  <data name="Proc_SpotifyHelper" xml:space="preserve"><value>Assistant de Spotify : se relance quand vous ouvrez Spotify.</value></data>
+  <data name="Proc_SteamHelper" xml:space="preserve"><value>Page web interne de Steam : utile seulement pendant le jeu.</value></data>
+  <data name="Proc_EpicLauncher" xml:space="preserve"><value>Lanceur de jeux Epic : inutile au démarrage.</value></data>
+  <data name="Proc_Cortana" xml:space="preserve"><value>Assistant vocal Cortana : rarement utilisé.</value></data>
+  <data name="Proc_PhoneLink" xml:space="preserve"><value>Lien avec votre téléphone : utile seulement si vous l'utilisez.</value></data>
+  <data name="Proc_TeamsUpdater" xml:space="preserve"><value>Mise à jour de Microsoft Teams : inutile au démarrage.</value></data>
+  <data name="Proc_IntelTray" xml:space="preserve"><value>Icône des réglages graphiques Intel : rarement utile.</value></data>
+  <data name="Proc_Browser" xml:space="preserve"><value>Navigateur Internet.</value></data>
+  <data name="Proc_OneDrive" xml:space="preserve"><value>Sauvegarde de vos fichiers dans OneDrive.</value></data>
+  <data name="Proc_Teams" xml:space="preserve"><value>Microsoft Teams (réunions, discussions).</value></data>
+  <data name="Proc_Office" xml:space="preserve"><value>Programme Microsoft Office.</value></data>
+  <data name="Proc_Zoom" xml:space="preserve"><value>Zoom (visioconférence).</value></data>
+  <data name="Proc_RealtekAudio" xml:space="preserve"><value>Pilote du son (Realtek) : nécessaire au son du PC.</value></data>
+  <data name="Proc_NvidiaDriver" xml:space="preserve"><value>Pilote de la carte graphique NVIDIA.</value></data>
+  <data name="Proc_AmdDriver" xml:space="preserve"><value>Pilote de la carte graphique AMD.</value></data>
+  <data name="Proc_WindowsSecurity" xml:space="preserve"><value>Icône de Sécurité Windows.</value></data>
+  <data name="Proc_Defender" xml:space="preserve"><value>Antivirus Microsoft Defender : indispensable.</value></data>
 </root>

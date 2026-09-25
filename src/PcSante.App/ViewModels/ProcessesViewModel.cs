@@ -15,6 +15,9 @@ public sealed record ProcessRow(ProcessView Process, string? StartupId)
 {
     public string Name => Process.Name;
 
+    /// <summary>À quoi sert ce programme (base de réputation), vide s'il est inconnu.</summary>
+    public string Description => Process.DescriptionKey is { } key ? Loc.T($"Proc_{key}") : string.Empty;
+
     public double Cpu => Math.Round(Process.CpuPercent, 1);
 
     public long MemoryBytes => Process.MemoryBytes;

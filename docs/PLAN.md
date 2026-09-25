@@ -75,7 +75,7 @@ Accord du commanditaire : modules locaux V2 + console PME. Hors périmètre : M1
 - ✅ V2-6 Sessions (M7, mode Avancé) : sessions locales et RDP (état, heure, IP) par wtsapi32, message (liste fermée), déconnexion, fermeture ; administrateurs seulement ; alerte « connexion à distance depuis une adresse inhabituelle » (relevé toutes les 2 min, adresse nouvelle depuis moins de 24 h) 🖥️
 - ✅ V2-7 Optimisation (M4, mode Avancé) : profils de services (bureautique, jeu, portable ; liste prudente, passage en Manuel, jamais désactivé, annulable), effets visuels allégés (profil de l'utilisateur, texte lisse conservé, annulable), disque (defrag /O : TRIM SSD ou défragmentation HDD, en arrière-plan), fichier d'échange (état, retour à la gestion automatique, annulable) 🖥️
 - ✅ V2-8 Rapports (M8) : export CSV de la période (scores, actions, menaces), « ; » et UTF-8 avec BOM pour Excel, cellules protégées contre l'injection de formules (Premium)
-- ⏳ V2-9 Processus (M3) : base de réputation enrichie (éditeurs et programmes connus, fichier de données local)
+- ✅ V2-9 Processus (M3) : base de réputation enrichie dans un fichier de données embarqué (ReputationBase.json : programmes inutiles au démarrage et programmes courants), description en langage simple sur l'écran Processus (fr, en, ar)
 - ⛔ V2-10 Températures GPU (M5) : LibreHardwareMonitor écarté (pilote WinRing0 détecté par Defender) ; reste « non disponible »
 - ⏳ V2-11 Console PME — serveur : ASP.NET Core + SQLite/PostgreSQL, organisations, comptes gérants, codes d'inscription des postes, offre PME au serveur de licences
 - ⏳ V2-12 Console PME — postes : inscription depuis l'application, envoi périodique par le service (HTTPS, métriques techniques uniquement, loi 09-08)

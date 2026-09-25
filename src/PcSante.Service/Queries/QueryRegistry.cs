@@ -100,7 +100,8 @@ public sealed class QueryRegistry(
             var signature = s.ExecutablePath is null ? SignatureInfo.Unsigned : Signature(s.ExecutablePath);
             return new ProcessView(s.ProcessId, s.Name, s.ExecutablePath, s.CpuPercent, s.MemoryBytes, s.DiskBytesPerSecond, s.ServiceNames,
                 signature.IsSigned && signature.IsTrusted, signature.Publisher,
-                ProcessReputation.Classify(s.Name, s.ExecutablePath, signature), ProcessReputation.IsProtected(s.Name));
+                ProcessReputation.Classify(s.Name, s.ExecutablePath, signature), ProcessReputation.IsProtected(s.Name),
+                ReputationBase.DescriptionKeyOf(s.Name));
         }).OrderByDescending(p => p.CpuPercent).ThenByDescending(p => p.MemoryBytes).ToList();
     }
 

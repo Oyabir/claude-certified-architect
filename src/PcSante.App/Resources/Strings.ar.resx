@@ -758,4 +758,29 @@
   <data name="Csv_Action" xml:space="preserve"><value>إجراء</value></data>
   <data name="Csv_Threat" xml:space="preserve"><value>تهديد</value></data>
   <data name="Csv_SubScores" xml:space="preserve"><value>الأمان {0} · الأداء {1} · الاستقرار {2} · التخزين {3}</value></data>
+  <data name="Proc_AdobeUpdater" xml:space="preserve"><value>التحديث التلقائي لبرامج Adobe (Reader وAcrobat): غير ضروري عند بدء التشغيل.</value></data>
+  <data name="Proc_AcroTray" xml:space="preserve"><value>أيقونة Adobe Acrobat في شريط المهام: نادرًا ما تكون مفيدة.</value></data>
+  <data name="Proc_JavaUpdater" xml:space="preserve"><value>التحقق من تحديثات Java: غير ضروري عند بدء التشغيل.</value></data>
+  <data name="Proc_ITunesHelper" xml:space="preserve"><value>مساعد iTunes لأجهزة iPhone: مفيد فقط إذا وصلت جهاز iPhone.</value></data>
+  <data name="Proc_GoogleUpdater" xml:space="preserve"><value>محدّث Google Chrome: يحدّث Chrome نفسه أيضًا عند فتحه.</value></data>
+  <data name="Proc_EdgeUpdater" xml:space="preserve"><value>محدّث Microsoft Edge: يحدّث Edge نفسه أيضًا عند فتحه.</value></data>
+  <data name="Proc_CCleaner" xml:space="preserve"><value>مراقبة CCleaner الدائمة: غير ضرورية، يقوم PC Santé بالتنظيف.</value></data>
+  <data name="Proc_Skype" xml:space="preserve"><value>Skype: مفيد فقط إذا كنت تستخدمه للاتصال.</value></data>
+  <data name="Proc_SpotifyHelper" xml:space="preserve"><value>مساعد Spotify: يعمل مجددًا عند فتح Spotify.</value></data>
+  <data name="Proc_SteamHelper" xml:space="preserve"><value>صفحة الويب الداخلية لـ Steam: مفيدة فقط أثناء اللعب.</value></data>
+  <data name="Proc_EpicLauncher" xml:space="preserve"><value>مشغّل ألعاب Epic: غير ضروري عند بدء التشغيل.</value></data>
+  <data name="Proc_Cortana" xml:space="preserve"><value>المساعد الصوتي Cortana: نادرًا ما يُستخدم.</value></data>
+  <data name="Proc_PhoneLink" xml:space="preserve"><value>الارتباط بهاتفك: مفيد فقط إذا كنت تستخدمه.</value></data>
+  <data name="Proc_TeamsUpdater" xml:space="preserve"><value>محدّث Microsoft Teams: غير ضروري عند بدء التشغيل.</value></data>
+  <data name="Proc_IntelTray" xml:space="preserve"><value>أيقونة إعدادات رسومات Intel: نادرًا ما تكون مفيدة.</value></data>
+  <data name="Proc_Browser" xml:space="preserve"><value>متصفح الإنترنت.</value></data>
+  <data name="Proc_OneDrive" xml:space="preserve"><value>نسخ ملفاتك احتياطيًا إلى OneDrive.</value></data>
+  <data name="Proc_Teams" xml:space="preserve"><value>Microsoft Teams (اجتماعات ومحادثات).</value></data>
+  <data name="Proc_Office" xml:space="preserve"><value>برنامج Microsoft Office.</value></data>
+  <data name="Proc_Zoom" xml:space="preserve"><value>Zoom (اجتماعات الفيديو).</value></data>
+  <data name="Proc_RealtekAudio" xml:space="preserve"><value>برنامج تشغيل الصوت (Realtek): ضروري لصوت الحاسوب.</value></data>
+  <data name="Proc_NvidiaDriver" xml:space="preserve"><value>برنامج تشغيل بطاقة الرسومات NVIDIA.</value></data>
+  <data name="Proc_AmdDriver" xml:space="preserve"><value>برنامج تشغيل بطاقة الرسومات AMD.</value></data>
+  <data name="Proc_WindowsSecurity" xml:space="preserve"><value>أيقونة أمان Windows.</value></data>
+  <data name="Proc_Defender" xml:space="preserve"><value>مكافح الفيروسات Microsoft Defender: ضروري.</value></data>
 </root>
