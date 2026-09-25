@@ -1,0 +1,7 @@
+Bibliothèques tierces servies par la console PME (aucun CDN, fichiers vérifiés par l'empreinte SHA-512 du registre npm) :
+
+- react 18.3.1 (react.production.min.js)          Licence MIT        Copyright (c) Meta Platforms, Inc. and affiliates.
+- react-dom 18.3.1 (react-dom.production.min.js)  Licence MIT        Copyright (c) Meta Platforms, Inc. and affiliates.
+- htm 3.1.1 (htm.umd.js)                          Licence Apache-2.0 Copyright 2018 Google Inc.
+
+Textes des licences : https://opensource.org/license/mit et https://www.apache.org/licenses/LICENSE-2.0
