@@ -726,4 +726,24 @@
   <data name="Visual_Light" xml:space="preserve"><value>التأثيرات المرئية مخففة.</value></data>
   <data name="Visual_Default" xml:space="preserve"><value>تأثيرات مرئية كاملة (إعداد Windows).</value></data>
   <data name="Visual_Lighten" xml:space="preserve"><value>تخفيف</value></data>
+  <data name="Command_GetDiskOptimizationInfo" xml:space="preserve"><value>حالة القرص</value></data>
+  <data name="Command_OptimizeSystemDrive" xml:space="preserve"><value>تحسين القرص</value></data>
+  <data name="Command_SetPageFileAutomatic" xml:space="preserve"><value>ترك Windows يدير ملف الترحيل</value></data>
+  <data name="Result_DiskOptimizationStarted" xml:space="preserve"><value>بدأ تحسين القرص. يستمر في الخلفية ويمكنك استخدام الحاسوب.</value></data>
+  <data name="Result_DiskOptimized" xml:space="preserve"><value>تم تحسين القرص.</value></data>
+  <data name="Result_DiskOptimizationFailed" xml:space="preserve"><value>لم يكتمل تحسين القرص.</value></data>
+  <data name="Result_DiskOptimizationRunning" xml:space="preserve"><value>تحسين القرص جارٍ بالفعل.</value></data>
+  <data name="Result_PageFileAutomatic" xml:space="preserve"><value>يدير Windows الآن ملف الترحيل. أعد تشغيل الحاسوب لتطبيق ذلك.</value></data>
+  <data name="Result_PageFileAlreadyAutomatic" xml:space="preserve"><value>ملف الترحيل يديره Windows بالفعل.</value></data>
+  <data name="Result_PageFileUnavailable" xml:space="preserve"><value>لا يمكن تعديل ملف الترحيل على هذا الحاسوب.</value></data>
+  <data name="Disk_Title" xml:space="preserve"><value>القرص</value></data>
+  <data name="Disk_Explanation" xml:space="preserve"><value>يختار Windows المعالجة المناسبة: TRIM لقرص SSD، وإلغاء التجزئة للقرص الصلب (defrag /O).</value></data>
+  <data name="Disk_Ssd" xml:space="preserve"><value>القرص {0}: SSD (تحسين عبر TRIM).</value></data>
+  <data name="Disk_Hdd" xml:space="preserve"><value>القرص {0}: قرص صلب (إلغاء التجزئة، قد يستغرق وقتًا).</value></data>
+  <data name="Disk_Unknown" xml:space="preserve"><value>القرص {0}: نوع غير معروف، سيختار Windows المعالجة.</value></data>
+  <data name="Disk_Optimize" xml:space="preserve"><value>تحسين</value></data>
+  <data name="Disk_Starting" xml:space="preserve"><value>جارٍ بدء التحسين…</value></data>
+  <data name="PageFile_Automatic" xml:space="preserve"><value>ملف الترحيل يديره Windows (موصى به).</value></data>
+  <data name="PageFile_Manual" xml:space="preserve"><value>ملف الترحيل مضبوط يدويًا ({0} ميغابايت). الأكثر أمانًا ترك Windows يديره.</value></data>
+  <data name="PageFile_SetAutomatic" xml:space="preserve"><value>ترك Windows يديره</value></data>
 </root>

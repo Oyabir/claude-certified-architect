@@ -726,4 +726,24 @@ Keep this file off the PC (USB drive, paper).</value></data>
   <data name="Visual_Light" xml:space="preserve"><value>Visual effects lightened.</value></data>
   <data name="Visual_Default" xml:space="preserve"><value>Full visual effects (Windows setting).</value></data>
   <data name="Visual_Lighten" xml:space="preserve"><value>Lighten</value></data>
+  <data name="Command_GetDiskOptimizationInfo" xml:space="preserve"><value>Disk status</value></data>
+  <data name="Command_OptimizeSystemDrive" xml:space="preserve"><value>Optimize the disk</value></data>
+  <data name="Command_SetPageFileAutomatic" xml:space="preserve"><value>Let Windows manage the page file</value></data>
+  <data name="Result_DiskOptimizationStarted" xml:space="preserve"><value>Disk optimization started. It continues in the background; you can use the PC.</value></data>
+  <data name="Result_DiskOptimized" xml:space="preserve"><value>Disk optimized.</value></data>
+  <data name="Result_DiskOptimizationFailed" xml:space="preserve"><value>The disk optimization did not complete.</value></data>
+  <data name="Result_DiskOptimizationRunning" xml:space="preserve"><value>A disk optimization is already running.</value></data>
+  <data name="Result_PageFileAutomatic" xml:space="preserve"><value>Windows now manages the page file. Restart the PC to apply it.</value></data>
+  <data name="Result_PageFileAlreadyAutomatic" xml:space="preserve"><value>The page file is already managed by Windows.</value></data>
+  <data name="Result_PageFileUnavailable" xml:space="preserve"><value>The page file cannot be changed on this PC.</value></data>
+  <data name="Disk_Title" xml:space="preserve"><value>Disk</value></data>
+  <data name="Disk_Explanation" xml:space="preserve"><value>Windows picks the right treatment: TRIM for an SSD, defragmentation for a hard drive (defrag /O).</value></data>
+  <data name="Disk_Ssd" xml:space="preserve"><value>Drive {0}: SSD (optimized with TRIM).</value></data>
+  <data name="Disk_Hdd" xml:space="preserve"><value>Drive {0}: hard drive (defragmentation, may take a while).</value></data>
+  <data name="Disk_Unknown" xml:space="preserve"><value>Drive {0}: type not recognized, Windows will pick the treatment.</value></data>
+  <data name="Disk_Optimize" xml:space="preserve"><value>Optimize</value></data>
+  <data name="Disk_Starting" xml:space="preserve"><value>Starting optimization…</value></data>
+  <data name="PageFile_Automatic" xml:space="preserve"><value>Page file managed by Windows (recommended).</value></data>
+  <data name="PageFile_Manual" xml:space="preserve"><value>Page file set manually ({0} MB). Letting Windows manage it is safest.</value></data>
+  <data name="PageFile_SetAutomatic" xml:space="preserve"><value>Let Windows manage it</value></data>
 </root>

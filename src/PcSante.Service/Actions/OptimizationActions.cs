@@ -358,3 +358,56 @@ public sealed class LightenVisualEffectsAction(IVisualEffectsApi visualEffects) 
         return visualEffects.WriteAsync(previous.Sid, previous.Settings, cancellationToken);
     }
 }
+
+/// <summary>Optimisation du disque système (TRIM ou défragmentation selon le support), en arrière-plan.</summary>
+public sealed class OptimizeSystemDriveAction(IDiskOptimizationApi disk, BackgroundJobs jobs) : SystemAction
+{
+    public override CommandId Command => CommandId.OptimizeSystemDrive;
+
+    public override Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken) =>
+        Task.FromResult(jobs.IsRunning(BackgroundJobs.DiskOptimizationJob)
+            ? CheckResult.Blocked(FailureReason.PreconditionFailed, "Result_DiskOptimizationRunning")
+            : CheckResult.Proceed);
+
+    public override Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+        var started = jobs.TryStart(BackgroundJobs.DiskOptimizationJob, Command, context.Caller,
+            ct => disk.OptimizeSystemDriveAsync(ct), "Result_DiskOptimized", "Result_DiskOptimizationFailed");
+        return Task.FromResult(started
+            ? ExecutionResult.Background("Result_DiskOptimizationStarted")
+            : ExecutionResult.Fail("Result_DiskOptimizationRunning"));
+    }
+
+    public override Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) => Task.FromResult(true);
+}
+
+/// <summary>Fichier d'échange rendu à la gestion automatique de Windows (conseillé) ; effet au redémarrage, annulable.</summary>
+public sealed class PageFileAutomaticAction(IDiskOptimizationApi disk) : SystemAction
+{
+    private sealed record Previous(bool Automatic);
+
+    public override CommandId Command => CommandId.SetPageFileAutomatic;
+
+    public override async Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await disk.GetSystemDiskAsync(cancellationToken).ConfigureAwait(false) switch
+        {
+            null => Checks.NotAvailable("Result_PageFileUnavailable"),
+            { PageFileAutomatic: true } => CheckResult.AlreadyDone("Result_PageFileAlreadyAutomatic"),
+            _ => CheckResult.Proceed,
+        };
+
+    public override Task<BackupData?> BackupAsync(ActionContext context, CancellationToken cancellationToken) =>
+        Task.FromResult<BackupData?>(Backup.Of("Fichier d'échange", new Previous(false)));
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await disk.SetPageFileAutomaticAsync(true, cancellationToken).ConfigureAwait(false)
+            ? ExecutionResult.Ok("Result_PageFileAutomatic")
+            : ExecutionResult.Fail("Result_PageFileUnavailable");
+
+    public override async Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await disk.GetSystemDiskAsync(cancellationToken).ConfigureAwait(false) is { PageFileAutomatic: true };
+
+    public override Task<bool> UndoAsync(BackupData backup, CancellationToken cancellationToken) =>
+        disk.SetPageFileAutomaticAsync(Backup.Read<Previous>(backup).Automatic, cancellationToken);
+}

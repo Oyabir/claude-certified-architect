@@ -117,6 +117,25 @@
                         </DockPanel>
                     </ui:Card>
 
+                    <!-- Disque et fichier d'échange (M4) -->
+                    <TextBlock Text="{l:T Disk_Title}" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="{l:T Disk_Explanation}" Style="{StaticResource Technical}" TextWrapping="Wrap" Margin="0,-6,0,8" />
+                    <ui:Card Padding="16,12" Margin="0,0,0,6">
+                        <DockPanel>
+                            <ui:Button DockPanel.Dock="Right" Style="{StaticResource SecondaryAction}" Content="{l:T Disk_Optimize}"
+                                       Command="{Binding OptimizeDriveCommand}" />
+                            <TextBlock Text="{Binding DiskState}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        </DockPanel>
+                    </ui:Card>
+                    <ui:Card Padding="16,12" Margin="0,0,0,6">
+                        <DockPanel>
+                            <ui:Button DockPanel.Dock="Right" Style="{StaticResource SecondaryAction}" Content="{l:T PageFile_SetAutomatic}"
+                                       Command="{Binding SetPageFileAutomaticCommand}"
+                                       Visibility="{Binding CanSetPageFileAutomatic, Converter={StaticResource Visible}}" />
+                            <TextBlock Text="{Binding PageFileState}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        </DockPanel>
+                    </ui:Card>
+
                     <!-- Profils de services (M4) : passage en Manuel, annulable -->
                     <TextBlock Text="{l:T Profile_Title}" Style="{StaticResource SectionTitle}" />
                     <TextBlock Text="{l:T Profile_Explanation}" Style="{StaticResource Technical}" TextWrapping="Wrap" Margin="0,-6,0,8" />

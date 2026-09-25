@@ -518,3 +518,24 @@ internal sealed class FakeVisualEffects : IVisualEffectsApi
         return Task.FromResult(true);
     }
 }
+
+internal sealed class FakeDisk : IDiskOptimizationApi
+{
+    public DiskOptimizationInfo Info { get; set; } = new("C:", DiskMediaType.Ssd, false, 4096);
+
+    public int Optimizations { get; private set; }
+
+    public Task<DiskOptimizationInfo?> GetSystemDiskAsync(CancellationToken cancellationToken) => Task.FromResult<DiskOptimizationInfo?>(Info);
+
+    public Task<bool> OptimizeSystemDriveAsync(CancellationToken cancellationToken)
+    {
+        Optimizations++;
+        return Task.FromResult(true);
+    }
+
+    public Task<bool> SetPageFileAutomaticAsync(bool automatic, CancellationToken cancellationToken)
+    {
+        Info = Info with { PageFileAutomatic = automatic };
+        return Task.FromResult(true);
+    }
+}

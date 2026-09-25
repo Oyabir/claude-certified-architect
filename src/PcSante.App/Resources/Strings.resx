@@ -726,4 +726,24 @@ Gardez ce fichier hors du PC (clé USB, papier).</value></data>
   <data name="Visual_Light" xml:space="preserve"><value>Effets visuels allégés.</value></data>
   <data name="Visual_Default" xml:space="preserve"><value>Effets visuels complets (réglage de Windows).</value></data>
   <data name="Visual_Lighten" xml:space="preserve"><value>Alléger</value></data>
+  <data name="Command_GetDiskOptimizationInfo" xml:space="preserve"><value>État du disque</value></data>
+  <data name="Command_OptimizeSystemDrive" xml:space="preserve"><value>Optimiser le disque</value></data>
+  <data name="Command_SetPageFileAutomatic" xml:space="preserve"><value>Laisser Windows gérer le fichier d'échange</value></data>
+  <data name="Result_DiskOptimizationStarted" xml:space="preserve"><value>Optimisation du disque lancée. Elle continue en arrière-plan ; vous pouvez utiliser le PC.</value></data>
+  <data name="Result_DiskOptimized" xml:space="preserve"><value>Disque optimisé.</value></data>
+  <data name="Result_DiskOptimizationFailed" xml:space="preserve"><value>L'optimisation du disque n'a pas abouti.</value></data>
+  <data name="Result_DiskOptimizationRunning" xml:space="preserve"><value>Une optimisation du disque est déjà en cours.</value></data>
+  <data name="Result_PageFileAutomatic" xml:space="preserve"><value>Windows gère maintenant le fichier d'échange. Redémarrez le PC pour l'appliquer.</value></data>
+  <data name="Result_PageFileAlreadyAutomatic" xml:space="preserve"><value>Le fichier d'échange est déjà géré par Windows.</value></data>
+  <data name="Result_PageFileUnavailable" xml:space="preserve"><value>Le fichier d'échange ne peut pas être modifié sur ce PC.</value></data>
+  <data name="Disk_Title" xml:space="preserve"><value>Disque</value></data>
+  <data name="Disk_Explanation" xml:space="preserve"><value>Windows choisit le bon traitement : TRIM pour un SSD, défragmentation pour un disque dur (defrag /O).</value></data>
+  <data name="Disk_Ssd" xml:space="preserve"><value>Disque {0} : SSD (optimisation par TRIM).</value></data>
+  <data name="Disk_Hdd" xml:space="preserve"><value>Disque {0} : disque dur (défragmentation, peut être long).</value></data>
+  <data name="Disk_Unknown" xml:space="preserve"><value>Disque {0} : type non reconnu, Windows choisira le traitement.</value></data>
+  <data name="Disk_Optimize" xml:space="preserve"><value>Optimiser</value></data>
+  <data name="Disk_Starting" xml:space="preserve"><value>Lancement de l'optimisation…</value></data>
+  <data name="PageFile_Automatic" xml:space="preserve"><value>Fichier d'échange géré par Windows (conseillé).</value></data>
+  <data name="PageFile_Manual" xml:space="preserve"><value>Fichier d'échange réglé à la main ({0} Mo). Le plus sûr est de laisser Windows le gérer.</value></data>
+  <data name="PageFile_SetAutomatic" xml:space="preserve"><value>Laisser Windows le gérer</value></data>
 </root>

@@ -77,6 +77,9 @@ public static class CommandDefinitions
         A(CommandId.ApplyServiceProfile, SafeguardKind.RestorePointAndOwnBackup, p: ServiceProfileParameter),
         Q(CommandId.GetVisualEffects),
         A(CommandId.LightenVisualEffects, SafeguardKind.RestorePointAndOwnBackup),
+        Q(CommandId.GetDiskOptimizationInfo),
+        A(CommandId.OptimizeSystemDrive, SafeguardKind.RestorePoint),
+        A(CommandId.SetPageFileAutomatic, SafeguardKind.RestorePointAndOwnBackup, ConfirmationKind.RestartsComputer),
 
         // Sessions (M7) : messages d'une liste fermée, actions réservées aux administrateurs (vérifié par le service)
         Q(CommandId.GetSessions),

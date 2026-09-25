@@ -488,6 +488,30 @@ public sealed class ActionTests
     }
 
     [Fact]
+    public async Task Disque_optimise_en_arriere_plan_et_fichier_d_echange_automatique_annulable()
+    {
+        await using var svc = new ServiceFixture();
+
+        (await svc.Run(CommandId.GetDiskOptimizationInfo)).GetData<DiskOptimizationInfo>()!.MediaType.Should().Be(DiskMediaType.Ssd);
+        (await svc.Run(CommandId.OptimizeSystemDrive)).Status.Should().Be(CommandStatus.Started);
+        for (var i = 0; i < 50 && svc.Disk.Optimizations == 0; i++)
+        {
+            await Task.Delay(20);
+        }
+
+        svc.Disk.Optimizations.Should().Be(1);
+
+        (await svc.Run(CommandId.SetPageFileAutomatic)).Reason.Should().Be(FailureReason.ConfirmationRequired, "effet au redémarrage");
+        var result = await svc.Run(CommandId.SetPageFileAutomatic, confirmed: true);
+        result.MessageKey.Should().Be("Result_PageFileAutomatic");
+        svc.Disk.Info.PageFileAutomatic.Should().BeTrue();
+        (await svc.Run(CommandId.SetPageFileAutomatic, confirmed: true)).Status.Should().Be(CommandStatus.AlreadyDone);
+
+        (await svc.Run(CommandId.UndoAction, new() { ["undoId"] = result.UndoId!.Value.ToString() })).Status.Should().Be(CommandStatus.Succeeded);
+        svc.Disk.Info.PageFileAutomatic.Should().BeFalse();
+    }
+
+    [Fact]
     public async Task Antivirus_declares_consultables_en_offre_gratuite()
     {
         await using var svc = new ServiceFixture(premium: false);

@@ -98,6 +98,9 @@ public enum CommandId
     ApplyServiceProfile = 1101,
     GetVisualEffects = 1102,
     LightenVisualEffects = 1103,
+    GetDiskOptimizationInfo = 1104,
+    OptimizeSystemDrive = 1105,
+    SetPageFileAutomatic = 1106,
 
     // --- Sessions (M7) ---
     GetSessions = 1000,

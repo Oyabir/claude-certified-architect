@@ -116,6 +116,8 @@ public static class ServiceRegistration
         yield return new EnableBitLockerAction(S<IBitLockerApi>(), S<ILocalAccountsApi>());
         yield return new ServiceProfileAction(S<IServiceControlApi>());
         yield return new LightenVisualEffectsAction(S<IVisualEffectsApi>());
+        yield return new OptimizeSystemDriveAction(S<IDiskOptimizationApi>(), S<BackgroundJobs>());
+        yield return new PageFileAutomaticAction(S<IDiskOptimizationApi>());
         foreach (var command in new[] { CommandId.SendSessionMessage, CommandId.DisconnectSession, CommandId.LogOffSession })
         {
             yield return new SessionAction(command, S<ISessionApi>(), S<ILocalAccountsApi>());

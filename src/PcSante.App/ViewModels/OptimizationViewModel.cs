@@ -85,6 +85,21 @@ public sealed partial class OptimizationViewModel(MainViewModel main) : PageView
     [RelayCommand]
     private Task LightenVisualEffectsAsync() => ExecuteAsync(CommandId.LightenVisualEffects);
 
+    [ObservableProperty]
+    private string _diskState = string.Empty;
+
+    [ObservableProperty]
+    private string _pageFileState = string.Empty;
+
+    [ObservableProperty]
+    private bool _canSetPageFileAutomatic;
+
+    [RelayCommand]
+    private Task OptimizeDriveAsync() => ExecuteAsync(CommandId.OptimizeSystemDrive, busyKey: "Disk_Starting");
+
+    [RelayCommand]
+    private Task SetPageFileAutomaticAsync() => ExecuteAsync(CommandId.SetPageFileAutomatic);
+
     [RelayCommand]
     private Task ApplyProfileAsync() =>
         ExecuteAsync(CommandId.ApplyServiceProfile, new Dictionary<string, string> { ["profile"] = SelectedProfile }, busyKey: "Profile_Applying");
@@ -134,6 +149,13 @@ public sealed partial class OptimizationViewModel(MainViewModel main) : PageView
             var effects = await Query<VisualEffectsSettings>(CommandId.GetVisualEffects).ConfigureAwait(true);
             VisualEffectsState = effects is null ? string.Empty : Loc.T(effects.IsLight ? "Visual_Light" : "Visual_Default");
             CanLightenVisualEffects = effects is { IsLight: false };
+
+            var disk = await Query<DiskOptimizationInfo>(CommandId.GetDiskOptimizationInfo).ConfigureAwait(true);
+            DiskState = disk is null ? string.Empty : Loc.F($"Disk_{disk.MediaType}", disk.Drive);
+            PageFileState = disk is null ? string.Empty
+                : disk.PageFileAutomatic ? Loc.T("PageFile_Automatic")
+                : Loc.F("PageFile_Manual", disk.PageFileSizeMb?.ToString(System.Globalization.CultureInfo.CurrentCulture) ?? "?");
+            CanSetPageFileAutomatic = disk is { PageFileAutomatic: false };
         }
 
         Undoable.Clear();

@@ -75,6 +75,15 @@ public class WindowsApiLogicTests
         WindowsSessionApi.ToAddress(new PcSante.WindowsApi.Native.Wts.ClientAddress { AddressFamily = 23, Address = new byte[20] }).Should().BeNull();
     }
 
+    [Theory]
+    [InlineData((ushort)3, DiskMediaType.Hdd)]
+    [InlineData((ushort)4, DiskMediaType.Ssd)]
+    [InlineData((ushort)0, DiskMediaType.Unknown)]
+    public void Type_de_disque(ushort mediaType, DiskMediaType expected)
+    {
+        WindowsDiskOptimizationApi.MapMediaType(mediaType).Should().Be(expected);
+    }
+
     [Fact]
     public void Arguments_de_tache_avec_langue_du_rapport()
     {

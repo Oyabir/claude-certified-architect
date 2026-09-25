@@ -10,6 +10,7 @@ namespace PcSante.Service;
 public sealed partial class BackgroundJobs(IAuditLog audit, TimeProvider time, ILogger<BackgroundJobs> logger) : IDisposable
 {
     public const string ScanJob = "defender-scan";
+    public const string DiskOptimizationJob = "disk-optimization";
 
     private readonly ConcurrentDictionary<string, Task> _running = new();
     private readonly CancellationTokenSource _stopping = new();
