@@ -71,6 +71,7 @@ try
     builder.Services.AddHostedService<PipeServerWorker>();
     builder.Services.AddHostedService<ProcessHistoryWorker>();
     builder.Services.AddHostedService<LicenseWorker>();
+    builder.Services.AddHostedService<RemoteSessionWorker>();
 
     using var host = builder.Build();
     ServiceRegistration.EnsureDatabase(host.Services);

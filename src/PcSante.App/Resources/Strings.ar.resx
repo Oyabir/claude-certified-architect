@@ -670,4 +670,36 @@
   <data name="BitLocker_KeySaved" xml:space="preserve"><value>تم حفظ مفتاح الاسترداد: {0}. احتفظ به خارج الحاسوب.</value></data>
   <data name="BitLocker_KeyNotSaved" xml:space="preserve"><value>لم يُحفظ المفتاح: لم يبدأ التشفير.</value></data>
   <data name="BitLocker_Starting" xml:space="preserve"><value>جارٍ بدء التشفير…</value></data>
+  <data name="Command_GetSessions" xml:space="preserve"><value>الجلسات المفتوحة</value></data>
+  <data name="Command_SendSessionMessage" xml:space="preserve"><value>إرسال رسالة</value></data>
+  <data name="Command_DisconnectSession" xml:space="preserve"><value>قطع اتصال الجلسة</value></data>
+  <data name="Command_LogOffSession" xml:space="preserve"><value>إغلاق الجلسة</value></data>
+  <data name="Confirm_InterruptsUser" xml:space="preserve"><value>«{0}»: سيعود المستخدم إلى شاشة تسجيل الدخول. تبقى برامجه مفتوحة. متابعة؟</value></data>
+  <data name="Result_SendSessionMessageDone" xml:space="preserve"><value>تم إرسال الرسالة.</value></data>
+  <data name="Result_DisconnectSessionDone" xml:space="preserve"><value>تم قطع اتصال الجلسة. يمكن للمستخدم تسجيل الدخول مجددًا.</value></data>
+  <data name="Result_LogOffSessionDone" xml:space="preserve"><value>تم إغلاق الجلسة.</value></data>
+  <data name="Result_SessionFailed" xml:space="preserve"><value>لم يكتمل الإجراء على الجلسة.</value></data>
+  <data name="Result_SessionNotFound" xml:space="preserve"><value>هذه الجلسة لم تعد موجودة. حدّث القائمة.</value></data>
+  <data name="Result_SessionAlreadyDisconnected" xml:space="preserve"><value>هذه الجلسة غير متصلة بالفعل.</value></data>
+  <data name="SessionMessage_SaveWork" xml:space="preserve"><value>يُرجى حفظ عملك: سيتم إغلاق هذه الجلسة.</value></data>
+  <data name="SessionMessage_RestartSoon" xml:space="preserve"><value>سيُعاد تشغيل الحاسوب قريبًا. احفظ عملك.</value></data>
+  <data name="SessionMessage_Maintenance" xml:space="preserve"><value>صيانة جارية على هذا الحاسوب. يُرجى الانتظار بضع دقائق.</value></data>
+  <data name="Sessions_AdminNote" xml:space="preserve"><value>مخصص لحسابات المسؤول على هذا الحاسوب.</value></data>
+  <data name="Sessions_Refresh" xml:space="preserve"><value>تحديث</value></data>
+  <data name="Sessions_Message" xml:space="preserve"><value>الرسالة المراد إرسالها:</value></data>
+  <data name="Sessions_Send" xml:space="preserve"><value>إرسال الرسالة</value></data>
+  <data name="Sessions_Disconnect" xml:space="preserve"><value>قطع الاتصال</value></data>
+  <data name="Sessions_LogOff" xml:space="preserve"><value>إغلاق الجلسة</value></data>
+  <data name="Sessions_Local" xml:space="preserve"><value>على هذا الحاسوب</value></data>
+  <data name="Sessions_Remote" xml:space="preserve"><value>عن بُعد من {0} (سطح المكتب البعيد)</value></data>
+  <data name="Sessions_RemoteUnknown" xml:space="preserve"><value>عن بُعد (سطح المكتب البعيد)</value></data>
+  <data name="Sessions_Since" xml:space="preserve"><value>· فُتحت في {0}</value></data>
+  <data name="Sessions_None" xml:space="preserve"><value>لا توجد جلسة مفتوحة.</value></data>
+  <data name="Sessions_ConfirmSubject" xml:space="preserve"><value>{0} ({1})</value></data>
+  <data name="SessionState_Active" xml:space="preserve"><value>نشطة</value></data>
+  <data name="SessionState_Locked" xml:space="preserve"><value>مقفلة</value></data>
+  <data name="SessionState_Disconnected" xml:space="preserve"><value>غير متصلة</value></data>
+  <data name="SessionState_Other" xml:space="preserve"><value>قيد التغيير</value></data>
+  <data name="Issue_NewRemoteConnection_Title" xml:space="preserve"><value>اتصال عن بُعد من عنوان غير معتاد ({0})</value></data>
+  <data name="Issue_NewRemoteConnection_Why" xml:space="preserve"><value>اتصل شخص بهذا الحاسوب عبر سطح المكتب البعيد من {0}، وهو عنوان لم يُرَ من قبل. إذا لم تكن أنت، فأغلق الجلسة.</value></data>
 </root>

@@ -31,6 +31,7 @@ public static class DiagnosticRules
         new Rule(Updates),
         new Rule(Restore),
         new Rule(Accounts),
+        new Rule(RemoteAccess),
         new Rule(Crashes),
         new Rule(Startup),
         new Rule(Memory),
@@ -142,6 +143,15 @@ public static class DiagnosticRules
         if (u.RebootRequired)
         {
             yield return Issue("RebootPending", HealthCategory.Stability, IssueSeverity.Info, null);
+        }
+    }
+
+    internal static IEnumerable<HealthIssue> RemoteAccess(SystemSnapshot s)
+    {
+        // Bureau à distance depuis une adresse jamais vue : peut être légitime (nouveau lieu) ou une intrusion.
+        foreach (var address in s.NewRemoteAddresses ?? [])
+        {
+            yield return Issue("NewRemoteConnection", HealthCategory.Security, IssueSeverity.Warning, IssueFix.Open(ScreenId.Sessions), address);
         }
     }
 

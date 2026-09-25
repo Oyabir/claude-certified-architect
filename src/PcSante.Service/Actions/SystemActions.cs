@@ -263,3 +263,78 @@ public sealed class EnableBitLockerAction(IBitLockerApi bitLocker, ILocalAccount
     public override async Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) =>
         (await bitLocker.GetStatusAsync(cancellationToken).ConfigureAwait(false)).State is BitLockerState.Encrypting or BitLockerState.On;
 }
+
+/// <summary>
+/// Actions sur une session (M7) : message d'une liste fermée, déconnexion, fermeture. Réservées aux administrateurs :
+/// un compte standard ne doit pas pouvoir déconnecter ou fermer la session d'un autre utilisateur par le service.
+/// </summary>
+public sealed class SessionAction(CommandId command, ISessionApi sessions, ILocalAccountsApi accounts) : SystemAction
+{
+    public override CommandId Command { get; } = command;
+
+    public override async Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+        if (!await accounts.IsAdministratorAsync(context.Caller.UserSid, cancellationToken).ConfigureAwait(false))
+        {
+            return CheckResult.Blocked(FailureReason.PreconditionFailed, "Result_AdminRequired");
+        }
+
+        var session = await FindAsync(context, cancellationToken).ConfigureAwait(false);
+        if (session is null)
+        {
+            return CheckResult.Blocked(FailureReason.NotFound, "Result_SessionNotFound");
+        }
+
+        return Command == CommandId.DisconnectSession && session.State == SessionState.Disconnected
+            ? CheckResult.AlreadyDone("Result_SessionAlreadyDisconnected")
+            : CheckResult.Proceed;
+    }
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+        var id = context.Parameters.GetInt("sessionId");
+        var ok = Command switch
+        {
+            CommandId.SendSessionMessage => await SendAsync(id, context.Parameters, cancellationToken).ConfigureAwait(false),
+            CommandId.DisconnectSession => await sessions.DisconnectAsync(id, cancellationToken).ConfigureAwait(false),
+            _ => await sessions.LogOffAsync(id, cancellationToken).ConfigureAwait(false),
+        };
+        return ok ? ExecutionResult.Ok($"Result_{Command}Done") : ExecutionResult.Fail("Result_SessionFailed");
+    }
+
+    public override async Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        if (Command == CommandId.SendSessionMessage)
+        {
+            return true;
+        }
+
+        // La fermeture d'une session peut prendre quelques secondes.
+        for (var attempt = 0; attempt < 10; attempt++)
+        {
+            var session = await FindAsync(context, cancellationToken).ConfigureAwait(false);
+            if (session is null || (Command == CommandId.DisconnectSession && session.State == SessionState.Disconnected))
+            {
+                return true;
+            }
+
+            await Task.Delay(TimeSpan.FromMilliseconds(500), cancellationToken).ConfigureAwait(false);
+        }
+
+        return false;
+    }
+
+    private Task<bool> SendAsync(int id, CommandParameters parameters, CancellationToken cancellationToken)
+    {
+        var translate = Reporting.ReportStrings.For(Reporting.ReportStrings.CultureOf(parameters.GetOptionalString("language")));
+        return sessions.SendMessageAsync(id, Core.ProductInfo.Name, translate($"SessionMessage_{parameters.GetString("message")}"), cancellationToken);
+    }
+
+    private async Task<UserSession?> FindAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        var id = context.Parameters.GetInt("sessionId");
+        return (await sessions.ListAsync(cancellationToken).ConfigureAwait(false)).FirstOrDefault(s => s.SessionId == id);
+    }
+}

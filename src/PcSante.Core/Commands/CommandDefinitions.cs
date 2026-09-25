@@ -14,6 +14,7 @@ public static class CommandDefinitions
     public static readonly IReadOnlyList<string> Days =
         ["Everyday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", Scheduling.ScheduleSettings.MonthStart];
     public static readonly IReadOnlyList<string> Languages = ["fr", "en", "ar"];
+    public static readonly IReadOnlyList<string> SessionMessages = ["SaveWork", "RestartSoon", "Maintenance"];
     public static readonly IReadOnlyList<string> Periods = ["Week", "Month"];
 
     private static readonly ParameterSpec[] None = [];
@@ -33,6 +34,7 @@ public static class CommandDefinitions
     private static readonly ParameterSpec ItemId = new("id", ParameterType.Identifier);
     private static readonly ParameterSpec Key = new("key", ParameterType.LicenseKey);
     private static readonly ParameterSpec Template = new("template", ParameterType.Choice, AllowedValues: TemplateIds);
+    private static readonly ParameterSpec SessionId = new("sessionId", ParameterType.PositiveInteger);
 
     public static FrozenDictionary<CommandId, CommandDescriptor> All { get; } = new[]
     {
@@ -67,6 +69,17 @@ public static class CommandDefinitions
         Q(CommandId.GetLocalAccounts),
         A(CommandId.DisableGuestAccount, SafeguardKind.OwnBackup),
         Q(CommandId.GetBitLockerStatus),
+
+        // Sessions (M7) : messages d'une liste fermée, actions réservées aux administrateurs (vérifié par le service)
+        Q(CommandId.GetSessions),
+        A(CommandId.SendSessionMessage, SafeguardKind.None, p:
+        [
+            SessionId,
+            new ParameterSpec("message", ParameterType.Choice, AllowedValues: SessionMessages),
+            new ParameterSpec("language", ParameterType.Choice, Required: false, AllowedValues: Languages),
+        ]),
+        A(CommandId.DisconnectSession, SafeguardKind.None, ConfirmationKind.InterruptsUser, p: SessionId),
+        A(CommandId.LogOffSession, SafeguardKind.None, ConfirmationKind.ClosesProgram, p: SessionId),
         A(CommandId.GetBitLockerRecoveryKey, SafeguardKind.None),
         A(CommandId.EnableBitLocker, SafeguardKind.None, ConfirmationKind.EncryptsDisk, p: new ParameterSpec("keySaved", ParameterType.Boolean)),
 

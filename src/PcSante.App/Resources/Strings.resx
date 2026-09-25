@@ -670,4 +670,36 @@ Gardez ce fichier hors du PC (clé USB, papier).</value></data>
   <data name="BitLocker_KeySaved" xml:space="preserve"><value>Clé de récupération enregistrée : {0}. Rangez-la hors du PC.</value></data>
   <data name="BitLocker_KeyNotSaved" xml:space="preserve"><value>Clé non enregistrée : le chiffrement n'a pas été lancé.</value></data>
   <data name="BitLocker_Starting" xml:space="preserve"><value>Lancement du chiffrement…</value></data>
+  <data name="Command_GetSessions" xml:space="preserve"><value>Sessions ouvertes</value></data>
+  <data name="Command_SendSessionMessage" xml:space="preserve"><value>Envoyer un message</value></data>
+  <data name="Command_DisconnectSession" xml:space="preserve"><value>Déconnecter la session</value></data>
+  <data name="Command_LogOffSession" xml:space="preserve"><value>Fermer la session</value></data>
+  <data name="Confirm_InterruptsUser" xml:space="preserve"><value>« {0} » : l'utilisateur sera renvoyé à l'écran de connexion. Ses programmes restent ouverts. Continuer ?</value></data>
+  <data name="Result_SendSessionMessageDone" xml:space="preserve"><value>Message envoyé.</value></data>
+  <data name="Result_DisconnectSessionDone" xml:space="preserve"><value>Session déconnectée. L'utilisateur peut se reconnecter.</value></data>
+  <data name="Result_LogOffSessionDone" xml:space="preserve"><value>Session fermée.</value></data>
+  <data name="Result_SessionFailed" xml:space="preserve"><value>L'action sur la session n'a pas abouti.</value></data>
+  <data name="Result_SessionNotFound" xml:space="preserve"><value>Cette session n'existe plus. Actualisez la liste.</value></data>
+  <data name="Result_SessionAlreadyDisconnected" xml:space="preserve"><value>Cette session est déjà déconnectée.</value></data>
+  <data name="SessionMessage_SaveWork" xml:space="preserve"><value>Merci d'enregistrer votre travail : cette session va être fermée.</value></data>
+  <data name="SessionMessage_RestartSoon" xml:space="preserve"><value>Le PC va redémarrer bientôt. Enregistrez votre travail.</value></data>
+  <data name="SessionMessage_Maintenance" xml:space="preserve"><value>Maintenance en cours sur ce PC. Merci de patienter quelques minutes.</value></data>
+  <data name="Sessions_AdminNote" xml:space="preserve"><value>Réservé aux comptes administrateurs de ce PC.</value></data>
+  <data name="Sessions_Refresh" xml:space="preserve"><value>Actualiser</value></data>
+  <data name="Sessions_Message" xml:space="preserve"><value>Message à envoyer :</value></data>
+  <data name="Sessions_Send" xml:space="preserve"><value>Envoyer le message</value></data>
+  <data name="Sessions_Disconnect" xml:space="preserve"><value>Déconnecter</value></data>
+  <data name="Sessions_LogOff" xml:space="preserve"><value>Fermer la session</value></data>
+  <data name="Sessions_Local" xml:space="preserve"><value>Sur ce PC</value></data>
+  <data name="Sessions_Remote" xml:space="preserve"><value>À distance depuis {0} (Bureau à distance)</value></data>
+  <data name="Sessions_RemoteUnknown" xml:space="preserve"><value>À distance (Bureau à distance)</value></data>
+  <data name="Sessions_Since" xml:space="preserve"><value>· ouverte le {0}</value></data>
+  <data name="Sessions_None" xml:space="preserve"><value>Aucune session ouverte.</value></data>
+  <data name="Sessions_ConfirmSubject" xml:space="preserve"><value>{0} ({1})</value></data>
+  <data name="SessionState_Active" xml:space="preserve"><value>Active</value></data>
+  <data name="SessionState_Locked" xml:space="preserve"><value>Verrouillée</value></data>
+  <data name="SessionState_Disconnected" xml:space="preserve"><value>Déconnectée</value></data>
+  <data name="SessionState_Other" xml:space="preserve"><value>En cours de changement</value></data>
+  <data name="Issue_NewRemoteConnection_Title" xml:space="preserve"><value>Connexion à distance depuis une adresse inhabituelle ({0})</value></data>
+  <data name="Issue_NewRemoteConnection_Why" xml:space="preserve"><value>Quelqu'un s'est connecté à ce PC par le Bureau à distance depuis {0}, une adresse jamais vue. Si ce n'est pas vous, fermez la session.</value></data>
 </root>

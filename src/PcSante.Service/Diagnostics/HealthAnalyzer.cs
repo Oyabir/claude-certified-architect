@@ -17,6 +17,8 @@ public sealed partial class HealthAnalyzer(
     IRestorePointApi restore,
     ISystemInfoApi system,
     ILocalAccountsApi accounts,
+    ISessionApi sessions,
+    RemoteAccessTracker remoteAccess,
     IStartupApi startup,
     ICleanupApi cleanup,
     IMetricsProvider metrics,
@@ -44,9 +46,10 @@ public sealed partial class HealthAnalyzer(
         var driveTask = Collect("drive", _ => Task.FromResult(system.GetSystemDrive()), cancellationToken);
         var metricsTask = Collect("metrics", _ => Task.FromResult(metrics.Sample()), cancellationToken);
         var accountsTask = Collect("accounts", ct => accounts.ListAsync(ct), cancellationToken);
+        var remoteTask = Collect("sessions", async ct => await remoteAccess.RecordAsync(await sessions.ListAsync(ct).ConfigureAwait(false), ct).ConfigureAwait(false), cancellationToken);
 
         await Task.WhenAll(defenderTask, firewallTask, updatesTask, restoreEnabledTask, restoreListTask,
-            startupTask, cleanupTask, crashesTask, driveTask, metricsTask, accountsTask).ConfigureAwait(false);
+            startupTask, cleanupTask, crashesTask, driveTask, metricsTask, accountsTask, remoteTask).ConfigureAwait(false);
 
         var snapshot = new SystemSnapshot
         {
@@ -62,6 +65,7 @@ public sealed partial class HealthAnalyzer(
             CleanableBytes = cleanupTask.Result?.TotalBytes,
             MemoryPercent = metricsTask.Result?.MemoryPercent,
             GuestAccountEnabled = accountsTask.Result is { } list ? list.Any(a => a.IsGuest && a.Enabled) : null,
+            NewRemoteAddresses = remoteTask.Result,
         };
 
         var issues = DiagnosticRules.EvaluateAll(snapshot);

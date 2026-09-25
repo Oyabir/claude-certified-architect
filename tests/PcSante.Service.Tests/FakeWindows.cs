@@ -468,3 +468,36 @@ internal sealed class FakeBitLocker : IBitLockerApi
         return Task.FromResult(true);
     }
 }
+
+internal sealed class FakeSessions : ISessionApi
+{
+    public List<UserSession> Sessions { get; } =
+    [
+        new(1, @"PC\alice", SessionState.Active, false, null, DateTimeOffset.UnixEpoch),
+        new(2, @"PC\bob", SessionState.Active, true, "203.0.113.7", DateTimeOffset.UnixEpoch),
+    ];
+
+    public List<string> Messages { get; } = [];
+
+    public Task<IReadOnlyList<UserSession>> ListAsync(CancellationToken cancellationToken) =>
+        Task.FromResult<IReadOnlyList<UserSession>>(Sessions.ToList());
+
+    public Task<bool> SendMessageAsync(int sessionId, string title, string message, CancellationToken cancellationToken)
+    {
+        Messages.Add($"{sessionId}:{message}");
+        return Task.FromResult(true);
+    }
+
+    public Task<bool> DisconnectAsync(int sessionId, CancellationToken cancellationToken)
+    {
+        var i = Sessions.FindIndex(s => s.SessionId == sessionId);
+        Sessions[i] = Sessions[i] with { State = SessionState.Disconnected };
+        return Task.FromResult(true);
+    }
+
+    public Task<bool> LogOffAsync(int sessionId, CancellationToken cancellationToken)
+    {
+        Sessions.RemoveAll(s => s.SessionId == sessionId);
+        return Task.FromResult(true);
+    }
+}

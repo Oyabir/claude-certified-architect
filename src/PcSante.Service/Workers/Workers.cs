@@ -4,6 +4,7 @@ using PcSante.Core.Windows;
 using PcSante.Ipc;
 using PcSante.Licensing;
 using PcSante.Service.Data;
+using PcSante.Service.Diagnostics;
 
 namespace PcSante.Service.Workers;
 
@@ -81,5 +82,40 @@ public sealed partial class LicenseWorker(LicenseManager license, ILogger<Licens
     private partial void LogRevalidation(string result);
 
     [LoggerMessage(Level = LogLevel.Warning, Message = "Revalidation de la licence impossible")]
+    private partial void LogFailed(Exception ex);
+}
+
+/// <summary>Relevé des connexions Bureau à distance toutes les 2 minutes (adresses inhabituelles, M7).</summary>
+public sealed partial class RemoteSessionWorker(ISessionApi sessions, RemoteAccessTracker tracker, ILogger<RemoteSessionWorker> logger) : BackgroundService
+{
+    public static readonly TimeSpan Interval = TimeSpan.FromMinutes(2);
+
+    private readonly ILogger<RemoteSessionWorker> _logger = logger;
+
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        using var timer = new PeriodicTimer(Interval);
+        do
+        {
+            try
+            {
+                var fresh = await tracker.RecordAsync(await sessions.ListAsync(stoppingToken).ConfigureAwait(false), stoppingToken).ConfigureAwait(false);
+                if (fresh.Count > 0)
+                {
+                    LogNewRemoteAddress(string.Join(", ", fresh));
+                }
+            }
+            catch (Exception ex) when (ex is not OperationCanceledException)
+            {
+                LogFailed(ex);
+            }
+        }
+        while (await timer.WaitForNextTickAsync(stoppingToken).ConfigureAwait(false));
+    }
+
+    [LoggerMessage(Level = LogLevel.Warning, Message = "Connexion Bureau à distance depuis une adresse nouvelle : {Addresses}")]
+    private partial void LogNewRemoteAddress(string addresses);
+
+    [LoggerMessage(Level = LogLevel.Warning, Message = "Relevé des sessions impossible")]
     private partial void LogFailed(Exception ex);
 }

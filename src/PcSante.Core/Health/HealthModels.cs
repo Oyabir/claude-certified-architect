@@ -80,6 +80,9 @@ public sealed record SystemSnapshot
 
     public bool? RestoreEnabled { get; init; }
 
+    /// <summary>Adresses de connexions Bureau à distance vues pour la première fois récemment (null si inconnu).</summary>
+    public IReadOnlyList<string>? NewRemoteAddresses { get; init; }
+
     /// <summary>Compte Invité intégré actif (null si inconnu).</summary>
     public bool? GuestAccountEnabled { get; init; }
 

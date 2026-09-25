@@ -141,19 +141,20 @@ public class ScreenCatalogTests
     }
 
     [Fact]
-    public void Mode_avance_tous_les_ecrans_du_MVP()
+    public void Mode_avance_tous_les_ecrans()
     {
         var screens = ScreenCatalog.VisibleScreens(DisplayMode.Advanced);
 
-        screens.Should().Contain([ScreenId.Performance, ScreenId.Processes, ScreenId.System, ScreenId.Scheduling]);
-        screens.Should().NotContain(ScreenId.Sessions, "les sessions sont prévues en V2");
+        screens.Should().Contain([ScreenId.Performance, ScreenId.Processes, ScreenId.System, ScreenId.Sessions, ScreenId.Scheduling]);
+        ScreenCatalog.VisibleScreens(DisplayMode.Simple).Should().NotContain(ScreenId.Sessions, "les sessions (M7) sont en mode Avancé");
     }
 
     [Fact]
     public void Disponibilites()
     {
         ScreenCatalog.GetAvailability(ScreenId.Processes, DisplayMode.Simple).Should().Be(ScreenAvailability.HiddenInSimpleMode);
-        ScreenCatalog.GetAvailability(ScreenId.Sessions, DisplayMode.Advanced).Should().Be(ScreenAvailability.NotInThisVersion);
+        ScreenCatalog.GetAvailability(ScreenId.Sessions, DisplayMode.Advanced).Should().Be(ScreenAvailability.Visible);
+        ScreenCatalog.GetAvailability(ScreenId.Sessions, DisplayMode.Simple).Should().Be(ScreenAvailability.HiddenInSimpleMode);
         ScreenCatalog.GetAvailability(ScreenId.Settings, DisplayMode.Simple).Should().Be(ScreenAvailability.Visible);
         ScreenCatalog.FooterScreens.Should().Contain([ScreenId.Settings, ScreenId.License]);
     }

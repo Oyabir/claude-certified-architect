@@ -670,4 +670,36 @@ Keep this file off the PC (USB drive, paper).</value></data>
   <data name="BitLocker_KeySaved" xml:space="preserve"><value>Recovery key saved: {0}. Keep it off the PC.</value></data>
   <data name="BitLocker_KeyNotSaved" xml:space="preserve"><value>Key not saved: encryption was not started.</value></data>
   <data name="BitLocker_Starting" xml:space="preserve"><value>Starting encryption…</value></data>
+  <data name="Command_GetSessions" xml:space="preserve"><value>Open sessions</value></data>
+  <data name="Command_SendSessionMessage" xml:space="preserve"><value>Send a message</value></data>
+  <data name="Command_DisconnectSession" xml:space="preserve"><value>Disconnect the session</value></data>
+  <data name="Command_LogOffSession" xml:space="preserve"><value>Sign out the session</value></data>
+  <data name="Confirm_InterruptsUser" xml:space="preserve"><value>"{0}": the user will be sent back to the sign-in screen. Their programs stay open. Continue?</value></data>
+  <data name="Result_SendSessionMessageDone" xml:space="preserve"><value>Message sent.</value></data>
+  <data name="Result_DisconnectSessionDone" xml:space="preserve"><value>Session disconnected. The user can sign in again.</value></data>
+  <data name="Result_LogOffSessionDone" xml:space="preserve"><value>Session signed out.</value></data>
+  <data name="Result_SessionFailed" xml:space="preserve"><value>The action on the session did not complete.</value></data>
+  <data name="Result_SessionNotFound" xml:space="preserve"><value>This session no longer exists. Refresh the list.</value></data>
+  <data name="Result_SessionAlreadyDisconnected" xml:space="preserve"><value>This session is already disconnected.</value></data>
+  <data name="SessionMessage_SaveWork" xml:space="preserve"><value>Please save your work: this session is about to be closed.</value></data>
+  <data name="SessionMessage_RestartSoon" xml:space="preserve"><value>The PC will restart soon. Save your work.</value></data>
+  <data name="SessionMessage_Maintenance" xml:space="preserve"><value>Maintenance in progress on this PC. Please wait a few minutes.</value></data>
+  <data name="Sessions_AdminNote" xml:space="preserve"><value>Reserved for administrator accounts on this PC.</value></data>
+  <data name="Sessions_Refresh" xml:space="preserve"><value>Refresh</value></data>
+  <data name="Sessions_Message" xml:space="preserve"><value>Message to send:</value></data>
+  <data name="Sessions_Send" xml:space="preserve"><value>Send the message</value></data>
+  <data name="Sessions_Disconnect" xml:space="preserve"><value>Disconnect</value></data>
+  <data name="Sessions_LogOff" xml:space="preserve"><value>Sign out</value></data>
+  <data name="Sessions_Local" xml:space="preserve"><value>On this PC</value></data>
+  <data name="Sessions_Remote" xml:space="preserve"><value>Remote from {0} (Remote Desktop)</value></data>
+  <data name="Sessions_RemoteUnknown" xml:space="preserve"><value>Remote (Remote Desktop)</value></data>
+  <data name="Sessions_Since" xml:space="preserve"><value>· opened {0}</value></data>
+  <data name="Sessions_None" xml:space="preserve"><value>No open session.</value></data>
+  <data name="Sessions_ConfirmSubject" xml:space="preserve"><value>{0} ({1})</value></data>
+  <data name="SessionState_Active" xml:space="preserve"><value>Active</value></data>
+  <data name="SessionState_Locked" xml:space="preserve"><value>Locked</value></data>
+  <data name="SessionState_Disconnected" xml:space="preserve"><value>Disconnected</value></data>
+  <data name="SessionState_Other" xml:space="preserve"><value>Changing</value></data>
+  <data name="Issue_NewRemoteConnection_Title" xml:space="preserve"><value>Remote connection from an unusual address ({0})</value></data>
+  <data name="Issue_NewRemoteConnection_Why" xml:space="preserve"><value>Someone connected to this PC through Remote Desktop from {0}, a never-seen address. If it wasn't you, sign out the session.</value></data>
 </root>

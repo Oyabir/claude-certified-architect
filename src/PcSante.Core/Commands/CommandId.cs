@@ -92,5 +92,10 @@ public enum CommandId
 
     // --- Mises à jour de l'application (section 5) ---
     CheckAppUpdate = 900,
-    InstallAppUpdate = 901,
+    InstallAppUpdate = 901,
+    // --- Sessions (M7) ---
+    GetSessions = 1000,
+    SendSessionMessage = 1001,
+    DisconnectSession = 1002,
+    LogOffSession = 1003,
 }

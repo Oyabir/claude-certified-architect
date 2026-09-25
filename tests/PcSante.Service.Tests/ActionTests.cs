@@ -1,4 +1,8 @@
-﻿using PcSante.Core.Audit;
+﻿using PcSante.Service.Diagnostics;
+using PcSante.Service.Data;
+using PcSante.Core.Ui;
+using Microsoft.Extensions.DependencyInjection;
+using PcSante.Core.Audit;
 using PcSante.Core.Commands;
 using PcSante.Core.Health;
 using PcSante.Core.Processes;
@@ -390,6 +394,51 @@ public sealed class ActionTests
         (await svc.Run(CommandId.GetBitLockerRecoveryKey)).MessageKey.Should().Be("Result_BitLockerNotSupported");
         (await svc.Run(CommandId.EnableBitLocker, keySaved, confirmed: true)).MessageKey.Should().Be("Result_BitLockerNotSupported");
         svc.BitLocker.EncryptionStarts.Should().Be(0);
+    }
+
+    [Fact]
+    public async Task Sessions_actions_reservees_aux_administrateurs()
+    {
+        await using var svc = new ServiceFixture();
+        var bob = new Dictionary<string, string> { ["sessionId"] = "2" };
+
+        (await svc.Run(CommandId.GetSessions)).GetData<List<UserSession>>().Should().HaveCount(2);
+        (await svc.Run(CommandId.LogOffSession, bob, confirmed: true)).MessageKey.Should().Be("Result_AdminRequired",
+            "un compte standard ne ferme pas la session d'un autre par le service SYSTEM");
+        svc.Sessions.Sessions.Should().HaveCount(2);
+
+        svc.Accounts.Accounts[0] = svc.Accounts.Accounts[0] with { Sid = ServiceFixture.Alice.UserSid! };
+        (await svc.Run(CommandId.SendSessionMessage, new() { ["sessionId"] = "2", ["message"] = "Maintenance", ["language"] = "en" }))
+            .MessageKey.Should().Be("Result_SendSessionMessageDone");
+        svc.Sessions.Messages.Should().ContainSingle().Which.Should().Contain("Maintenance in progress");
+        (await svc.RunRaw("SendSessionMessage", new() { ["sessionId"] = "2", ["message"] = "Tapez votre mot de passe" })).Status
+            .Should().Be(CommandStatus.Refused, "aucun texte libre : liste fermée de messages");
+
+        (await svc.Run(CommandId.DisconnectSession, bob)).Reason.Should().Be(FailureReason.ConfirmationRequired);
+        (await svc.Run(CommandId.DisconnectSession, bob, confirmed: true)).MessageKey.Should().Be("Result_DisconnectSessionDone");
+        (await svc.Run(CommandId.DisconnectSession, bob, confirmed: true)).Status.Should().Be(CommandStatus.AlreadyDone);
+        (await svc.Run(CommandId.LogOffSession, bob, confirmed: true)).MessageKey.Should().Be("Result_LogOffSessionDone");
+        svc.Sessions.Sessions.Should().ContainSingle(s => s.SessionId == 1);
+        (await svc.Run(CommandId.LogOffSession, bob, confirmed: true)).MessageKey.Should().Be("Result_SessionNotFound");
+    }
+
+    [Fact]
+    public async Task Connexion_a_distance_depuis_une_adresse_nouvelle_signalee()
+    {
+        await using var svc = new ServiceFixture();
+
+        var first = (await svc.Run(CommandId.RunHealthAnalysis)).GetData<HealthReport>()!;
+        var issue = first.Issues.Should().ContainSingle(i => i.Code == "NewRemoteConnection").Subject;
+        issue.Args.Should().Equal("203.0.113.7");
+        issue.Fix!.Screen.Should().Be(ScreenId.Sessions);
+
+        // L'adresse a été vue pour la première fois il y a plus de 24 heures : elle n'est plus inhabituelle.
+        var history = svc.Provider.GetRequiredService<HistoryStore>();
+        var old = DateTimeOffset.UtcNow - RemoteAccessTracker.NewAddressWindow - TimeSpan.FromMinutes(1);
+        await history.SetValueAsync("rdp.addresses", System.Text.Json.JsonSerializer.Serialize(
+            new Dictionary<string, DateTimeOffset> { ["203.0.113.7"] = old }, PcSante.Core.PcSanteJson.Options), default);
+        (await svc.Run(CommandId.RunHealthAnalysis)).GetData<HealthReport>()!.Issues
+            .Should().NotContain(i => i.Code == "NewRemoteConnection", "adresse déjà connue depuis plus de 24 heures");
     }
 
     [Fact]

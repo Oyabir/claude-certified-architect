@@ -25,6 +25,11 @@ public partial class ProcessesView
     public ProcessesView() => InitializeComponent();
 }
 
+public partial class SessionsView
+{
+    public SessionsView() => InitializeComponent();
+}
+
 public partial class SystemView
 {
     public SystemView() => InitializeComponent();
