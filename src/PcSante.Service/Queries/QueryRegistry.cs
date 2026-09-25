@@ -25,6 +25,7 @@ public sealed class QueryRegistry(
     IFirewallApi firewall,
     ILocalAccountsApi accounts,
     ISecurityCenterApi securityCenter,
+    IBitLockerApi bitLocker,
     IWindowsUpdateApi updates,
     IProcessApi processes,
     ISignatureVerifier signatures,
@@ -55,6 +56,7 @@ public sealed class QueryRegistry(
 
         yield return Q(CommandId.GetFirewallStatus, async (_, _, ct) => CommandResult.WithData(await firewall.GetStatusAsync(ct).ConfigureAwait(false)));
         yield return Q(CommandId.GetAntivirusProducts, async (_, _, ct) => CommandResult.WithData(await securityCenter.ListAntivirusAsync(ct).ConfigureAwait(false)));
+        yield return Q(CommandId.GetBitLockerStatus, async (_, _, ct) => CommandResult.WithData(await bitLocker.GetStatusAsync(ct).ConfigureAwait(false)));
         yield return Q(CommandId.GetLocalAccounts, async (_, _, ct) => CommandResult.WithData(await accounts.ListAsync(ct).ConfigureAwait(false)));
         yield return Q(CommandId.GetUpdateStatus, async (_, _, ct) => CommandResult.WithData(await updates.GetStatusAsync(ct).ConfigureAwait(false)));
 

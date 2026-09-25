@@ -44,6 +44,9 @@ public enum CommandId
     ResetNetworkStack = 331,
     GetLocalAccounts = 340,
     DisableGuestAccount = 341,
+    GetBitLockerStatus = 350,
+    GetBitLockerRecoveryKey = 351,
+    EnableBitLocker = 352,
 
     // --- Processus (M3) ---
     GetProcesses = 400,

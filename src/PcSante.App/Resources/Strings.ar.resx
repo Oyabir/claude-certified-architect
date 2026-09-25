@@ -633,4 +633,41 @@
   <data name="Protection_AvInstalledTech" xml:space="preserve"><value>مسجّلة في مركز أمان Windows</value></data>
   <data name="Protection_AvUpToDate" xml:space="preserve"><value>الحماية محدّثة</value></data>
   <data name="Protection_AvOutdated" xml:space="preserve"><value>الحماية غير محدّثة: افتح برنامج مكافحة الفيروسات لتحديثه</value></data>
+  <data name="Command_GetBitLockerStatus" xml:space="preserve"><value>حالة تشفير القرص</value></data>
+  <data name="Command_GetBitLockerRecoveryKey" xml:space="preserve"><value>مفتاح استرداد التشفير</value></data>
+  <data name="Command_EnableBitLocker" xml:space="preserve"><value>تشفير القرص</value></data>
+  <data name="Confirm_EncryptsDisk" xml:space="preserve"><value>«{0}» يحمي ملفاتك في حال سرقة الحاسوب. احتفظ بعناية بمفتاح الاسترداد الذي حفظته للتو: بدونه قد تفقد ملفاتك. يستمر التشفير في الخلفية ويمكنك استخدام الحاسوب. متابعة؟</value></data>
+  <data name="Result_BitLockerNotSupported" xml:space="preserve"><value>تشفير القرص غير متاح في هذا الإصدار من Windows.</value></data>
+  <data name="Result_AdminRequired" xml:space="preserve"><value>لا يمكن القيام بهذا الإجراء إلا من حساب مسؤول على هذا الحاسوب.</value></data>
+  <data name="Result_TpmNotReady" xml:space="preserve"><value>شريحة الأمان في الحاسوب غير جاهزة: لا يمكن تفعيل التشفير تلقائيًا.</value></data>
+  <data name="Result_BitLockerAlreadyOn" xml:space="preserve"><value>القرص مشفّر بالفعل (أو قيد التشفير).</value></data>
+  <data name="Result_BitLockerBusy" xml:space="preserve"><value>التشفير متوقف مؤقتًا أو قيد التعديل: أعد المحاولة لاحقًا.</value></data>
+  <data name="Result_BitLockerKeyFirst" xml:space="preserve"><value>احفظ مفتاح الاسترداد أولًا.</value></data>
+  <data name="Result_BitLockerStarted" xml:space="preserve"><value>بدأ التشفير. يستمر في الخلفية ويمكنك استخدام الحاسوب بشكل عادي.</value></data>
+  <data name="Result_BitLockerFailed" xml:space="preserve"><value>تعذّر بدء التشفير. لم يُغيَّر شيء في القرص.</value></data>
+  <data name="Result_BitLockerKeyReady" xml:space="preserve"><value>مفتاح الاسترداد جاهز للحفظ.</value></data>
+  <data name="System_BitLocker" xml:space="preserve"><value>تشفير القرص</value></data>
+  <data name="System_BitLockerTech" xml:space="preserve"><value>BitLocker (Windows Pro)</value></data>
+  <data name="BitLocker_Off" xml:space="preserve"><value>القرص غير مشفّر: في حال السرقة يمكن قراءة ملفاتك.</value></data>
+  <data name="BitLocker_On" xml:space="preserve"><value>القرص مشفّر: ملفاتك محمية في حال السرقة.</value></data>
+  <data name="BitLocker_Encrypting" xml:space="preserve"><value>التشفير جارٍ: {0}٪.</value></data>
+  <data name="BitLocker_Decrypting" xml:space="preserve"><value>فك التشفير جارٍ: {0}٪.</value></data>
+  <data name="BitLocker_Paused" xml:space="preserve"><value>التشفير متوقف مؤقتًا أو معلّق.</value></data>
+  <data name="BitLocker_Unknown" xml:space="preserve"><value>حالة التشفير غير معروفة.</value></data>
+  <data name="BitLocker_TpmNotReady" xml:space="preserve"><value>القرص غير مشفّر وشريحة الأمان (TPM) غير جاهزة: لا يمكن تفعيل التشفير هنا.</value></data>
+  <data name="BitLocker_Explanation" xml:space="preserve"><value>مفتاح الاسترداد (48 رقمًا) هو الوسيلة الوحيدة لاستعادة ملفاتك إذا طلبه Windows. احتفظ به خارج الحاسوب: ذاكرة USB أو ورقة.</value></data>
+  <data name="BitLocker_Enable" xml:space="preserve"><value>تشفير القرص</value></data>
+  <data name="BitLocker_SaveKey" xml:space="preserve"><value>حفظ مفتاح الاسترداد</value></data>
+  <data name="BitLocker_SaveKeyTitle" xml:space="preserve"><value>مفتاح الاسترداد</value></data>
+  <data name="BitLocker_SaveKeyExplanation" xml:space="preserve"><value>اختر مكان حفظ مفتاح الاسترداد. الأفضل: ذاكرة USB تحتفظ بها منفصلة. لا تحتفظ به على هذا الحاسوب فقط.</value></data>
+  <data name="BitLocker_KeyFileFilter" xml:space="preserve"><value>ملف نصي</value></data>
+  <data name="BitLocker_KeyFileContent" xml:space="preserve"><value>مفتاح استرداد BitLocker - الحاسوب: {0}
+معرّف المفتاح: {1}
+مفتاح الاسترداد: {2}
+
+إذا طلب Windows هذا المفتاح عند التشغيل، تحقق من تطابق المعرّف المعروض ثم اكتب الأرقام الـ48.
+احتفظ بهذا الملف خارج الحاسوب (ذاكرة USB، ورقة).</value></data>
+  <data name="BitLocker_KeySaved" xml:space="preserve"><value>تم حفظ مفتاح الاسترداد: {0}. احتفظ به خارج الحاسوب.</value></data>
+  <data name="BitLocker_KeyNotSaved" xml:space="preserve"><value>لم يُحفظ المفتاح: لم يبدأ التشفير.</value></data>
+  <data name="BitLocker_Starting" xml:space="preserve"><value>جارٍ بدء التشفير…</value></data>
 </root>

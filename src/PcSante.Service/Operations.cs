@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PcSante.Core.Actions;
 using PcSante.Core.Commands;
 using PcSante.Core.Scheduling;
+using PcSante.Core.Windows;
 using PcSante.Licensing;
 using PcSante.Service.Data;
 using PcSante.Service.Dispatch;
@@ -120,5 +121,32 @@ public sealed class GenerateMonthlyReportOperation(QueryRegistry queries, Servic
         var file = Path.Combine(paths.Reports, Core.Reporting.ReportLocations.MonthlyReportFileName(time.GetUtcNow()));
         await File.WriteAllBytesAsync(file, pdf, cancellationToken).ConfigureAwait(false);
         return CommandResult.Success("Result_MonthlyReportSaved", file);
+    }
+}
+
+/// <summary>
+/// Clé de récupération BitLocker (créée si besoin) remise à l'interface pour qu'elle l'enregistre hors du disque.
+/// Réservée aux administrateurs du PC : un compte standard ne doit jamais pouvoir obtenir la clé par le service.
+/// </summary>
+public sealed class BitLockerRecoveryKeyOperation(IBitLockerApi bitLocker, ILocalAccountsApi accounts) : IOperationHandler
+{
+    public CommandId Command => CommandId.GetBitLockerRecoveryKey;
+
+    public async Task<CommandResult> ExecuteAsync(CommandParameters parameters, CallerIdentity caller, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(caller);
+        if (!(await bitLocker.GetStatusAsync(cancellationToken).ConfigureAwait(false)).Supported)
+        {
+            return CommandResult.Refused(FailureReason.NotSupportedOnThisPc, "Result_BitLockerNotSupported");
+        }
+
+        if (!await accounts.IsAdministratorAsync(caller.UserSid, cancellationToken).ConfigureAwait(false))
+        {
+            return CommandResult.Refused(FailureReason.PreconditionFailed, "Result_AdminRequired");
+        }
+
+        return await bitLocker.EnsureRecoveryKeyAsync(cancellationToken).ConfigureAwait(false) is { } key
+            ? CommandResult.WithData(key, "Result_BitLockerKeyReady")
+            : CommandResult.Failure(FailureReason.ExecutionFailed, "Result_BitLockerFailed");
     }
 }

@@ -211,3 +211,55 @@ public sealed class DisableGuestAccountAction(ILocalAccountsApi accounts) : Syst
     private async Task<LocalAccount?> GuestAsync(CancellationToken cancellationToken) =>
         (await accounts.ListAsync(cancellationToken).ConfigureAwait(false)).FirstOrDefault(a => a.IsGuest);
 }
+
+/// <summary>
+/// Chiffrement BitLocker du disque système : administrateur seulement, puce TPM prête, et clé de récupération
+/// existante ET enregistrée par l'utilisateur (paramètre keySaved, donné par l'interface après l'enregistrement).
+/// Le chiffrement se poursuit en arrière-plan ; il ne se défait pas par un point de restauration.
+/// </summary>
+public sealed class EnableBitLockerAction(IBitLockerApi bitLocker, ILocalAccountsApi accounts) : SystemAction
+{
+    public override CommandId Command => CommandId.EnableBitLocker;
+
+    public override async Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+        var status = await bitLocker.GetStatusAsync(cancellationToken).ConfigureAwait(false);
+        if (!status.Supported)
+        {
+            return Checks.NotAvailable("Result_BitLockerNotSupported");
+        }
+
+        if (!await accounts.IsAdministratorAsync(context.Caller.UserSid, cancellationToken).ConfigureAwait(false))
+        {
+            return CheckResult.Blocked(FailureReason.PreconditionFailed, "Result_AdminRequired");
+        }
+
+        if (status.State is BitLockerState.On or BitLockerState.Encrypting)
+        {
+            return CheckResult.AlreadyDone("Result_BitLockerAlreadyOn");
+        }
+
+        if (status.State != BitLockerState.Off)
+        {
+            return CheckResult.Blocked(FailureReason.PreconditionFailed, "Result_BitLockerBusy");
+        }
+
+        if (!status.TpmReady)
+        {
+            return Checks.NotAvailable("Result_TpmNotReady");
+        }
+
+        return status.HasRecoveryKey && context.Parameters.GetBool("keySaved")
+            ? CheckResult.Proceed
+            : CheckResult.Blocked(FailureReason.PreconditionFailed, "Result_BitLockerKeyFirst");
+    }
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await bitLocker.StartEncryptionAsync(cancellationToken).ConfigureAwait(false)
+            ? ExecutionResult.Background("Result_BitLockerStarted")
+            : ExecutionResult.Fail("Result_BitLockerFailed");
+
+    public override async Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) =>
+        (await bitLocker.GetStatusAsync(cancellationToken).ConfigureAwait(false)).State is BitLockerState.Encrypting or BitLockerState.On;
+}

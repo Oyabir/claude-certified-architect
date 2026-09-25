@@ -67,6 +67,7 @@ public static class ServiceRegistration
             new UndoOperation(sp.GetRequiredService<SystemActionPipeline>(), sp),
             new RunTemplateOperation(sp, sp.GetRequiredService<HistoryStore>(), sp.GetRequiredService<TimeProvider>()),
             new InstallUpdateOperation(sp.GetRequiredService<AppUpdateService>()),
+            new BitLockerRecoveryKeyOperation(sp.GetRequiredService<IBitLockerApi>(), sp.GetRequiredService<ILocalAccountsApi>()),
             new GenerateMonthlyReportOperation(sp.GetRequiredService<QueryRegistry>(), sp.GetRequiredService<ServicePaths>(), sp.GetRequiredService<TimeProvider>()),
         });
         services.AddSingleton<IEnumerable<SystemAction>>(sp => CreateActions(sp).ToList());
@@ -111,6 +112,7 @@ public static class ServiceRegistration
         yield return new FlushDnsAction(S<INetworkRepairApi>());
         yield return new ResetNetworkStackAction(S<INetworkRepairApi>());
         yield return new DisableGuestAccountAction(S<ILocalAccountsApi>());
+        yield return new EnableBitLockerAction(S<IBitLockerApi>(), S<ILocalAccountsApi>());
         yield return new CreateRestorePointAction(S<IRestorePointApi>(), S<TimeProvider>());
         yield return new EnableSystemRestoreAction(S<IRestorePointApi>());
 

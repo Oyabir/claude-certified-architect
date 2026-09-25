@@ -16,4 +16,7 @@ public interface ILocalAccountsApi
     Task<IReadOnlyList<LocalAccount>> ListAsync(CancellationToken cancellationToken);
 
     Task<bool> SetEnabledAsync(string sid, bool enabled, CancellationToken cancellationToken);
+
+    /// <summary>Le compte est membre direct du groupe Administrateurs local (comptes locaux et comptes Microsoft).</summary>
+    Task<bool> IsAdministratorAsync(string? sid, CancellationToken cancellationToken);
 }

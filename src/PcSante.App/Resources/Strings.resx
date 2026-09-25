@@ -633,4 +633,41 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Protection_AvInstalledTech" xml:space="preserve"><value>Déclarés au Centre de sécurité Windows</value></data>
   <data name="Protection_AvUpToDate" xml:space="preserve"><value>Protection à jour</value></data>
   <data name="Protection_AvOutdated" xml:space="preserve"><value>Protection pas à jour : ouvrez cet antivirus pour le mettre à jour</value></data>
+  <data name="Command_GetBitLockerStatus" xml:space="preserve"><value>État du chiffrement du disque</value></data>
+  <data name="Command_GetBitLockerRecoveryKey" xml:space="preserve"><value>Clé de récupération du chiffrement</value></data>
+  <data name="Command_EnableBitLocker" xml:space="preserve"><value>Chiffrer le disque</value></data>
+  <data name="Confirm_EncryptsDisk" xml:space="preserve"><value>« {0} » protège vos fichiers en cas de vol du PC. Gardez précieusement la clé de récupération que vous venez d'enregistrer : sans elle, vos fichiers peuvent être perdus. Le chiffrement continue en arrière-plan, vous pouvez utiliser le PC. Continuer ?</value></data>
+  <data name="Result_BitLockerNotSupported" xml:space="preserve"><value>Le chiffrement du disque n'est pas disponible sur cette version de Windows.</value></data>
+  <data name="Result_AdminRequired" xml:space="preserve"><value>Seul un compte administrateur de ce PC peut faire cette action.</value></data>
+  <data name="Result_TpmNotReady" xml:space="preserve"><value>La puce de sécurité du PC n'est pas prête : le chiffrement ne peut pas être activé automatiquement.</value></data>
+  <data name="Result_BitLockerAlreadyOn" xml:space="preserve"><value>Le disque est déjà chiffré (ou en cours de chiffrement).</value></data>
+  <data name="Result_BitLockerBusy" xml:space="preserve"><value>Le chiffrement est en pause ou en cours de modification : réessayez plus tard.</value></data>
+  <data name="Result_BitLockerKeyFirst" xml:space="preserve"><value>Enregistrez d'abord la clé de récupération.</value></data>
+  <data name="Result_BitLockerStarted" xml:space="preserve"><value>Chiffrement lancé. Il continue en arrière-plan ; vous pouvez utiliser le PC normalement.</value></data>
+  <data name="Result_BitLockerFailed" xml:space="preserve"><value>Le chiffrement n'a pas pu être lancé. Rien n'a été modifié sur le disque.</value></data>
+  <data name="Result_BitLockerKeyReady" xml:space="preserve"><value>Clé de récupération prête à être enregistrée.</value></data>
+  <data name="System_BitLocker" xml:space="preserve"><value>Chiffrement du disque</value></data>
+  <data name="System_BitLockerTech" xml:space="preserve"><value>BitLocker (Windows Professionnel)</value></data>
+  <data name="BitLocker_Off" xml:space="preserve"><value>Le disque n'est pas chiffré : en cas de vol, vos fichiers sont lisibles.</value></data>
+  <data name="BitLocker_On" xml:space="preserve"><value>Le disque est chiffré : vos fichiers sont protégés en cas de vol.</value></data>
+  <data name="BitLocker_Encrypting" xml:space="preserve"><value>Chiffrement en cours : {0} %.</value></data>
+  <data name="BitLocker_Decrypting" xml:space="preserve"><value>Déchiffrement en cours : {0} %.</value></data>
+  <data name="BitLocker_Paused" xml:space="preserve"><value>Le chiffrement est en pause ou suspendu.</value></data>
+  <data name="BitLocker_Unknown" xml:space="preserve"><value>État du chiffrement inconnu.</value></data>
+  <data name="BitLocker_TpmNotReady" xml:space="preserve"><value>Le disque n'est pas chiffré, et la puce de sécurité du PC (TPM) n'est pas prête : le chiffrement ne peut pas être activé ici.</value></data>
+  <data name="BitLocker_Explanation" xml:space="preserve"><value>La clé de récupération (48 chiffres) est le seul moyen de retrouver vos fichiers si Windows la demande. Gardez-la hors du PC : clé USB ou papier.</value></data>
+  <data name="BitLocker_Enable" xml:space="preserve"><value>Chiffrer le disque</value></data>
+  <data name="BitLocker_SaveKey" xml:space="preserve"><value>Sauvegarder la clé de récupération</value></data>
+  <data name="BitLocker_SaveKeyTitle" xml:space="preserve"><value>Clé de récupération</value></data>
+  <data name="BitLocker_SaveKeyExplanation" xml:space="preserve"><value>Choisissez où enregistrer la clé de récupération. Le mieux : une clé USB que vous rangez à part. Ne la gardez pas seulement sur ce PC.</value></data>
+  <data name="BitLocker_KeyFileFilter" xml:space="preserve"><value>Fichier texte</value></data>
+  <data name="BitLocker_KeyFileContent" xml:space="preserve"><value>Clé de récupération BitLocker - PC : {0}
+Identifiant de la clé : {1}
+Clé de récupération : {2}
+
+Si Windows demande cette clé au démarrage, vérifiez que l'identifiant affiché correspond, puis tapez les 48 chiffres.
+Gardez ce fichier hors du PC (clé USB, papier).</value></data>
+  <data name="BitLocker_KeySaved" xml:space="preserve"><value>Clé de récupération enregistrée : {0}. Rangez-la hors du PC.</value></data>
+  <data name="BitLocker_KeyNotSaved" xml:space="preserve"><value>Clé non enregistrée : le chiffrement n'a pas été lancé.</value></data>
+  <data name="BitLocker_Starting" xml:space="preserve"><value>Lancement du chiffrement…</value></data>
 </root>

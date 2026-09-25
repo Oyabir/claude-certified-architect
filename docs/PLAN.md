@@ -71,7 +71,7 @@ Accord du commanditaire : modules locaux V2 + console PME. Hors périmètre : M1
 - ✅ V2-2 Réseau (M4/M6) : vidage DNS, réinitialisation Winsock et TCP/IP (point de restauration, confirmation, redémarrage laissé à l'utilisateur), écran Système 🖥️
 - ✅ V2-3 Comptes (M6) : comptes locaux et administrateurs affichés (groupe trouvé par SID, toutes langues), compte Invité désactivable et annulable, problème « compte Invité ouvert » dans l'analyse 🖥️
 - ✅ V2-4 Antivirus tiers (M2) : produits du Centre de sécurité Windows (activé, à jour) sur l'écran Protection, consultation seulement ; « aucun antivirus » = problème rouge (fait lors des retours de test) 🖥️
-- ⏳ V2-5 BitLocker (M6, éditions Pro) : état, activation, sauvegarde de la clé de récupération ; masqué sur Famille
+- ✅ V2-5 BitLocker (M6, éditions Pro) : état, sauvegarde de la clé de récupération (fichier choisi par l'utilisateur), chiffrement de l'espace utilisé ; administrateur seulement, TPM prête, clé enregistrée avant tout chiffrement ; masqué sur Famille 🖥️
 - ⏳ V2-6 Sessions (M7, mode Avancé) : sessions locales et RDP (état, heure, IP), message, déconnexion, fermeture ; alerte RDP depuis une adresse jamais vue
 - ⏳ V2-7 Optimisation (M4) : profils de services (bureautique, jeu, portable ; liste prudente, passage en Manuel, annulable), effets visuels, disque (TRIM SSD, défragmentation HDD), fichier d'échange (état, retour à la gestion automatique)
 - ⏳ V2-8 Rapports (M8) : export CSV (historique des scores, problèmes, actions)

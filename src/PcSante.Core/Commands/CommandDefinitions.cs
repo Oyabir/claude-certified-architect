@@ -66,6 +66,9 @@ public static class CommandDefinitions
         A(CommandId.ResetNetworkStack, SafeguardKind.RestorePoint, ConfirmationKind.RestartsComputer),
         Q(CommandId.GetLocalAccounts),
         A(CommandId.DisableGuestAccount, SafeguardKind.OwnBackup),
+        Q(CommandId.GetBitLockerStatus),
+        A(CommandId.GetBitLockerRecoveryKey, SafeguardKind.None),
+        A(CommandId.EnableBitLocker, SafeguardKind.None, ConfirmationKind.EncryptsDisk, p: new ParameterSpec("keySaved", ParameterType.Boolean)),
 
         // Windows Update
         Q(CommandId.GetUpdateStatus),

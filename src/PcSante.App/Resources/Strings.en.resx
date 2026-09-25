@@ -633,4 +633,41 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Protection_AvInstalledTech" xml:space="preserve"><value>Registered with Windows Security Center</value></data>
   <data name="Protection_AvUpToDate" xml:space="preserve"><value>Protection up to date</value></data>
   <data name="Protection_AvOutdated" xml:space="preserve"><value>Protection not up to date: open this antivirus to update it</value></data>
+  <data name="Command_GetBitLockerStatus" xml:space="preserve"><value>Disk encryption status</value></data>
+  <data name="Command_GetBitLockerRecoveryKey" xml:space="preserve"><value>Encryption recovery key</value></data>
+  <data name="Command_EnableBitLocker" xml:space="preserve"><value>Encrypt the disk</value></data>
+  <data name="Confirm_EncryptsDisk" xml:space="preserve"><value>"{0}" protects your files if the PC is stolen. Keep the recovery key you just saved in a safe place: without it, your files may be lost. Encryption continues in the background; you can keep using the PC. Continue?</value></data>
+  <data name="Result_BitLockerNotSupported" xml:space="preserve"><value>Disk encryption is not available on this edition of Windows.</value></data>
+  <data name="Result_AdminRequired" xml:space="preserve"><value>Only an administrator account on this PC can do this.</value></data>
+  <data name="Result_TpmNotReady" xml:space="preserve"><value>The PC's security chip is not ready: encryption cannot be turned on automatically.</value></data>
+  <data name="Result_BitLockerAlreadyOn" xml:space="preserve"><value>The disk is already encrypted (or being encrypted).</value></data>
+  <data name="Result_BitLockerBusy" xml:space="preserve"><value>Encryption is paused or being changed: try again later.</value></data>
+  <data name="Result_BitLockerKeyFirst" xml:space="preserve"><value>Save the recovery key first.</value></data>
+  <data name="Result_BitLockerStarted" xml:space="preserve"><value>Encryption started. It continues in the background; you can use the PC normally.</value></data>
+  <data name="Result_BitLockerFailed" xml:space="preserve"><value>Encryption could not be started. Nothing was changed on the disk.</value></data>
+  <data name="Result_BitLockerKeyReady" xml:space="preserve"><value>Recovery key ready to be saved.</value></data>
+  <data name="System_BitLocker" xml:space="preserve"><value>Disk encryption</value></data>
+  <data name="System_BitLockerTech" xml:space="preserve"><value>BitLocker (Windows Pro)</value></data>
+  <data name="BitLocker_Off" xml:space="preserve"><value>The disk is not encrypted: if the PC is stolen, your files can be read.</value></data>
+  <data name="BitLocker_On" xml:space="preserve"><value>The disk is encrypted: your files are protected if the PC is stolen.</value></data>
+  <data name="BitLocker_Encrypting" xml:space="preserve"><value>Encryption in progress: {0}%.</value></data>
+  <data name="BitLocker_Decrypting" xml:space="preserve"><value>Decryption in progress: {0}%.</value></data>
+  <data name="BitLocker_Paused" xml:space="preserve"><value>Encryption is paused or suspended.</value></data>
+  <data name="BitLocker_Unknown" xml:space="preserve"><value>Encryption status unknown.</value></data>
+  <data name="BitLocker_TpmNotReady" xml:space="preserve"><value>The disk is not encrypted and the PC's security chip (TPM) is not ready: encryption cannot be turned on here.</value></data>
+  <data name="BitLocker_Explanation" xml:space="preserve"><value>The recovery key (48 digits) is the only way to get your files back if Windows asks for it. Keep it off the PC: USB drive or paper.</value></data>
+  <data name="BitLocker_Enable" xml:space="preserve"><value>Encrypt the disk</value></data>
+  <data name="BitLocker_SaveKey" xml:space="preserve"><value>Save the recovery key</value></data>
+  <data name="BitLocker_SaveKeyTitle" xml:space="preserve"><value>Recovery key</value></data>
+  <data name="BitLocker_SaveKeyExplanation" xml:space="preserve"><value>Choose where to save the recovery key. Best: a USB drive you keep separately. Don't keep it only on this PC.</value></data>
+  <data name="BitLocker_KeyFileFilter" xml:space="preserve"><value>Text file</value></data>
+  <data name="BitLocker_KeyFileContent" xml:space="preserve"><value>BitLocker recovery key - PC: {0}
+Key ID: {1}
+Recovery key: {2}
+
+If Windows asks for this key at startup, check that the displayed ID matches, then type the 48 digits.
+Keep this file off the PC (USB drive, paper).</value></data>
+  <data name="BitLocker_KeySaved" xml:space="preserve"><value>Recovery key saved: {0}. Keep it off the PC.</value></data>
+  <data name="BitLocker_KeyNotSaved" xml:space="preserve"><value>Key not saved: encryption was not started.</value></data>
+  <data name="BitLocker_Starting" xml:space="preserve"><value>Starting encryption…</value></data>
 </root>

@@ -50,6 +50,22 @@
                 <TextBlock Text="{l:T System_NetworkTech}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
                 <ItemsControl ItemsSource="{Binding NetworkActions}" ItemTemplate="{StaticResource ActionRow}" Focusable="False" />
 
+                <StackPanel Visibility="{Binding ShowBitLocker, Converter={StaticResource Visible}}">
+                    <TextBlock Text="{l:T System_BitLocker}" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="{l:T System_BitLockerTech}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
+                    <ui:Card Padding="16,12" Margin="0,0,0,6">
+                        <StackPanel>
+                            <TextBlock Text="{Binding BitLockerSummary}" TextWrapping="Wrap" />
+                            <TextBlock Text="{l:T BitLocker_Explanation}" Style="{StaticResource Technical}" TextWrapping="Wrap" Margin="0,4,0,10" />
+                            <WrapPanel>
+                                <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T BitLocker_Enable}" Command="{Binding EnableBitLockerCommand}"
+                                           Margin="0,0,8,0" Visibility="{Binding CanEnableBitLocker, Converter={StaticResource Visible}}" />
+                                <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T BitLocker_SaveKey}" Command="{Binding SaveRecoveryKeyCommand}" />
+                            </WrapPanel>
+                        </StackPanel>
+                    </ui:Card>
+                </StackPanel>
+
                 <TextBlock Text="{l:T System_Accounts}" Style="{StaticResource SectionTitle}" />
                 <TextBlock Text="{l:T System_AccountsTech}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
                 <TextBlock Text="{Binding AccountsSummary}" TextWrapping="Wrap" Margin="0,0,0,8" />

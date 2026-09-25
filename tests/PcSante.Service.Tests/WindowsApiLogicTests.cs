@@ -43,6 +43,19 @@ public class WindowsApiLogicTests
         WindowsStartupApi.IsApproved([0x03, 0, 0]).Should().BeFalse();
     }
 
+    [Theory]
+    [InlineData(0u, 0u, BitLockerState.Off)]
+    [InlineData(1u, 1u, BitLockerState.On)]
+    [InlineData(1u, 0u, BitLockerState.Paused)]
+    [InlineData(2u, 0u, BitLockerState.Encrypting)]
+    [InlineData(3u, 1u, BitLockerState.Decrypting)]
+    [InlineData(4u, 0u, BitLockerState.Paused)]
+    [InlineData(9u, 0u, BitLockerState.Unknown)]
+    public void Etat_bitlocker(uint conversion, uint protection, BitLockerState expected)
+    {
+        WindowsBitLockerApi.MapState(conversion, protection).Should().Be(expected);
+    }
+
     [Fact]
     public void Arguments_de_tache_avec_langue_du_rapport()
     {

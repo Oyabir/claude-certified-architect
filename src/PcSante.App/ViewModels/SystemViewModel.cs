@@ -1,7 +1,9 @@
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Runtime.Versioning;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using PcSante.App.Infrastructure;
 using PcSante.App.Localization;
 using PcSante.Core.Commands;
 using PcSante.Core.Ui;
@@ -40,6 +42,23 @@ public sealed partial class SystemViewModel(MainViewModel main) : PageViewModel(
     [ObservableProperty]
     private string _accountsSummary = string.Empty;
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ShowBitLocker), nameof(CanEnableBitLocker), nameof(BitLockerSummary))]
+    private BitLockerStatus? _bitLocker;
+
+    /// <summary>Masqué sur Windows Famille et si le disque système n'est pas chiffrable.</summary>
+    public bool ShowBitLocker => BitLocker is { Supported: true };
+
+    public bool CanEnableBitLocker => BitLocker is { Supported: true, TpmReady: true, State: BitLockerState.Off };
+
+    public string BitLockerSummary => BitLocker switch
+    {
+        null or { Supported: false } => string.Empty,
+        { State: BitLockerState.Off, TpmReady: false } => Loc.T("BitLocker_TpmNotReady"),
+        { State: BitLockerState.Encrypting or BitLockerState.Decrypting } b => Loc.F($"BitLocker_{b.State}", b.Percentage),
+        { } b => Loc.T($"BitLocker_{b.State}"),
+    };
+
     public override async Task LoadAsync()
     {
         var info = await Query<SystemInfo>(CommandId.GetSystemInfo).ConfigureAwait(true);
@@ -53,6 +72,8 @@ public sealed partial class SystemViewModel(MainViewModel main) : PageViewModel(
         Fill(RestoreActions, [CommandId.CreateRestorePoint, CommandId.EnableSystemRestore]);
         Fill(FirewallActions, [CommandId.ResetFirewallRules]);
         Fill(NetworkActions, [CommandId.FlushDnsCache, CommandId.ResetNetworkStack]);
+
+        BitLocker = await Query<BitLockerStatus>(CommandId.GetBitLockerStatus).ConfigureAwait(true);
 
         var accounts = await Query<List<LocalAccount>>(CommandId.GetLocalAccounts).ConfigureAwait(true) ?? [];
         Accounts.Clear();
@@ -76,6 +97,56 @@ public sealed partial class SystemViewModel(MainViewModel main) : PageViewModel(
     {
         ArgumentNullException.ThrowIfNull(item);
         return ExecuteAsync(item.Command, busyKey: $"Busy_{item.Command}");
+    }
+
+    /// <summary>Enregistre la clé de récupération BitLocker dans un fichier choisi par l'utilisateur (idéalement une clé USB).</summary>
+    [RelayCommand]
+    private Task SaveRecoveryKeyAsync() => SaveRecoveryKeyCoreAsync();
+
+    /// <summary>La clé est toujours enregistrée d'abord : sans elle, le chiffrement n'est pas lancé.</summary>
+    [RelayCommand]
+    private async Task EnableBitLockerAsync()
+    {
+        if (Main.NeedsPremium(CommandId.EnableBitLocker))
+        {
+            Main.ShowPremiumRequired();
+            return;
+        }
+
+        if (await SaveRecoveryKeyCoreAsync().ConfigureAwait(true))
+        {
+            await ExecuteAsync(CommandId.EnableBitLocker, new Dictionary<string, string> { ["keySaved"] = "true" }, busyKey: "BitLocker_Starting").ConfigureAwait(true);
+        }
+    }
+
+    private async Task<bool> SaveRecoveryKeyCoreAsync()
+    {
+        if (Main.NeedsPremium(CommandId.GetBitLockerRecoveryKey))
+        {
+            Main.ShowPremiumRequired();
+            return false;
+        }
+
+        var result = await Service.RunAsync(CommandId.GetBitLockerRecoveryKey).ConfigureAwait(true);
+        if (result.GetData<BitLockerRecoveryKey>() is not { } key)
+        {
+            Message.Show(result);
+            return false;
+        }
+
+        await Dialogs.ConfirmAsync(Loc.T("BitLocker_SaveKeyTitle"), Loc.T("BitLocker_SaveKeyExplanation"), Loc.T("Common_Continue")).ConfigureAwait(true);
+        var shortId = key.KeyId.Trim('{', '}').Split('-')[0];
+        var path = Dialogs.SaveFile($"Cle-recuperation-BitLocker-{shortId}.txt", "BitLocker_KeyFileFilter", ".txt");
+        if (path is null)
+        {
+            Message.Show(Loc.T("BitLocker_KeyNotSaved"), MessageKind.Warning);
+            return false;
+        }
+
+        var machine = Environment.MachineName;
+        await File.WriteAllTextAsync(path, Loc.F("BitLocker_KeyFileContent", machine, key.KeyId, key.Password)).ConfigureAwait(true);
+        Message.Show(Loc.F("BitLocker_KeySaved", path), MessageKind.Success);
+        return true;
     }
 
     private static void Fill(ObservableCollection<SystemActionItem> target, CommandId[] commands)

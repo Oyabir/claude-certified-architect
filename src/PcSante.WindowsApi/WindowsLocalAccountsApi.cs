@@ -41,6 +41,9 @@ public sealed class WindowsLocalAccountsApi : ILocalAccountsApi
         return true;
     }, cancellationToken);
 
+    public Task<bool> IsAdministratorAsync(string? sid, CancellationToken cancellationToken) =>
+        Task.Run(() => !string.IsNullOrEmpty(sid) && AdministratorSids().Contains(sid), cancellationToken);
+
     private static HashSet<string> AdministratorSids()
     {
         var group = WmiHelper.Query(Cimv2, $"SELECT Name, Domain FROM Win32_Group WHERE LocalAccount = TRUE AND SID = '{AdministratorsSid}'").FirstOrDefault();

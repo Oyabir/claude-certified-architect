@@ -1,4 +1,4 @@
-using PcSante.Core.Audit;
+﻿using PcSante.Core.Audit;
 using PcSante.Core.Commands;
 using PcSante.Core.Health;
 using PcSante.Core.Processes;
@@ -317,7 +317,7 @@ public sealed class ActionTests
         svc.Scheduler.Registered[ScheduledTemplateId.WeeklyCleanup].Day.Should().Be(DayOfWeek.Sunday);
 
         (await svc.Run(CommandId.RunScheduledTemplate, new() { ["template"] = "DailyAntivirusScan" })).MessageKey
-            .Should().Be("Result_TaskNotScheduled", "un modèle non programmé ne peut pas être déclenché");
+            .Should().Be("Result_TaskNotScheduled", "un modÃ¨le non programmÃ© ne peut pas Ãªtre dÃ©clenchÃ©");
         var run = await svc.Run(CommandId.RunScheduledTemplate, new() { ["template"] = "WeeklyCleanup" });
         run.MessageKey.Should().Be("Result_TaskRunSucceeded");
         svc.Cleanup.Cleaned.Should().Equal(CleanupTarget.TemporaryFiles, CleanupTarget.RecycleBin);
@@ -344,11 +344,52 @@ public sealed class ActionTests
         svc.Network.Calls.Should().Equal("dns");
 
         (await svc.Run(CommandId.ResetNetworkStack, confirmed: true)).MessageKey.Should().Be("Result_NetworkResetRestart");
-        svc.Restore.Points.Should().ContainSingle("point de restauration avant la réinitialisation");
+        svc.Restore.Points.Should().ContainSingle("point de restauration avant la rÃ©initialisation");
         svc.Network.Calls.Should().Equal("dns", "reset");
 
         svc.Network.Succeeds = false;
         (await svc.Run(CommandId.FlushDnsCache)).MessageKey.Should().Be("Result_NetworkRepairFailed");
+    }
+
+    [Fact]
+    public async Task BitLocker_cle_enregistree_avant_tout_chiffrement()
+    {
+        await using var svc = new ServiceFixture();
+        svc.Accounts.Accounts[0] = svc.Accounts.Accounts[0] with { Sid = ServiceFixture.Alice.UserSid! };
+        var keySaved = new Dictionary<string, string> { ["keySaved"] = "true" };
+
+        (await svc.Run(CommandId.EnableBitLocker, keySaved, confirmed: true)).MessageKey.Should().Be("Result_BitLockerKeyFirst", "aucune clÃ© de rÃ©cupÃ©ration n'existe encore");
+        (await svc.Run(CommandId.EnableBitLocker, keySaved)).Reason.Should().Be(FailureReason.ConfirmationRequired);
+
+        var key = (await svc.Run(CommandId.GetBitLockerRecoveryKey)).GetData<BitLockerRecoveryKey>()!;
+        key.Password.Should().HaveLength(55);
+        (await svc.Run(CommandId.EnableBitLocker, new() { ["keySaved"] = "false" }, confirmed: true)).MessageKey.Should().Be("Result_BitLockerKeyFirst");
+        svc.BitLocker.EncryptionStarts.Should().Be(0);
+
+        var started = await svc.Run(CommandId.EnableBitLocker, keySaved, confirmed: true);
+        started.MessageKey.Should().Be("Result_BitLockerStarted");
+        svc.BitLocker.EncryptionStarts.Should().Be(1);
+        (await svc.Run(CommandId.EnableBitLocker, keySaved, confirmed: true)).Status.Should().Be(CommandStatus.AlreadyDone);
+    }
+
+    [Fact]
+    public async Task BitLocker_refuse_aux_comptes_standard_sur_famille_et_sans_tpm()
+    {
+        await using var svc = new ServiceFixture();
+        var keySaved = new Dictionary<string, string> { ["keySaved"] = "true" };
+
+        // Appelant non administrateur : ni clÃ©, ni chiffrement.
+        (await svc.Run(CommandId.GetBitLockerRecoveryKey)).MessageKey.Should().Be("Result_AdminRequired");
+        (await svc.Run(CommandId.EnableBitLocker, keySaved, confirmed: true)).MessageKey.Should().Be("Result_AdminRequired");
+
+        svc.Accounts.Accounts[0] = svc.Accounts.Accounts[0] with { Sid = ServiceFixture.Alice.UserSid! };
+        svc.BitLocker.Status = svc.BitLocker.Status with { TpmReady = false, HasRecoveryKey = true };
+        (await svc.Run(CommandId.EnableBitLocker, keySaved, confirmed: true)).MessageKey.Should().Be("Result_TpmNotReady");
+
+        svc.BitLocker.Status = BitLockerStatus.NotSupported;
+        (await svc.Run(CommandId.GetBitLockerRecoveryKey)).MessageKey.Should().Be("Result_BitLockerNotSupported");
+        (await svc.Run(CommandId.EnableBitLocker, keySaved, confirmed: true)).MessageKey.Should().Be("Result_BitLockerNotSupported");
+        svc.BitLocker.EncryptionStarts.Should().Be(0);
     }
 
     [Fact]
@@ -366,7 +407,7 @@ public sealed class ActionTests
     public async Task Compte_invite_desactive_puis_annule_et_signale_par_l_analyse()
     {
         await using var svc = new ServiceFixture();
-        (await svc.Run(CommandId.DisableGuestAccount)).Status.Should().Be(CommandStatus.AlreadyDone, "l'Invité est désactivé par défaut");
+        (await svc.Run(CommandId.DisableGuestAccount)).Status.Should().Be(CommandStatus.AlreadyDone, "l'InvitÃ© est dÃ©sactivÃ© par dÃ©faut");
 
         svc.Accounts.Accounts[1] = svc.Accounts.Accounts[1] with { Enabled = true };
         var accounts = (await svc.Run(CommandId.GetLocalAccounts)).GetData<List<LocalAccount>>()!;
@@ -378,7 +419,7 @@ public sealed class ActionTests
         svc.Accounts.Accounts[1].Enabled.Should().BeFalse();
 
         (await svc.Run(CommandId.UndoAction, new() { ["undoId"] = result.UndoId!.Value.ToString() })).Status.Should().Be(CommandStatus.Succeeded);
-        svc.Accounts.Accounts[1].Enabled.Should().BeTrue("« Annuler » réactive le compte Invité");
+        svc.Accounts.Accounts[1].Enabled.Should().BeTrue("Â« Annuler Â» rÃ©active le compte InvitÃ©");
     }
 
     [Fact]

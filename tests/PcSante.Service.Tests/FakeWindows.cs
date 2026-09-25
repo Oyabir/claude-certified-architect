@@ -434,6 +434,9 @@ internal sealed class FakeAccounts : ILocalAccountsApi
         Accounts[index] = Accounts[index] with { Enabled = enabled };
         return Task.FromResult(true);
     }
+
+    public Task<bool> IsAdministratorAsync(string? sid, CancellationToken cancellationToken) =>
+        Task.FromResult(Accounts.Any(a => a.Sid == sid && a.IsAdministrator));
 }
 
 internal sealed class FakeSecurityCenter : ISecurityCenterApi
@@ -442,4 +445,26 @@ internal sealed class FakeSecurityCenter : ISecurityCenterApi
 
     public Task<IReadOnlyList<AntivirusProduct>> ListAntivirusAsync(CancellationToken cancellationToken) =>
         Task.FromResult<IReadOnlyList<AntivirusProduct>>(Products.ToList());
+}
+
+internal sealed class FakeBitLocker : IBitLockerApi
+{
+    public BitLockerStatus Status { get; set; } = new(true, true, BitLockerState.Off, 0, false);
+
+    public int EncryptionStarts { get; private set; }
+
+    public Task<BitLockerStatus> GetStatusAsync(CancellationToken cancellationToken) => Task.FromResult(Status);
+
+    public Task<BitLockerRecoveryKey?> EnsureRecoveryKeyAsync(CancellationToken cancellationToken)
+    {
+        Status = Status with { HasRecoveryKey = true };
+        return Task.FromResult<BitLockerRecoveryKey?>(new BitLockerRecoveryKey("{0000-KEY}", "111111-222222-333333-444444-555555-666666-777777-888888"));
+    }
+
+    public Task<bool> StartEncryptionAsync(CancellationToken cancellationToken)
+    {
+        EncryptionStarts++;
+        Status = Status with { State = BitLockerState.Encrypting };
+        return Task.FromResult(true);
+    }
 }
