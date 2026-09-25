@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- PC Santé — couleurs thème clair. Généré depuis tokens.json : ne pas éditer à la main. -->
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="PcsColorBackground">#F4F6F5</Color>
+    <Color x:Key="PcsColorSurface">#FFFFFF</Color>
+    <Color x:Key="PcsColorSurfaceSubtle">#F7F9F8</Color>
+    <Color x:Key="PcsColorSidebar">#FBFCFB</Color>
+    <Color x:Key="PcsColorBorder">#E2E7E5</Color>
+    <Color x:Key="PcsColorDivider">#EDF1EF</Color>
+    <Color x:Key="PcsColorControlBorder">#C9D6D3</Color>
+    <Color x:Key="PcsColorInputBorder">#D5DEDB</Color>
+    <Color x:Key="PcsColorTrack">#E4E9E7</Color>
+    <Color x:Key="PcsColorRingTrack">#EEF1F0</Color>
+    <Color x:Key="PcsColorChipNeutral">#E9EEEC</Color>
+    <Color x:Key="PcsColorIconTile">#F1F4F3</Color>
+    <Color x:Key="PcsColorRowSelected">#F2F8F7</Color>
+    <Color x:Key="PcsColorSwitchOff">#C3CECB</Color>
+    <Color x:Key="PcsColorTextPrimary">#102321</Color>
+    <Color x:Key="PcsColorTextStrong">#243633</Color>
+    <Color x:Key="PcsColorTextSecondary">#465956</Color>
+    <Color x:Key="PcsColorTextMuted">#5E6D68</Color>
+    <Color x:Key="PcsColorBrand">#0B6E69</Color>
+    <Color x:Key="PcsColorBrandHover">#084F4B</Color>
+    <Color x:Key="PcsColorBrandPressed">#063E3B</Color>
+    <Color x:Key="PcsColorBrandSoft">#E2F0EE</Color>
+    <Color x:Key="PcsColorOnBrand">#FFFFFF</Color>
+    <Color x:Key="PcsColorBrandText">#084F4B</Color>
+    <Color x:Key="PcsColorChartSecondary">#5FB7AE</Color>
+    <Color x:Key="PcsColorNight">#0B3F3C</Color>
+    <Color x:Key="PcsColorNightText">#C4DEDA</Color>
+    <Color x:Key="PcsColorNightAccent">#7FDCD2</Color>
+    <Color x:Key="PcsColorOnNightAccent">#062A28</Color>
+    <Color x:Key="PcsColorGood">#1D7A48</Color>
+    <Color x:Key="PcsColorGoodText">#17663B</Color>
+    <Color x:Key="PcsColorGoodSoft">#E3F3EA</Color>
+    <Color x:Key="PcsColorWarn">#C06A0B</Color>
+    <Color x:Key="PcsColorWarnIcon">#A35407</Color>
+    <Color x:Key="PcsColorWarnText">#8A4705</Color>
+    <Color x:Key="PcsColorWarnStrong">#A35407</Color>
+    <Color x:Key="PcsColorWarnSoft">#FBEEDC</Color>
+    <Color x:Key="PcsColorCritical">#B42318</Color>
+    <Color x:Key="PcsColorCriticalText">#9A1D13</Color>
+    <Color x:Key="PcsColorCriticalSoft">#FBE6E3</Color>
+    <Color x:Key="PcsColorCriticalSurface">#FDF3F2</Color>
+    <Color x:Key="PcsColorDangerBorder">#F0C4BE</Color>
+    <Color x:Key="PcsColorFocusRing">#0B6E69</Color>
+
+    <SolidColorBrush x:Key="PcsBackgroundBrush" Color="{StaticResource PcsColorBackground}" />
+    <SolidColorBrush x:Key="PcsSurfaceBrush" Color="{StaticResource PcsColorSurface}" />
+    <SolidColorBrush x:Key="PcsSurfaceSubtleBrush" Color="{StaticResource PcsColorSurfaceSubtle}" />
+    <SolidColorBrush x:Key="PcsSidebarBrush" Color="{StaticResource PcsColorSidebar}" />
+    <SolidColorBrush x:Key="PcsBorderBrush" Color="{StaticResource PcsColorBorder}" />
+    <SolidColorBrush x:Key="PcsDividerBrush" Color="{StaticResource PcsColorDivider}" />
+    <SolidColorBrush x:Key="PcsControlBorderBrush" Color="{StaticResource PcsColorControlBorder}" />
+    <SolidColorBrush x:Key="PcsInputBorderBrush" Color="{StaticResource PcsColorInputBorder}" />
+    <SolidColorBrush x:Key="PcsTrackBrush" Color="{StaticResource PcsColorTrack}" />
+    <SolidColorBrush x:Key="PcsRingTrackBrush" Color="{StaticResource PcsColorRingTrack}" />
+    <SolidColorBrush x:Key="PcsChipNeutralBrush" Color="{StaticResource PcsColorChipNeutral}" />
+    <SolidColorBrush x:Key="PcsIconTileBrush" Color="{StaticResource PcsColorIconTile}" />
+    <SolidColorBrush x:Key="PcsRowSelectedBrush" Color="{StaticResource PcsColorRowSelected}" />
+    <SolidColorBrush x:Key="PcsSwitchOffBrush" Color="{StaticResource PcsColorSwitchOff}" />
+    <SolidColorBrush x:Key="PcsTextPrimaryBrush" Color="{StaticResource PcsColorTextPrimary}" />
+    <SolidColorBrush x:Key="PcsTextStrongBrush" Color="{StaticResource PcsColorTextStrong}" />
+    <SolidColorBrush x:Key="PcsTextSecondaryBrush" Color="{StaticResource PcsColorTextSecondary}" />
+    <SolidColorBrush x:Key="PcsTextMutedBrush" Color="{StaticResource PcsColorTextMuted}" />
+    <SolidColorBrush x:Key="PcsBrandBrush" Color="{StaticResource PcsColorBrand}" />
+    <SolidColorBrush x:Key="PcsBrandHoverBrush" Color="{StaticResource PcsColorBrandHover}" />
+    <SolidColorBrush x:Key="PcsBrandPressedBrush" Color="{StaticResource PcsColorBrandPressed}" />
+    <SolidColorBrush x:Key="PcsBrandSoftBrush" Color="{StaticResource PcsColorBrandSoft}" />
+    <SolidColorBrush x:Key="PcsOnBrandBrush" Color="{StaticResource PcsColorOnBrand}" />
+    <SolidColorBrush x:Key="PcsBrandTextBrush" Color="{StaticResource PcsColorBrandText}" />
+    <SolidColorBrush x:Key="PcsChartSecondaryBrush" Color="{StaticResource PcsColorChartSecondary}" />
+    <SolidColorBrush x:Key="PcsNightBrush" Color="{StaticResource PcsColorNight}" />
+    <SolidColorBrush x:Key="PcsNightTextBrush" Color="{StaticResource PcsColorNightText}" />
+    <SolidColorBrush x:Key="PcsNightAccentBrush" Color="{StaticResource PcsColorNightAccent}" />
+    <SolidColorBrush x:Key="PcsOnNightAccentBrush" Color="{StaticResource PcsColorOnNightAccent}" />
+    <SolidColorBrush x:Key="PcsGoodBrush" Color="{StaticResource PcsColorGood}" />
+    <SolidColorBrush x:Key="PcsGoodTextBrush" Color="{StaticResource PcsColorGoodText}" />
+    <SolidColorBrush x:Key="PcsGoodSoftBrush" Color="{StaticResource PcsColorGoodSoft}" />
+    <SolidColorBrush x:Key="PcsWarnBrush" Color="{StaticResource PcsColorWarn}" />
+    <SolidColorBrush x:Key="PcsWarnIconBrush" Color="{StaticResource PcsColorWarnIcon}" />
+    <SolidColorBrush x:Key="PcsWarnTextBrush" Color="{StaticResource PcsColorWarnText}" />
+    <SolidColorBrush x:Key="PcsWarnStrongBrush" Color="{StaticResource PcsColorWarnStrong}" />
+    <SolidColorBrush x:Key="PcsWarnSoftBrush" Color="{StaticResource PcsColorWarnSoft}" />
+    <SolidColorBrush x:Key="PcsCriticalBrush" Color="{StaticResource PcsColorCritical}" />
+    <SolidColorBrush x:Key="PcsCriticalTextBrush" Color="{StaticResource PcsColorCriticalText}" />
+    <SolidColorBrush x:Key="PcsCriticalSoftBrush" Color="{StaticResource PcsColorCriticalSoft}" />
+    <SolidColorBrush x:Key="PcsCriticalSurfaceBrush" Color="{StaticResource PcsColorCriticalSurface}" />
+    <SolidColorBrush x:Key="PcsDangerBorderBrush" Color="{StaticResource PcsColorDangerBorder}" />
+    <SolidColorBrush x:Key="PcsFocusRingBrush" Color="{StaticResource PcsColorFocusRing}" />
+</ResourceDictionary>

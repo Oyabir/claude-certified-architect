@@ -20,7 +20,7 @@
                                 <Canvas Width="600" Height="100">
                                     <Line X1="0" X2="600" Y1="20" Y2="20" Stroke="#1E7B34" StrokeDashArray="4 4" Opacity="0.6" />
                                     <Line X1="0" X2="600" Y1="50" Y2="50" Stroke="#B42318" StrokeDashArray="4 4" Opacity="0.6" />
-                                    <Polyline Points="{Binding ScorePoints}" Stroke="{DynamicResource AccentFillColorDefaultBrush}" StrokeThickness="2" />
+                                    <Polyline Points="{Binding ScorePoints}" Stroke="{DynamicResource PcsBrandBrush}" StrokeThickness="2" />
                                 </Canvas>
                             </Viewbox>
                         </Border>

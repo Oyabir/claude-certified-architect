@@ -1,5 +1,6 @@
 using System.Runtime.Versioning;
 using System.Windows;
+using System.Windows.Media;
 using PcSante.App.Infrastructure;
 using PcSante.App.Localization;
 using PcSante.App.ViewModels;
@@ -17,7 +18,11 @@ public partial class App : Application
     {
         base.OnStartup(e);
         ShutdownMode = ShutdownMode.OnExplicitShutdown;
-        _service = new ServiceClient();
+        var preview = false;
+#if DEBUG
+        preview = e.Args.Contains("--apercu", StringComparer.Ordinal);
+#endif
+        _service = new ServiceClient(preview);
         OpenMainWindow();
     }
 
@@ -40,6 +45,7 @@ public partial class App : Application
         {
             FlowDirection = Loc.IsRightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight,
             Language = System.Windows.Markup.XmlLanguage.GetLanguage(Loc.Culture.IetfLanguageTag),
+            FontFamily = (FontFamily)Resources[Loc.IsRightToLeft ? "PcsFontArabic" : "PcsFontLatin"],
         };
         viewModel.RestartRequested += (_, _) =>
         {
@@ -58,19 +64,35 @@ public partial class App : Application
         _ = viewModel.StartAsync();
     }
 
-    private static void ApplyTheme(AppTheme theme)
+    /// <summary>
+    /// Applique le thème (clair, sombre ou celui de Windows) : dictionnaire de couleurs PC Santé correspondant,
+    /// et couleur de marque imposée aux contrôles WPF-UI (plus aucune dépendance à l'accent de Windows).
+    /// </summary>
+    private void ApplyTheme(AppTheme theme)
     {
-        switch (theme)
+        var dark = theme switch
         {
-            case AppTheme.Light:
-                ApplicationThemeManager.Apply(ApplicationTheme.Light);
-                break;
-            case AppTheme.Dark:
-                ApplicationThemeManager.Apply(ApplicationTheme.Dark);
-                break;
-            default:
-                ApplicationThemeManager.ApplySystemTheme();
-                break;
+            AppTheme.Light => false,
+            AppTheme.Dark => true,
+            _ => ApplicationThemeManager.GetSystemTheme() is SystemTheme.Dark or SystemTheme.HCBlack or SystemTheme.Glow or SystemTheme.CapturedMotion,
+        };
+        var applicationTheme = dark ? ApplicationTheme.Dark : ApplicationTheme.Light;
+        ApplicationThemeManager.Apply(applicationTheme, Wpf.Ui.Controls.WindowBackdropType.None, updateAccent: false);
+
+        var colors = new ResourceDictionary { Source = new Uri(dark ? "Themes/PcSante.Colors.Dark.xaml" : "Themes/PcSante.Colors.Light.xaml", UriKind.Relative) };
+        var merged = Resources.MergedDictionaries;
+        var current = merged.FirstOrDefault(d => d.Source?.OriginalString.Contains("PcSante.Colors.", StringComparison.Ordinal) == true);
+        if (current is null)
+        {
+            merged.Add(colors);
         }
+        else
+        {
+            merged[merged.IndexOf(current)] = colors;
+        }
+
+        var brand = (Color)colors["PcsColorBrand"];
+        var brandHover = (Color)colors["PcsColorBrandHover"];
+        ApplicationAccentColorManager.Apply(brand, brand, brand, brandHover);
     }
 }

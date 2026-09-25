@@ -16,9 +16,12 @@ public sealed class ServiceClient : IAsyncDisposable
 {
     private readonly PipeClient _quick;
     private readonly PipeClient _long;
+    private readonly bool _preview;
 
-    public ServiceClient()
+    /// <param name="preview">Debug seulement : réponses fictives de <see cref="PreviewService"/> (option « --apercu »).</param>
+    public ServiceClient(bool preview = false)
     {
+        _preview = preview;
         var serviceExe = Path.Combine(AppContext.BaseDirectory, "PcSante.Service.exe");
         _quick = new PipeClient(ProductInfo.PipeName, new WindowsServerVerifier(serviceExe));
         _long = new PipeClient(ProductInfo.PipeName, new WindowsServerVerifier(serviceExe));
@@ -26,6 +29,12 @@ public sealed class ServiceClient : IAsyncDisposable
 
     public Task<CommandResult> RunAsync(CommandId command, IReadOnlyDictionary<string, string>? parameters = null, bool confirmed = false)
     {
+#if DEBUG
+        if (_preview)
+        {
+            return Task.FromResult(PreviewService.Answer(command, parameters));
+        }
+#endif
         var descriptor = CommandDefinitions.Get(command);
         var client = descriptor.Kind == CommandKind.Action ? _long : _quick;
         return client.SendAsync(command, parameters, confirmed);
@@ -33,7 +42,7 @@ public sealed class ServiceClient : IAsyncDisposable
 
     public async Task<T?> QueryAsync<T>(CommandId command, IReadOnlyDictionary<string, string>? parameters = null)
     {
-        var result = await _quick.SendAsync(command, parameters).ConfigureAwait(true);
+        var result = await RunAsync(command, parameters).ConfigureAwait(true);
         return result.IsSuccess ? result.GetData<T>() : default;
     }
 

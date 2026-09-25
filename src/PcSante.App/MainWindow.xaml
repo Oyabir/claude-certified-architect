@@ -11,7 +11,8 @@
                  FontSize="14"
                  WindowStartupLocation="CenterScreen"
                  ExtendsContentIntoTitleBar="True"
-                 WindowBackdropType="Mica"
+                 WindowBackdropType="None"
+                 Background="{DynamicResource PcsBackgroundBrush}"
                  WindowCornerPreference="Round"
                  Icon="pack://application:,,,/Assets/pcsante.ico">
     <ui:FluentWindow.Resources>
@@ -97,7 +98,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- Service injoignable : message clair et action proposée. -->
-                <Border Grid.Row="0" Background="{x:Static infra:HealthBrushes.Red}" CornerRadius="8" Padding="16,12" Margin="0,0,0,12"
+                <Border Grid.Row="0" Background="{DynamicResource PcsCriticalBrush}" CornerRadius="8" Padding="16,12" Margin="0,0,0,12"
                         Visibility="{Binding ServiceAvailable, Converter={StaticResource Collapsed}}">
                     <DockPanel>
                         <ui:Button DockPanel.Dock="Right" Content="{l:T Common_Retry}" Command="{Binding RetryServiceCommand}" Appearance="Light" />

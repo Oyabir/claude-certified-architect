@@ -7,46 +7,70 @@ using PcSante.Core.Processes;
 
 namespace PcSante.App.Infrastructure;
 
-/// <summary>Code couleur constant : vert = tout va bien, orange = à surveiller, rouge = à corriger.</summary>
+/// <summary>Tonalité d'un état : vert = tout va bien, orange = à surveiller, rouge = à corriger, neutre = sans jugement.</summary>
+public enum Tone
+{
+    Neutral,
+    Good,
+    Warn,
+    Critical,
+}
+
+/// <summary>
+/// Code couleur constant, tiré des jetons du thème actif (Themes/PcSante.Colors.*.xaml) :
+/// jamais de couleur en dur dans les écrans.
+/// </summary>
 public static class HealthBrushes
 {
-    public static readonly SolidColorBrush Green = Freeze(Color.FromRgb(0x1E, 0x7B, 0x34));
-    public static readonly SolidColorBrush Orange = Freeze(Color.FromRgb(0xB2, 0x5E, 0x00));
-    public static readonly SolidColorBrush Red = Freeze(Color.FromRgb(0xB4, 0x23, 0x18));
-    public static readonly SolidColorBrush Grey = Freeze(Color.FromRgb(0x5B, 0x64, 0x70));
-
-    public static SolidColorBrush Of(HealthColor color) => color switch
+    public static Tone ToneOf(object? value) => value switch
     {
-        HealthColor.Green => Green,
-        HealthColor.Orange => Orange,
-        _ => Red,
+        Tone t => t,
+        HealthColor c => c switch
+        {
+            HealthColor.Green => Tone.Good,
+            HealthColor.Orange => Tone.Warn,
+            _ => Tone.Critical,
+        },
+        IssueSeverity s => ToneOf(HealthScoreCalculator.ColorOf(s)),
+        int score => ToneOf(HealthScoreCalculator.ColorOf(score)),
+        Reputation r => r switch
+        {
+            Reputation.Useful => Tone.Good,
+            Reputation.Unnecessary => Tone.Warn,
+            Reputation.Suspicious => Tone.Critical,
+            _ => Tone.Neutral,
+        },
+        bool ok => ok ? Tone.Good : Tone.Critical,
+        _ => Tone.Neutral,
     };
 
-    private static SolidColorBrush Freeze(Color c)
+    /// <summary>
+    /// Pinceau d'une tonalité. Variante : « » (plein, graphiques), « Text » (texte lisible), « Soft » (fond clair),
+    /// « Strong » (fond d'une pastille à texte blanc), « Icon » (icône sur fond clair).
+    /// </summary>
+    public static Brush Of(Tone tone, string variant = "")
     {
-        var b = new SolidColorBrush(c);
-        b.Freeze();
-        return b;
+        var key = (tone, variant) switch
+        {
+            (Tone.Neutral, "Soft") => "ChipNeutral",
+            (Tone.Neutral, "Text") => "TextSecondary",
+            (Tone.Neutral, _) => "TextMuted",
+            (Tone.Warn, "Strong" or "Icon") => "Warn" + variant,
+            (_, "Text" or "Soft") => tone + variant,
+            _ => tone.ToString(),
+        };
+        return Application.Current?.TryFindResource($"Pcs{key}Brush") as Brush ?? Brushes.Gray;
     }
 }
 
+/// <summary>
+/// Convertit un état (couleur de santé, gravité, score, réputation, booléen) en pinceau du thème.
+/// Paramètre facultatif : « Text » ou « Soft ».
+/// </summary>
 public sealed class HealthBrushConverter : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value switch
-    {
-        HealthColor c => HealthBrushes.Of(c),
-        IssueSeverity s => HealthBrushes.Of(HealthScoreCalculator.ColorOf(s)),
-        int score => HealthBrushes.Of(HealthScoreCalculator.ColorOf(score)),
-        Reputation r => r switch
-        {
-            Reputation.Useful => HealthBrushes.Green,
-            Reputation.Unnecessary => HealthBrushes.Orange,
-            Reputation.Suspicious => HealthBrushes.Red,
-            _ => HealthBrushes.Grey,
-        },
-        bool ok => ok ? HealthBrushes.Green : HealthBrushes.Red,
-        _ => HealthBrushes.Grey,
-    };
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
+        HealthBrushes.Of(HealthBrushes.ToneOf(value), parameter as string ?? string.Empty);
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 }

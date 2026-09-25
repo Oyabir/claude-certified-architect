@@ -3,13 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:infra="clr-namespace:PcSante.App.Infrastructure"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              ShutdownMode="OnMainWindowClose">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemesDictionary Theme="Light" />
                 <ui:ControlsDictionary />
+                <!-- Jetons de la refonte (docs/redesign/tokens) : couleurs remplacées au démarrage selon le thème (App.ApplyTheme). -->
+                <ResourceDictionary Source="Themes/PcSante.Metrics.xaml" />
+                <ResourceDictionary Source="Themes/PcSante.Colors.Light.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <!-- Polices embarquées (Assets/Fonts, licence OFL). -->
+            <FontFamily x:Key="PcsFontLatin">pack://application:,,,/Assets/Fonts/#Plus Jakarta Sans, Segoe UI Variable, Segoe UI</FontFamily>
+            <FontFamily x:Key="PcsFontArabic">pack://application:,,,/Assets/Fonts/#IBM Plex Sans Arabic, Segoe UI</FontFamily>
+
+            <!--
+              Cahier des charges § 11 : aucun texte sous 14 px. Les tailles 11 à 13 des maquettes sont relevées à 14 ;
+              la hiérarchie passe par la graisse et la couleur (voir DECISIONS.md).
+            -->
+            <sys:Double x:Key="PcsFontSizeCaption">14</sys:Double>
+            <sys:Double x:Key="PcsFontSizeSmall">14</sys:Double>
+            <sys:Double x:Key="PcsFontSizeOverline">14</sys:Double>
 
             <infra:HealthBrushConverter x:Key="HealthBrush" />
             <infra:BoolToVisibilityConverter x:Key="Visible" />

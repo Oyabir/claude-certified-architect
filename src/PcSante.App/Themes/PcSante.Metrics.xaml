@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- PC Santé — dimensions, rayons, typographie. Commun aux deux thèmes. -->
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <!-- WinUI 3 : remplacer xmlns:sys par xmlns:x Double natif (x:Double) si mscorlib n'est pas résolu. -->
+    <CornerRadius x:Key="PcsRadiusXs">6</CornerRadius>
+    <CornerRadius x:Key="PcsRadiusS">8</CornerRadius>
+    <CornerRadius x:Key="PcsRadiusM">10</CornerRadius>
+    <CornerRadius x:Key="PcsRadiusL">12</CornerRadius>
+    <CornerRadius x:Key="PcsRadiusXl">14</CornerRadius>
+    <CornerRadius x:Key="PcsRadiusCardS">16</CornerRadius>
+    <CornerRadius x:Key="PcsRadiusCard">20</CornerRadius>
+    <CornerRadius x:Key="PcsRadiusPanel">24</CornerRadius>
+    <CornerRadius x:Key="PcsRadiusPill">999</CornerRadius>
+    <sys:Double x:Key="PcsTitleBarHeight">40</sys:Double>
+    <sys:Double x:Key="PcsSidebarWidth">248</sys:Double>
+    <sys:Double x:Key="PcsNavItemHeight">42</sys:Double>
+    <sys:Double x:Key="PcsButtonHeight">40</sys:Double>
+    <sys:Double x:Key="PcsButtonHeightSmall">34</sys:Double>
+    <sys:Double x:Key="PcsButtonHeightLarge">48</sys:Double>
+    <sys:Double x:Key="PcsIconTile">44</sys:Double>
+    <sys:Double x:Key="PcsIconTileSmall">34</sys:Double>
+    <sys:Double x:Key="PcsIconSize">20</sys:Double>
+    <sys:Double x:Key="PcsIconStroke">1.8</sys:Double>
+    <sys:Double x:Key="PcsSwitchWidth">44</sys:Double>
+    <sys:Double x:Key="PcsSwitchHeight">26</sys:Double>
+    <sys:Double x:Key="PcsSwitchThumb">20</sys:Double>
+    <sys:Double x:Key="PcsChipHeight">28</sys:Double>
+    <sys:Double x:Key="PcsScoreRing">168</sys:Double>
+    <sys:Double x:Key="PcsScoreRingStroke">14</sys:Double>
+    <sys:Double x:Key="PcsProgressHeight">6</sys:Double>
+    <sys:Double x:Key="PcsMinTarget">40</sys:Double>
+    <sys:Double x:Key="PcsSpaceXxs">2</sys:Double>
+    <sys:Double x:Key="PcsSpaceXs">4</sys:Double>
+    <sys:Double x:Key="PcsSpaceS">8</sys:Double>
+    <sys:Double x:Key="PcsSpaceM">12</sys:Double>
+    <sys:Double x:Key="PcsSpaceL">16</sys:Double>
+    <sys:Double x:Key="PcsSpaceXl">20</sys:Double>
+    <sys:Double x:Key="PcsSpaceXxl">24</sys:Double>
+    <sys:Double x:Key="PcsSpaceXxxl">32</sys:Double>
+    <sys:Double x:Key="PcsSpacePageX">40</sys:Double>
+    <sys:Double x:Key="PcsSpacePageTop">28</sys:Double>
+    <sys:Double x:Key="PcsSpacePageBottom">32</sys:Double>
+    <!-- Polices : copier assets/fonts dans le projet (Build Action = Content / Resource).
+         WPF   : FontFamily="pack://application:,,,/Assets/Fonts/#Plus Jakarta Sans"
+         WinUI : FontFamily="ms-appx:///Assets/Fonts/PlusJakartaSans_400Regular.ttf#Plus Jakarta Sans" -->
+    <FontFamily x:Key="PcsFontLatin">/Assets/Fonts/#Plus Jakarta Sans, Segoe UI Variable, Segoe UI</FontFamily>
+    <FontFamily x:Key="PcsFontArabic">/Assets/Fonts/#IBM Plex Sans Arabic, Segoe UI</FontFamily>
+    <sys:Double x:Key="PcsFontSizeScore">52</sys:Double>
+    <sys:Double x:Key="PcsFontSizeDisplay">40</sys:Double>
+    <sys:Double x:Key="PcsFontSizePageTitle">28</sys:Double>
+    <sys:Double x:Key="PcsFontSizeHeroTitle">22</sys:Double>
+    <sys:Double x:Key="PcsFontSizeSectionTitle">17</sys:Double>
+    <sys:Double x:Key="PcsFontSizeCardTitle">16</sys:Double>
+    <sys:Double x:Key="PcsFontSizeRowTitle">15</sys:Double>
+    <sys:Double x:Key="PcsFontSizeBody">14</sys:Double>
+    <sys:Double x:Key="PcsFontSizeBodyStrong">14</sys:Double>
+    <sys:Double x:Key="PcsFontSizeCaption">13</sys:Double>
+    <sys:Double x:Key="PcsFontSizeSmall">12</sys:Double>
+    <sys:Double x:Key="PcsFontSizeOverline">11</sys:Double>
+    <sys:Double x:Key="PcsFontSizeKpiValue">30</sys:Double>
+    <sys:Double x:Key="PcsFontSizeButton">14</sys:Double>
+</ResourceDictionary>

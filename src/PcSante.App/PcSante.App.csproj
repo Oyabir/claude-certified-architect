@@ -21,5 +21,8 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\pcsante.ico" />
+    <Resource Include="Assets\Fonts\*.ttf" />
+    <Resource Include="Assets\Logo\*.png" />
+    <None Include="Assets\Fonts\OFL-*.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
