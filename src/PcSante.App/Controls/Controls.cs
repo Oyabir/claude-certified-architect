@@ -30,6 +30,14 @@ public static class Ui
     public static readonly DependencyProperty PressedBackgroundProperty = DependencyProperty.RegisterAttached(
         "PressedBackground", typeof(Brush), typeof(Ui), new FrameworkPropertyMetadata(null));
 
+    /// <summary>État affiché par un interrupteur-bouton (PcsSwitchButton) : l'état vient du modèle, pas du clic.</summary>
+    public static readonly DependencyProperty IsOnProperty = DependencyProperty.RegisterAttached(
+        "IsOn", typeof(bool), typeof(Ui), new FrameworkPropertyMetadata(false));
+
+    public static bool GetIsOn(DependencyObject element) => element is not null && (bool)element.GetValue(IsOnProperty);
+
+    public static void SetIsOn(DependencyObject element, bool value) => element?.SetValue(IsOnProperty, value);
+
     public static Geometry? GetIcon(DependencyObject element) => (Geometry?)element?.GetValue(IconProperty);
 
     public static void SetIcon(DependencyObject element, Geometry? value) => element?.SetValue(IconProperty, value);

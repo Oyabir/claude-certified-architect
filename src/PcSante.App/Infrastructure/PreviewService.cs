@@ -53,8 +53,8 @@ internal static class PreviewService
         }),
         CommandId.GetThreatHistory => CommandResult.WithData(new List<ThreatInfo>
         {
-            new("1", "Trojan:Win32/Wacatac.B!ml", 5, Now.AddDays(-6), "Removed", @"C:\Users\Nadia\Downloads\facture_setup.exe"),
-            new("2", "PUA:Win32/Presenoker", 1, Now.AddDays(-21), "Quarantined", @"C:\Users\Nadia\Downloads\convertisseur.exe"),
+            new("1", "Trojan:Win32/Wacatac.B!ml", 5, Now.AddDays(-6), "Handled", @"C:\Users\Nadia\Downloads\facture_setup.exe"),
+            new("2", "PUA:Win32/Presenoker", 1, Now.AddDays(-21), "Handled", @"C:\Users\Nadia\Downloads\convertisseur.exe"),
         }),
         CommandId.GetQuarantine => CommandResult.WithData(new List<QuarantineItem>()),
         CommandId.GetCleanupEstimate => CommandResult.WithData(new CleanupEstimate(612L << 20, 402L << 20, 118L << 20, 96L << 20)),

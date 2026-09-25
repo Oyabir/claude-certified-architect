@@ -1,178 +1,359 @@
 <UserControl x:Class="PcSante.App.Views.OptimizationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:l="clr-namespace:PcSante.App.Localization"
              xmlns:vm="clr-namespace:PcSante.App.ViewModels"
-             xmlns:v="clr-namespace:PcSante.App.Views">
+             xmlns:v="clr-namespace:PcSante.App.Views"
+             xmlns:c="clr-namespace:PcSante.App.Controls">
+    <!--
+      Optimisation (maquette 03-optimisation.png) : quatre onglets au lieu d'une page de six écrans.
+      Mode Simple (« Nettoyage ») : seuls « Nettoyage & démarrage » et « Historique » sont proposés.
+    -->
+    <UserControl.Resources>
+        <Style x:Key="CategoryDot" TargetType="Ellipse">
+            <Setter Property="Width" Value="8" />
+            <Setter Property="Height" Value="8" />
+            <Setter Property="Fill" Value="{DynamicResource PcsChartSecondaryBrush}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding PrimaryColor}" Value="True">
+                    <Setter Property="Fill" Value="{DynamicResource PcsBrandBrush}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Réglage Windows : titre, état actuel, action à droite. -->
+        <Style x:Key="SettingCard" TargetType="Border" BasedOn="{StaticResource PcsCard.Small}">
+            <Setter Property="Margin" Value="0,0,0,14" />
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
-            <StackPanel Margin="40,28,40,32">
-                <TextBlock Text="{Binding Title}" Style="{StaticResource PageTitle}" />
-                <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PageSubtitle}" />
-
-                <!-- Nettoyage -->
-                <ui:Card Padding="20">
-                    <StackPanel>
-                        <TextBlock Text="{l:T Cleanup_Title}" FontSize="18" FontWeight="SemiBold" />
-                        <TextBlock Text="{Binding TotalCleanable}" Margin="0,4,0,12" />
-                        <ItemsControl ItemsSource="{Binding Cleanup}" Focusable="False">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate DataType="{x:Type vm:CleanupChoice}">
-                                    <CheckBox IsChecked="{Binding Selected}" Margin="0,4" AutomationProperties.Name="{Binding Label}">
-                                        <StackPanel>
-                                            <TextBlock>
-                                                <Run Text="{Binding Label, Mode=OneWay}" FontWeight="SemiBold" /> — <Run Text="{Binding Size, Mode=OneWay}" />
-                                            </TextBlock>
-                                            <TextBlock Text="{Binding Explanation}" Style="{StaticResource Technical}" />
-                                        </StackPanel>
-                                    </CheckBox>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <TextBlock Text="{l:T Cleanup_Warning}" Style="{StaticResource Technical}" Margin="0,8,0,12" />
-                        <ui:Button Style="{StaticResource PrimaryAction}" HorizontalAlignment="Left" Content="{l:T Cleanup_Button}"
-                                   Icon="{ui:SymbolIcon Broom24}" Command="{Binding CleanCommand}" />
-                    </StackPanel>
-                </ui:Card>
-
-                <!-- Programmes au démarrage -->
-                <TextBlock Text="{l:T Startup_Title}" Style="{StaticResource SectionTitle}" />
-                <TextBlock Text="{l:T Startup_Explanation}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
-                <TextBlock Text="{l:T Startup_None}" Visibility="{Binding Startup.Count, Converter={StaticResource Collapsed}}" />
-                <ItemsControl ItemsSource="{Binding Startup}" Focusable="False">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type vm:StartupRow}">
-                            <ui:Card Margin="0,0,0,6" Padding="16,8">
-                                <DockPanel>
-                                    <ui:Button DockPanel.Dock="Right" Style="{StaticResource SecondaryAction}" Content="{Binding ActionLabel}"
-                                               AutomationProperties.Name="{Binding Name}"
-                                               Command="{Binding DataContext.ToggleStartupCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                               CommandParameter="{Binding}" />
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
-                                        <TextBlock Style="{StaticResource Technical}">
-                                            <Run Text="{Binding State, Mode=OneWay}" /> · <Run Text="{Binding Location, Mode=OneWay}" />
-                                        </TextBlock>
-                                    </StackPanel>
-                                </DockPanel>
-                            </ui:Card>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
-                <!-- Mode Avancé : tâches planifiées tierces et alimentation -->
-                <StackPanel Visibility="{Binding IsAdvanced, Converter={StaticResource Visible}}">
-                    <TextBlock Text="{l:T Tasks_Title}" Style="{StaticResource SectionTitle}" />
-                    <TextBlock Text="{l:T Tasks_Explanation}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
-                    <ItemsControl ItemsSource="{Binding Tasks}" Focusable="False">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="{x:Type vm:TaskRow}">
-                                <ui:Card Margin="0,0,0,6" Padding="16,8">
-                                    <DockPanel>
-                                        <ui:Button DockPanel.Dock="Right" Style="{StaticResource SecondaryAction}" Content="{Binding ActionLabel}"
-                                                   AutomationProperties.Name="{Binding Name}"
-                                                   Command="{Binding DataContext.ToggleTaskCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                   CommandParameter="{Binding}" />
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
-                                            <TextBlock Text="{Binding Path}" Style="{StaticResource Technical}" />
-                                        </StackPanel>
-                                    </DockPanel>
-                                </ui:Card>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                    <TextBlock Text="{l:T Power_Title}" Style="{StaticResource SectionTitle}" />
-                    <TextBlock Text="{l:T Power_Explanation}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
-                    <ItemsControl ItemsSource="{Binding PowerPlans}" Focusable="False">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="{x:Type vm:PowerRow}">
-                                <ui:Card Margin="0,0,0,6" Padding="16,8">
-                                    <DockPanel>
-                                        <ui:Button DockPanel.Dock="Right" Style="{StaticResource SecondaryAction}" Content="{l:T Power_Use}"
-                                                   AutomationProperties.Name="{Binding Name}"
-                                                   Command="{Binding DataContext.SetPowerPlanCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                   CommandParameter="{Binding}"
-                                                   Visibility="{Binding IsActive, Converter={StaticResource Collapsed}}" />
-                                        <TextBlock Text="{l:T Power_Active}" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="0,0,8,0"
-                                                   Visibility="{Binding IsActive, Converter={StaticResource Visible}}" />
-                                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" VerticalAlignment="Center" />
-                                    </DockPanel>
-                                </ui:Card>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                    <!-- Effets visuels (M4) : allégés pour l'utilisateur, annulable -->
-                    <TextBlock Text="{l:T Visual_Title}" Style="{StaticResource SectionTitle}" />
-                    <TextBlock Text="{l:T Visual_Explanation}" Style="{StaticResource Technical}" TextWrapping="Wrap" Margin="0,-6,0,8" />
-                    <ui:Card Padding="16,12" Margin="0,0,0,6">
-                        <DockPanel>
-                            <ui:Button DockPanel.Dock="Right" Style="{StaticResource SecondaryAction}" Content="{l:T Visual_Lighten}"
-                                       Command="{Binding LightenVisualEffectsCommand}"
-                                       Visibility="{Binding CanLightenVisualEffects, Converter={StaticResource Visible}}" />
-                            <TextBlock Text="{Binding VisualEffectsState}" TextWrapping="Wrap" VerticalAlignment="Center" />
-                        </DockPanel>
-                    </ui:Card>
-
-                    <!-- Disque et fichier d'échange (M4) -->
-                    <TextBlock Text="{l:T Disk_Title}" Style="{StaticResource SectionTitle}" />
-                    <TextBlock Text="{l:T Disk_Explanation}" Style="{StaticResource Technical}" TextWrapping="Wrap" Margin="0,-6,0,8" />
-                    <ui:Card Padding="16,12" Margin="0,0,0,6">
-                        <DockPanel>
-                            <ui:Button DockPanel.Dock="Right" Style="{StaticResource SecondaryAction}" Content="{l:T Disk_Optimize}"
-                                       Command="{Binding OptimizeDriveCommand}" />
-                            <TextBlock Text="{Binding DiskState}" TextWrapping="Wrap" VerticalAlignment="Center" />
-                        </DockPanel>
-                    </ui:Card>
-                    <ui:Card Padding="16,12" Margin="0,0,0,6">
-                        <DockPanel>
-                            <ui:Button DockPanel.Dock="Right" Style="{StaticResource SecondaryAction}" Content="{l:T PageFile_SetAutomatic}"
-                                       Command="{Binding SetPageFileAutomaticCommand}"
-                                       Visibility="{Binding CanSetPageFileAutomatic, Converter={StaticResource Visible}}" />
-                            <TextBlock Text="{Binding PageFileState}" TextWrapping="Wrap" VerticalAlignment="Center" />
-                        </DockPanel>
-                    </ui:Card>
-
-                    <!-- Profils de services (M4) : passage en Manuel, annulable -->
-                    <TextBlock Text="{l:T Profile_Title}" Style="{StaticResource SectionTitle}" />
-                    <TextBlock Text="{l:T Profile_Explanation}" Style="{StaticResource Technical}" TextWrapping="Wrap" Margin="0,-6,0,8" />
-                    <ui:Card Padding="16,12" Margin="0,0,0,6">
-                        <StackPanel>
-                            <ComboBox MaxWidth="360" HorizontalAlignment="Left" ItemsSource="{Binding ServiceProfiles}" SelectedValuePath="Value"
-                                      DisplayMemberPath="Label" SelectedValue="{Binding SelectedProfile}" AutomationProperties.Name="{l:T Profile_Title}" />
-                            <TextBlock Text="{Binding ProfilePreview}" TextWrapping="Wrap" Margin="0,8,0,10" />
-                            <ui:Button Style="{StaticResource SecondaryAction}" HorizontalAlignment="Left" Content="{l:T Profile_Apply}"
-                                       Command="{Binding ApplyProfileCommand}" />
-                        </StackPanel>
-                    </ui:Card>
-                </StackPanel>
-
-                <!-- Annuler une optimisation -->
-                <TextBlock Text="{l:T Undo_Title}" Style="{StaticResource SectionTitle}" />
-                <TextBlock Text="{l:T Undo_None}" Visibility="{Binding Undoable.Count, Converter={StaticResource Collapsed}}" />
-                <ItemsControl ItemsSource="{Binding Undoable}" Focusable="False">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type vm:UndoRow}">
-                            <ui:Card Margin="0,0,0,6" Padding="16,8">
-                                <DockPanel>
-                                    <ui:Button DockPanel.Dock="Right" Style="{StaticResource SecondaryAction}" Content="{l:T Undo_Button}"
-                                               AutomationProperties.Name="{Binding Label}"
-                                               Command="{Binding DataContext.UndoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                               CommandParameter="{Binding}" />
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding Label}" />
-                                        <TextBlock Text="{Binding Date}" Style="{StaticResource Technical}" />
-                                    </StackPanel>
-                                </DockPanel>
-                            </ui:Card>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+        <Grid Margin="40,28,40,32">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel>
+                <TextBlock Text="{Binding Title}" Style="{StaticResource PcsText.PageTitle}" />
+                <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PcsText.Muted}" Margin="0,4,0,20" />
             </StackPanel>
-        </ScrollViewer>
+
+            <TabControl Grid.Row="1" Style="{StaticResource PcsSegmentedTabs}">
+                <!-- ===== Onglet 1 : nettoyage et programmes au démarrage ===== -->
+                <TabItem Header="{l:T Opt_TabCleanup}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="440" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Nettoyage -->
+                        <Border Style="{StaticResource PcsCard}" Padding="26,22">
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Bottom" Margin="0,16,0,0">
+                                    <Button Style="{StaticResource PcsButton.Primary.Large}" HorizontalAlignment="Stretch" c:Ui.Icon="{StaticResource PcsIcon.trash}"
+                                            Content="{Binding CleanLabel}" Command="{Binding CleanCommand}" />
+                                    <TextBlock Text="{l:T Cleanup_Warning}" Style="{StaticResource PcsText.Muted}" TextAlignment="Center" Margin="0,8,0,0" />
+                                </StackPanel>
+                                <StackPanel DockPanel.Dock="Top">
+                                    <StackPanel Orientation="Horizontal">
+                                        <c:LineIcon Data="{StaticResource PcsIcon.trash}" Size="20" Foreground="{DynamicResource PcsBrandTextBrush}" Margin="0,0,10,0" />
+                                        <TextBlock Text="{l:T Cleanup_Title}" Style="{StaticResource PcsText.SectionTitle}" />
+                                    </StackPanel>
+                                    <WrapPanel Margin="0,10,0,0">
+                                        <TextBlock Text="{Binding TotalBig}" FontSize="44" FontWeight="ExtraBold" Typography.NumeralAlignment="Tabular" Margin="0,0,10,0" />
+                                        <TextBlock Text="{l:T Cleanup_Recoverable}" Style="{StaticResource PcsText.Muted}" VerticalAlignment="Bottom" Margin="0,0,0,10" />
+                                    </WrapPanel>
+                                    <!-- Barre empilée : une part par catégorie -->
+                                    <Border CornerRadius="4" Height="8" Margin="0,8,0,14" Background="{DynamicResource PcsTrackBrush}" ClipToBounds="True">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="{Binding Cleanup[0].Share, FallbackValue=0}" />
+                                                <ColumnDefinition Width="{Binding Cleanup[1].Share, FallbackValue=0}" />
+                                                <ColumnDefinition Width="{Binding Cleanup[2].Share, FallbackValue=0}" />
+                                                <ColumnDefinition Width="{Binding Cleanup[3].Share, FallbackValue=0}" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border Grid.Column="0" Background="{DynamicResource PcsBrandBrush}" Margin="0,0,1,0" />
+                                            <Border Grid.Column="1" Background="{DynamicResource PcsChartSecondaryBrush}" Margin="0,0,1,0" />
+                                            <Border Grid.Column="2" Background="{DynamicResource PcsBrandBrush}" Margin="0,0,1,0" />
+                                            <Border Grid.Column="3" Background="{DynamicResource PcsChartSecondaryBrush}" />
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
+                                    <ItemsControl ItemsSource="{Binding Cleanup}" Focusable="False">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate DataType="{x:Type vm:CleanupChoice}">
+                                                <Border x:Name="Row" CornerRadius="14" Padding="14,10" Margin="0,0,0,6" Background="Transparent">
+                                                    <CheckBox IsChecked="{Binding Selected}" AutomationProperties.Name="{Binding Label}" VerticalContentAlignment="Top">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <StackPanel>
+                                                                <DockPanel>
+                                                                    <Ellipse DockPanel.Dock="Left" Style="{StaticResource CategoryDot}" Margin="0,7,8,0" VerticalAlignment="Top" />
+                                                                    <TextBlock Text="{Binding Label}" FontWeight="Bold" TextWrapping="Wrap" />
+                                                                </DockPanel>
+                                                                <TextBlock Text="{Binding Explanation}" Style="{StaticResource PcsText.Caption}" Margin="0,2,0,0" />
+                                                            </StackPanel>
+                                                            <TextBlock Grid.Column="1" Text="{Binding Size}" FontWeight="Bold" Margin="12,0,0,0" Typography.NumeralAlignment="Tabular" />
+                                                        </Grid>
+                                                    </CheckBox>
+                                                </Border>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding Selected}" Value="True">
+                                                        <Setter TargetName="Row" Property="Background" Value="{DynamicResource PcsRowSelectedBrush}" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </DockPanel>
+                        </Border>
+
+                        <!-- Programmes au démarrage -->
+                        <Border Grid.Column="2" Style="{StaticResource PcsCard}" Padding="26,22">
+                            <DockPanel>
+                                <Grid DockPanel.Dock="Top">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                                        <c:LineIcon Data="{StaticResource PcsIcon.zap}" Size="20" Foreground="{DynamicResource PcsBrandTextBrush}" Margin="0,0,10,0" />
+                                        <TextBlock Text="{l:T Startup_Title}" Style="{StaticResource PcsText.SectionTitle}" />
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="1" Text="{l:T Startup_Explanation}" Style="{StaticResource PcsText.Muted}" Margin="20,2,0,0" />
+                                </Grid>
+                                <Grid DockPanel.Dock="Top" Margin="0,16,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Style="{StaticResource PcsSearchBox}" Tag="{l:T Startup_Search}" Text="{Binding StartupSearch, UpdateSourceTrigger=PropertyChanged}"
+                                             AutomationProperties.Name="{l:T Startup_Search}" />
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="12,0,0,0">
+                                        <RadioButton Style="{StaticResource PcsPill}" Content="{l:T Startup_FilterAll}" GroupName="StartupFilter"
+                                                     IsChecked="{Binding StartupFilter, Converter={StaticResource EqualsParam}, ConverterParameter=All}" />
+                                        <RadioButton Style="{StaticResource PcsPill}" Content="{l:T Startup_FilterEnabled}" GroupName="StartupFilter"
+                                                     IsChecked="{Binding StartupFilter, Converter={StaticResource EqualsParam}, ConverterParameter=Enabled}" />
+                                        <RadioButton Style="{StaticResource PcsPill}" Content="{l:T Startup_FilterDisabled}" GroupName="StartupFilter" Margin="0"
+                                                     IsChecked="{Binding StartupFilter, Converter={StaticResource EqualsParam}, ConverterParameter=Disabled}" />
+                                    </StackPanel>
+                                </Grid>
+                                <!-- En-têtes de colonnes -->
+                                <Grid DockPanel.Dock="Top" Margin="16,18,16,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="200" />
+                                        <ColumnDefinition Width="160" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Source={l:T Startup_ColProgram}, Converter={StaticResource Upper}}" Style="{StaticResource PcsText.Overline}" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Source={l:T Startup_ColWho}, Converter={StaticResource Upper}}" Style="{StaticResource PcsText.Overline}" />
+                                    <TextBlock Grid.Column="2" Text="{Binding Source={l:T Startup_ColState}, Converter={StaticResource Upper}}" Style="{StaticResource PcsText.Overline}" HorizontalAlignment="Right" />
+                                </Grid>
+                                <Border DockPanel.Dock="Top" Style="{StaticResource PcsDivider}" />
+                                <c:EmptyState DockPanel.Dock="Top" Icon="{StaticResource PcsIcon.check}" Text="{l:T Startup_None}" Margin="0,8,0,0"
+                                              Visibility="{Binding Startup.Count, Converter={StaticResource Collapsed}}" />
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
+                                    <ItemsControl ItemsSource="{Binding StartupView}" Focusable="False">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate DataType="{x:Type vm:StartupRow}">
+                                                <Border BorderBrush="{DynamicResource PcsDividerBrush}" BorderThickness="0,0,0,1" Padding="16,10">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="200" />
+                                                            <ColumnDefinition Width="160" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Border Width="30" Height="30" CornerRadius="8" Background="{DynamicResource PcsIconTileBrush}" Margin="0,0,12,0">
+                                                            <TextBlock Text="{Binding Initial}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                       Foreground="{DynamicResource PcsTextSecondaryBrush}" />
+                                                        </Border>
+                                                        <TextBlock x:Name="Name" Grid.Column="1" Text="{Binding Name}" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,12,0" />
+                                                        <TextBlock Grid.Column="2" Text="{Binding Location}" Style="{StaticResource PcsText.Caption}" VerticalAlignment="Center" />
+                                                        <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                                                            <TextBlock Text="{Binding ShortState}" Style="{StaticResource PcsStateText}" Margin="0,0,12,0"
+                                                                       Foreground="{DynamicResource PcsTextSecondaryBrush}" />
+                                                            <Button Style="{StaticResource PcsSwitchButton}" c:Ui.IsOn="{Binding Enabled}" AutomationProperties.Name="{Binding SwitchName}"
+                                                                    ToolTip="{Binding ActionLabel}"
+                                                                    Command="{Binding DataContext.ToggleStartupCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                    CommandParameter="{Binding}" />
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding Enabled}" Value="False">
+                                                        <Setter TargetName="Name" Property="Foreground" Value="{DynamicResource PcsTextMutedBrush}" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+                <!-- ===== Onglet 2 : tâches en arrière-plan (mode Avancé) ===== -->
+                <TabItem Header="{l:T Opt_TabTasks}" Visibility="{Binding IsAdvanced, Converter={StaticResource Visible}}">
+                    <Border Style="{StaticResource PcsCard}" Padding="26,22">
+                        <DockPanel>
+                            <StackPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+                                <TextBlock Text="{l:T Tasks_Title}" Style="{StaticResource PcsText.SectionTitle}" />
+                                <TextBlock Text="{l:T Tasks_Explanation}" Style="{StaticResource PcsText.Muted}" Margin="0,2,0,0" />
+                            </StackPanel>
+                            <Border DockPanel.Dock="Top" Style="{StaticResource PcsDivider}" />
+                            <c:EmptyState DockPanel.Dock="Top" Icon="{StaticResource PcsIcon.check}" Text="{l:T Tasks_None}" Margin="0,8,0,0"
+                                          Visibility="{Binding Tasks.Count, Converter={StaticResource Collapsed}}" />
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
+                                <ItemsControl ItemsSource="{Binding Tasks}" Focusable="False">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type vm:TaskRow}">
+                                            <c:ListRow Title="{Binding ShortName}" Description="{Binding ShortPath}" ToolTip="{Binding Path}"
+                                                       Icon="{StaticResource PcsIcon.clock}" Tone="Neutral" IconTileSize="36">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding State}" Style="{StaticResource PcsStateText}" Margin="0,0,12,0"
+                                                               Foreground="{DynamicResource PcsTextSecondaryBrush}" />
+                                                    <Button Style="{StaticResource PcsSwitchButton}" c:Ui.IsOn="{Binding Enabled}" AutomationProperties.Name="{Binding SwitchName}"
+                                                            ToolTip="{Binding ActionLabel}"
+                                                            Command="{Binding DataContext.ToggleTaskCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                            CommandParameter="{Binding}" />
+                                                </StackPanel>
+                                            </c:ListRow>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </DockPanel>
+                    </Border>
+                </TabItem>
+
+                <!-- ===== Onglet 3 : réglages Windows (mode Avancé) ===== -->
+                <TabItem Header="{l:T Opt_TabSettings}" Visibility="{Binding IsAdvanced, Converter={StaticResource Visible}}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <!-- Mode d'alimentation -->
+                                <Border Style="{StaticResource SettingCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="{l:T Power_Title}" Style="{StaticResource PcsText.CardTitle}" />
+                                        <TextBlock Text="{l:T Power_Explanation}" Style="{StaticResource PcsText.Muted}" Margin="0,2,0,6" />
+                                        <ItemsControl ItemsSource="{Binding PowerPlans}" Focusable="False">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type vm:PowerRow}">
+                                                    <DockPanel Margin="0,6">
+                                                        <Button DockPanel.Dock="Right" Style="{StaticResource PcsButton.Secondary.Small}" Content="{l:T Power_Use}"
+                                                                AutomationProperties.HelpText="{Binding Name}"
+                                                                Command="{Binding DataContext.SetPowerPlanCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                CommandParameter="{Binding}"
+                                                                Visibility="{Binding IsActive, Converter={StaticResource Collapsed}}" />
+                                                        <c:StatusChip DockPanel.Dock="Right" Tone="Good" Text="{l:T Power_Active}"
+                                                                      Visibility="{Binding IsActive, Converter={StaticResource Visible}}" />
+                                                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                                    </DockPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Effets visuels -->
+                                <Border Style="{StaticResource SettingCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="{l:T Visual_Title}" Style="{StaticResource PcsText.CardTitle}" />
+                                        <TextBlock Text="{l:T Visual_Explanation}" Style="{StaticResource PcsText.Muted}" Margin="0,2,0,10" />
+                                        <DockPanel>
+                                            <Button DockPanel.Dock="Right" Style="{StaticResource PcsButton.Secondary.Small}" Content="{l:T Visual_Lighten}"
+                                                    Command="{Binding LightenVisualEffectsCommand}"
+                                                    Visibility="{Binding CanLightenVisualEffects, Converter={StaticResource Visible}}" />
+                                            <TextBlock Text="{Binding VisualEffectsState}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                        </DockPanel>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <!-- Disque et fichier d'échange -->
+                                <Border Style="{StaticResource SettingCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="{l:T Disk_Title}" Style="{StaticResource PcsText.CardTitle}" />
+                                        <TextBlock Text="{l:T Disk_Explanation}" Style="{StaticResource PcsText.Muted}" Margin="0,2,0,10" />
+                                        <DockPanel>
+                                            <Button DockPanel.Dock="Right" Style="{StaticResource PcsButton.Secondary.Small}" Content="{l:T Disk_Optimize}"
+                                                    Command="{Binding OptimizeDriveCommand}" />
+                                            <TextBlock Text="{Binding DiskState}" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,12,0" />
+                                        </DockPanel>
+                                        <Border Style="{StaticResource PcsDivider}" Margin="0,12" />
+                                        <DockPanel>
+                                            <Button DockPanel.Dock="Right" Style="{StaticResource PcsButton.Secondary.Small}" Content="{l:T PageFile_SetAutomatic}"
+                                                    Command="{Binding SetPageFileAutomaticCommand}"
+                                                    Visibility="{Binding CanSetPageFileAutomatic, Converter={StaticResource Visible}}" />
+                                            <TextBlock Text="{Binding PageFileState}" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,12,0" />
+                                        </DockPanel>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Services selon l'usage -->
+                                <Border Style="{StaticResource SettingCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="{l:T Profile_Title}" Style="{StaticResource PcsText.CardTitle}" />
+                                        <TextBlock Text="{l:T Profile_Explanation}" Style="{StaticResource PcsText.Muted}" Margin="0,2,0,10" />
+                                        <DockPanel>
+                                            <Button DockPanel.Dock="Right" Style="{StaticResource PcsButton.Secondary}" Content="{l:T Profile_Apply}"
+                                                    Command="{Binding ApplyProfileCommand}" Margin="12,0,0,0" />
+                                            <ComboBox ItemsSource="{Binding ServiceProfiles}" SelectedValuePath="Value" DisplayMemberPath="Label"
+                                                      SelectedValue="{Binding SelectedProfile}" AutomationProperties.Name="{l:T Profile_Title}" />
+                                        </DockPanel>
+                                        <TextBlock Text="{Binding ProfilePreview}" Style="{StaticResource PcsText.Caption}" Margin="0,10,0,0" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- ===== Onglet 4 : historique (annuler une modification) ===== -->
+                <TabItem Header="{l:T Opt_TabHistory}">
+                    <Border Style="{StaticResource PcsCard}" Padding="26,22">
+                        <DockPanel>
+                            <StackPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+                                <TextBlock Text="{l:T Undo_Title}" Style="{StaticResource PcsText.SectionTitle}" />
+                                <TextBlock Text="{l:T Undo_Explanation}" Style="{StaticResource PcsText.Muted}" Margin="0,2,0,0" />
+                            </StackPanel>
+                            <Border DockPanel.Dock="Top" Style="{StaticResource PcsDivider}" />
+                            <c:EmptyState DockPanel.Dock="Top" Icon="{StaticResource PcsIcon.check}" Text="{l:T Undo_None}" Margin="0,8,0,0"
+                                          Visibility="{Binding HasUndoable, Converter={StaticResource Collapsed}}" />
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
+                                <ItemsControl ItemsSource="{Binding Undoable}" Focusable="False">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type vm:UndoRow}">
+                                            <c:ListRow Title="{Binding Label}" Description="{Binding Date}" Icon="{StaticResource PcsIcon.restore}" Tone="Brand" IconTileSize="36">
+                                                <Button Style="{StaticResource PcsButton.Secondary.Small}" Content="{l:T Undo_Button}"
+                                                        AutomationProperties.HelpText="{Binding Label}"
+                                                        Command="{Binding DataContext.UndoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}" />
+                                            </c:ListRow>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </DockPanel>
+                    </Border>
+                </TabItem>
+            </TabControl>
+        </Grid>
         <v:BusyOverlay />
     </Grid>
 </UserControl>

@@ -12,7 +12,45 @@ using PcSante.Core.Windows;
 namespace PcSante.App.ViewModels;
 
 /// <summary>Action système en un clic (M6) avec son explication simple.</summary>
-public sealed record SystemActionItem(CommandId Command, string Label, string Explanation, string Duration);
+public sealed record SystemActionItem(CommandId Command, string Label, string Explanation, string Duration)
+{
+    /// <summary>Tuile d'outil : catégorie (petites capitales), icône, titre court, durée courte, verbe du bouton.</summary>
+    public string Category => Loc.T($"Tool_Cat_{CategoryKey}").ToUpper(Loc.Culture);
+
+    public string Icon => Command switch
+    {
+        CommandId.RepairWindowsUpdate => "PcsIcon.refresh",
+        CommandId.RunSystemFileCheck => "PcsIcon.wrench",
+        CommandId.RunDismRepair => "PcsIcon.monitor",
+        CommandId.CreateRestorePoint => "PcsIcon.restore",
+        CommandId.EnableSystemRestore => "PcsIcon.check-circle",
+        CommandId.FlushDnsCache => "PcsIcon.globe",
+        CommandId.ResetNetworkStack => "PcsIcon.wifi",
+        CommandId.ResetFirewallRules => "PcsIcon.shield",
+        CommandId.InstallUpdates => "PcsIcon.download",
+        _ => "PcsIcon.wrench",
+    };
+
+    public string Title => Loc.T($"Tool_Title_{Command}");
+
+    public string ShortDescription => Loc.T($"Tool_Desc_{Command}");
+
+    /// <summary>Infobulle : explication complète et durée détaillée.</summary>
+    public string FullText => Explanation + Environment.NewLine + Duration;
+
+    public string ShortDuration => Loc.T($"Tool_Duration_{Command}");
+
+    public string Verb => Loc.T($"Tool_Verb_{Command}");
+
+    private string CategoryKey => Command switch
+    {
+        CommandId.RepairWindowsUpdate or CommandId.InstallUpdates => "Updates",
+        CommandId.RunSystemFileCheck or CommandId.RunDismRepair => "Repair",
+        CommandId.CreateRestorePoint or CommandId.EnableSystemRestore => "Restore",
+        CommandId.ResetFirewallRules => "Firewall",
+        _ => "Internet",
+    };
+}
 
 [SupportedOSPlatform("windows")]
 public sealed partial class SystemViewModel(MainViewModel main) : PageViewModel(main)
@@ -25,15 +63,28 @@ public sealed partial class SystemViewModel(MainViewModel main) : PageViewModel(
     [ObservableProperty]
     private string _systemSummary = string.Empty;
 
-    public ObservableCollection<SystemActionItem> UpdateActions { get; } = [];
+    /// <summary>Outils de réparation (grille de tuiles, dans l'ordre de la maquette 04).</summary>
+    public ObservableCollection<SystemActionItem> Tools { get; } = [];
 
-    public ObservableCollection<SystemActionItem> RepairActions { get; } = [];
+    /// <summary>Bandeau Windows Update : titre, couleur, édition, dates.</summary>
+    [ObservableProperty]
+    private string _updateTitle = string.Empty;
 
-    public ObservableCollection<SystemActionItem> RestoreActions { get; } = [];
+    [ObservableProperty]
+    private Tone _updateTone = Tone.Neutral;
 
-    public ObservableCollection<SystemActionItem> FirewallActions { get; } = [];
+    [ObservableProperty]
+    private string _windowsEdition = string.Empty;
 
-    public ObservableCollection<SystemActionItem> NetworkActions { get; } = [];
+    public string BitLockerChip => BitLocker is { } b ? Loc.T($"BitLocker_Chip_{b.State}") : string.Empty;
+
+    public Tone BitLockerTone => BitLocker?.State switch
+    {
+        BitLockerState.On => Tone.Good,
+        BitLockerState.Encrypting or BitLockerState.Decrypting => Tone.Brand,
+        BitLockerState.Off or BitLockerState.Paused => Tone.Warn,
+        _ => Tone.Neutral,
+    };
 
     public ObservableCollection<AccountRow> Accounts { get; } = [];
 
@@ -41,6 +92,13 @@ public sealed partial class SystemViewModel(MainViewModel main) : PageViewModel(
 
     [ObservableProperty]
     private string _accountsSummary = string.Empty;
+
+    [ObservableProperty]
+    private string _adminCount = string.Empty;
+
+    /// <summary>Plus de deux administrateurs : le conseil (texte existant) est affiché sous la liste.</summary>
+    [ObservableProperty]
+    private bool _manyAdmins;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ShowBitLocker), nameof(CanEnableBitLocker), nameof(BitLockerSummary))]
@@ -63,15 +121,27 @@ public sealed partial class SystemViewModel(MainViewModel main) : PageViewModel(
     {
         var info = await Query<SystemInfo>(CommandId.GetSystemInfo).ConfigureAwait(true);
         SystemSummary = info is null ? string.Empty : Loc.F("System_Summary", info.ProductName, info.DisplayVersion, info.MachineName);
+        WindowsEdition = info is null ? string.Empty : $"{info.ProductName} {info.DisplayVersion}";
         var status = await Query<UpdateStatus>(CommandId.GetUpdateStatus).ConfigureAwait(true);
         UpdateSummary = status is null ? string.Empty
-            : Loc.F(status.RebootRequired ? "System_UpdateSummaryReboot" : "System_UpdateSummary", Loc.Date(status.LastSearchAt), Loc.Date(status.LastInstallAt));
+            : Loc.F(status.RebootRequired ? "System_UpdateSummaryReboot" : "System_UpdateSummary", Loc.When(status.LastSearchAt), Loc.When(status.LastInstallAt));
 
-        Fill(UpdateActions, [CommandId.InstallUpdates, CommandId.RepairWindowsUpdate]);
-        Fill(RepairActions, [CommandId.RunSystemFileCheck, CommandId.RunDismRepair]);
-        Fill(RestoreActions, [CommandId.CreateRestorePoint, CommandId.EnableSystemRestore]);
-        Fill(FirewallActions, [CommandId.ResetFirewallRules]);
-        Fill(NetworkActions, [CommandId.FlushDnsCache, CommandId.ResetNetworkStack]);
+        // Le nombre de mises à jour en attente n'est pas fourni par le service : le titre ne l'affiche pas.
+        (UpdateTitle, UpdateTone) = status switch
+        {
+            null => (Loc.T("System_UpdateUnknown"), Tone.Neutral),
+            { ServiceRunning: false } => (Loc.T("System_UpdateServiceStopped"), Tone.Critical),
+            { RebootRequired: true } => (Loc.T("System_UpdateReboot"), Tone.Warn),
+            { LastSearchAt: { } last } when DateTimeOffset.Now - last < TimeSpan.FromDays(7) => (Loc.T("System_UpdateChecked"), Tone.Good),
+            _ => (Loc.T("System_UpdateToCheck"), Tone.Warn),
+        };
+
+        Fill(Tools,
+        [
+            CommandId.RepairWindowsUpdate, CommandId.RunSystemFileCheck, CommandId.RunDismRepair,
+            CommandId.CreateRestorePoint, CommandId.EnableSystemRestore, CommandId.FlushDnsCache,
+            CommandId.ResetNetworkStack, CommandId.ResetFirewallRules, CommandId.InstallUpdates,
+        ]);
 
         BitLocker = await Query<BitLockerStatus>(CommandId.GetBitLockerStatus).ConfigureAwait(true);
 
@@ -80,11 +150,15 @@ public sealed partial class SystemViewModel(MainViewModel main) : PageViewModel(
         foreach (var a in accounts.Where(a => a.Enabled || a.IsGuest))
         {
             Accounts.Add(new AccountRow(a.Name, Loc.T(a.IsAdministrator ? "Account_Admin" : a.IsGuest ? "Account_Guest" : "Account_Standard"),
-                Loc.T(a.Enabled ? "Account_Enabled" : "Account_Disabled")));
+                Loc.T(a.Enabled ? "Account_Enabled" : "Account_Disabled"), a.IsAdministrator, a.Enabled));
         }
 
         var admins = accounts.Count(a => a.IsAdministrator && a.Enabled);
         AccountsSummary = Loc.F(admins > 2 ? "System_AccountsManyAdmins" : "System_AccountsAdmins", admins);
+        AdminCount = Loc.F(admins == 1 ? "System_AdminCount_One" : "System_AdminCount_Many", admins);
+        ManyAdmins = admins > 2;
+        OnPropertyChanged(nameof(BitLockerChip));
+        OnPropertyChanged(nameof(BitLockerTone));
         Fill(AccountActions, accounts.Any(a => a.IsGuest && a.Enabled) ? [CommandId.DisableGuestAccount] : []);
     }
 
@@ -160,4 +234,7 @@ public sealed partial class SystemViewModel(MainViewModel main) : PageViewModel(
 }
 
 /// <summary>Compte local affiché : nom, rôle (administrateur, standard, Invité), état.</summary>
-public sealed record AccountRow(string Name, string Role, string State);
+public sealed record AccountRow(string Name, string Role, string State, bool IsAdministrator = false, bool Enabled = true)
+{
+    public string Initial => string.IsNullOrWhiteSpace(Name) ? "?" : Name.Trim()[..1].ToUpper(Loc.Culture);
+}

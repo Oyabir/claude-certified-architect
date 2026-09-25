@@ -47,6 +47,22 @@ internal static class Responsive
 public partial class ProtectionView
 {
     public ProtectionView() => InitializeComponent();
+
+    private void OnOpenMenu(object sender, RoutedEventArgs e) => Menus.Open(sender);
+}
+
+/// <summary>Bouton qui ouvre un menu (« Autres scans », « ⋯ ») sous lui-même, au clic ou au clavier.</summary>
+internal static class Menus
+{
+    public static void Open(object sender)
+    {
+        if (sender is FrameworkElement { ContextMenu: { } menu } element)
+        {
+            menu.PlacementTarget = element;
+            menu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            menu.IsOpen = true;
+        }
+    }
 }
 
 public partial class OptimizationView

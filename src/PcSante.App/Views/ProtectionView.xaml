@@ -1,112 +1,195 @@
 <UserControl x:Class="PcSante.App.Views.ProtectionView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:l="clr-namespace:PcSante.App.Localization"
              xmlns:vm="clr-namespace:PcSante.App.ViewModels"
-             xmlns:v="clr-namespace:PcSante.App.Views">
+             xmlns:v="clr-namespace:PcSante.App.Views"
+             xmlns:c="clr-namespace:PcSante.App.Controls">
+    <!-- Protection (maquette 02-protection.png) : bandeau d'état, antivirus et pare-feu côte à côte, historique des menaces. -->
     <UserControl.Resources>
-        <DataTemplate x:Key="ProtectionRow" DataType="{x:Type vm:ProtectionItem}">
-            <ui:Card Margin="0,0,0,6" Padding="16,10">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Label}" FontSize="16" FontWeight="SemiBold" />
-                        <TextBlock Text="{Binding Technical}" Style="{StaticResource Technical}" />
-                    </StackPanel>
-                    <Border Grid.Column="1" Style="{StaticResource Badge}" Background="{Binding Enabled, Converter={StaticResource HealthBrush}}" Margin="12,0">
-                        <TextBlock Text="{Binding State}" Foreground="White" FontWeight="SemiBold" />
-                    </Border>
-                    <ui:Button Grid.Column="2" Style="{StaticResource SecondaryAction}" Content="{Binding ActionLabel}"
-                               AutomationProperties.Name="{Binding Label}"
-                               Command="{Binding DataContext.ToggleCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                               CommandParameter="{Binding}"
-                               Visibility="{Binding HasAction, Converter={StaticResource Visible}}" />
-                </Grid>
-            </ui:Card>
+        <!-- Antivirus : état en mot (pas d'interrupteur : Defender ne peut pas être désactivé par l'application). -->
+        <DataTemplate x:Key="AntivirusRow" DataType="{x:Type vm:ProtectionItem}">
+            <c:ListRow Title="{Binding Label}" Description="{Binding Technical}">
+                <c:ListRow.Style>
+                    <Style TargetType="c:ListRow" BasedOn="{StaticResource {x:Type c:ListRow}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Enabled}" Value="False">
+                                <Setter Property="TagText" Value="{l:T Common_Recommended}" />
+                                <Setter Property="TagTone" Value="Brand" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </c:ListRow.Style>
+                <StackPanel Orientation="Horizontal">
+                    <c:LineIcon Size="16" StrokeThickness="2.4" Margin="0,0,6,0"
+                                Data="{Binding Enabled, Converter={StaticResource ToneIcon}}"
+                                Foreground="{Binding Enabled, Converter={StaticResource ToneBrush}, ConverterParameter=Text}" />
+                    <TextBlock Text="{Binding State}" Style="{StaticResource PcsStateText}"
+                               Foreground="{Binding Enabled, Converter={StaticResource ToneBrush}, ConverterParameter=Text}" />
+                    <Button Style="{StaticResource PcsButton.Primary.Small}" Content="{l:T Common_Enable}" Margin="16,0,0,0"
+                            AutomationProperties.HelpText="{Binding Label}"
+                            Command="{Binding DataContext.ToggleCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            CommandParameter="{Binding}"
+                            Visibility="{Binding HasAction, Converter={StaticResource Visible}}" />
+                </StackPanel>
+            </c:ListRow>
+        </DataTemplate>
+
+        <!-- Pare-feu : tuile d'icône, état en mot + interrupteur (désactiver demande confirmation, mode Avancé seulement). -->
+        <DataTemplate x:Key="FirewallRow" DataType="{x:Type vm:ProtectionItem}">
+            <c:ListRow Title="{Binding Label}" Description="{Binding Technical}" Tone="Neutral" IconTileSize="40"
+                       Icon="{Binding Icon, Converter={StaticResource ResourceKey}}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding State}" Style="{StaticResource PcsStateText}" Margin="0,0,14,0"
+                               Foreground="{Binding Enabled, Converter={StaticResource ToneBrush}, ConverterParameter=Text}" />
+                    <Button Style="{StaticResource PcsSwitchButton}" c:Ui.IsOn="{Binding Enabled}"
+                            AutomationProperties.Name="{Binding SwitchName}"
+                            IsEnabled="{Binding HasAction}" ToolTipService.ShowOnDisabled="True" ToolTip="{Binding LockedReason}"
+                            Command="{Binding DataContext.ToggleCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            CommandParameter="{Binding}" />
+                </StackPanel>
+            </c:ListRow>
         </DataTemplate>
     </UserControl.Resources>
+
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
             <StackPanel Margin="40,28,40,32">
-                <TextBlock Text="{Binding Title}" Style="{StaticResource PageTitle}" />
-                <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PageSubtitle}" />
+                <TextBlock Text="{Binding Title}" Style="{StaticResource PcsText.PageTitle}" />
+                <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PcsText.Muted}" Margin="0,4,0,0" />
 
-                <ui:Card Padding="20">
-                    <StackPanel>
-                        <TextBlock Text="{l:T Protection_Antivirus}" FontSize="18" FontWeight="SemiBold" />
-                        <TextBlock Text="{l:T Protection_AntivirusTech}" Style="{StaticResource Technical}" />
-                        <TextBlock Text="{Binding DefenderSummary}" Margin="0,8,0,12" />
-                        <StackPanel Orientation="Horizontal" Visibility="{Binding DefenderActive, Converter={StaticResource Visible}}">
-                            <ui:Button Style="{StaticResource PrimaryAction}" Content="{l:T Protection_QuickScan}" Icon="{ui:SymbolIcon ShieldCheckmark24}"
-                                       Command="{Binding QuickScanCommand}" />
+                <!-- Bandeau d'état -->
+                <Border Style="{StaticResource PcsCard}" Padding="28,22" Margin="0,24,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <c:IconTile Icon="{StaticResource PcsIcon.shield-check}" Tone="{Binding StatusTone}" Size="72" IconSize="34" CornerRadius="18" VerticalAlignment="Center" />
+                        <StackPanel Grid.Column="1" Margin="22,0,16,0" VerticalAlignment="Center">
+                            <WrapPanel>
+                                <TextBlock Text="{Binding StatusTitle}" Style="{StaticResource PcsText.HeroTitle}" Margin="0,0,12,0" VerticalAlignment="Center" />
+                                <c:TagLabel Text="{Binding RecommendationsText}" Tone="Warn" VerticalAlignment="Center"
+                                            Visibility="{Binding HasRecommendations, Converter={StaticResource Visible}}" />
+                            </WrapPanel>
+                            <TextBlock Text="{Binding DefenderSummary}" Style="{StaticResource PcsText.Muted}" Margin="0,6,0,0" />
                         </StackPanel>
-                        <WrapPanel Margin="0,12,0,0" Visibility="{Binding DefenderActive, Converter={StaticResource Visible}}">
-                            <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T Protection_FullScan}" Command="{Binding FullScanCommand}" />
-                            <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T Protection_CustomScan}" Command="{Binding CustomScanCommand}" />
-                            <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T Protection_UpdateSignatures}" Command="{Binding UpdateSignaturesCommand}" />
-                        </WrapPanel>
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center"
+                                    Visibility="{Binding DefenderActive, Converter={StaticResource Visible}}">
+                            <Button Style="{StaticResource PcsButton.Secondary}" Content="{l:T Protection_OtherScans}" Margin="0,0,10,0"
+                                    c:Ui.Icon="{StaticResource PcsIcon.chevron-down}" Click="OnOpenMenu">
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="{l:T Protection_FullScan}" Command="{Binding FullScanCommand}" />
+                                        <MenuItem Header="{l:T Protection_CustomScan}" Command="{Binding CustomScanCommand}" />
+                                        <MenuItem Header="{l:T Protection_UpdateSignatures}" Command="{Binding UpdateSignaturesCommand}" />
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
+                            <Button Style="{StaticResource PcsButton.Primary}" c:Ui.Icon="{StaticResource PcsIcon.search}"
+                                    Content="{l:T Protection_QuickScanShort}" Command="{Binding QuickScanCommand}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Antivirus · Pare-feu -->
+                <Grid Margin="0,24,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Style="{StaticResource PcsCard}" Padding="26,22">
+                        <StackPanel>
+                            <DockPanel Margin="0,0,0,4">
+                                <Button DockPanel.Dock="Right" Style="{StaticResource PcsButton.Ghost}" Content="{Binding AntivirusHeader}" MinHeight="30" Padding="6,0"
+                                        Command="{Binding ToggleAntivirusListCommand}" Visibility="{Binding HasSeveralAntivirus, Converter={StaticResource Visible}}" />
+                                <TextBlock DockPanel.Dock="Right" Text="{Binding AntivirusHeader}" Style="{StaticResource PcsText.Muted}" VerticalAlignment="Center"
+                                           Visibility="{Binding HasSeveralAntivirus, Converter={StaticResource Collapsed}}" />
+                                <c:LineIcon Data="{StaticResource PcsIcon.shield}" Size="20" Foreground="{DynamicResource PcsBrandTextBrush}" Margin="0,0,10,0" />
+                                <TextBlock Text="{l:T Protection_Antivirus}" Style="{StaticResource PcsText.SectionTitle}" VerticalAlignment="Center" />
+                            </DockPanel>
+                            <Border Style="{StaticResource PcsDivider}" Margin="0,10,0,0" />
+                            <ItemsControl ItemsSource="{Binding AntivirusProducts}" Focusable="False" Margin="0,6,0,6"
+                                          Visibility="{Binding ShowAntivirusList, Converter={StaticResource Visible}}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type vm:ProtectionItem}">
+                                        <DockPanel Margin="0,4">
+                                            <c:StatusChip DockPanel.Dock="Right" Tone="{Binding Enabled, Converter={StaticResource ToTone}}" Text="{Binding State}" />
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Label}" FontWeight="Bold" />
+                                                <TextBlock Text="{Binding Technical}" Style="{StaticResource PcsText.Muted}" />
+                                            </StackPanel>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <ItemsControl ItemsSource="{Binding Protections}" ItemTemplate="{StaticResource AntivirusRow}" Focusable="False" />
+                            <TextBlock Text="{Binding DefenderSummary}" Style="{StaticResource PcsText.Caption}" Margin="0,12,0,0"
+                                       Visibility="{Binding DefenderActive, Converter={StaticResource Collapsed}}" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="2" Style="{StaticResource PcsCard}" Padding="26,22">
+                        <StackPanel>
+                            <DockPanel Margin="0,0,0,4">
+                                <TextBlock DockPanel.Dock="Right" Text="{l:T Protection_Firewall}" Style="{StaticResource PcsText.Muted}" VerticalAlignment="Center" />
+                                <c:LineIcon Data="{StaticResource PcsIcon.globe}" Size="20" Foreground="{DynamicResource PcsBrandTextBrush}" Margin="0,0,10,0" />
+                                <TextBlock Text="{l:T Protection_FirewallShort}" Style="{StaticResource PcsText.SectionTitle}" VerticalAlignment="Center" />
+                            </DockPanel>
+                            <Border Style="{StaticResource PcsDivider}" Margin="0,10,0,0" />
+                            <ItemsControl ItemsSource="{Binding Firewall}" ItemTemplate="{StaticResource FirewallRow}" Focusable="False" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Historique des menaces et quarantaine -->
+                <Border Style="{StaticResource PcsCard}" Padding="26,22" Margin="0,24,0,0">
+                    <StackPanel>
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Right" Text="{Binding QuarantineSummary}" Style="{StaticResource PcsText.Muted}" VerticalAlignment="Center" />
+                            <TextBlock Text="{l:T Protection_ThreatHistory}" Style="{StaticResource PcsText.SectionTitle}" VerticalAlignment="Center" Margin="0,0,12,0" />
+                            <c:TagLabel Text="{Binding ThreatsTag}" Tone="{Binding ThreatsTone}" Visibility="{Binding HasThreats, Converter={StaticResource Visible}}" />
+                        </DockPanel>
+                        <Border Style="{StaticResource PcsDivider}" Margin="0,12,0,0" />
+                        <c:EmptyState Icon="{StaticResource PcsIcon.check}" Text="{l:T Protection_NoThreats}" Margin="0,8,0,0"
+                                      Visibility="{Binding HasThreats, Converter={StaticResource Collapsed}}" />
+                        <ItemsControl ItemsSource="{Binding Threats}" Focusable="False">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type vm:ThreatItem}">
+                                    <c:ListRow Title="{Binding Name}" Description="{Binding ShortResource}" ToolTip="{Binding Resource}" IconTileSize="40"
+                                               Tone="{Binding Handled, Converter={StaticResource ToTone}}"
+                                               Icon="{Binding Handled, Converter={StaticResource ToneIcon}}">
+                                        <StackPanel HorizontalAlignment="Right">
+                                            <TextBlock Text="{Binding Date}" Style="{StaticResource PcsText.Muted}" HorizontalAlignment="Right" />
+                                            <TextBlock Text="{Binding Status}" Style="{StaticResource PcsStateText}" HorizontalAlignment="Right"
+                                                       Foreground="{Binding Handled, Converter={StaticResource ToneBrush}, ConverterParameter=Text}" />
+                                        </StackPanel>
+                                    </c:ListRow>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <StackPanel Margin="0,16,0,0" Visibility="{Binding HasQuarantine, Converter={StaticResource Visible}}">
+                            <TextBlock Text="{l:T Protection_Quarantine}" Style="{StaticResource PcsText.CardTitle}" />
+                            <TextBlock Text="{l:T Protection_QuarantineNote}" Style="{StaticResource PcsText.Muted}" Margin="0,2,0,4" />
+                            <ItemsControl ItemsSource="{Binding Quarantine}" Focusable="False">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type vm:QuarantineRow}">
+                                        <c:ListRow Title="{Binding Name}" Description="{Binding Date}" ToolTip="{Binding Path}">
+                                            <Button Style="{StaticResource PcsButton.Secondary.Small}" Content="{l:T Protection_Restore}"
+                                                    AutomationProperties.HelpText="{Binding Name}"
+                                                    Command="{Binding DataContext.RestoreCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}" />
+                                        </c:ListRow>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
                     </StackPanel>
-                </ui:Card>
-
-                <TextBlock Text="{l:T Protection_AvInstalled}" Style="{StaticResource SectionTitle}" />
-                <TextBlock Text="{l:T Protection_AvInstalledTech}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
-                <ItemsControl ItemsSource="{Binding AntivirusProducts}" ItemTemplate="{StaticResource ProtectionRow}" Focusable="False" />
-
-                <TextBlock Text="{l:T Protection_Protections}" Style="{StaticResource SectionTitle}" />
-                <ItemsControl ItemsSource="{Binding Protections}" ItemTemplate="{StaticResource ProtectionRow}" Focusable="False" />
-                <TextBlock Text="{l:T Protection_TamperNote}" Style="{StaticResource Technical}" Margin="0,4,0,0"
-                           Visibility="{Binding ShowTamperNote, Converter={StaticResource Visible}}" />
-
-                <TextBlock Text="{l:T Protection_Firewall}" Style="{StaticResource SectionTitle}" />
-                <TextBlock Text="{l:T Protection_FirewallTech}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
-                <ItemsControl ItemsSource="{Binding Firewall}" ItemTemplate="{StaticResource ProtectionRow}" Focusable="False" />
-
-                <TextBlock Text="{l:T Protection_Threats}" Style="{StaticResource SectionTitle}" />
-                <TextBlock Text="{l:T Protection_NoThreats}" Visibility="{Binding Threats.Count, Converter={StaticResource Collapsed}}" />
-                <ItemsControl ItemsSource="{Binding Threats}" Focusable="False">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type vm:ThreatItem}">
-                            <ui:Card Margin="0,0,0,6" Padding="16,8">
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
-                                    <TextBlock Style="{StaticResource Technical}">
-                                        <Run Text="{Binding Date, Mode=OneWay}" /> · <Run Text="{Binding Status, Mode=OneWay}" />
-                                    </TextBlock>
-                                    <TextBlock Text="{Binding Resource}" Style="{StaticResource Technical}" />
-                                </StackPanel>
-                            </ui:Card>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
-                <TextBlock Text="{l:T Protection_Quarantine}" Style="{StaticResource SectionTitle}" />
-                <TextBlock Text="{l:T Protection_QuarantineNote}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
-                <TextBlock Text="{l:T Protection_QuarantineEmpty}" Visibility="{Binding Quarantine.Count, Converter={StaticResource Collapsed}}" />
-                <ItemsControl ItemsSource="{Binding Quarantine}" Focusable="False">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type vm:QuarantineRow}">
-                            <ui:Card Margin="0,0,0,6" Padding="16,8">
-                                <DockPanel>
-                                    <ui:Button DockPanel.Dock="Right" Style="{StaticResource SecondaryAction}" Content="{l:T Protection_Restore}"
-                                               AutomationProperties.Name="{Binding Name}"
-                                               Command="{Binding DataContext.RestoreCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                               CommandParameter="{Binding}" />
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
-                                        <TextBlock Style="{StaticResource Technical}">
-                                            <Run Text="{Binding Date, Mode=OneWay}" /> · <Run Text="{Binding Path, Mode=OneWay}" />
-                                        </TextBlock>
-                                    </StackPanel>
-                                </DockPanel>
-                            </ui:Card>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                </Border>
             </StackPanel>
         </ScrollViewer>
         <v:BusyOverlay />

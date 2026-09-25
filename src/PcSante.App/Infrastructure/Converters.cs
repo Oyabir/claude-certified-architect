@@ -101,6 +101,16 @@ public sealed class ToneIconConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 }
 
+/// <summary>Choix exclusif (filtres, onglets segmentés) : vrai si la valeur vaut le paramètre ; cocher renvoie le paramètre.</summary>
+public sealed class EqualsParameterConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
+        string.Equals(value?.ToString(), parameter?.ToString(), StringComparison.Ordinal);
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
+        value is true ? parameter : Binding.DoNothing;
+}
+
 /// <summary>Négation d'un booléen.</summary>
 public sealed class NotConverter : IValueConverter
 {

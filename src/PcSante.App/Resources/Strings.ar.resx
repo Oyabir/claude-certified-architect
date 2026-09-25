@@ -7,6 +7,13 @@
   <data name="Activity_All" xml:space="preserve"><value>عرض الكل</value></data>
   <data name="Activity_Empty" xml:space="preserve"><value>لا توجد إجراءات حتى الآن.</value></data>
   <data name="Activity_Title" xml:space="preserve"><value>النشاط الأخير</value></data>
+  <data name="BitLocker_Chip_Decrypting" xml:space="preserve"><value>جارٍ فك التشفير</value></data>
+  <data name="BitLocker_Chip_Encrypting" xml:space="preserve"><value>جارٍ التشفير</value></data>
+  <data name="BitLocker_Chip_Off" xml:space="preserve"><value>غير مشفّر</value></data>
+  <data name="BitLocker_Chip_On" xml:space="preserve"><value>مفعّل</value></data>
+  <data name="BitLocker_Chip_Paused" xml:space="preserve"><value>متوقف مؤقتًا</value></data>
+  <data name="BitLocker_Chip_Unknown" xml:space="preserve"><value>غير معروف</value></data>
+  <data name="BitLocker_SaveKeyShort" xml:space="preserve"><value>حفظ المفتاح</value></data>
   <data name="Busy_CreateRestorePoint" xml:space="preserve"><value>جارٍ إنشاء نقطة الاستعادة…</value></data>
   <data name="Busy_EnableSystemRestore" xml:space="preserve"><value>جارٍ تفعيل استعادة النظام…</value></data>
   <data name="Busy_InstallUpdates" xml:space="preserve"><value>جارٍ تثبيت التحديثات… يمكنك مواصلة استخدام حاسوبك.</value></data>
@@ -25,12 +32,14 @@
   <data name="Cleanup_Browsers" xml:space="preserve"><value>ذاكرة التخزين المؤقت للمتصفحات</value></data>
   <data name="Cleanup_BrowsersWhy" xml:space="preserve"><value>نسخ من صفحات الويب. لا يتم المساس بكلمات المرور والمفضلة. يتم تجاهل المتصفحات المفتوحة.</value></data>
   <data name="Cleanup_Button" xml:space="preserve"><value>تنظيف</value></data>
+  <data name="Cleanup_ButtonAmount" xml:space="preserve"><value>تنظيف {0}</value></data>
   <data name="Cleanup_Confirm" xml:space="preserve"><value>سيتم حذف هذه الملفات نهائياً:
 
 {0}
 
 هل تريد المتابعة؟</value></data>
   <data name="Cleanup_Done" xml:space="preserve"><value>اكتمل التنظيف: تم تحرير {0}.</value></data>
+  <data name="Cleanup_Recoverable" xml:space="preserve"><value>قابلة للتحرير</value></data>
   <data name="Cleanup_RecycleBin" xml:space="preserve"><value>سلة المحذوفات</value></data>
   <data name="Cleanup_RecycleBinWhy" xml:space="preserve"><value>ملفات قمت بحذفها مسبقاً.</value></data>
   <data name="Cleanup_Running" xml:space="preserve"><value>جارٍ التنظيف: {0}…</value></data>
@@ -116,6 +125,7 @@
   <data name="Common_NotAvailable" xml:space="preserve"><value>غير متاح على هذا الحاسوب</value></data>
   <data name="Common_Off" xml:space="preserve"><value>متوقفة</value></data>
   <data name="Common_On" xml:space="preserve"><value>مفعّلة</value></data>
+  <data name="Common_Recommended" xml:space="preserve"><value>موصى به</value></data>
   <data name="Common_Retry" xml:space="preserve"><value>إعادة المحاولة</value></data>
   <data name="Common_WithPremium" xml:space="preserve"><value>{0} · Premium</value></data>
   <data name="Common_Working" xml:space="preserve"><value>جارٍ التنفيذ، يرجى الانتظار…</value></data>
@@ -178,6 +188,10 @@
   <data name="Fix_SearchUpdates" xml:space="preserve"><value>البحث عن التحديثات</value></data>
   <data name="Fix_StartQuickScan" xml:space="preserve"><value>بدء فحص</value></data>
   <data name="Fix_UpdateSignatures" xml:space="preserve"><value>تحديث مضاد الفيروسات</value></data>
+  <data name="Folder_Desktop" xml:space="preserve"><value>سطح المكتب</value></data>
+  <data name="Folder_Documents" xml:space="preserve"><value>المستندات</value></data>
+  <data name="Folder_Downloads" xml:space="preserve"><value>التنزيلات</value></data>
+  <data name="Folder_Temp" xml:space="preserve"><value>الملفات المؤقتة</value></data>
   <data name="Home_AllGood_Performance" xml:space="preserve"><value>الأداء: لا شيء يُذكر</value></data>
   <data name="Home_AllGood_Security" xml:space="preserve"><value>الحماية: كل شيء على ما يرام</value></data>
   <data name="Home_AllGood_Stability" xml:space="preserve"><value>الاستقرار: لم تُكتشف أي مشكلة</value></data>
@@ -320,6 +334,10 @@
   <data name="Nav_Sessions" xml:space="preserve"><value>الجلسات</value></data>
   <data name="Nav_Settings" xml:space="preserve"><value>الإعدادات</value></data>
   <data name="Nav_System" xml:space="preserve"><value>النظام</value></data>
+  <data name="Opt_TabCleanup" xml:space="preserve"><value>التنظيف وبدء التشغيل</value></data>
+  <data name="Opt_TabHistory" xml:space="preserve"><value>السجل</value></data>
+  <data name="Opt_TabSettings" xml:space="preserve"><value>إعدادات Windows</value></data>
+  <data name="Opt_TabTasks" xml:space="preserve"><value>المهام في الخلفية</value></data>
   <data name="Outcome_AlreadyDone" xml:space="preserve"><value>تم مسبقاً</value></data>
   <data name="Outcome_Failed" xml:space="preserve"><value>فشل</value></data>
   <data name="Outcome_Refused" xml:space="preserve"><value>مرفوض</value></data>
@@ -360,31 +378,50 @@
   <data name="Process_Stop" xml:space="preserve"><value>إيقاف</value></data>
   <data name="Protection_Antivirus" xml:space="preserve"><value>مكافحة الفيروسات</value></data>
   <data name="Protection_AntivirusTech" xml:space="preserve"><value>Microsoft Defender</value></data>
+  <data name="Protection_AvCount" xml:space="preserve"><value>تم اكتشاف {0} برامج مضادة للفيروسات</value></data>
   <data name="Protection_Cloud" xml:space="preserve"><value>اكتشاف الفيروسات الجديدة</value></data>
+  <data name="Protection_CloudDesc" xml:space="preserve"><value>حماية سحابية: تتعرّف على التهديدات الحديثة</value></data>
   <data name="Protection_CloudTech" xml:space="preserve"><value>الحماية السحابية (MAPS)</value></data>
   <data name="Protection_CustomScan" xml:space="preserve"><value>فحص مجلد…</value></data>
   <data name="Protection_DefenderSummary" xml:space="preserve"><value>آخر تحديث: {0} · آخر فحص: {1}</value></data>
   <data name="Protection_DefenderUnavailable" xml:space="preserve"><value>Microsoft Defender غير متاح على هذا الحاسوب.</value></data>
+  <data name="Protection_DisableAdvancedOnly" xml:space="preserve"><value>لا يمكن تعطيل الحماية إلا في الوضع المتقدم (الإعدادات).</value></data>
   <data name="Protection_Firewall" xml:space="preserve"><value>الحماية من الاختراق</value></data>
+  <data name="Protection_FirewallShort" xml:space="preserve"><value>الجدار الناري</value></data>
   <data name="Protection_FirewallTech" xml:space="preserve"><value>جدار حماية ويندوز</value></data>
   <data name="Protection_FullScan" xml:space="preserve"><value>فحص كامل</value></data>
   <data name="Protection_NoThreats" xml:space="preserve"><value>لم يتم اكتشاف أي تهديد.</value></data>
   <data name="Protection_NoAntivirus" xml:space="preserve"><value>لا يوجد برنامج مكافحة فيروسات نشط على هذا الحاسوب. أعد تفعيل Microsoft Defender من أمان Windows، أو ثبّت برنامج مكافحة فيروسات موثوقًا.</value></data>
   <data name="Protection_OtherAntivirusNamed" xml:space="preserve"><value>حاسوبك محمي بواسطة: {0}. Microsoft Defender في وضع الاستعداد: هذا طبيعي.</value></data>
   <data name="Protection_OtherAntivirus" xml:space="preserve"><value>برنامج آخر لمكافحة الفيروسات يحمي هذا الحاسوب. Microsoft Defender في وضع الاستعداد: هذا طبيعي.</value></data>
+  <data name="Protection_OtherScans" xml:space="preserve"><value>فحوصات أخرى</value></data>
   <data name="Protection_PickFolder" xml:space="preserve"><value>اختر المجلد المراد فحصه</value></data>
   <data name="Protection_Protections" xml:space="preserve"><value>وسائل الحماية</value></data>
   <data name="Protection_Quarantine" xml:space="preserve"><value>الحجر الصحي</value></data>
+  <data name="Protection_QuarantineCount" xml:space="preserve"><value>{0} في الحجر</value></data>
   <data name="Protection_QuarantineEmpty" xml:space="preserve"><value>الحجر الصحي فارغ.</value></data>
+  <data name="Protection_QuarantineEmptyShort" xml:space="preserve"><value>الحجر فارغ</value></data>
   <data name="Protection_QuarantineNote" xml:space="preserve"><value>الملفات المحجورة معزولة وغير ضارة. يحذفها ويندوز تلقائياً بعد فترة.</value></data>
   <data name="Protection_QuickScan" xml:space="preserve"><value>بدء فحص سريع</value></data>
+  <data name="Protection_QuickScanShort" xml:space="preserve"><value>فحص سريع</value></data>
   <data name="Protection_Ransomware" xml:space="preserve"><value>حماية مستنداتك من برامج الفدية</value></data>
+  <data name="Protection_RansomwareDesc" xml:space="preserve"><value>يحظر برامج الفدية في المستندات والصور وسطح المكتب</value></data>
   <data name="Protection_RansomwareTech" xml:space="preserve"><value>الوصول المتحكَّم فيه إلى المجلدات</value></data>
   <data name="Protection_Realtime" xml:space="preserve"><value>المراقبة الدائمة</value></data>
+  <data name="Protection_RealtimeDesc" xml:space="preserve"><value>يفحص كل ملف يُفتح، في الوقت الفعلي</value></data>
   <data name="Protection_RealtimeTech" xml:space="preserve"><value>الحماية في الوقت الحقيقي</value></data>
+  <data name="Protection_Recommendation_Many" xml:space="preserve"><value>{0} توصيات</value></data>
+  <data name="Protection_Recommendation_One" xml:space="preserve"><value>توصية واحدة</value></data>
   <data name="Protection_Restore" xml:space="preserve"><value>استعادة</value></data>
+  <data name="Protection_StatusCritical" xml:space="preserve"><value>حاسوبك غير محمي جيدًا</value></data>
+  <data name="Protection_StatusGood" xml:space="preserve"><value>حاسوبك محمي</value></data>
+  <data name="Protection_StatusUnknown" xml:space="preserve"><value>حالة الحماية غير معروفة</value></data>
+  <data name="Protection_StatusWarn" xml:space="preserve"><value>حاسوبك محمي، ويمكن تحسين حمايته</value></data>
   <data name="Protection_TamperNote" xml:space="preserve"><value>يمنع ويندوز أي تطبيق من إيقاف Microsoft Defender (الحماية من العبث). يمكن لـ PC Santé تفعيله فقط، وليس إيقافه.</value></data>
+  <data name="Protection_ThreatHistory" xml:space="preserve"><value>سجل التهديدات</value></data>
   <data name="Protection_Threats" xml:space="preserve"><value>التهديدات المكتشفة</value></data>
+  <data name="Protection_ThreatsAllHandled" xml:space="preserve"><value>تمت معالجتها كلها</value></data>
+  <data name="Protection_ThreatsToHandle" xml:space="preserve"><value>{0} بحاجة إلى معالجة</value></data>
   <data name="Protection_UpdateSignatures" xml:space="preserve"><value>تحديث مكافحة الفيروسات</value></data>
   <data name="Protection_Updating" xml:space="preserve"><value>جارٍ تحديث مكافحة الفيروسات…</value></data>
   <data name="Report_Action" xml:space="preserve"><value>الإجراء</value></data>
@@ -557,6 +594,16 @@
   <data name="Settings_Updates" xml:space="preserve"><value>تحديثات PC Santé</value></data>
   <data name="Settings_UpdatesHelp" xml:space="preserve"><value>لا يتم تثبيت إلا الإصدارات الموقّعة من الناشر.</value></data>
   <data name="Settings_Version" xml:space="preserve"><value>الإصدار المثبت: {0}</value></data>
+  <data name="Startup_ColProgram" xml:space="preserve"><value>البرنامج</value></data>
+  <data name="Startup_ColState" xml:space="preserve"><value>عند بدء التشغيل</value></data>
+  <data name="Startup_ColWho" xml:space="preserve"><value>لمن</value></data>
+  <data name="Startup_FilterAll" xml:space="preserve"><value>الكل</value></data>
+  <data name="Startup_FilterDisabled" xml:space="preserve"><value>معطّلة</value></data>
+  <data name="Startup_FilterEnabled" xml:space="preserve"><value>تبدأ تلقائيًا</value></data>
+  <data name="Startup_NoMatch" xml:space="preserve"><value>لا يوجد برنامج مطابق.</value></data>
+  <data name="Startup_Search" xml:space="preserve"><value>البحث عن برنامج</value></data>
+  <data name="Startup_StateOff" xml:space="preserve"><value>معطّل</value></data>
+  <data name="Startup_StateOn" xml:space="preserve"><value>يبدأ</value></data>
   <data name="StartupLocation_MachineRun" xml:space="preserve"><value>جميع المستخدمين</value></data>
   <data name="StartupLocation_MachineRun32" xml:space="preserve"><value>جميع المستخدمين (32 بت)</value></data>
   <data name="StartupLocation_MachineStartupFolder" xml:space="preserve"><value>مجلد بدء التشغيل المشترك</value></data>
@@ -574,25 +621,37 @@
   <data name="Subtitle_Optimization" xml:space="preserve"><value>وفّر مساحة وسرّع بدء التشغيل. يمكن إعادة تفعيل البرامج التي أُزيلت من بدء التشغيل.</value></data>
   <data name="Subtitle_Performance" xml:space="preserve"><value>ما يستخدمه حاسوبك الآن.</value></data>
   <data name="Subtitle_Processes" xml:space="preserve"><value>البرامج قيد التشغيل وما تستهلكه.</value></data>
-  <data name="Subtitle_Protection" xml:space="preserve"><value>مكافحة الفيروسات والحماية من الاختراق.</value></data>
+  <data name="Subtitle_Protection" xml:space="preserve"><value>مضاد الفيروسات والجدار الناري والتهديدات. يمكن لـ PC Santé تفعيل حماية مضاد الفيروسات، ولا يعطّلها أبدًا.</value></data>
   <data name="Subtitle_Reports" xml:space="preserve"><value>تطور حالة حاسوبك وتقرير قابل للطباعة.</value></data>
   <data name="Subtitle_Scheduling" xml:space="preserve"><value>دع PC Santé يعتني بحاسوبك تلقائياً.</value></data>
   <data name="Subtitle_Sessions" xml:space="preserve"><value>المستخدمون المتصلون بهذا الحاسوب.</value></data>
   <data name="Subtitle_Settings" xml:space="preserve"><value>اللغة والمظهر والعرض المصغّر.</value></data>
-  <data name="Subtitle_System" xml:space="preserve"><value>إصلاح وتحديث ويندوز بنقرة واحدة.</value></data>
+  <data name="Subtitle_System" xml:space="preserve"><value>إصلاح Windows وتحديثه بنقرة واحدة. تُنشأ نقطة استعادة قبل كل إصلاح مهم.</value></data>
+  <data name="System_AdminCount_Many" xml:space="preserve"><value>{0} مسؤولين</value></data>
+  <data name="System_AdminCount_One" xml:space="preserve"><value>مسؤول واحد</value></data>
   <data name="System_Repair" xml:space="preserve"><value>إصلاح ويندوز</value></data>
   <data name="System_RepairTech" xml:space="preserve"><value>SFC و DISM</value></data>
   <data name="System_Restore" xml:space="preserve"><value>نقاط الاستعادة</value></data>
   <data name="System_RestoreTech" xml:space="preserve"><value>استعادة النظام</value></data>
   <data name="System_Searching" xml:space="preserve"><value>جارٍ البحث عن التحديثات…</value></data>
   <data name="System_Summary" xml:space="preserve"><value>{0} ({1}) · {2}</value></data>
+  <data name="System_Tools" xml:space="preserve"><value>أدوات الإصلاح</value></data>
+  <data name="System_ToolsHint" xml:space="preserve"><value>استخدمها فقط إذا كان هناك شيء لا يعمل.</value></data>
+  <data name="System_UpdateChecked" xml:space="preserve"><value>تم التحقق من التحديثات مؤخرًا</value></data>
+  <data name="System_UpdateReboot" xml:space="preserve"><value>يلزم إعادة التشغيل لإكمال التحديثات</value></data>
+  <data name="System_UpdateServiceStopped" xml:space="preserve"><value>خدمة Windows Update متوقفة</value></data>
   <data name="System_UpdateSummary" xml:space="preserve"><value>آخر بحث: {0} · آخر تثبيت: {1}</value></data>
   <data name="System_UpdateSummaryReboot" xml:space="preserve"><value>آخر بحث: {0} · آخر تثبيت: {1} · يلزم إعادة التشغيل.</value></data>
   <data name="System_Updates" xml:space="preserve"><value>تحديثات ويندوز</value></data>
   <data name="System_UpdatesTech" xml:space="preserve"><value>Windows Update</value></data>
+  <data name="System_UpdateToCheck" xml:space="preserve"><value>يجب التحقق من التحديثات</value></data>
+  <data name="System_UpdateUnknown" xml:space="preserve"><value>حالة التحديثات غير معروفة</value></data>
   <data name="Tag_Advised" xml:space="preserve"><value>موصى به</value></data>
   <data name="Tag_Important" xml:space="preserve"><value>مهم</value></data>
+  <data name="Tasks_Active" xml:space="preserve"><value>مفعّلة</value></data>
   <data name="Tasks_Explanation" xml:space="preserve"><value>مهام أضافتها برامجك (خارج ويندوز). يمكن التراجع عن إيقافها.</value></data>
+  <data name="Tasks_Inactive" xml:space="preserve"><value>غير مفعّلة</value></data>
+  <data name="Tasks_None" xml:space="preserve"><value>لا توجد مهام أضافتها برامج أخرى.</value></data>
   <data name="Tasks_Title" xml:space="preserve"><value>المهام المجدولة للبرامج الأخرى</value></data>
   <data name="Template_DailyAntivirusScan" xml:space="preserve"><value>فحص يومي للفيروسات</value></data>
   <data name="Template_DailyAntivirusScan_Why" xml:space="preserve"><value>فحص سريع كل يوم لاكتشاف التهديدات مبكراً.</value></data>
@@ -608,7 +667,49 @@
   <data name="Tier_Family" xml:space="preserve"><value>العائلة</value></data>
   <data name="Tier_Free" xml:space="preserve"><value>مجاني</value></data>
   <data name="Tier_Premium" xml:space="preserve"><value>بريميوم</value></data>
+  <data name="Tool_Cat_Firewall" xml:space="preserve"><value>الجدار الناري</value></data>
+  <data name="Tool_Cat_Internet" xml:space="preserve"><value>الإنترنت</value></data>
+  <data name="Tool_Cat_Repair" xml:space="preserve"><value>الإصلاح</value></data>
+  <data name="Tool_Cat_Restore" xml:space="preserve"><value>الاستعادة</value></data>
+  <data name="Tool_Cat_Updates" xml:space="preserve"><value>التحديثات</value></data>
+  <data name="Tool_Desc_CreateRestorePoint" xml:space="preserve"><value>يحفظ حالة Windows الحالية للرجوع إليها.</value></data>
+  <data name="Tool_Desc_EnableSystemRestore" xml:space="preserve"><value>يسمح بنقاط الاستعادة.</value></data>
+  <data name="Tool_Desc_FlushDnsCache" xml:space="preserve"><value>إذا لم يُفتح موقع مع أن الإنترنت يعمل.</value></data>
+  <data name="Tool_Desc_InstallUpdates" xml:space="preserve"><value>يثبّت ما هو معلّق بعد نقطة استعادة.</value></data>
+  <data name="Tool_Desc_RepairWindowsUpdate" xml:space="preserve"><value>عندما تفشل التحديثات. تُحفظ الذاكرة القديمة.</value></data>
+  <data name="Tool_Desc_ResetFirewallRules" xml:space="preserve"><value>القواعد الأصلية؛ تُحفظ الحالية.</value></data>
+  <data name="Tool_Desc_ResetNetworkStack" xml:space="preserve"><value>إذا توقف الإنترنت تمامًا. تلزم إعادة التشغيل.</value></data>
+  <data name="Tool_Desc_RunDismRepair" xml:space="preserve"><value>عندما لا يكفي الإصلاح البسيط. يُنصح بالإنترنت.</value></data>
+  <data name="Tool_Desc_RunSystemFileCheck" xml:space="preserve"><value>يفحص ملفات النظام التالفة ويستبدلها.</value></data>
+  <data name="Tool_Duration_CreateRestorePoint" xml:space="preserve"><value>≈ 1 دقيقة</value></data>
+  <data name="Tool_Duration_EnableSystemRestore" xml:space="preserve"><value>أقل من دقيقة</value></data>
+  <data name="Tool_Duration_FlushDnsCache" xml:space="preserve"><value>أقل من دقيقة</value></data>
+  <data name="Tool_Duration_InstallUpdates" xml:space="preserve"><value>5 دقائق إلى ساعة</value></data>
+  <data name="Tool_Duration_RepairWindowsUpdate" xml:space="preserve"><value>≈ 2 دقيقة</value></data>
+  <data name="Tool_Duration_ResetFirewallRules" xml:space="preserve"><value>أقل من دقيقة</value></data>
+  <data name="Tool_Duration_ResetNetworkStack" xml:space="preserve"><value>أقل من دقيقة</value></data>
+  <data name="Tool_Duration_RunDismRepair" xml:space="preserve"><value>15 إلى 45 دقيقة</value></data>
+  <data name="Tool_Duration_RunSystemFileCheck" xml:space="preserve"><value>10 إلى 30 دقيقة</value></data>
+  <data name="Tool_Title_CreateRestorePoint" xml:space="preserve"><value>إنشاء نقطة استعادة</value></data>
+  <data name="Tool_Title_EnableSystemRestore" xml:space="preserve"><value>تفعيل الاستعادة</value></data>
+  <data name="Tool_Title_FlushDnsCache" xml:space="preserve"><value>مسح ذاكرة العناوين</value></data>
+  <data name="Tool_Title_InstallUpdates" xml:space="preserve"><value>تثبيت التحديثات</value></data>
+  <data name="Tool_Title_RepairWindowsUpdate" xml:space="preserve"><value>إلغاء حظر Windows Update</value></data>
+  <data name="Tool_Title_ResetFirewallRules" xml:space="preserve"><value>إعادة ضبط الجدار الناري</value></data>
+  <data name="Tool_Title_ResetNetworkStack" xml:space="preserve"><value>إصلاح الاتصال بالشبكة</value></data>
+  <data name="Tool_Title_RunDismRepair" xml:space="preserve"><value>إصلاح معمّق</value></data>
+  <data name="Tool_Title_RunSystemFileCheck" xml:space="preserve"><value>إصلاح ملفات Windows</value></data>
+  <data name="Tool_Verb_CreateRestorePoint" xml:space="preserve"><value>إنشاء</value></data>
+  <data name="Tool_Verb_EnableSystemRestore" xml:space="preserve"><value>تفعيل</value></data>
+  <data name="Tool_Verb_FlushDnsCache" xml:space="preserve"><value>مسح</value></data>
+  <data name="Tool_Verb_InstallUpdates" xml:space="preserve"><value>تثبيت</value></data>
+  <data name="Tool_Verb_RepairWindowsUpdate" xml:space="preserve"><value>إلغاء الحظر</value></data>
+  <data name="Tool_Verb_ResetFirewallRules" xml:space="preserve"><value>إعادة الضبط</value></data>
+  <data name="Tool_Verb_ResetNetworkStack" xml:space="preserve"><value>إصلاح</value></data>
+  <data name="Tool_Verb_RunDismRepair" xml:space="preserve"><value>بدء</value></data>
+  <data name="Tool_Verb_RunSystemFileCheck" xml:space="preserve"><value>إصلاح</value></data>
   <data name="Undo_Button" xml:space="preserve"><value>تراجع</value></data>
+  <data name="Undo_Explanation" xml:space="preserve"><value>التعديلات التي أجراها PC Santé، من الأحدث إلى الأقدم. يمكن التراجع عن كل منها.</value></data>
   <data name="Undo_None" xml:space="preserve"><value>لا يوجد ما يمكن التراجع عنه.</value></data>
   <data name="Undo_Title" xml:space="preserve"><value>التراجع عن تغيير</value></data>
   <data name="Unit_B" xml:space="preserve"><value>بايت</value></data>

@@ -19,6 +19,7 @@
     <infra:ResourceKeyConverter x:Key="ResourceKey" />
     <infra:AllTrueToVisibilityConverter x:Key="AllTrue" />
     <infra:NotConverter x:Key="Not" />
+    <infra:EqualsParameterConverter x:Key="EqualsParam" />
 
     <!-- Texte des cartes de marque (Nuit) : blanc dans les deux thèmes, la carte Nuit ne change pas (§ 8). -->
     <SolidColorBrush x:Key="PcsOnNightBrush" Color="#FFFFFF" />
@@ -500,6 +501,44 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <!--
+      Interrupteur piloté par une commande (pare-feu, démarrage, tâches) : l'état affiché (c:Ui.IsOn) vient du modèle ;
+      si l'utilisateur annule la confirmation, l'interrupteur reste juste. Espace ou Entrée pour basculer.
+    -->
+    <Style x:Key="PcsSwitchButton" TargetType="ButtonBase">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource PcsFocusVisual}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ButtonBase">
+                    <Border x:Name="Track" Width="{DynamicResource PcsSwitchWidth}" Height="{DynamicResource PcsSwitchHeight}"
+                            CornerRadius="13" Background="{DynamicResource PcsSwitchOffBrush}">
+                        <Ellipse x:Name="Thumb" Width="{DynamicResource PcsSwitchThumb}" Height="{DynamicResource PcsSwitchThumb}" Fill="White"
+                                 HorizontalAlignment="Left" Margin="3,0" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="c:Ui.IsOn" Value="True">
+                            <Setter TargetName="Track" Property="Background" Value="{DynamicResource PcsBrandBrush}" />
+                            <Setter TargetName="Thumb" Property="HorizontalAlignment" Value="Right" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Track" Property="Opacity" Value="0.45" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Contenu d'une ligne « état » : icône + mot + couleur (Activée / Désactivée). -->
+    <Style x:Key="PcsStateText" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
     </Style>
 
     <!-- ===== Onglets segmentés (flèches pour changer d'onglet) ===== -->
