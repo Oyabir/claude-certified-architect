@@ -110,6 +110,7 @@ public static class ServiceRegistration
         yield return new RepairAction(CommandId.RunDismRepair, S<ISystemRepairApi>());
         yield return new FlushDnsAction(S<INetworkRepairApi>());
         yield return new ResetNetworkStackAction(S<INetworkRepairApi>());
+        yield return new DisableGuestAccountAction(S<ILocalAccountsApi>());
         yield return new CreateRestorePointAction(S<IRestorePointApi>(), S<TimeProvider>());
         yield return new EnableSystemRestoreAction(S<IRestorePointApi>());
 

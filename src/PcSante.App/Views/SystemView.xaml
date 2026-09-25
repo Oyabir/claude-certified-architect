@@ -49,6 +49,26 @@
                 <TextBlock Text="{l:T System_Network}" Style="{StaticResource SectionTitle}" />
                 <TextBlock Text="{l:T System_NetworkTech}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
                 <ItemsControl ItemsSource="{Binding NetworkActions}" ItemTemplate="{StaticResource ActionRow}" Focusable="False" />
+
+                <TextBlock Text="{l:T System_Accounts}" Style="{StaticResource SectionTitle}" />
+                <TextBlock Text="{l:T System_AccountsTech}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
+                <TextBlock Text="{Binding AccountsSummary}" TextWrapping="Wrap" Margin="0,0,0,8" />
+                <ItemsControl ItemsSource="{Binding Accounts}" Focusable="False">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type vm:AccountRow}">
+                            <ui:Card Margin="0,0,0,6" Padding="16,10">
+                                <DockPanel>
+                                    <TextBlock DockPanel.Dock="Right" Text="{Binding State}" VerticalAlignment="Center" Style="{StaticResource Technical}" />
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                                        <TextBlock Text="{Binding Role}" Style="{StaticResource Technical}" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </ui:Card>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <ItemsControl ItemsSource="{Binding AccountActions}" ItemTemplate="{StaticResource ActionRow}" Focusable="False" />
             </StackPanel>
         </ScrollViewer>
         <v:BusyOverlay />

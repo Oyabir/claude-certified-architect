@@ -607,4 +607,25 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Result_NetworkRepairFailed" xml:space="preserve"><value>The network repair did not complete. Your settings were not changed, or a restore point lets you go back.</value></data>
   <data name="System_Network" xml:space="preserve"><value>Internet connection</value></data>
   <data name="System_NetworkTech" xml:space="preserve"><value>Network (DNS, Winsock, TCP/IP)</value></data>
+  <data name="Command_GetLocalAccounts" xml:space="preserve"><value>PC accounts</value></data>
+  <data name="Command_DisableGuestAccount" xml:space="preserve"><value>Turn off the Guest account</value></data>
+  <data name="Explain_DisableGuestAccount" xml:space="preserve"><value>The Guest account lets anyone sign in without a password. Turning it off is safe and can be undone.</value></data>
+  <data name="Duration_DisableGuestAccount" xml:space="preserve"><value>A few seconds</value></data>
+  <data name="Busy_DisableGuestAccount" xml:space="preserve"><value>Turning off the Guest account…</value></data>
+  <data name="Fix_DisableGuestAccount" xml:space="preserve"><value>Turn off</value></data>
+  <data name="Result_GuestDisabled" xml:space="preserve"><value>Guest account turned off. You can undo this from Optimization.</value></data>
+  <data name="Result_GuestAlreadyDisabled" xml:space="preserve"><value>The Guest account is already turned off.</value></data>
+  <data name="Result_NoGuestAccount" xml:space="preserve"><value>This PC has no Guest account.</value></data>
+  <data name="Result_AccountFailed" xml:space="preserve"><value>The account could not be changed. Nothing was modified.</value></data>
+  <data name="Issue_GuestEnabled_Title" xml:space="preserve"><value>The Guest account is open</value></data>
+  <data name="Issue_GuestEnabled_Why" xml:space="preserve"><value>Anyone can sign in to this PC without a password.</value></data>
+  <data name="System_Accounts" xml:space="preserve"><value>PC accounts</value></data>
+  <data name="System_AccountsTech" xml:space="preserve"><value>Local accounts and administrators</value></data>
+  <data name="System_AccountsAdmins" xml:space="preserve"><value>{0} administrator account(s): they can change anything on this PC.</value></data>
+  <data name="System_AccountsManyAdmins" xml:space="preserve"><value>{0} administrator accounts: that's a lot. Use a standard account day to day and keep administrator for settings.</value></data>
+  <data name="Account_Admin" xml:space="preserve"><value>Administrator</value></data>
+  <data name="Account_Standard" xml:space="preserve"><value>Standard</value></data>
+  <data name="Account_Guest" xml:space="preserve"><value>Guest</value></data>
+  <data name="Account_Enabled" xml:space="preserve"><value>Active</value></data>
+  <data name="Account_Disabled" xml:space="preserve"><value>Turned off</value></data>
 </root>

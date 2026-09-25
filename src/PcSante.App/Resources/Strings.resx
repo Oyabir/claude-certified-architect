@@ -607,4 +607,25 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Result_NetworkRepairFailed" xml:space="preserve"><value>La réparation réseau n'a pas abouti. Vos réglages n'ont pas été modifiés, ou un point de restauration permet de revenir en arrière.</value></data>
   <data name="System_Network" xml:space="preserve"><value>Connexion Internet</value></data>
   <data name="System_NetworkTech" xml:space="preserve"><value>Réseau (DNS, Winsock, TCP/IP)</value></data>
+  <data name="Command_GetLocalAccounts" xml:space="preserve"><value>Comptes du PC</value></data>
+  <data name="Command_DisableGuestAccount" xml:space="preserve"><value>Désactiver le compte Invité</value></data>
+  <data name="Explain_DisableGuestAccount" xml:space="preserve"><value>Le compte Invité permet d'ouvrir une session sans mot de passe. Le désactiver est sans risque et peut être annulé.</value></data>
+  <data name="Duration_DisableGuestAccount" xml:space="preserve"><value>Quelques secondes</value></data>
+  <data name="Busy_DisableGuestAccount" xml:space="preserve"><value>Désactivation du compte Invité…</value></data>
+  <data name="Fix_DisableGuestAccount" xml:space="preserve"><value>Désactiver</value></data>
+  <data name="Result_GuestDisabled" xml:space="preserve"><value>Compte Invité désactivé. Vous pouvez annuler depuis Optimisation.</value></data>
+  <data name="Result_GuestAlreadyDisabled" xml:space="preserve"><value>Le compte Invité est déjà désactivé.</value></data>
+  <data name="Result_NoGuestAccount" xml:space="preserve"><value>Ce PC n'a pas de compte Invité.</value></data>
+  <data name="Result_AccountFailed" xml:space="preserve"><value>Le compte n'a pas pu être modifié. Rien n'a changé.</value></data>
+  <data name="Issue_GuestEnabled_Title" xml:space="preserve"><value>Le compte Invité est ouvert</value></data>
+  <data name="Issue_GuestEnabled_Why" xml:space="preserve"><value>N'importe qui peut ouvrir une session sur ce PC sans mot de passe.</value></data>
+  <data name="System_Accounts" xml:space="preserve"><value>Comptes du PC</value></data>
+  <data name="System_AccountsTech" xml:space="preserve"><value>Comptes locaux et administrateurs</value></data>
+  <data name="System_AccountsAdmins" xml:space="preserve"><value>{0} compte(s) administrateur : ils peuvent tout modifier sur ce PC.</value></data>
+  <data name="System_AccountsManyAdmins" xml:space="preserve"><value>{0} comptes administrateurs : c'est beaucoup. Utilisez un compte standard au quotidien, et gardez l'administrateur pour les réglages.</value></data>
+  <data name="Account_Admin" xml:space="preserve"><value>Administrateur</value></data>
+  <data name="Account_Standard" xml:space="preserve"><value>Standard</value></data>
+  <data name="Account_Guest" xml:space="preserve"><value>Invité</value></data>
+  <data name="Account_Enabled" xml:space="preserve"><value>Actif</value></data>
+  <data name="Account_Disabled" xml:space="preserve"><value>Désactivé</value></data>
 </root>

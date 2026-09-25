@@ -411,3 +411,27 @@ internal sealed class FakeNetwork : INetworkRepairApi
         return Task.FromResult(Succeeds);
     }
 }
+
+internal sealed class FakeAccounts : ILocalAccountsApi
+{
+    public List<LocalAccount> Accounts { get; } =
+    [
+        new("alice", "S-1-5-21-1-2-3-1001", true, true),
+        new("Invité", "S-1-5-21-1-2-3-501", false, false),
+    ];
+
+    public Task<IReadOnlyList<LocalAccount>> ListAsync(CancellationToken cancellationToken) =>
+        Task.FromResult<IReadOnlyList<LocalAccount>>(Accounts.ToList());
+
+    public Task<bool> SetEnabledAsync(string sid, bool enabled, CancellationToken cancellationToken)
+    {
+        var index = Accounts.FindIndex(a => a.Sid == sid);
+        if (index < 0)
+        {
+            return Task.FromResult(false);
+        }
+
+        Accounts[index] = Accounts[index] with { Enabled = enabled };
+        return Task.FromResult(true);
+    }
+}

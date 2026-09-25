@@ -607,4 +607,25 @@
   <data name="Result_NetworkRepairFailed" xml:space="preserve"><value>لم يكتمل إصلاح الشبكة. لم تُغيَّر إعداداتك، أو يمكنك الرجوع عبر نقطة استعادة.</value></data>
   <data name="System_Network" xml:space="preserve"><value>الاتصال بالإنترنت</value></data>
   <data name="System_NetworkTech" xml:space="preserve"><value>الشبكة (DNS، Winsock، TCP/IP)</value></data>
+  <data name="Command_GetLocalAccounts" xml:space="preserve"><value>حسابات الحاسوب</value></data>
+  <data name="Command_DisableGuestAccount" xml:space="preserve"><value>تعطيل حساب الضيف</value></data>
+  <data name="Explain_DisableGuestAccount" xml:space="preserve"><value>يسمح حساب الضيف بتسجيل الدخول دون كلمة مرور. تعطيله آمن ويمكن التراجع عنه.</value></data>
+  <data name="Duration_DisableGuestAccount" xml:space="preserve"><value>بضع ثوانٍ</value></data>
+  <data name="Busy_DisableGuestAccount" xml:space="preserve"><value>جارٍ تعطيل حساب الضيف…</value></data>
+  <data name="Fix_DisableGuestAccount" xml:space="preserve"><value>تعطيل</value></data>
+  <data name="Result_GuestDisabled" xml:space="preserve"><value>تم تعطيل حساب الضيف. يمكنك التراجع من صفحة التحسين.</value></data>
+  <data name="Result_GuestAlreadyDisabled" xml:space="preserve"><value>حساب الضيف معطّل بالفعل.</value></data>
+  <data name="Result_NoGuestAccount" xml:space="preserve"><value>لا يوجد حساب ضيف على هذا الحاسوب.</value></data>
+  <data name="Result_AccountFailed" xml:space="preserve"><value>تعذّر تعديل الحساب. لم يتغير شيء.</value></data>
+  <data name="Issue_GuestEnabled_Title" xml:space="preserve"><value>حساب الضيف مفتوح</value></data>
+  <data name="Issue_GuestEnabled_Why" xml:space="preserve"><value>يمكن لأي شخص تسجيل الدخول إلى هذا الحاسوب دون كلمة مرور.</value></data>
+  <data name="System_Accounts" xml:space="preserve"><value>حسابات الحاسوب</value></data>
+  <data name="System_AccountsTech" xml:space="preserve"><value>الحسابات المحلية والمسؤولون</value></data>
+  <data name="System_AccountsAdmins" xml:space="preserve"><value>{0} حساب(ات) مسؤول: يمكنها تغيير كل شيء على هذا الحاسوب.</value></data>
+  <data name="System_AccountsManyAdmins" xml:space="preserve"><value>{0} حسابات مسؤول: هذا كثير. استخدم حسابًا عاديًا يوميًا واحتفظ بحساب المسؤول للإعدادات.</value></data>
+  <data name="Account_Admin" xml:space="preserve"><value>مسؤول</value></data>
+  <data name="Account_Standard" xml:space="preserve"><value>عادي</value></data>
+  <data name="Account_Guest" xml:space="preserve"><value>ضيف</value></data>
+  <data name="Account_Enabled" xml:space="preserve"><value>نشط</value></data>
+  <data name="Account_Disabled" xml:space="preserve"><value>معطّل</value></data>
 </root>

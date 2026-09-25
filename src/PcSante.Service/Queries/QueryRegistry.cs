@@ -23,6 +23,7 @@ public sealed class QueryRegistry(
     ISystemInfoApi system,
     IDefenderApi defender,
     IFirewallApi firewall,
+    ILocalAccountsApi accounts,
     IWindowsUpdateApi updates,
     IProcessApi processes,
     ISignatureVerifier signatures,
@@ -52,6 +53,7 @@ public sealed class QueryRegistry(
         yield return Q(CommandId.GetQuarantine, async (_, _, ct) => CommandResult.WithData(await defender.GetQuarantineAsync(ct).ConfigureAwait(false)));
 
         yield return Q(CommandId.GetFirewallStatus, async (_, _, ct) => CommandResult.WithData(await firewall.GetStatusAsync(ct).ConfigureAwait(false)));
+        yield return Q(CommandId.GetLocalAccounts, async (_, _, ct) => CommandResult.WithData(await accounts.ListAsync(ct).ConfigureAwait(false)));
         yield return Q(CommandId.GetUpdateStatus, async (_, _, ct) => CommandResult.WithData(await updates.GetStatusAsync(ct).ConfigureAwait(false)));
 
         yield return Q(CommandId.GetProcesses, async (_, _, ct) => CommandResult.WithData(await GetProcessesAsync(ct).ConfigureAwait(false)));

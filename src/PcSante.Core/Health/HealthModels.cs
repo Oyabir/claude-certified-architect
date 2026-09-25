@@ -80,6 +80,9 @@ public sealed record SystemSnapshot
 
     public bool? RestoreEnabled { get; init; }
 
+    /// <summary>Compte Invité intégré actif (null si inconnu).</summary>
+    public bool? GuestAccountEnabled { get; init; }
+
     public DateTimeOffset? LastRestorePointAt { get; init; }
 
     public int? CrashesLast30Days { get; init; }

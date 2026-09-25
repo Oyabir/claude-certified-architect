@@ -63,6 +63,8 @@ public static class CommandDefinitions
         A(CommandId.ResetFirewallRules, SafeguardKind.RestorePointAndOwnBackup, ConfirmationKind.ReducesProtection),
         A(CommandId.FlushDnsCache, SafeguardKind.None),
         A(CommandId.ResetNetworkStack, SafeguardKind.RestorePoint, ConfirmationKind.RestartsComputer),
+        Q(CommandId.GetLocalAccounts),
+        A(CommandId.DisableGuestAccount, SafeguardKind.OwnBackup),
 
         // Windows Update
         Q(CommandId.GetUpdateStatus),

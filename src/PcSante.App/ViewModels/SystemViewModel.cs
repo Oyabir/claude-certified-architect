@@ -33,6 +33,13 @@ public sealed partial class SystemViewModel(MainViewModel main) : PageViewModel(
 
     public ObservableCollection<SystemActionItem> NetworkActions { get; } = [];
 
+    public ObservableCollection<AccountRow> Accounts { get; } = [];
+
+    public ObservableCollection<SystemActionItem> AccountActions { get; } = [];
+
+    [ObservableProperty]
+    private string _accountsSummary = string.Empty;
+
     public override async Task LoadAsync()
     {
         var info = await Query<SystemInfo>(CommandId.GetSystemInfo).ConfigureAwait(true);
@@ -46,6 +53,18 @@ public sealed partial class SystemViewModel(MainViewModel main) : PageViewModel(
         Fill(RestoreActions, [CommandId.CreateRestorePoint, CommandId.EnableSystemRestore]);
         Fill(FirewallActions, [CommandId.ResetFirewallRules]);
         Fill(NetworkActions, [CommandId.FlushDnsCache, CommandId.ResetNetworkStack]);
+
+        var accounts = await Query<List<LocalAccount>>(CommandId.GetLocalAccounts).ConfigureAwait(true) ?? [];
+        Accounts.Clear();
+        foreach (var a in accounts.Where(a => a.Enabled || a.IsGuest))
+        {
+            Accounts.Add(new AccountRow(a.Name, Loc.T(a.IsAdministrator ? "Account_Admin" : a.IsGuest ? "Account_Guest" : "Account_Standard"),
+                Loc.T(a.Enabled ? "Account_Enabled" : "Account_Disabled")));
+        }
+
+        var admins = accounts.Count(a => a.IsAdministrator && a.Enabled);
+        AccountsSummary = Loc.F(admins > 2 ? "System_AccountsManyAdmins" : "System_AccountsAdmins", admins);
+        Fill(AccountActions, accounts.Any(a => a.IsGuest && a.Enabled) ? [CommandId.DisableGuestAccount] : []);
     }
 
     /// <summary>Bouton principal de l'écran.</summary>
@@ -68,3 +87,6 @@ public sealed partial class SystemViewModel(MainViewModel main) : PageViewModel(
         }
     }
 }
+
+/// <summary>Compte local affiché : nom, rôle (administrateur, standard, Invité), état.</summary>
+public sealed record AccountRow(string Name, string Role, string State);

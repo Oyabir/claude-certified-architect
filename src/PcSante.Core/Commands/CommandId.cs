@@ -41,6 +41,8 @@ public enum CommandId
     EnableSystemRestore = 323,
     FlushDnsCache = 330,
     ResetNetworkStack = 331,
+    GetLocalAccounts = 340,
+    DisableGuestAccount = 341,
 
     // --- Processus (M3) ---
     GetProcesses = 400,

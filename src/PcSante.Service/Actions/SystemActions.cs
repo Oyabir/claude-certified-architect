@@ -175,3 +175,39 @@ public sealed class ResetNetworkStackAction(INetworkRepairApi network) : SystemA
 
     public override Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) => Task.FromResult(true);
 }
+
+/// <summary>Désactivation du compte Invité (réversible : l'état précédent est sauvegardé pour « Annuler »).</summary>
+public sealed class DisableGuestAccountAction(ILocalAccountsApi accounts) : SystemAction
+{
+    private sealed record GuestState(string Sid);
+
+    public override CommandId Command => CommandId.DisableGuestAccount;
+
+    public override async Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        var guest = await GuestAsync(cancellationToken).ConfigureAwait(false);
+        return guest switch
+        {
+            null => Checks.NotAvailable("Result_NoGuestAccount"),
+            { Enabled: false } => CheckResult.AlreadyDone("Result_GuestAlreadyDisabled"),
+            _ => CheckResult.Proceed,
+        };
+    }
+
+    public override async Task<BackupData?> BackupAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await GuestAsync(cancellationToken).ConfigureAwait(false) is { } guest ? Backup.Of("Compte Invité", new GuestState(guest.Sid)) : null;
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await GuestAsync(cancellationToken).ConfigureAwait(false) is { } guest && await accounts.SetEnabledAsync(guest.Sid, false, cancellationToken).ConfigureAwait(false)
+            ? ExecutionResult.Ok("Result_GuestDisabled")
+            : ExecutionResult.Fail("Result_AccountFailed");
+
+    public override async Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await GuestAsync(cancellationToken).ConfigureAwait(false) is { Enabled: false };
+
+    public override Task<bool> UndoAsync(BackupData backup, CancellationToken cancellationToken) =>
+        accounts.SetEnabledAsync(Backup.Read<GuestState>(backup).Sid, true, cancellationToken);
+
+    private async Task<LocalAccount?> GuestAsync(CancellationToken cancellationToken) =>
+        (await accounts.ListAsync(cancellationToken).ConfigureAwait(false)).FirstOrDefault(a => a.IsGuest);
+}

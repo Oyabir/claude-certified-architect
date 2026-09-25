@@ -25,6 +25,7 @@ public static class WindowsHost
         services.AddSingleton<IWindowsUpdateApi, WindowsUpdateApi>();
         services.AddSingleton<ISystemRepairApi, WindowsSystemRepairApi>();
         services.AddSingleton<INetworkRepairApi, WindowsNetworkRepairApi>();
+        services.AddSingleton<ILocalAccountsApi, WindowsLocalAccountsApi>();
         services.AddSingleton<IRestorePointApi, WindowsRestorePointApi>();
         services.AddSingleton<IProcessApi, WindowsProcessApi>();
         services.AddSingleton<IServiceControlApi, WindowsServiceControlApi>();

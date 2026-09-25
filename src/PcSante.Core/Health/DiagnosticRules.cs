@@ -30,6 +30,7 @@ public static class DiagnosticRules
         new Rule(Firewall),
         new Rule(Updates),
         new Rule(Restore),
+        new Rule(Accounts),
         new Rule(Crashes),
         new Rule(Startup),
         new Rule(Memory),
@@ -141,6 +142,15 @@ public static class DiagnosticRules
         if (u.RebootRequired)
         {
             yield return Issue("RebootPending", HealthCategory.Stability, IssueSeverity.Info, null);
+        }
+    }
+
+    internal static IEnumerable<HealthIssue> Accounts(SystemSnapshot s)
+    {
+        // Compte Invité : ouvre une session sans mot de passe à n'importe qui ayant accès au PC.
+        if (s.GuestAccountEnabled == true)
+        {
+            yield return Issue("GuestEnabled", HealthCategory.Security, IssueSeverity.Warning, IssueFix.Run(CommandId.DisableGuestAccount));
         }
     }
 

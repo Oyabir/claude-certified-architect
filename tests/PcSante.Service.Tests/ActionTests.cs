@@ -352,6 +352,25 @@ public sealed class ActionTests
     }
 
     [Fact]
+    public async Task Compte_invite_desactive_puis_annule_et_signale_par_l_analyse()
+    {
+        await using var svc = new ServiceFixture();
+        (await svc.Run(CommandId.DisableGuestAccount)).Status.Should().Be(CommandStatus.AlreadyDone, "l'Invité est désactivé par défaut");
+
+        svc.Accounts.Accounts[1] = svc.Accounts.Accounts[1] with { Enabled = true };
+        var accounts = (await svc.Run(CommandId.GetLocalAccounts)).GetData<List<LocalAccount>>()!;
+        accounts.Should().Contain(a => a.IsGuest && a.Enabled).And.Contain(a => a.Name == "alice" && a.IsAdministrator);
+        (await svc.Run(CommandId.RunHealthAnalysis)).GetData<HealthReport>()!.Issues.Should().Contain(i => i.Code == "GuestEnabled");
+
+        var result = await svc.Run(CommandId.DisableGuestAccount);
+        result.MessageKey.Should().Be("Result_GuestDisabled");
+        svc.Accounts.Accounts[1].Enabled.Should().BeFalse();
+
+        (await svc.Run(CommandId.UndoAction, new() { ["undoId"] = result.UndoId!.Value.ToString() })).Status.Should().Be(CommandStatus.Succeeded);
+        svc.Accounts.Accounts[1].Enabled.Should().BeTrue("« Annuler » réactive le compte Invité");
+    }
+
+    [Fact]
     public async Task Rapport_mensuel_planifie_dans_la_langue_choisie()
     {
         await using var svc = new ServiceFixture();

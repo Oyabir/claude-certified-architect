@@ -69,7 +69,7 @@ Accord du commanditaire : modules locaux V2 + console PME. Hors périmètre : M1
 
 - ✅ V2-1 Planification (M9) : modèles « vérification des mises à jour » (hebdomadaire) et « rapport mensuel » (le 1er du mois, PDF produit par le service dans la langue choisie, Documents publics) ; fréquence « 1er du mois » pour tous les modèles 🖥️
 - ✅ V2-2 Réseau (M4/M6) : vidage DNS, réinitialisation Winsock et TCP/IP (point de restauration, confirmation, redémarrage laissé à l'utilisateur), écran Système 🖥️
-- ⏳ V2-3 Comptes (M6) : administrateurs locaux affichés, compte Invité désactivable (réversible)
+- ✅ V2-3 Comptes (M6) : comptes locaux et administrateurs affichés (groupe trouvé par SID, toutes langues), compte Invité désactivable et annulable, problème « compte Invité ouvert » dans l'analyse 🖥️
 - ⏳ V2-4 Antivirus tiers (M2) : produits du Centre de sécurité Windows et leur état sur l'écran Protection
 - ⏳ V2-5 BitLocker (M6, éditions Pro) : état, activation, sauvegarde de la clé de récupération ; masqué sur Famille
 - ⏳ V2-6 Sessions (M7, mode Avancé) : sessions locales et RDP (état, heure, IP), message, déconnexion, fermeture ; alerte RDP depuis une adresse jamais vue
