@@ -14,6 +14,7 @@ public enum Tone
     Good,
     Warn,
     Critical,
+    Brand,
 }
 
 /// <summary>
@@ -56,6 +57,9 @@ public static class HealthBrushes
             (Tone.Neutral, "Text") => "TextSecondary",
             (Tone.Neutral, _) => "TextMuted",
             (Tone.Warn, "Strong" or "Icon") => "Warn" + variant,
+            (Tone.Brand, "Soft") => "BrandSoft",
+            (Tone.Brand, "Text") => "BrandText",
+            (Tone.Brand, _) => "Brand",
             (_, "Text" or "Soft") => tone + variant,
             _ => tone.ToString(),
         };
@@ -71,6 +75,50 @@ public sealed class HealthBrushConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
         HealthBrushes.Of(HealthBrushes.ToneOf(value), parameter as string ?? string.Empty);
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+}
+
+/// <summary>Convertit un état en tonalité (<see cref="Tone"/>).</summary>
+public sealed class ToneConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => HealthBrushes.ToneOf(value);
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+}
+
+/// <summary>Icône d'un état : coche (tout va bien), point d'exclamation (à surveiller), croix (à corriger).</summary>
+public sealed class ToneIconConverter : IValueConverter
+{
+    public object? Convert(object value, Type targetType, object parameter, CultureInfo culture) => HealthBrushes.ToneOf(value) switch
+    {
+        Tone.Good or Tone.Brand => Application.Current?.TryFindResource("PcsIcon.check"),
+        Tone.Warn => Application.Current?.TryFindResource("PcsIcon.alert-circle"),
+        Tone.Critical => Application.Current?.TryFindResource("PcsIcon.x"),
+        _ => null,
+    };
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+}
+
+/// <summary>Valeur de 0 à 100 → fraction (barres, anneaux).</summary>
+public sealed class PercentToFractionConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value switch
+    {
+        int i => Math.Clamp(i, 0, 100) / 100.0,
+        double d => Math.Clamp(d, 0, 100) / 100.0,
+        _ => 0.0,
+    };
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+}
+
+/// <summary>Texte en majuscules selon la langue (titres de groupe « ESSENTIEL »).</summary>
+public sealed class UpperConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
+        value is string s ? s.ToUpper(Localization.Loc.Culture) : value;
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 }

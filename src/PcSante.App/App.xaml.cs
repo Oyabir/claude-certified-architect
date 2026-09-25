@@ -21,6 +21,21 @@ public partial class App : Application
         var preview = false;
 #if DEBUG
         preview = e.Args.Contains("--apercu", StringComparer.Ordinal);
+        if (e.Args.Contains("--galerie", StringComparer.Ordinal))
+        {
+            var store = new SettingsStore(SettingsStore.DefaultPath());
+            var settings = store.Load();
+            Loc.SetLanguage(settings.Language);
+            ApplyTheme(settings.Theme);
+            ShutdownMode = ShutdownMode.OnLastWindowClose;
+            MainWindow = new Views.GalleryWindow
+            {
+                FlowDirection = Loc.IsRightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight,
+                FontFamily = (FontFamily)Resources[Loc.IsRightToLeft ? "PcsFontArabic" : "PcsFontLatin"],
+            };
+            MainWindow.Show();
+            return;
+        }
 #endif
         _service = new ServiceClient(preview);
         OpenMainWindow();
@@ -64,6 +79,17 @@ public partial class App : Application
         _ = viewModel.StartAsync();
     }
 
+    private static readonly (string WpfUi, string Token)[] WpfUiBridge =
+    [
+        ("TextFillColorPrimaryBrush", "PcsTextPrimaryBrush"),
+        ("TextFillColorSecondaryBrush", "PcsTextSecondaryBrush"),
+        ("TextFillColorTertiaryBrush", "PcsTextMutedBrush"),
+        ("ApplicationBackgroundBrush", "PcsBackgroundBrush"),
+        ("CardBackgroundFillColorDefaultBrush", "PcsSurfaceBrush"),
+        ("CardStrokeColorDefaultBrush", "PcsBorderBrush"),
+        ("SolidBackgroundFillColorBaseBrush", "PcsBackgroundBrush"),
+    ];
+
     /// <summary>
     /// Applique le thème (clair, sombre ou celui de Windows) : dictionnaire de couleurs PC Santé correspondant,
     /// et couleur de marque imposée aux contrôles WPF-UI (plus aucune dépendance à l'accent de Windows).
@@ -89,6 +115,12 @@ public partial class App : Application
         else
         {
             merged[merged.IndexOf(current)] = colors;
+        }
+
+        // Contrôles WPF-UI restants (champs, listes, boîtes de dialogue) : mêmes couleurs que les jetons.
+        foreach (var (wpfUiKey, tokenKey) in WpfUiBridge)
+        {
+            Resources[wpfUiKey] = colors[tokenKey];
         }
 
         var brand = (Color)colors["PcsColorBrand"];

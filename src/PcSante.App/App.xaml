@@ -13,6 +13,7 @@
                 <!-- Jetons de la refonte (docs/redesign/tokens) : couleurs remplacées au démarrage selon le thème (App.ApplyTheme). -->
                 <ResourceDictionary Source="Themes/PcSante.Metrics.xaml" />
                 <ResourceDictionary Source="Themes/PcSante.Colors.Light.xaml" />
+                <ResourceDictionary Source="Themes/PcSante.Controls.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Polices embarquées (Assets/Fonts, licence OFL). -->
@@ -37,53 +38,35 @@
                 <Setter Property="TextWrapping" Value="Wrap" />
             </Style>
 
-            <Style x:Key="PageTitle" TargetType="TextBlock">
-                <Setter Property="FontSize" Value="28" />
-                <Setter Property="FontWeight" Value="SemiBold" />
+            <!-- Anciennes clés, alignées sur les composants de la refonte. -->
+            <Style x:Key="PageTitle" TargetType="TextBlock" BasedOn="{StaticResource PcsText.PageTitle}">
                 <Setter Property="Margin" Value="0,0,0,4" />
             </Style>
 
-            <Style x:Key="PageSubtitle" TargetType="TextBlock">
-                <Setter Property="FontSize" Value="15" />
-                <Setter Property="Opacity" Value="0.8" />
-                <Setter Property="Margin" Value="0,0,0,16" />
-                <Setter Property="TextWrapping" Value="Wrap" />
+            <Style x:Key="PageSubtitle" TargetType="TextBlock" BasedOn="{StaticResource PcsText.Muted}">
+                <Setter Property="Margin" Value="0,0,0,20" />
             </Style>
 
-            <Style x:Key="SectionTitle" TargetType="TextBlock">
-                <Setter Property="FontSize" Value="19" />
-                <Setter Property="FontWeight" Value="SemiBold" />
-                <Setter Property="Margin" Value="0,16,0,8" />
+            <Style x:Key="SectionTitle" TargetType="TextBlock" BasedOn="{StaticResource PcsText.SectionTitle}">
+                <Setter Property="Margin" Value="0,20,0,10" />
             </Style>
 
             <!-- Terme technique affiché en petit sous le libellé simple. -->
-            <Style x:Key="Technical" TargetType="TextBlock">
-                <Setter Property="FontSize" Value="14" />
-                <Setter Property="Opacity" Value="0.7" />
+            <Style x:Key="Technical" TargetType="TextBlock" BasedOn="{StaticResource PcsText.Muted}" />
+
+            <!-- Un seul bouton principal par écran. -->
+            <Style x:Key="PrimaryAction" TargetType="ButtonBase" BasedOn="{StaticResource PcsButton.Primary}">
+                <Setter Property="HorizontalAlignment" Value="Left" />
             </Style>
 
-            <!-- Un seul bouton principal par écran : grand et coloré. -->
-            <Style x:Key="PrimaryAction" TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
-                <Setter Property="Appearance" Value="Primary" />
-                <Setter Property="FontSize" Value="18" />
-                <Setter Property="FontWeight" Value="SemiBold" />
-                <Setter Property="MinHeight" Value="52" />
-                <Setter Property="MinWidth" Value="240" />
-                <Setter Property="Padding" Value="24,10" />
-            </Style>
-
-            <Style x:Key="SecondaryAction" TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
-                <Setter Property="Appearance" Value="Secondary" />
-                <Setter Property="FontSize" Value="14" />
-                <Setter Property="MinHeight" Value="36" />
-                <Setter Property="Padding" Value="14,6" />
+            <Style x:Key="SecondaryAction" TargetType="ButtonBase" BasedOn="{StaticResource PcsButton.Secondary}">
                 <Setter Property="Margin" Value="0,0,8,0" />
             </Style>
 
-            <!-- Pastille de couleur (texte blanc sur fond coloré : contraste suffisant en thème clair et sombre). -->
             <Style x:Key="Badge" TargetType="Border">
-                <Setter Property="CornerRadius" Value="6" />
-                <Setter Property="Padding" Value="10,4" />
+                <Setter Property="CornerRadius" Value="14" />
+                <Setter Property="Padding" Value="10,2" />
+                <Setter Property="MinHeight" Value="28" />
                 <Setter Property="HorizontalAlignment" Value="Left" />
                 <Setter Property="VerticalAlignment" Value="Center" />
             </Style>

@@ -19,6 +19,10 @@
     <PackageReference Include="WPF-UI" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
   </ItemGroup>
+  <!-- Galerie des composants : outil de développement, absent de la version livrée. -->
+  <ItemGroup Condition="'$(Configuration)' != 'Debug'">
+    <Page Remove="Views\GalleryWindow.xaml" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\pcsante.ico" />
     <Resource Include="Assets\Fonts\*.ttf" />
