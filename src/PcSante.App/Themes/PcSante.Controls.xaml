@@ -302,7 +302,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="c:ListRow">
-                    <Border x:Name="Root" BorderBrush="{DynamicResource PcsDividerBrush}" BorderThickness="0,0,0,1" Padding="0,14">
+                    <Border x:Name="Root" BorderBrush="{DynamicResource PcsDividerBrush}" BorderThickness="0,0,0,1" Padding="0,11">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />

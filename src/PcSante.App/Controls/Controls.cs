@@ -556,3 +556,107 @@ public class EmptyState : Control
         set => SetValue(IconProperty, value);
     }
 }
+
+/// <summary>
+/// Graphique temps réel (Performance) : 3 lignes de grille, aire à 14 % d'opacité + ligne de 2 px.
+/// Les points sont exprimés sur une zone de 300 × 100 et remis à l'échelle de la taille réelle (trait constant).
+/// Seconde courbe facultative (réseau : envoi).
+/// </summary>
+public class SparkChart : FrameworkElement
+{
+    public static readonly DependencyProperty PointsProperty = DependencyProperty.Register(
+        nameof(Points), typeof(PointCollection), typeof(SparkChart), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+
+    public static readonly DependencyProperty SecondPointsProperty = DependencyProperty.Register(
+        nameof(SecondPoints), typeof(PointCollection), typeof(SparkChart), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+
+    public static readonly DependencyProperty StrokeProperty = DependencyProperty.Register(
+        nameof(Stroke), typeof(Brush), typeof(SparkChart), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+
+    public static readonly DependencyProperty SecondStrokeProperty = DependencyProperty.Register(
+        nameof(SecondStroke), typeof(Brush), typeof(SparkChart), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+
+    public static readonly DependencyProperty GridBrushProperty = DependencyProperty.Register(
+        nameof(GridBrush), typeof(Brush), typeof(SparkChart), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+
+    public PointCollection? Points
+    {
+        get => (PointCollection?)GetValue(PointsProperty);
+        set => SetValue(PointsProperty, value);
+    }
+
+    public PointCollection? SecondPoints
+    {
+        get => (PointCollection?)GetValue(SecondPointsProperty);
+        set => SetValue(SecondPointsProperty, value);
+    }
+
+    public Brush? Stroke
+    {
+        get => (Brush?)GetValue(StrokeProperty);
+        set => SetValue(StrokeProperty, value);
+    }
+
+    public Brush? SecondStroke
+    {
+        get => (Brush?)GetValue(SecondStrokeProperty);
+        set => SetValue(SecondStrokeProperty, value);
+    }
+
+    public Brush? GridBrush
+    {
+        get => (Brush?)GetValue(GridBrushProperty);
+        set => SetValue(GridBrushProperty, value);
+    }
+
+    protected override void OnRender(DrawingContext drawingContext)
+    {
+        ArgumentNullException.ThrowIfNull(drawingContext);
+        double w = ActualWidth, h = ActualHeight;
+        if (w <= 0 || h <= 0)
+        {
+            return;
+        }
+
+        if (GridBrush is not null)
+        {
+            var gridPen = new Pen(GridBrush, 1);
+            foreach (var y in new[] { 0.0, 0.5, 1.0 })
+            {
+                var py = Math.Round(y * (h - 1)) + 0.5;
+                drawingContext.DrawLine(gridPen, new Point(0, py), new Point(w, py));
+            }
+        }
+
+        Draw(drawingContext, Points, Stroke, w, h);
+        Draw(drawingContext, SecondPoints, SecondStroke, w, h);
+    }
+
+    private static void Draw(DrawingContext dc, PointCollection? points, Brush? stroke, double w, double h)
+    {
+        if (points is not { Count: > 1 } || stroke is null)
+        {
+            return;
+        }
+
+        var scaled = points.Select(p => new Point(p.X / 300 * w, p.Y / 100 * (h - 2) + 1)).ToList();
+        var line = new StreamGeometry();
+        using (var ctx = line.Open())
+        {
+            ctx.BeginFigure(scaled[0], false, false);
+            ctx.PolyLineTo(scaled.Skip(1).ToList(), true, true);
+        }
+
+        var area = new StreamGeometry();
+        using (var ctx = area.Open())
+        {
+            ctx.BeginFigure(new Point(scaled[0].X, h), true, true);
+            ctx.PolyLineTo(scaled.Append(new Point(scaled[^1].X, h)).ToList(), false, true);
+        }
+
+        var fill = stroke.CloneCurrentValue();
+        fill.Opacity = 0.14;
+        dc.DrawGeometry(fill, null, area);
+        dc.DrawGeometry(null, new Pen(stroke, 2) { LineJoin = PenLineJoin.Round }, line);
+    }
+}

@@ -306,16 +306,27 @@ A restore point is created when needed. Continue?</value></data>
   <data name="License_UsedElsewhereHelp" xml:space="preserve"><value>Changed computers? Transfer your license: the old PC will be deactivated.</value></data>
   <data name="Metric_Battery" xml:space="preserve"><value>Battery</value></data>
   <data name="Metric_BatteryCharging" xml:space="preserve"><value>{0}% (plugged in)</value></data>
+  <data name="Metric_BatteryLow" xml:space="preserve"><value>Low</value></data>
   <data name="Metric_BatteryValue" xml:space="preserve"><value>{0}% (on battery)</value></data>
+  <data name="Metric_Collecting" xml:space="preserve"><value>Collecting data…</value></data>
   <data name="Metric_Cpu" xml:space="preserve"><value>Processor</value></data>
+  <data name="Metric_CpuNote" xml:space="preserve"><value>Usage</value></data>
   <data name="Metric_Disk" xml:space="preserve"><value>Disk</value></data>
+  <data name="Metric_DiskNote" xml:space="preserve"><value>Activity</value></data>
   <data name="Metric_Memory" xml:space="preserve"><value>Memory</value></data>
+  <data name="Metric_MemoryNote" xml:space="preserve"><value>{0} of {1}</value></data>
   <data name="Metric_MemoryValue" xml:space="preserve"><value>{0}% ({1} of {2})</value></data>
   <data name="Metric_Network" xml:space="preserve"><value>Network</value></data>
+  <data name="Metric_NetworkNote" xml:space="preserve"><value>Received · sent</value></data>
   <data name="Metric_NetworkValue" xml:space="preserve"><value>↓ {0}/s  ↑ {1}/s</value></data>
   <data name="Metric_NoBattery" xml:space="preserve"><value>No battery (desktop PC)</value></data>
+  <data name="Metric_OnAc" xml:space="preserve"><value>Plugged in</value></data>
+  <data name="Metric_OnBattery" xml:space="preserve"><value>On battery</value></data>
   <data name="Metric_Percent" xml:space="preserve"><value>{0}%</value></data>
+  <data name="Metric_Received" xml:space="preserve"><value>Received</value></data>
+  <data name="Metric_Sent" xml:space="preserve"><value>Sent</value></data>
   <data name="Metric_Temperature" xml:space="preserve"><value>Temperature</value></data>
+  <data name="Metric_TemperatureUnavailable" xml:space="preserve"><value>Not available on this PC</value></data>
   <data name="Metric_TemperatureValue" xml:space="preserve"><value>{0} °C</value></data>
   <data name="Nav_Advanced" xml:space="preserve"><value>Advanced</value></data>
   <data name="Nav_Essential" xml:space="preserve"><value>Essential</value></data>
@@ -344,10 +355,18 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Outcome_RolledBack" xml:space="preserve"><value>Rolled back</value></data>
   <data name="Outcome_Started" xml:space="preserve"><value>Started</value></data>
   <data name="Outcome_Succeeded" xml:space="preserve"><value>Succeeded</value></data>
+  <data name="Overlay_Bat" xml:space="preserve"><value>BAT {0}%</value></data>
+  <data name="Overlay_Cpu" xml:space="preserve"><value>CPU {0}%</value></data>
+  <data name="Overlay_Ram" xml:space="preserve"><value>RAM {0}%</value></data>
+  <data name="Overlay_Temp" xml:space="preserve"><value>{0} °C</value></data>
   <data name="Performance_HideOverlay" xml:space="preserve"><value>Hide the mini display</value></data>
+  <data name="Performance_Live" xml:space="preserve"><value>Live</value></data>
+  <data name="Performance_Overlay" xml:space="preserve"><value>Mini display</value></data>
   <data name="Performance_OverlayHidden" xml:space="preserve"><value>Mini display hidden.</value></data>
   <data name="Performance_OverlayShown" xml:space="preserve"><value>Mini display turned on.</value></data>
+  <data name="Performance_OverlayText" xml:space="preserve"><value>A small always-visible window with your readings. Position and content in Settings.</value></data>
   <data name="Performance_ShowOverlay" xml:space="preserve"><value>Show the mini display</value></data>
+  <data name="Performance_Window" xml:space="preserve"><value>last 2 minutes</value></data>
   <data name="Position_BottomLeft" xml:space="preserve"><value>Bottom left</value></data>
   <data name="Position_BottomRight" xml:space="preserve"><value>Bottom right</value></data>
   <data name="Position_TopLeft" xml:space="preserve"><value>Top left</value></data>

@@ -306,16 +306,27 @@
   <data name="License_UsedElsewhereHelp" xml:space="preserve"><value>هل غيّرت حاسوبك؟ انقل ترخيصك: سيتم إلغاء تفعيل الحاسوب القديم.</value></data>
   <data name="Metric_Battery" xml:space="preserve"><value>البطارية</value></data>
   <data name="Metric_BatteryCharging" xml:space="preserve"><value>{0}٪ (موصول بالشاحن)</value></data>
+  <data name="Metric_BatteryLow" xml:space="preserve"><value>منخفضة</value></data>
   <data name="Metric_BatteryValue" xml:space="preserve"><value>{0}٪ (على البطارية)</value></data>
+  <data name="Metric_Collecting" xml:space="preserve"><value>جارٍ جمع البيانات…</value></data>
   <data name="Metric_Cpu" xml:space="preserve"><value>المعالج</value></data>
+  <data name="Metric_CpuNote" xml:space="preserve"><value>الاستخدام</value></data>
   <data name="Metric_Disk" xml:space="preserve"><value>القرص</value></data>
+  <data name="Metric_DiskNote" xml:space="preserve"><value>النشاط</value></data>
   <data name="Metric_Memory" xml:space="preserve"><value>الذاكرة</value></data>
+  <data name="Metric_MemoryNote" xml:space="preserve"><value>{0} من {1}</value></data>
   <data name="Metric_MemoryValue" xml:space="preserve"><value>{0}٪ ({1} من {2})</value></data>
   <data name="Metric_Network" xml:space="preserve"><value>الشبكة</value></data>
+  <data name="Metric_NetworkNote" xml:space="preserve"><value>الاستقبال · الإرسال</value></data>
   <data name="Metric_NetworkValue" xml:space="preserve"><value>↓ {0}/ث  ↑ {1}/ث</value></data>
   <data name="Metric_NoBattery" xml:space="preserve"><value>لا توجد بطارية (حاسوب مكتبي)</value></data>
+  <data name="Metric_OnAc" xml:space="preserve"><value>موصول بالكهرباء</value></data>
+  <data name="Metric_OnBattery" xml:space="preserve"><value>على البطارية</value></data>
   <data name="Metric_Percent" xml:space="preserve"><value>{0}٪</value></data>
+  <data name="Metric_Received" xml:space="preserve"><value>الاستقبال</value></data>
+  <data name="Metric_Sent" xml:space="preserve"><value>الإرسال</value></data>
   <data name="Metric_Temperature" xml:space="preserve"><value>درجة الحرارة</value></data>
+  <data name="Metric_TemperatureUnavailable" xml:space="preserve"><value>غير متاحة على هذا الحاسوب</value></data>
   <data name="Metric_TemperatureValue" xml:space="preserve"><value>{0} °م</value></data>
   <data name="Nav_Advanced" xml:space="preserve"><value>متقدم</value></data>
   <data name="Nav_Essential" xml:space="preserve"><value>أساسي</value></data>
@@ -344,10 +355,18 @@
   <data name="Outcome_RolledBack" xml:space="preserve"><value>تم التراجع تلقائياً</value></data>
   <data name="Outcome_Started" xml:space="preserve"><value>بدأ</value></data>
   <data name="Outcome_Succeeded" xml:space="preserve"><value>نجح</value></data>
+  <data name="Overlay_Bat" xml:space="preserve"><value>البطارية {0}٪</value></data>
+  <data name="Overlay_Cpu" xml:space="preserve"><value>المعالج {0}٪</value></data>
+  <data name="Overlay_Ram" xml:space="preserve"><value>الذاكرة {0}٪</value></data>
+  <data name="Overlay_Temp" xml:space="preserve"><value>{0} °م</value></data>
   <data name="Performance_HideOverlay" xml:space="preserve"><value>إخفاء العرض المصغّر</value></data>
+  <data name="Performance_Live" xml:space="preserve"><value>مباشر</value></data>
+  <data name="Performance_Overlay" xml:space="preserve"><value>العرض المصغّر</value></data>
   <data name="Performance_OverlayHidden" xml:space="preserve"><value>تم إخفاء العرض المصغّر.</value></data>
   <data name="Performance_OverlayShown" xml:space="preserve"><value>تم تفعيل العرض المصغّر.</value></data>
+  <data name="Performance_OverlayText" xml:space="preserve"><value>نافذة صغيرة ظاهرة دائمًا بقياساتك. الموضع والمحتوى في الإعدادات.</value></data>
   <data name="Performance_ShowOverlay" xml:space="preserve"><value>إظهار العرض المصغّر</value></data>
+  <data name="Performance_Window" xml:space="preserve"><value>آخر دقيقتين</value></data>
   <data name="Position_BottomLeft" xml:space="preserve"><value>أسفل اليسار</value></data>
   <data name="Position_BottomRight" xml:space="preserve"><value>أسفل اليمين</value></data>
   <data name="Position_TopLeft" xml:space="preserve"><value>أعلى اليسار</value></data>

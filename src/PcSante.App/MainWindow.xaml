@@ -103,7 +103,8 @@
         </Style>
     </ui:FluentWindow.Resources>
 
-    <Grid>
+    <!-- Fond explicite : la fenêtre WPF-UI ne dessine pas toujours son Background (jeton Background, § 3.1). -->
+    <Grid Background="{DynamicResource PcsBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

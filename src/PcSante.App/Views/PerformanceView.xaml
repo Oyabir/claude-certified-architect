@@ -1,52 +1,159 @@
 <UserControl x:Class="PcSante.App.Views.PerformanceView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:l="clr-namespace:PcSante.App.Localization"
-             xmlns:vm="clr-namespace:PcSante.App.ViewModels">
+             xmlns:vm="clr-namespace:PcSante.App.ViewModels"
+             xmlns:c="clr-namespace:PcSante.App.Controls">
+    <!-- Performance (maquette 05-performance-theme-sombre.png) : 4 graphiques, température, batterie, mini-affichage. -->
     <UserControl.Resources>
         <DataTemplate x:Key="Metric" DataType="{x:Type vm:MetricSeries}">
-            <ui:Card Margin="0,0,12,12" Padding="16">
-                <StackPanel>
-                    <TextBlock Text="{Binding Label}" FontWeight="SemiBold" />
-                    <TextBlock Text="{Binding Value}" FontSize="20" Margin="0,4,0,8" AutomationProperties.LiveSetting="Off" />
-                    <Border Height="100" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" CornerRadius="4" ClipToBounds="True">
-                        <Viewbox Stretch="Fill">
-                            <Canvas Width="300" Height="100">
-                                <Polyline Points="{Binding Points}" Stroke="{DynamicResource PcsBrandBrush}" StrokeThickness="2" />
-                            </Canvas>
-                        </Viewbox>
-                    </Border>
-                </StackPanel>
-            </ui:Card>
+            <Border Style="{StaticResource PcsCard}" Padding="24,20">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <TextBlock DockPanel.Dock="Right" Text="{Binding Note}" Style="{StaticResource PcsText.Muted}" VerticalAlignment="Center" />
+                        <c:IconTile Icon="{Binding Icon, Converter={StaticResource ResourceKey}}" Size="34" IconSize="18" CornerRadius="10" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Label}" Style="{StaticResource PcsText.CardTitle}" FontWeight="SemiBold" Margin="12,0,0,0" VerticalAlignment="Center" />
+                    </DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="{Binding Value}" Style="{StaticResource PcsText.Kpi}" Margin="0,12,0,10" AutomationProperties.LiveSetting="Off" />
+                    <Grid MinHeight="60">
+                        <c:SparkChart Points="{Binding Points}" Stroke="{DynamicResource PcsBrandBrush}" GridBrush="{DynamicResource PcsDividerBrush}" />
+                        <TextBlock Text="{l:T Metric_Collecting}" Style="{StaticResource PcsText.Muted}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   Visibility="{Binding IsCollecting, Converter={StaticResource Visible}}" />
+                    </Grid>
+                </DockPanel>
+            </Border>
         </DataTemplate>
     </UserControl.Resources>
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
-        <StackPanel Margin="40,28,40,32">
-            <TextBlock Text="{Binding Title}" Style="{StaticResource PageTitle}" />
-            <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PageSubtitle}" />
-            <ui:Button Style="{StaticResource PrimaryAction}" HorizontalAlignment="Left" Content="{Binding OverlayButton}"
-                       Icon="{ui:SymbolIcon Gauge24}" Command="{Binding ToggleOverlayCommand}" Margin="0,0,0,16" />
-            <UniformGrid Columns="2">
-                <ContentControl Content="{Binding Cpu}" ContentTemplate="{StaticResource Metric}" Focusable="False" />
-                <ContentControl Content="{Binding Memory}" ContentTemplate="{StaticResource Metric}" Focusable="False" />
-                <ContentControl Content="{Binding Disk}" ContentTemplate="{StaticResource Metric}" Focusable="False" />
-                <ContentControl Content="{Binding Network}" ContentTemplate="{StaticResource Metric}" Focusable="False" />
-            </UniformGrid>
-            <UniformGrid Columns="2">
-                <ui:Card Margin="0,0,12,12" Padding="16">
-                    <StackPanel>
-                        <TextBlock Text="{l:T Metric_Temperature}" FontWeight="SemiBold" />
-                        <TextBlock Text="{Binding Temperature}" FontSize="20" />
+
+    <Grid Margin="40,28,40,32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.ColumnSpan="3" Margin="0,0,0,24">
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Bottom">
+                <Ellipse Width="8" Height="8" Fill="{DynamicResource PcsBrandBrush}" Margin="0,0,8,0" VerticalAlignment="Center" />
+                <TextBlock Text="{l:T Performance_Live}" Style="{StaticResource PcsText.Muted}" />
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="{Binding Title}" Style="{StaticResource PcsText.PageTitle}" />
+                <TextBlock Text="{Binding SubtitleWithWindow}" Style="{StaticResource PcsText.Muted}" Margin="0,4,0,0" />
+            </StackPanel>
+        </DockPanel>
+
+        <ContentControl Grid.Row="1" Content="{Binding Cpu}" ContentTemplate="{StaticResource Metric}" Focusable="False" />
+        <ContentControl Grid.Row="1" Grid.Column="2" Content="{Binding Memory}" ContentTemplate="{StaticResource Metric}" Focusable="False" />
+        <ContentControl Grid.Row="3" Content="{Binding Disk}" ContentTemplate="{StaticResource Metric}" Focusable="False" />
+
+        <!-- Réseau : deux courbes (réception en couleur de marque, envoi en orange) et légende -->
+        <Border Grid.Row="3" Grid.Column="2" Style="{StaticResource PcsCard}" Padding="24,20">
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Top">
+                    <TextBlock DockPanel.Dock="Right" Text="{Binding Network.Note}" Style="{StaticResource PcsText.Muted}" VerticalAlignment="Center" />
+                    <c:IconTile Icon="{StaticResource PcsIcon.wifi}" Size="34" IconSize="18" CornerRadius="10" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Network.Label}" Style="{StaticResource PcsText.CardTitle}" FontWeight="SemiBold" Margin="12,0,0,0" VerticalAlignment="Center" />
+                </DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="{Binding Network.Value}" Style="{StaticResource PcsText.Kpi}" Margin="0,12,0,10" AutomationProperties.LiveSetting="Off" />
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,8,0,0">
+                    <Ellipse Width="8" Height="8" Fill="{DynamicResource PcsBrandBrush}" Margin="0,0,6,0" VerticalAlignment="Center" />
+                    <TextBlock Text="{l:T Metric_Received}" Style="{StaticResource PcsText.Muted}" Margin="0,0,16,0" />
+                    <Ellipse Width="8" Height="8" Fill="{DynamicResource PcsWarnBrush}" Margin="0,0,6,0" VerticalAlignment="Center" />
+                    <TextBlock Text="{l:T Metric_Sent}" Style="{StaticResource PcsText.Muted}" />
+                </StackPanel>
+                <Grid MinHeight="60">
+                    <c:SparkChart Points="{Binding Network.Points}" SecondPoints="{Binding NetworkSent.Points}"
+                                  Stroke="{DynamicResource PcsBrandBrush}" SecondStroke="{DynamicResource PcsWarnBrush}" GridBrush="{DynamicResource PcsDividerBrush}" />
+                    <TextBlock Text="{l:T Metric_Collecting}" Style="{StaticResource PcsText.Muted}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Visibility="{Binding Network.IsCollecting, Converter={StaticResource Visible}}" />
+                </Grid>
+            </DockPanel>
+        </Border>
+
+        <!-- Température · batterie · mini-affichage -->
+        <Grid Grid.Row="5" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Style="{StaticResource PcsCard}" Padding="24,20">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <c:IconTile Icon="{StaticResource PcsIcon.thermometer}" Size="34" IconSize="18" CornerRadius="10" VerticalAlignment="Center" />
+                        <TextBlock Text="{l:T Metric_Temperature}" Style="{StaticResource PcsText.CardTitle}" FontWeight="SemiBold" Margin="12,0,0,0" VerticalAlignment="Center" />
                     </StackPanel>
-                </ui:Card>
-                <ui:Card Margin="0,0,12,12" Padding="16">
-                    <StackPanel>
-                        <TextBlock Text="{l:T Metric_Battery}" FontWeight="SemiBold" />
-                        <TextBlock Text="{Binding Battery}" FontSize="20" />
-                    </StackPanel>
-                </ui:Card>
-            </UniformGrid>
-        </StackPanel>
-    </ScrollViewer>
+                    <TextBlock Text="{Binding Temperature}" Style="{StaticResource PcsText.Kpi}" Margin="0,12,0,10"
+                               Visibility="{Binding HasTemperature, Converter={StaticResource Visible}}" />
+                    <ProgressBar Style="{StaticResource PcsProgress}" Value="{Binding TemperatureLevel, Mode=OneWay}"
+                                 Visibility="{Binding HasTemperature, Converter={StaticResource Visible}}" />
+                    <TextBlock Text="{l:T Metric_TemperatureUnavailable}" Style="{StaticResource PcsText.Caption}" Margin="0,14,0,0"
+                               Visibility="{Binding HasTemperature, Converter={StaticResource Collapsed}}" />
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="2" Style="{StaticResource PcsCard}" Padding="24,20">
+                <StackPanel>
+                    <DockPanel>
+                        <TextBlock x:Name="BatteryNote" DockPanel.Dock="Right" Text="{Binding BatteryNote}" FontWeight="Bold" VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{DynamicResource PcsTextMutedBrush}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding BatteryLow}" Value="True">
+                                            <Setter Property="Foreground" Value="{DynamicResource PcsWarnTextBrush}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <c:IconTile Icon="{StaticResource PcsIcon.battery}" Size="34" IconSize="18" CornerRadius="10" VerticalAlignment="Center" />
+                        <TextBlock Text="{l:T Metric_Battery}" Style="{StaticResource PcsText.CardTitle}" FontWeight="SemiBold" Margin="12,0,0,0" VerticalAlignment="Center" />
+                    </DockPanel>
+                    <TextBlock Text="{Binding BatteryValue}" Style="{StaticResource PcsText.Kpi}" Margin="0,12,0,10"
+                               Visibility="{Binding HasBattery, Converter={StaticResource Visible}}" />
+                    <ProgressBar Value="{Binding BatteryLevel, Mode=OneWay}" Visibility="{Binding HasBattery, Converter={StaticResource Visible}}">
+                        <ProgressBar.Style>
+                            <Style TargetType="ProgressBar" BasedOn="{StaticResource PcsProgress}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding BatteryLow}" Value="True">
+                                        <Setter Property="Foreground" Value="{DynamicResource PcsWarnBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ProgressBar.Style>
+                    </ProgressBar>
+                    <TextBlock Text="{Binding Battery}" Style="{StaticResource PcsText.Caption}" Margin="0,14,0,0"
+                               Visibility="{Binding HasBattery, Converter={StaticResource Collapsed}}" />
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="4" Style="{StaticResource PcsCard}" Padding="24,20">
+                <StackPanel>
+                    <DockPanel>
+                        <Button DockPanel.Dock="Right" Style="{StaticResource PcsSwitchButton}" c:Ui.IsOn="{Binding OverlayEnabled}"
+                                Command="{Binding ToggleOverlayCommand}" AutomationProperties.Name="{l:T Performance_Overlay}" />
+                        <TextBlock Text="{l:T Performance_Overlay}" Style="{StaticResource PcsText.CardTitle}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    </DockPanel>
+                    <Border CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource PcsBorderBrush}" Background="{DynamicResource PcsSurfaceSubtleBrush}"
+                            Padding="12,6" Margin="0,14,0,10" HorizontalAlignment="Left">
+                        <TextBlock Text="{Binding OverlayPreview}" FontWeight="SemiBold" TextWrapping="NoWrap" Typography.NumeralAlignment="Tabular" />
+                    </Border>
+                    <TextBlock Text="{l:T Performance_OverlayText}" Style="{StaticResource PcsText.Muted}" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
 </UserControl>
