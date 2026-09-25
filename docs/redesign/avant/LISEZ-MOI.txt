@@ -1,0 +1,14 @@
+﻿PC Santé - captures d'écran (25/09/2026), version de test « toutes fonctions » installée sur Windows 11.
+
+1-application : les 11 écrans en thème clair (pages longues en plusieurs parties : -1, -2, ...),
+                plus thème sombre, mode Simple, arabe (de droite à gauche) et premier lancement.
+2-console-pme : console web des gérants (connexion, postes, détail, alertes, rapports, organisation, arabe).
+
+Premières remarques sur le visuel (à discuter) :
+- Couleur principale : elle suit la couleur d'accent de Windows (marron sur ce PC) ; PC Santé n'a pas encore
+  d'identité visuelle propre (couleur de marque, logo, icône).
+- Écrans Système et Optimisation : longues listes de cartes identiques, hiérarchie faible, pas d'icône par section.
+- Accueil : grand espace vide sous les problèmes ; boutons « Voir » peu explicites.
+- Format des nombres : « 22.1 Go » au lieu de « 22,1 Go » en français (à corriger).
+- Barre latérale : élément sélectionné en bloc plein très marqué ; menu du bas (Licence, Paramètres) de style différent.
+- Console PME : style sobre mais générique ; mêmes couleurs de score que l'application (cohérent).
