@@ -76,6 +76,15 @@ public sealed partial class OptimizationViewModel(MainViewModel main) : PageView
             : Loc.F("Profile_Preview", changes.Count, string.Join(", ", changes.Select(c => c.DisplayName)));
     }
 
+    [ObservableProperty]
+    private string _visualEffectsState = string.Empty;
+
+    [ObservableProperty]
+    private bool _canLightenVisualEffects;
+
+    [RelayCommand]
+    private Task LightenVisualEffectsAsync() => ExecuteAsync(CommandId.LightenVisualEffects);
+
     [RelayCommand]
     private Task ApplyProfileAsync() =>
         ExecuteAsync(CommandId.ApplyServiceProfile, new Dictionary<string, string> { ["profile"] = SelectedProfile }, busyKey: "Profile_Applying");
@@ -121,6 +130,10 @@ public sealed partial class OptimizationViewModel(MainViewModel main) : PageView
             }
 
             await LoadProfilePreviewAsync().ConfigureAwait(true);
+
+            var effects = await Query<VisualEffectsSettings>(CommandId.GetVisualEffects).ConfigureAwait(true);
+            VisualEffectsState = effects is null ? string.Empty : Loc.T(effects.IsLight ? "Visual_Light" : "Visual_Default");
+            CanLightenVisualEffects = effects is { IsLight: false };
         }
 
         Undoable.Clear();

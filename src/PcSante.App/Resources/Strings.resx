@@ -716,4 +716,14 @@ Gardez ce fichier hors du PC (clé USB, papier).</value></data>
   <data name="Profile_NothingToDo" xml:space="preserve"><value>Rien à changer pour ce profil sur ce PC.</value></data>
   <data name="Profile_Apply" xml:space="preserve"><value>Appliquer le profil</value></data>
   <data name="Profile_Applying" xml:space="preserve"><value>Application du profil…</value></data>
+  <data name="Command_GetVisualEffects" xml:space="preserve"><value>Effets visuels</value></data>
+  <data name="Command_LightenVisualEffects" xml:space="preserve"><value>Alléger les effets visuels</value></data>
+  <data name="Result_VisualEffectsLightened" xml:space="preserve"><value>Effets visuels allégés. Le changement s'applique à votre prochaine ouverture de session.</value></data>
+  <data name="Result_VisualEffectsAlreadyLight" xml:space="preserve"><value>Les effets visuels sont déjà allégés.</value></data>
+  <data name="Result_VisualEffectsUnavailable" xml:space="preserve"><value>Les effets visuels de ce compte ne peuvent pas être modifiés maintenant.</value></data>
+  <data name="Visual_Title" xml:space="preserve"><value>Effets visuels</value></data>
+  <data name="Visual_Explanation" xml:space="preserve"><value>Couper les animations et transparences rend un PC ancien plus réactif. Le texte reste lisse. Annulable.</value></data>
+  <data name="Visual_Light" xml:space="preserve"><value>Effets visuels allégés.</value></data>
+  <data name="Visual_Default" xml:space="preserve"><value>Effets visuels complets (réglage de Windows).</value></data>
+  <data name="Visual_Lighten" xml:space="preserve"><value>Alléger</value></data>
 </root>

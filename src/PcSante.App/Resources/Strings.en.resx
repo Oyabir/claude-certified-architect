@@ -716,4 +716,14 @@ Keep this file off the PC (USB drive, paper).</value></data>
   <data name="Profile_NothingToDo" xml:space="preserve"><value>Nothing to change for this profile on this PC.</value></data>
   <data name="Profile_Apply" xml:space="preserve"><value>Apply the profile</value></data>
   <data name="Profile_Applying" xml:space="preserve"><value>Applying the profile…</value></data>
+  <data name="Command_GetVisualEffects" xml:space="preserve"><value>Visual effects</value></data>
+  <data name="Command_LightenVisualEffects" xml:space="preserve"><value>Lighten visual effects</value></data>
+  <data name="Result_VisualEffectsLightened" xml:space="preserve"><value>Visual effects lightened. The change applies the next time you sign in.</value></data>
+  <data name="Result_VisualEffectsAlreadyLight" xml:space="preserve"><value>Visual effects are already lightened.</value></data>
+  <data name="Result_VisualEffectsUnavailable" xml:space="preserve"><value>Visual effects for this account cannot be changed right now.</value></data>
+  <data name="Visual_Title" xml:space="preserve"><value>Visual effects</value></data>
+  <data name="Visual_Explanation" xml:space="preserve"><value>Turning off animations and transparency makes an older PC more responsive. Text stays smooth. Can be undone.</value></data>
+  <data name="Visual_Light" xml:space="preserve"><value>Visual effects lightened.</value></data>
+  <data name="Visual_Default" xml:space="preserve"><value>Full visual effects (Windows setting).</value></data>
+  <data name="Visual_Lighten" xml:space="preserve"><value>Lighten</value></data>
 </root>

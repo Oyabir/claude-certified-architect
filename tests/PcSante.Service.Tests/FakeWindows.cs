@@ -501,3 +501,20 @@ internal sealed class FakeSessions : ISessionApi
         return Task.FromResult(true);
     }
 }
+
+internal sealed class FakeVisualEffects : IVisualEffectsApi
+{
+    public Dictionary<string, VisualEffectsSettings> Users { get; } = new()
+    {
+        ["S-1-5-21-1"] = new([0x9E, 0x3E, 0x07, 0x80, 0x12, 0x00, 0x00, 0x00], "1", null, null),
+    };
+
+    public Task<VisualEffectsSettings?> ReadAsync(string userSid, CancellationToken cancellationToken) =>
+        Task.FromResult(Users.TryGetValue(userSid, out var s) ? s : null);
+
+    public Task<bool> WriteAsync(string userSid, VisualEffectsSettings settings, CancellationToken cancellationToken)
+    {
+        Users[userSid] = settings;
+        return Task.FromResult(true);
+    }
+}

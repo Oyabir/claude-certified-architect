@@ -29,6 +29,7 @@ public sealed class QueryRegistry(
     IBitLockerApi bitLocker,
     ISessionApi sessions,
     IServiceControlApi services,
+    IVisualEffectsApi visualEffects,
     IWindowsUpdateApi updates,
     IProcessApi processes,
     ISignatureVerifier signatures,
@@ -63,6 +64,8 @@ public sealed class QueryRegistry(
         yield return Q(CommandId.GetSessions, async (_, _, ct) => CommandResult.WithData(await sessions.ListAsync(ct).ConfigureAwait(false)));
         yield return Q(CommandId.GetServiceProfileChanges, async (p, _, ct) =>
             CommandResult.WithData(await ServiceProfileAction.ChangesAsync(services, p.GetEnum<ServiceProfile>("profile"), ct).ConfigureAwait(false)));
+        yield return Q(CommandId.GetVisualEffects, async (_, c, ct) => CommandResult.WithData(
+            c.UserSid is null ? null : await visualEffects.ReadAsync(c.UserSid, ct).ConfigureAwait(false)));
         yield return Q(CommandId.GetLocalAccounts, async (_, _, ct) => CommandResult.WithData(await accounts.ListAsync(ct).ConfigureAwait(false)));
         yield return Q(CommandId.GetUpdateStatus, async (_, _, ct) => CommandResult.WithData(await updates.GetStatusAsync(ct).ConfigureAwait(false)));
 

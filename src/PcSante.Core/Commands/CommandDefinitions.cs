@@ -75,6 +75,8 @@ public static class CommandDefinitions
         // Profils de services (M4) : passage en Manuel seulement, point de restauration + sauvegarde pour « Annuler »
         Q(CommandId.GetServiceProfileChanges, RequiredTier.Free, ServiceProfileParameter),
         A(CommandId.ApplyServiceProfile, SafeguardKind.RestorePointAndOwnBackup, p: ServiceProfileParameter),
+        Q(CommandId.GetVisualEffects),
+        A(CommandId.LightenVisualEffects, SafeguardKind.RestorePointAndOwnBackup),
 
         // Sessions (M7) : messages d'une liste fermée, actions réservées aux administrateurs (vérifié par le service)
         Q(CommandId.GetSessions),

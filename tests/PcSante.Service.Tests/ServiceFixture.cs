@@ -36,6 +36,7 @@ internal sealed class ServiceFixture : IAsyncDisposable
         services.AddSingleton<ISecurityCenterApi>(SecurityCenter);
         services.AddSingleton<IBitLockerApi>(BitLocker);
         services.AddSingleton<ISessionApi>(Sessions);
+        services.AddSingleton<IVisualEffectsApi>(VisualEffects);
         services.AddSingleton<IRestorePointApi>(Restore);
         services.AddSingleton<IProcessApi>(Processes);
         services.AddSingleton<IServiceControlApi>(ServicesApi);
@@ -85,6 +86,8 @@ internal sealed class ServiceFixture : IAsyncDisposable
     public FakeBitLocker BitLocker { get; } = new();
 
     public FakeSessions Sessions { get; } = new();
+
+    public FakeVisualEffects VisualEffects { get; } = new();
 
     public FakeRestore Restore { get; } = new();
 

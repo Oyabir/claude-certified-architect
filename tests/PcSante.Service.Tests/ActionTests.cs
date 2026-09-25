@@ -469,6 +469,25 @@ public sealed class ActionTests
     }
 
     [Fact]
+    public async Task Effets_visuels_alleges_pour_l_utilisateur_appelant_et_annulables()
+    {
+        await using var svc = new ServiceFixture();
+        var sid = ServiceFixture.Alice.UserSid!;
+        var before = svc.VisualEffects.Users[sid];
+
+        (await svc.Run(CommandId.GetVisualEffects)).GetData<VisualEffectsSettings>()!.IsLight.Should().BeFalse();
+        var result = await svc.Run(CommandId.LightenVisualEffects);
+        result.MessageKey.Should().Be("Result_VisualEffectsLightened");
+        svc.VisualEffects.Users[sid].IsLight.Should().BeTrue("le profil de l'appelant est modifié, pas celui de SYSTEM");
+        svc.Restore.Points.Should().ContainSingle();
+        (await svc.Run(CommandId.LightenVisualEffects)).Status.Should().Be(CommandStatus.AlreadyDone);
+
+        (await svc.Run(CommandId.UndoAction, new() { ["undoId"] = result.UndoId!.Value.ToString() })).Status.Should().Be(CommandStatus.Succeeded);
+        svc.VisualEffects.Users[sid].UserPreferencesMask.Should().Equal(before.UserPreferencesMask);
+        svc.VisualEffects.Users[sid].MinAnimate.Should().Be("1");
+    }
+
+    [Fact]
     public async Task Antivirus_declares_consultables_en_offre_gratuite()
     {
         await using var svc = new ServiceFixture(premium: false);

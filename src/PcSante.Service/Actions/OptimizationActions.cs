@@ -307,3 +307,54 @@ public sealed class ServiceProfileAction(IServiceControlApi services) : SystemAc
 
     private static ServiceProfile Profile(ActionContext context) => context.Parameters.GetEnum<ServiceProfile>("profile");
 }
+
+/// <summary>
+/// Effets visuels allégés pour l'utilisateur appelant (son profil, pas celui de SYSTEM) ; effet à la prochaine
+/// ouverture de session. Point de restauration et sauvegarde des valeurs précédentes pour « Annuler ».
+/// </summary>
+public sealed class LightenVisualEffectsAction(IVisualEffectsApi visualEffects) : SystemAction
+{
+    private sealed record Previous(string Sid, VisualEffectsSettings Settings);
+
+    public override CommandId Command => CommandId.LightenVisualEffects;
+
+    public override async Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+        if (context.Caller.UserSid is not { } sid || await visualEffects.ReadAsync(sid, cancellationToken).ConfigureAwait(false) is not { } current)
+        {
+            return Checks.NotAvailable("Result_VisualEffectsUnavailable");
+        }
+
+        return current.IsLight ? CheckResult.AlreadyDone("Result_VisualEffectsAlreadyLight") : CheckResult.Proceed;
+    }
+
+    public override async Task<BackupData?> BackupAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+        var sid = context.Caller.UserSid!;
+        return await visualEffects.ReadAsync(sid, cancellationToken).ConfigureAwait(false) is { } current
+            ? Backup.Of("Effets visuels", new Previous(sid, current))
+            : null;
+    }
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+        return await visualEffects.WriteAsync(context.Caller.UserSid!, VisualEffectsSettings.Light, cancellationToken).ConfigureAwait(false)
+            ? ExecutionResult.Ok("Result_VisualEffectsLightened")
+            : ExecutionResult.Fail("Result_VisualEffectsUnavailable");
+    }
+
+    public override async Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+        return await visualEffects.ReadAsync(context.Caller.UserSid!, cancellationToken).ConfigureAwait(false) is { IsLight: true };
+    }
+
+    public override Task<bool> UndoAsync(BackupData backup, CancellationToken cancellationToken)
+    {
+        var previous = Backup.Read<Previous>(backup);
+        return visualEffects.WriteAsync(previous.Sid, previous.Settings, cancellationToken);
+    }
+}

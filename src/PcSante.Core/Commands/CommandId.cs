@@ -96,6 +96,8 @@ public enum CommandId
     // --- Optimisations V2 (M4) ---
     GetServiceProfileChanges = 1100,
     ApplyServiceProfile = 1101,
+    GetVisualEffects = 1102,
+    LightenVisualEffects = 1103,
 
     // --- Sessions (M7) ---
     GetSessions = 1000,
