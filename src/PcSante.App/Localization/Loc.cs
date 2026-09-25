@@ -56,6 +56,35 @@ public static class Loc
         return string.Format(Culture, "{0:0.#} {1}", value, units[unit]);
     }
 
+    /// <summary>Heure sans secondes (« 15:20 »).</summary>
+    public static string Time(DateTimeOffset date) => date.ToLocalTime().ToString("t", Culture);
+
+    /// <summary>Date relative : « aujourd'hui à 15:20 », « hier à 22:20 », sinon « 24/09/2026 à 15:20 ».</summary>
+    public static string When(DateTimeOffset? date)
+    {
+        if (date is not { } d || d.Year <= 1990)
+        {
+            return T("Common_Never");
+        }
+
+        var local = d.ToLocalTime();
+        var today = DateTime.Today;
+        return local.Date == today ? F("Date_TodayAt", Time(d))
+            : local.Date == today.AddDays(-1) ? F("Date_YesterdayAt", Time(d))
+            : F("Date_DayAt", local.ToString("d", Culture), Time(d));
+    }
+
+    /// <summary>Première lettre en majuscule (début de ligne : « Aujourd'hui à 12:06 »).</summary>
+    public static string Capitalize(string text) =>
+        string.IsNullOrEmpty(text) ? text : char.ToUpper(text[0], Culture) + text[1..];
+
+    /// <summary>Nombre décimal transmis en format invariant (« 28.7 ») → format de la langue (« 28,7 »).</summary>
+    public static object Number(string value) =>
+        value.Contains('.', StringComparison.Ordinal)
+        && double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out var n)
+            ? n.ToString("0.#", Culture)
+            : value;
+
     public static string Date(DateTimeOffset? date) =>
         date is { } d && d.Year > 1990 ? d.ToLocalTime().ToString("g", Culture) : T("Common_Never");
 }

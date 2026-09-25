@@ -18,6 +18,10 @@
     <infra:UpperConverter x:Key="Upper" />
     <infra:ResourceKeyConverter x:Key="ResourceKey" />
     <infra:AllTrueToVisibilityConverter x:Key="AllTrue" />
+    <infra:NotConverter x:Key="Not" />
+
+    <!-- Texte des cartes de marque (Nuit) : blanc dans les deux thèmes, la carte Nuit ne change pas (§ 8). -->
+    <SolidColorBrush x:Key="PcsOnNightBrush" Color="#FFFFFF" />
 
     <!-- ===== Anneau de focus : 2 px FocusRing décalé de 2 px ===== -->
     <Style x:Key="PcsFocusVisual">

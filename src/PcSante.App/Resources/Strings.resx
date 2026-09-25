@@ -4,6 +4,9 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Activity_All" xml:space="preserve"><value>Tout voir</value></data>
+  <data name="Activity_Empty" xml:space="preserve"><value>Aucune action pour l'instant.</value></data>
+  <data name="Activity_Title" xml:space="preserve"><value>Activité récente</value></data>
   <data name="Busy_CreateRestorePoint" xml:space="preserve"><value>Création du point de restauration…</value></data>
   <data name="Busy_EnableSystemRestore" xml:space="preserve"><value>Activation de la restauration du système…</value></data>
   <data name="Busy_InstallUpdates" xml:space="preserve"><value>Installation des mises à jour… Vous pouvez continuer à utiliser votre PC.</value></data>
@@ -12,9 +15,13 @@
   <data name="Busy_RunDismRepair" xml:space="preserve"><value>Réparation approfondie de Windows (15 à 45 minutes)…</value></data>
   <data name="Busy_RunSystemFileCheck" xml:space="preserve"><value>Vérification des fichiers de Windows (10 à 30 minutes)…</value></data>
   <data name="Category_Performance" xml:space="preserve"><value>Performance</value></data>
+  <data name="Category_Performance_Subject" xml:space="preserve"><value>la performance</value></data>
   <data name="Category_Security" xml:space="preserve"><value>Sécurité</value></data>
+  <data name="Category_Security_Subject" xml:space="preserve"><value>la sécurité</value></data>
   <data name="Category_Stability" xml:space="preserve"><value>Stabilité</value></data>
+  <data name="Category_Stability_Subject" xml:space="preserve"><value>la stabilité</value></data>
   <data name="Category_Storage" xml:space="preserve"><value>Stockage</value></data>
+  <data name="Category_Storage_Subject" xml:space="preserve"><value>le stockage</value></data>
   <data name="Cleanup_Browsers" xml:space="preserve"><value>Cache des navigateurs</value></data>
   <data name="Cleanup_BrowsersWhy" xml:space="preserve"><value>Copies de pages web. Vos mots de passe et favoris ne sont pas touchés. Navigateurs ouverts ignorés.</value></data>
   <data name="Cleanup_Button" xml:space="preserve"><value>Nettoyer</value></data>
@@ -116,6 +123,9 @@ Continuer ?</value></data>
   <data name="Confirm_DeletesFiles" xml:space="preserve"><value>« {0} » va supprimer des fichiers définitivement. Continuer ?</value></data>
   <data name="Confirm_ReducesProtection" xml:space="preserve"><value>« {0} » réduit la protection de votre PC. Êtes-vous sûr ?</value></data>
   <data name="Confirm_RestartsComputer" xml:space="preserve"><value>« {0} » peut nécessiter un redémarrage du PC. Enregistrez votre travail avant de continuer. Continuer ?</value></data>
+  <data name="Date_DayAt" xml:space="preserve"><value>le {0} à {1}</value></data>
+  <data name="Date_TodayAt" xml:space="preserve"><value>aujourd'hui à {0}</value></data>
+  <data name="Date_YesterdayAt" xml:space="preserve"><value>hier à {0}</value></data>
   <data name="Day_Everyday" xml:space="preserve"><value>Tous les jours</value></data>
   <data name="Day_Friday" xml:space="preserve"><value>Vendredi</value></data>
   <data name="Day_Monday" xml:space="preserve"><value>Lundi</value></data>
@@ -144,22 +154,42 @@ Continuer ?</value></data>
   <data name="Firewall_PrivateTech" xml:space="preserve"><value>Profil privé</value></data>
   <data name="Firewall_Public" xml:space="preserve"><value>Wi-Fi public (café, hôtel, gare)</value></data>
   <data name="Firewall_PublicTech" xml:space="preserve"><value>Profil public</value></data>
-  <data name="Fix_CreateRestorePoint" xml:space="preserve"><value>Créer</value></data>
-  <data name="Fix_EnableCloudProtection" xml:space="preserve"><value>Activer</value></data>
-  <data name="Fix_EnableFirewallProfile" xml:space="preserve"><value>Activer</value></data>
-  <data name="Fix_EnableRealtimeProtection" xml:space="preserve"><value>Activer</value></data>
-  <data name="Fix_EnableSystemRestore" xml:space="preserve"><value>Activer</value></data>
+  <data name="Fix_CreateRestorePoint" xml:space="preserve"><value>Créer un point de restauration</value></data>
+  <data name="Fix_EnableCloudProtection" xml:space="preserve"><value>Activer la détection</value></data>
+  <data name="Fix_EnableFirewallProfile" xml:space="preserve"><value>Activer le pare-feu</value></data>
+  <data name="Fix_EnableRealtimeProtection" xml:space="preserve"><value>Activer la surveillance</value></data>
+  <data name="Fix_EnableSystemRestore" xml:space="preserve"><value>Activer la restauration</value></data>
   <data name="Fix_Open" xml:space="preserve"><value>Voir</value></data>
-  <data name="Fix_RepairWindowsUpdate" xml:space="preserve"><value>Réparer</value></data>
-  <data name="Fix_RunSystemFileCheck" xml:space="preserve"><value>Réparer</value></data>
-  <data name="Fix_SearchUpdates" xml:space="preserve"><value>Rechercher</value></data>
+  <data name="Fix_Open_ActiveThreats" xml:space="preserve"><value>Traiter les menaces</value></data>
+  <data name="Fix_Open_CleanableFiles" xml:space="preserve"><value>Choisir quoi nettoyer</value></data>
+  <data name="Fix_Open_HighMemory" xml:space="preserve"><value>Voir les programmes gourmands</value></data>
+  <data name="Fix_Open_Home" xml:space="preserve"><value>Ouvrir l'accueil</value></data>
+  <data name="Fix_Open_LowDiskSpace" xml:space="preserve"><value>Libérer de l'espace</value></data>
+  <data name="Fix_Open_ManyStartupPrograms" xml:space="preserve"><value>Trier le démarrage</value></data>
+  <data name="Fix_Open_NewRemoteConnection" xml:space="preserve"><value>Vérifier les sessions</value></data>
+  <data name="Fix_Open_NoAntivirus" xml:space="preserve"><value>Ouvrir la protection</value></data>
+  <data name="Fix_Open_Optimization" xml:space="preserve"><value>Ouvrir le nettoyage</value></data>
+  <data name="Fix_Open_Processes" xml:space="preserve"><value>Ouvrir les processus</value></data>
+  <data name="Fix_Open_Protection" xml:space="preserve"><value>Ouvrir la protection</value></data>
+  <data name="Fix_Open_Sessions" xml:space="preserve"><value>Ouvrir les sessions</value></data>
+  <data name="Fix_Open_System" xml:space="preserve"><value>Ouvrir le système</value></data>
+  <data name="Fix_RepairWindowsUpdate" xml:space="preserve"><value>Réparer Windows Update</value></data>
+  <data name="Fix_RunSystemFileCheck" xml:space="preserve"><value>Réparer les fichiers</value></data>
+  <data name="Fix_SearchUpdates" xml:space="preserve"><value>Rechercher les mises à jour</value></data>
   <data name="Fix_StartQuickScan" xml:space="preserve"><value>Lancer un scan</value></data>
-  <data name="Fix_UpdateSignatures" xml:space="preserve"><value>Mettre à jour</value></data>
+  <data name="Fix_UpdateSignatures" xml:space="preserve"><value>Mettre à jour l'antivirus</value></data>
+  <data name="Home_AllGood_Performance" xml:space="preserve"><value>Performance : rien à signaler</value></data>
+  <data name="Home_AllGood_Security" xml:space="preserve"><value>Protection : tout est en ordre</value></data>
+  <data name="Home_AllGood_Stability" xml:space="preserve"><value>Stabilité : aucun souci détecté</value></data>
+  <data name="Home_AllGood_Storage" xml:space="preserve"><value>Stockage : espace suffisant</value></data>
+  <data name="Home_AllGoodTitle" xml:space="preserve"><value>Tout le reste va bien</value></data>
   <data name="Home_AnalysisDone" xml:space="preserve"><value>Analyse terminée : votre score est de {0} sur 100.</value></data>
   <data name="Home_Analyze" xml:space="preserve"><value>Analyser mon PC</value></data>
   <data name="Home_Analyzing" xml:space="preserve"><value>Analyse de votre PC en cours (moins d'une minute)…</value></data>
+  <data name="Home_Details" xml:space="preserve"><value>Voir le détail</value></data>
   <data name="Home_FixAll" xml:space="preserve"><value>Tout corriger</value></data>
   <data name="Home_FixAllDone" xml:space="preserve"><value>{0} correction(s) effectuée(s) avec succès.</value></data>
+  <data name="Home_FixAllIntro" xml:space="preserve"><value>Cochez les corrections à effectuer. Un point de restauration est créé avant toute modification importante.</value></data>
   <data name="Home_FixAllPartial" xml:space="preserve"><value>{0} correction(s) réussie(s), {1} n'a (n'ont) pas pu être faite(s). Voir « Détails ».</value></data>
   <data name="Home_FixAllRecap" xml:space="preserve"><value>PC Santé va effectuer les corrections suivantes :
 
@@ -167,11 +197,22 @@ Continuer ?</value></data>
 
 Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Home_Fixing" xml:space="preserve"><value>Correction en cours : {0}</value></data>
+  <data name="Home_Greeting" xml:space="preserve"><value>Bonjour, voici l'état de votre PC</value></data>
+  <data name="Home_Hero_AllGood" xml:space="preserve"><value>Votre PC est en bonne santé. Rien à corriger.</value></data>
+  <data name="Home_Hero_ProtectedMany" xml:space="preserve"><value>Votre PC est bien protégé. Quelques points demandent votre attention.</value></data>
+  <data name="Home_Hero_ProtectedOne" xml:space="preserve"><value>Votre PC est bien protégé. Seul {0} demande votre attention.</value></data>
+  <data name="Home_Hero_Security" xml:space="preserve"><value>La protection de votre PC demande votre attention.</value></data>
   <data name="Home_Issues" xml:space="preserve"><value>Ce qu'il faut regarder</value></data>
   <data name="Home_LastAnalysis" xml:space="preserve"><value>Dernière analyse : {0}</value></data>
+  <data name="Home_LastAnalysisWhen" xml:space="preserve"><value>Dernière analyse {0}</value></data>
   <data name="Home_NoAnalysis" xml:space="preserve"><value>Pas encore analysé</value></data>
   <data name="Home_NoIssues" xml:space="preserve"><value>Aucun problème détecté. Votre PC est en bonne santé.</value></data>
   <data name="Home_OutOf100" xml:space="preserve"><value>sur 100</value></data>
+  <data name="Home_Points_Many" xml:space="preserve"><value>{0} points</value></data>
+  <data name="Home_Points_One" xml:space="preserve"><value>1 point</value></data>
+  <data name="Home_Rescan" xml:space="preserve"><value>Relancer l'analyse</value></data>
+  <data name="Home_Summary_Many" xml:space="preserve"><value>{0} points à regarder · rien n'est supprimé sans votre accord.</value></data>
+  <data name="Home_Summary_One" xml:space="preserve"><value>1 point à regarder · rien n'est supprimé sans votre accord.</value></data>
   <data name="Home_Title" xml:space="preserve"><value>Accueil</value></data>
   <data name="Issue_ActiveThreats_Title" xml:space="preserve"><value>{0} menace(s) détectée(s) attendent une action</value></data>
   <data name="Issue_ActiveThreats_Why" xml:space="preserve"><value>Un programme dangereux a été trouvé : il faut le traiter pour protéger vos fichiers.</value></data>
@@ -549,6 +590,8 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="System_UpdateSummaryReboot" xml:space="preserve"><value>Dernière recherche : {0} · Dernière installation : {1} · Un redémarrage est nécessaire.</value></data>
   <data name="System_Updates" xml:space="preserve"><value>Mises à jour de Windows</value></data>
   <data name="System_UpdatesTech" xml:space="preserve"><value>Windows Update</value></data>
+  <data name="Tag_Advised" xml:space="preserve"><value>Conseillé</value></data>
+  <data name="Tag_Important" xml:space="preserve"><value>Important</value></data>
   <data name="Tasks_Explanation" xml:space="preserve"><value>Tâches ajoutées par vos logiciels (hors Windows). Les désactiver est réversible.</value></data>
   <data name="Tasks_Title" xml:space="preserve"><value>Tâches planifiées d'autres programmes</value></data>
   <data name="Template_DailyAntivirusScan" xml:space="preserve"><value>Scan antivirus quotidien</value></data>
@@ -574,6 +617,12 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Unit_MB" xml:space="preserve"><value>Mo</value></data>
   <data name="Unit_PerSecond" xml:space="preserve"><value>/s</value></data>
   <data name="Unit_TB" xml:space="preserve"><value>To</value></data>
+  <data name="Watch_Active" xml:space="preserve"><value>Active</value></data>
+  <data name="Watch_ActiveText" xml:space="preserve"><value>Les 3 tâches recommandées sont actives.</value></data>
+  <data name="Watch_Enable3" xml:space="preserve"><value>Activer les 3 tâches</value></data>
+  <data name="Watch_Inactive" xml:space="preserve"><value>Inactive</value></data>
+  <data name="Watch_Text" xml:space="preserve"><value>Un scan antivirus chaque jour, un nettoyage et un point de restauration chaque semaine.</value></data>
+  <data name="Watch_Title" xml:space="preserve"><value>Veille automatique</value></data>
   <data name="Welcome_Analysis" xml:space="preserve"><value>Première analyse de votre PC</value></data>
   <data name="Welcome_AnalysisFailed" xml:space="preserve"><value>La première analyse n'a pas pu se faire. Le service PC Santé est peut-être encore en train de démarrer : réessayez dans quelques secondes. Vous pouvez aussi continuer et lancer l'analyse plus tard depuis l'Accueil.</value></data>
   <data name="Welcome_ContinueLater" xml:space="preserve"><value>Continuer sans analyse</value></data>
@@ -616,7 +665,7 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Explain_DisableGuestAccount" xml:space="preserve"><value>Le compte Invité permet d'ouvrir une session sans mot de passe. Le désactiver est sans risque et peut être annulé.</value></data>
   <data name="Duration_DisableGuestAccount" xml:space="preserve"><value>Quelques secondes</value></data>
   <data name="Busy_DisableGuestAccount" xml:space="preserve"><value>Désactivation du compte Invité…</value></data>
-  <data name="Fix_DisableGuestAccount" xml:space="preserve"><value>Désactiver</value></data>
+  <data name="Fix_DisableGuestAccount" xml:space="preserve"><value>Désactiver le compte Invité</value></data>
   <data name="Result_GuestDisabled" xml:space="preserve"><value>Compte Invité désactivé. Vous pouvez annuler depuis Optimisation.</value></data>
   <data name="Result_GuestAlreadyDisabled" xml:space="preserve"><value>Le compte Invité est déjà désactivé.</value></data>
   <data name="Result_NoGuestAccount" xml:space="preserve"><value>Ce PC n'a pas de compte Invité.</value></data>

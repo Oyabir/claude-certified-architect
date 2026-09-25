@@ -153,7 +153,7 @@
                                  AutomationProperties.Name="{l:T Nav_Menu}" />
                     </StackPanel>
 
-                    <ListBox ItemsSource="{Binding Source={StaticResource NavGroups}}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" Style="{StaticResource NavList}"
+                    <ListBox ItemsSource="{Binding Source={StaticResource NavGroups}}" IsSynchronizedWithCurrentItem="False" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" Style="{StaticResource NavList}"
                              AutomationProperties.Name="{l:T Nav_Menu}">
                         <ListBox.GroupStyle>
                             <GroupStyle>

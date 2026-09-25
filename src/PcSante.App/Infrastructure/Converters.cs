@@ -101,6 +101,14 @@ public sealed class ToneIconConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 }
 
+/// <summary>Négation d'un booléen.</summary>
+public sealed class NotConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is not true;
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value is not true;
+}
+
 /// <summary>Visible si toutes les valeurs liées sont vraies.</summary>
 public sealed class AllTrueToVisibilityConverter : IMultiValueConverter
 {

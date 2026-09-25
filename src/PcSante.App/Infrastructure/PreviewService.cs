@@ -145,11 +145,11 @@ internal static class PreviewService
         Now.AddMinutes(-42),
         76,
         HealthScoreCalculator.ColorOf(76),
-        new SubScores(100, 92, 100, 58),
+        new SubScores(100, 100, 92, 58),
         [
             new HealthIssue("LowDiskSpace", HealthCategory.Storage, IssueSeverity.Warning, IssueFix.Open(ScreenId.Optimization), ["28.7"]),
             new HealthIssue("CleanableFiles", HealthCategory.Storage, IssueSeverity.Info, IssueFix.Open(ScreenId.Optimization), ["1.2"]),
-            new HealthIssue("ManyStartupPrograms", HealthCategory.Performance, IssueSeverity.Warning, IssueFix.Open(ScreenId.Optimization), ["9"]),
+            new HealthIssue("NoRecentRestorePoint", HealthCategory.Stability, IssueSeverity.Info, IssueFix.Run(CommandId.CreateRestorePoint), []),
         ],
         TimeSpan.FromSeconds(24));
 
