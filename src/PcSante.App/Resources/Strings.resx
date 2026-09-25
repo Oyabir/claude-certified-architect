@@ -746,4 +746,16 @@ Gardez ce fichier hors du PC (clé USB, papier).</value></data>
   <data name="PageFile_Automatic" xml:space="preserve"><value>Fichier d'échange géré par Windows (conseillé).</value></data>
   <data name="PageFile_Manual" xml:space="preserve"><value>Fichier d'échange réglé à la main ({0} Mo). Le plus sûr est de laisser Windows le gérer.</value></data>
   <data name="PageFile_SetAutomatic" xml:space="preserve"><value>Laisser Windows le gérer</value></data>
+  <data name="Reports_ExportCsv" xml:space="preserve"><value>Exporter en CSV (tableur)</value></data>
+  <data name="Reports_CsvFileName" xml:space="preserve"><value>PC-Sante-donnees-{0}</value></data>
+  <data name="Reports_CsvFilter" xml:space="preserve"><value>Fichier CSV (tableur)</value></data>
+  <data name="Csv_Type" xml:space="preserve"><value>Type</value></data>
+  <data name="Csv_Date" xml:space="preserve"><value>Date</value></data>
+  <data name="Csv_Item" xml:space="preserve"><value>Élément</value></data>
+  <data name="Csv_Value" xml:space="preserve"><value>Valeur</value></data>
+  <data name="Csv_Detail" xml:space="preserve"><value>Détail</value></data>
+  <data name="Csv_Score" xml:space="preserve"><value>Score de santé</value></data>
+  <data name="Csv_Action" xml:space="preserve"><value>Action</value></data>
+  <data name="Csv_Threat" xml:space="preserve"><value>Menace</value></data>
+  <data name="Csv_SubScores" xml:space="preserve"><value>Sécurité {0} · Performance {1} · Stabilité {2} · Stockage {3}</value></data>
 </root>

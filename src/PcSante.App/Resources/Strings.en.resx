@@ -746,4 +746,16 @@ Keep this file off the PC (USB drive, paper).</value></data>
   <data name="PageFile_Automatic" xml:space="preserve"><value>Page file managed by Windows (recommended).</value></data>
   <data name="PageFile_Manual" xml:space="preserve"><value>Page file set manually ({0} MB). Letting Windows manage it is safest.</value></data>
   <data name="PageFile_SetAutomatic" xml:space="preserve"><value>Let Windows manage it</value></data>
+  <data name="Reports_ExportCsv" xml:space="preserve"><value>Export as CSV (spreadsheet)</value></data>
+  <data name="Reports_CsvFileName" xml:space="preserve"><value>PC-Sante-data-{0}</value></data>
+  <data name="Reports_CsvFilter" xml:space="preserve"><value>CSV file (spreadsheet)</value></data>
+  <data name="Csv_Type" xml:space="preserve"><value>Type</value></data>
+  <data name="Csv_Date" xml:space="preserve"><value>Date</value></data>
+  <data name="Csv_Item" xml:space="preserve"><value>Item</value></data>
+  <data name="Csv_Value" xml:space="preserve"><value>Value</value></data>
+  <data name="Csv_Detail" xml:space="preserve"><value>Detail</value></data>
+  <data name="Csv_Score" xml:space="preserve"><value>Health score</value></data>
+  <data name="Csv_Action" xml:space="preserve"><value>Action</value></data>
+  <data name="Csv_Threat" xml:space="preserve"><value>Threat</value></data>
+  <data name="Csv_SubScores" xml:space="preserve"><value>Security {0} · Performance {1} · Stability {2} · Storage {3}</value></data>
 </root>

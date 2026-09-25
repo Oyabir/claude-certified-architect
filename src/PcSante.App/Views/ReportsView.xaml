@@ -37,6 +37,8 @@
                         </StackPanel>
                         <ui:Button Style="{StaticResource PrimaryAction}" HorizontalAlignment="Left" Content="{l:T Reports_Generate}"
                                    Icon="{ui:SymbolIcon DocumentPdf24}" Command="{Binding GenerateCommand}" />
+                        <ui:Button Style="{StaticResource SecondaryAction}" HorizontalAlignment="Left" Content="{l:T Reports_ExportCsv}"
+                                   Icon="{ui:SymbolIcon Table24}" Command="{Binding ExportCsvCommand}" Margin="0,8,0,0" />
                         <!-- Rapports mensuels produits par la tâche planifiée « Rapport mensuel ». -->
                         <TextBlock Text="{l:T Reports_MonthlyAuto}" TextWrapping="Wrap" Margin="0,20,0,8" />
                         <ui:Button Style="{StaticResource SecondaryAction}" HorizontalAlignment="Left" Content="{l:T Reports_OpenFolder}"

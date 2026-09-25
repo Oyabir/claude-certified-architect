@@ -12,6 +12,33 @@ public class ReportPdfBuilderTests
 {
     private static readonly DateTimeOffset Now = new(2026, 9, 22, 12, 0, 0, TimeSpan.Zero);
 
+    [Fact]
+    public void Csv_une_ligne_par_score_action_et_menace()
+    {
+        var csv = ReportCsvBuilder.Build(Sample(), k => k, CultureInfo.GetCultureInfo("fr"));
+        var lines = csv.Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
+
+        lines.Should().HaveCount(1 + 20 + 3 + 1, "en-tête, 20 scores, 3 actions, 1 menace");
+        lines[0].Should().Be("\"Csv_Type\";\"Csv_Date\";\"Csv_Item\";\"Csv_Value\";\"Csv_Detail\"");
+        lines.Should().Contain(l => l.Contains("\"Trojan:Win32/Test\"", StringComparison.Ordinal));
+        ReportCsvBuilder.ToFileBytes("x").Take(3).Should().Equal(0xEF, 0xBB, 0xBF);
+    }
+
+    [Fact]
+    public void Csv_protege_contre_les_formules_et_les_guillemets()
+    {
+        var data = Sample() with
+        {
+            Threats = [new ThreatInfo("2", "=HYPERLINK(\"http://x\")", 5, Now, "@cmd", "-2+3")],
+            ScoreHistory = [],
+            Actions = [],
+        };
+
+        var line = ReportCsvBuilder.Build(data, k => k, CultureInfo.InvariantCulture).Split("\r\n")[1];
+
+        line.Should().Contain("\"'=HYPERLINK(\"\"http://x\"\")\"").And.Contain("\"'@cmd\"").And.Contain("\"'-2+3\"");
+    }
+
     private static ReportData Sample(bool empty = false)
     {
         var issues = new List<HealthIssue>

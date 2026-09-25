@@ -746,4 +746,16 @@
   <data name="PageFile_Automatic" xml:space="preserve"><value>ملف الترحيل يديره Windows (موصى به).</value></data>
   <data name="PageFile_Manual" xml:space="preserve"><value>ملف الترحيل مضبوط يدويًا ({0} ميغابايت). الأكثر أمانًا ترك Windows يديره.</value></data>
   <data name="PageFile_SetAutomatic" xml:space="preserve"><value>ترك Windows يديره</value></data>
+  <data name="Reports_ExportCsv" xml:space="preserve"><value>تصدير بصيغة CSV (جدول بيانات)</value></data>
+  <data name="Reports_CsvFileName" xml:space="preserve"><value>PC-Sante-بيانات-{0}</value></data>
+  <data name="Reports_CsvFilter" xml:space="preserve"><value>ملف CSV (جدول بيانات)</value></data>
+  <data name="Csv_Type" xml:space="preserve"><value>النوع</value></data>
+  <data name="Csv_Date" xml:space="preserve"><value>التاريخ</value></data>
+  <data name="Csv_Item" xml:space="preserve"><value>العنصر</value></data>
+  <data name="Csv_Value" xml:space="preserve"><value>القيمة</value></data>
+  <data name="Csv_Detail" xml:space="preserve"><value>التفاصيل</value></data>
+  <data name="Csv_Score" xml:space="preserve"><value>درجة الصحة</value></data>
+  <data name="Csv_Action" xml:space="preserve"><value>إجراء</value></data>
+  <data name="Csv_Threat" xml:space="preserve"><value>تهديد</value></data>
+  <data name="Csv_SubScores" xml:space="preserve"><value>الأمان {0} · الأداء {1} · الاستقرار {2} · التخزين {3}</value></data>
 </root>
