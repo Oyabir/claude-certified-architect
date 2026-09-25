@@ -23,7 +23,7 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel>
                         <TextBlock Text="{l:T Home_Greeting}" Style="{StaticResource PcsText.PageTitle}" />
-                        <TextBlock Text="{Binding HeaderLine}" Style="{StaticResource PcsText.Muted}" Margin="0,4,0,0" />
+                        <TextBlock Text="{Binding HeaderLine}" Style="{StaticResource PcsText.Muted}" Margin="0,4,0,0" xml:lang="en-US" />
                     </StackPanel>
                     <Button Grid.Column="1" Style="{StaticResource PcsButton.Secondary}" c:Ui.Icon="{StaticResource PcsIcon.refresh}"
                             Content="{l:T Home_Rescan}" Command="{Binding AnalyzeCommand}" VerticalAlignment="Center"

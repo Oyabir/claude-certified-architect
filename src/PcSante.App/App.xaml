@@ -34,7 +34,7 @@
 
             <!-- Accessibilité : texte d'au moins 14 px partout (section 11). -->
             <Style TargetType="TextBlock">
-                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontSize" Value="{DynamicResource PcsFontSizeBody}" />
                 <Setter Property="TextWrapping" Value="Wrap" />
             </Style>
 

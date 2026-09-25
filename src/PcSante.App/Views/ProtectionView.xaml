@@ -159,7 +159,7 @@
                         <ItemsControl ItemsSource="{Binding Threats}" Focusable="False">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type vm:ThreatItem}">
-                                    <c:ListRow Title="{Binding Name}" Description="{Binding ShortResource}" ToolTip="{Binding Resource}" IconTileSize="40"
+                                    <c:ListRow Title="{Binding Name}" Description="{Binding ShortResource}" ToolTip="{Binding Resource}" IconTileSize="40" xml:lang="en-US"
                                                Tone="{Binding Handled, Converter={StaticResource ToTone}}"
                                                Icon="{Binding Handled, Converter={StaticResource ToneIcon}}">
                                         <StackPanel HorizontalAlignment="Right">

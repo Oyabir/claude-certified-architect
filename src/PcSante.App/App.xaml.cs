@@ -63,6 +63,17 @@ public partial class App : Application
             FontFamily = (FontFamily)Resources[Loc.IsRightToLeft ? "PcsFontArabic" : "PcsFontLatin"],
         };
 
+        // Arabe : texte courant, descriptions et métadonnées un pixel plus grands (dossier de refonte § 3.3).
+        // (Valeurs remises à chaque ouverture : la langue peut changer sans quitter l'application.)
+        var textSize = Loc.IsRightToLeft ? 15.0 : 14.0;
+        foreach (var key in new[] { "PcsFontSizeBody", "PcsFontSizeCaption", "PcsFontSizeSmall", "PcsFontSizeOverline" })
+        {
+            Resources[key] = textSize;
+        }
+
+        Resources["PcsFontSizeRowTitle"] = textSize + 1;
+        window.FontSize = textSize;
+
         // Chiffres latins partout, y compris en arabe (28,7 Go, 15:20) : maquette 06 et § 7 du dossier de refonte.
         NumberSubstitution.SetSubstitution(window, NumberSubstitutionMethod.European);
         viewModel.RestartRequested += (_, _) =>
