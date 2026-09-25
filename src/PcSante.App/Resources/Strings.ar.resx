@@ -381,17 +381,26 @@
   <data name="Process_Cpu" xml:space="preserve"><value>المعالج</value></data>
   <data name="Process_DisableService" xml:space="preserve"><value>إيقاف الخدمة</value></data>
   <data name="Process_Disk" xml:space="preserve"><value>القرص</value></data>
+  <data name="Process_FilterAll" xml:space="preserve"><value>الكل</value></data>
+  <data name="Process_FilterHeavy" xml:space="preserve"><value>المستهلكة</value></data>
+  <data name="Process_FilterUnsigned" xml:space="preserve"><value>غير الموقّعة</value></data>
   <data name="Process_HighUsage" xml:space="preserve"><value>{0}٪ من الوقت</value></data>
   <data name="Process_History" xml:space="preserve"><value>البرامج الأكثر استهلاكاً خلال 7 أيام</value></data>
+  <data name="Process_HistoryEmpty" xml:space="preserve"><value>لا توجد قياسات كافية بعد: عُد بعد بضع ساعات.</value></data>
+  <data name="Process_HistoryNote" xml:space="preserve"><value>نسبة الوقت في الاستهلاك المرتفع</value></data>
   <data name="Process_Memory" xml:space="preserve"><value>الذاكرة</value></data>
+  <data name="Process_MoreActions" xml:space="preserve"><value>إجراءات لهذا البرنامج</value></data>
   <data name="Process_Name" xml:space="preserve"><value>البرنامج</value></data>
   <data name="Process_Network" xml:space="preserve"><value>الشبكة</value></data>
+  <data name="Process_NoMatch" xml:space="preserve"><value>لا يوجد برنامج مطابق.</value></data>
   <data name="Process_NotSigned" xml:space="preserve"><value>غير موقّع</value></data>
   <data name="Process_OpenLocation" xml:space="preserve"><value>الموقع</value></data>
   <data name="Process_Presence" xml:space="preserve"><value>استهلاك مرتفع</value></data>
+  <data name="Process_Publisher" xml:space="preserve"><value>الناشر</value></data>
   <data name="Process_Refresh" xml:space="preserve"><value>تحديث القائمة</value></data>
   <data name="Process_RemoveStartup" xml:space="preserve"><value>إزالة من بدء التشغيل</value></data>
   <data name="Process_Reputation" xml:space="preserve"><value>السمعة</value></data>
+  <data name="Process_Search" xml:space="preserve"><value>البحث عن برنامج أو ناشر</value></data>
   <data name="Process_Signature" xml:space="preserve"><value>الناشر (التوقيع)</value></data>
   <data name="Process_Signed" xml:space="preserve"><value>موقّع</value></data>
   <data name="Process_Stop" xml:space="preserve"><value>إيقاف</value></data>
@@ -588,14 +597,19 @@
   <data name="Scheduling_OnlyAc" xml:space="preserve"><value>فقط عند التوصيل بالكهرباء (الحاسوب المحمول)</value></data>
   <data name="Scheduling_OnlyIdle" xml:space="preserve"><value>فقط عندما لا أستخدم الحاسوب</value></data>
   <data name="Scheduling_Save" xml:space="preserve"><value>حفظ الموعد</value></data>
+  <data name="Scheduling_Settings" xml:space="preserve"><value>متى</value></data>
+  <data name="Scheduling_TaskState" xml:space="preserve"><value>المهمة {0}</value></data>
   <data name="Scheduling_Time" xml:space="preserve"><value>الساعة</value></data>
   <data name="Service_Unavailable" xml:space="preserve"><value>خدمة PC Santé لا تستجيب.</value></data>
   <data name="Service_UnavailableHelp" xml:space="preserve"><value>أعد تشغيل الحاسوب. إذا استمرت المشكلة، أعد تثبيت PC Santé.</value></data>
+  <data name="Sessions_MessageCard" xml:space="preserve"><value>رسالة للمستخدمين الآخرين</value></data>
+  <data name="Sessions_MessageHint" xml:space="preserve"><value>اختر رسالة، ثم «إرسال الرسالة» على الجلسة المعنية.</value></data>
   <data name="Settings_AdvancedMode" xml:space="preserve"><value>الوضع المتقدم</value></data>
   <data name="Settings_AdvancedModeHelp" xml:space="preserve"><value>يعرض أيضاً شاشات الأداء والعمليات والنظام والجدولة.</value></data>
   <data name="Settings_CheckUpdates" xml:space="preserve"><value>البحث عن إصدار جديد</value></data>
   <data name="Settings_Checking" xml:space="preserve"><value>جارٍ البحث عن إصدار جديد…</value></data>
   <data name="Settings_Downloading" xml:space="preserve"><value>جارٍ تنزيل الإصدار الجديد والتحقق منه…</value></data>
+  <data name="Settings_General" xml:space="preserve"><value>عام</value></data>
   <data name="Settings_Language" xml:space="preserve"><value>اللغة</value></data>
   <data name="Settings_Overlay" xml:space="preserve"><value>العرض المصغّر</value></data>
   <data name="Settings_OverlayEnabled" xml:space="preserve"><value>إظهار العرض المصغّر دائماً</value></data>
@@ -607,6 +621,7 @@
   <data name="Settings_OverlayTray" xml:space="preserve"><value>استخدام أيقونة بجانب الساعة بدلاً من الشريط</value></data>
   <data name="Settings_Save" xml:space="preserve"><value>حفظ</value></data>
   <data name="Settings_Saved" xml:space="preserve"><value>تم حفظ الإعدادات.</value></data>
+  <data name="Settings_SaveHint" xml:space="preserve"><value>تغيير اللغة أو المظهر يعيد تحميل النافذة.</value></data>
   <data name="Settings_Theme" xml:space="preserve"><value>المظهر</value></data>
   <data name="Settings_UpdateAvailable" xml:space="preserve"><value>الإصدار {0} متاح.</value></data>
   <data name="Settings_UpdateCheckFailed" xml:space="preserve"><value>تعذّر التحقق من التحديثات حالياً.</value></data>
@@ -866,7 +881,7 @@
   <data name="Sessions_Local" xml:space="preserve"><value>على هذا الحاسوب</value></data>
   <data name="Sessions_Remote" xml:space="preserve"><value>عن بُعد من {0} (سطح المكتب البعيد)</value></data>
   <data name="Sessions_RemoteUnknown" xml:space="preserve"><value>عن بُعد (سطح المكتب البعيد)</value></data>
-  <data name="Sessions_Since" xml:space="preserve"><value>· فُتحت في {0}</value></data>
+  <data name="Sessions_Since" xml:space="preserve"><value>· فُتحت {0}</value></data>
   <data name="Sessions_None" xml:space="preserve"><value>لا توجد جلسة مفتوحة.</value></data>
   <data name="Sessions_ConfirmSubject" xml:space="preserve"><value>{0} ({1})</value></data>
   <data name="SessionState_Active" xml:space="preserve"><value>نشطة</value></data>

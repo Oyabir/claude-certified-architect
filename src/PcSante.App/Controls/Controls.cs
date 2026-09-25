@@ -579,6 +579,25 @@ public class SparkChart : FrameworkElement
     public static readonly DependencyProperty GridBrushProperty = DependencyProperty.Register(
         nameof(GridBrush), typeof(Brush), typeof(SparkChart), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
+    /// <summary>Largeur de la zone de coordonnées des points (300 pour Performance, 600 pour l'évolution du score).</summary>
+    public static readonly DependencyProperty CoordinateWidthProperty = DependencyProperty.Register(
+        nameof(CoordinateWidth), typeof(double), typeof(SparkChart), new FrameworkPropertyMetadata(300.0, FrameworkPropertyMetadataOptions.AffectsRender));
+
+    public static readonly DependencyProperty ShowAreaProperty = DependencyProperty.Register(
+        nameof(ShowArea), typeof(bool), typeof(SparkChart), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsRender));
+
+    public double CoordinateWidth
+    {
+        get => (double)GetValue(CoordinateWidthProperty);
+        set => SetValue(CoordinateWidthProperty, value);
+    }
+
+    public bool ShowArea
+    {
+        get => (bool)GetValue(ShowAreaProperty);
+        set => SetValue(ShowAreaProperty, value);
+    }
+
     public PointCollection? Points
     {
         get => (PointCollection?)GetValue(PointsProperty);
@@ -632,14 +651,14 @@ public class SparkChart : FrameworkElement
         Draw(drawingContext, SecondPoints, SecondStroke, w, h);
     }
 
-    private static void Draw(DrawingContext dc, PointCollection? points, Brush? stroke, double w, double h)
+    private void Draw(DrawingContext dc, PointCollection? points, Brush? stroke, double w, double h)
     {
         if (points is not { Count: > 1 } || stroke is null)
         {
             return;
         }
 
-        var scaled = points.Select(p => new Point(p.X / 300 * w, p.Y / 100 * (h - 2) + 1)).ToList();
+        var scaled = points.Select(p => new Point(p.X / CoordinateWidth * w, p.Y / 100 * (h - 2) + 1)).ToList();
         var line = new StreamGeometry();
         using (var ctx = line.Open())
         {
@@ -654,9 +673,13 @@ public class SparkChart : FrameworkElement
             ctx.PolyLineTo(scaled.Append(new Point(scaled[^1].X, h)).ToList(), false, true);
         }
 
-        var fill = stroke.CloneCurrentValue();
-        fill.Opacity = 0.14;
-        dc.DrawGeometry(fill, null, area);
+        if (ShowArea)
+        {
+            var fill = stroke.CloneCurrentValue();
+            fill.Opacity = 0.14;
+            dc.DrawGeometry(fill, null, area);
+        }
+
         dc.DrawGeometry(null, new Pen(stroke, 2) { LineJoin = PenLineJoin.Round }, line);
     }
 }

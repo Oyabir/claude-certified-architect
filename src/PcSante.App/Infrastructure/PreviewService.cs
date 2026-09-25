@@ -91,7 +91,7 @@ internal static class PreviewService
         CommandId.GetLiveMetrics => CommandResult.WithData(Metrics()),
         CommandId.GetProcesses => CommandResult.WithData(new List<ProcessView>
         {
-            new(4120, "chrome.exe", @"C:\Program Files\Google\Chrome\Application\chrome.exe", 12.4, 1_240L << 20, 220_000, [], true, "Google LLC", Reputation.Useful, false, "ProcessDesc_Browser"),
+            new(4120, "chrome.exe", @"C:\Program Files\Google\Chrome\Application\chrome.exe", 12.4, 1_240L << 20, 220_000, [], true, "Google LLC", Reputation.Useful, false, "AdobeUpdater"),
             new(2210, "Teams.exe", null, 4.1, 612L << 20, 12_000, [], true, "Microsoft Corporation", Reputation.Useful, false),
             new(3302, "updater_x.exe", @"C:\Users\Nadia\AppData\Local\Temp\updater_x.exe", 0.4, 38L << 20, 0, [], false, null, Reputation.Unknown, false),
             new(1880, "OneDrive.exe", null, 0.8, 146L << 20, 4_000, [], true, "Microsoft Corporation", Reputation.Useful, false),

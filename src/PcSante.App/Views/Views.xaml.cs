@@ -78,6 +78,8 @@ public partial class PerformanceView
 public partial class ProcessesView
 {
     public ProcessesView() => InitializeComponent();
+
+    private void OnOpenMenu(object sender, RoutedEventArgs e) => Menus.Open(sender);
 }
 
 public partial class SessionsView

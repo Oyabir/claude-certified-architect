@@ -381,17 +381,26 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Process_Cpu" xml:space="preserve"><value>Processor</value></data>
   <data name="Process_DisableService" xml:space="preserve"><value>Turn off the service</value></data>
   <data name="Process_Disk" xml:space="preserve"><value>Disk</value></data>
+  <data name="Process_FilterAll" xml:space="preserve"><value>All</value></data>
+  <data name="Process_FilterHeavy" xml:space="preserve"><value>Heavy</value></data>
+  <data name="Process_FilterUnsigned" xml:space="preserve"><value>Unsigned</value></data>
   <data name="Process_HighUsage" xml:space="preserve"><value>{0}% of the time</value></data>
   <data name="Process_History" xml:space="preserve"><value>Heavy programs over 7 days</value></data>
+  <data name="Process_HistoryEmpty" xml:space="preserve"><value>Not enough readings yet: come back in a few hours.</value></data>
+  <data name="Process_HistoryNote" xml:space="preserve"><value>Share of time spent at high usage</value></data>
   <data name="Process_Memory" xml:space="preserve"><value>Memory</value></data>
+  <data name="Process_MoreActions" xml:space="preserve"><value>Actions for this program</value></data>
   <data name="Process_Name" xml:space="preserve"><value>Program</value></data>
   <data name="Process_Network" xml:space="preserve"><value>Network</value></data>
+  <data name="Process_NoMatch" xml:space="preserve"><value>No matching program.</value></data>
   <data name="Process_NotSigned" xml:space="preserve"><value>Not signed</value></data>
   <data name="Process_OpenLocation" xml:space="preserve"><value>Location</value></data>
   <data name="Process_Presence" xml:space="preserve"><value>High usage</value></data>
+  <data name="Process_Publisher" xml:space="preserve"><value>Publisher</value></data>
   <data name="Process_Refresh" xml:space="preserve"><value>Refresh the list</value></data>
   <data name="Process_RemoveStartup" xml:space="preserve"><value>Remove from start-up</value></data>
   <data name="Process_Reputation" xml:space="preserve"><value>Reputation</value></data>
+  <data name="Process_Search" xml:space="preserve"><value>Search for a program or publisher</value></data>
   <data name="Process_Signature" xml:space="preserve"><value>Publisher (signature)</value></data>
   <data name="Process_Signed" xml:space="preserve"><value>Signed</value></data>
   <data name="Process_Stop" xml:space="preserve"><value>Stop</value></data>
@@ -588,14 +597,19 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Scheduling_OnlyAc" xml:space="preserve"><value>Only when plugged in (laptop)</value></data>
   <data name="Scheduling_OnlyIdle" xml:space="preserve"><value>Only when I'm not using the PC</value></data>
   <data name="Scheduling_Save" xml:space="preserve"><value>Save the schedule</value></data>
+  <data name="Scheduling_Settings" xml:space="preserve"><value>When</value></data>
+  <data name="Scheduling_TaskState" xml:space="preserve"><value>Task {0}</value></data>
   <data name="Scheduling_Time" xml:space="preserve"><value>Time</value></data>
   <data name="Service_Unavailable" xml:space="preserve"><value>The PC Santé service is not responding.</value></data>
   <data name="Service_UnavailableHelp" xml:space="preserve"><value>Restart the PC. If the problem continues, reinstall PC Santé.</value></data>
+  <data name="Sessions_MessageCard" xml:space="preserve"><value>Message for other users</value></data>
+  <data name="Sessions_MessageHint" xml:space="preserve"><value>Pick a message, then "Send the message" on the session.</value></data>
   <data name="Settings_AdvancedMode" xml:space="preserve"><value>Advanced mode</value></data>
   <data name="Settings_AdvancedModeHelp" xml:space="preserve"><value>Also shows the Performance, Processes, System and Scheduling screens.</value></data>
   <data name="Settings_CheckUpdates" xml:space="preserve"><value>Check for a new version</value></data>
   <data name="Settings_Checking" xml:space="preserve"><value>Checking for a new version…</value></data>
   <data name="Settings_Downloading" xml:space="preserve"><value>Downloading and checking the new version…</value></data>
+  <data name="Settings_General" xml:space="preserve"><value>General</value></data>
   <data name="Settings_Language" xml:space="preserve"><value>Language</value></data>
   <data name="Settings_Overlay" xml:space="preserve"><value>Mini display</value></data>
   <data name="Settings_OverlayEnabled" xml:space="preserve"><value>Always show the mini display</value></data>
@@ -607,6 +621,7 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Settings_OverlayTray" xml:space="preserve"><value>Use an icon near the clock instead of the bar</value></data>
   <data name="Settings_Save" xml:space="preserve"><value>Save</value></data>
   <data name="Settings_Saved" xml:space="preserve"><value>Settings saved.</value></data>
+  <data name="Settings_SaveHint" xml:space="preserve"><value>Changing the language or appearance reloads the window.</value></data>
   <data name="Settings_Theme" xml:space="preserve"><value>Appearance</value></data>
   <data name="Settings_UpdateAvailable" xml:space="preserve"><value>Version {0} is available.</value></data>
   <data name="Settings_UpdateCheckFailed" xml:space="preserve"><value>Could not check for updates right now.</value></data>

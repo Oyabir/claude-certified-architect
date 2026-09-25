@@ -1,92 +1,166 @@
 <UserControl x:Class="PcSante.App.Views.SettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:l="clr-namespace:PcSante.App.Localization"
-             xmlns:v="clr-namespace:PcSante.App.Views">
+             xmlns:v="clr-namespace:PcSante.App.Views"
+             xmlns:c="clr-namespace:PcSante.App.Controls">
+    <!--
+      Paramètres (§ 6.7) : cartes « Général » et « Mini-affichage ». L'enregistrement reste explicite (bouton en bas) :
+      changer la langue ou l'apparence recharge la fenêtre, ce qui ne doit pas arriver pendant la saisie.
+    -->
     <Grid>
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
-        <StackPanel Margin="40,28,40,32" MaxWidth="760" HorizontalAlignment="Left">
-            <TextBlock Text="{Binding Title}" Style="{StaticResource PageTitle}" />
-            <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PageSubtitle}" />
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
+            <StackPanel Margin="40,28,40,32">
+                <TextBlock Text="{Binding Title}" Style="{StaticResource PcsText.PageTitle}" />
+                <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PcsText.Muted}" Margin="0,4,0,24" />
 
-            <ui:Card Padding="20">
-                <StackPanel>
-                    <TextBlock Text="{l:T Settings_Language}" FontWeight="SemiBold" />
-                    <ComboBox Margin="0,4,0,12" ItemsSource="{Binding Languages}" SelectedValuePath="Value" DisplayMemberPath="Label"
-                              SelectedValue="{Binding Language}" AutomationProperties.Name="{l:T Settings_Language}" />
-                    <TextBlock Text="{l:T Settings_Theme}" FontWeight="SemiBold" />
-                    <ComboBox Margin="0,4,0,12" ItemsSource="{Binding Themes}" SelectedValuePath="Value" DisplayMemberPath="Label"
-                              SelectedValue="{Binding Theme}" AutomationProperties.Name="{l:T Settings_Theme}" />
-                    <CheckBox Content="{l:T Settings_AdvancedMode}" IsChecked="{Binding AdvancedMode}" />
-                    <TextBlock Text="{l:T Settings_AdvancedModeHelp}" Style="{StaticResource Technical}" Margin="28,0,0,0" />
-                </StackPanel>
-            </ui:Card>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-            <TextBlock Text="{l:T Settings_Overlay}" Style="{StaticResource SectionTitle}" />
-            <ui:Card Padding="20">
-                <StackPanel>
-                    <CheckBox Content="{l:T Settings_OverlayEnabled}" IsChecked="{Binding OverlayEnabled}" />
-                    <CheckBox Content="{l:T Settings_OverlayTray}" IsChecked="{Binding OverlayTrayOnly}" Margin="0,4,0,0" />
-                    <CheckBox Content="{l:T Settings_OverlayFullScreen}" IsChecked="{Binding OverlayHideFullScreen}" Margin="0,4,0,12" />
-                    <TextBlock Text="{l:T Settings_OverlayPosition}" FontWeight="SemiBold" />
-                    <ComboBox Margin="0,4,0,12" ItemsSource="{Binding Positions}" SelectedValuePath="Value" DisplayMemberPath="Label"
-                              SelectedValue="{Binding OverlayPosition}" AutomationProperties.Name="{l:T Settings_OverlayPosition}" />
-                    <TextBlock Text="{l:T Settings_OverlaySize}" FontWeight="SemiBold" />
-                    <Slider Minimum="14" Maximum="32" TickFrequency="2" IsSnapToTickEnabled="True" Value="{Binding OverlayFontSize}"
-                            AutomationProperties.Name="{l:T Settings_OverlaySize}" Margin="0,4,0,12" />
-                    <TextBlock Text="{l:T Settings_OverlayOpacity}" FontWeight="SemiBold" />
-                    <Slider Minimum="30" Maximum="100" TickFrequency="10" IsSnapToTickEnabled="True" Value="{Binding OverlayOpacity}"
-                            AutomationProperties.Name="{l:T Settings_OverlayOpacity}" Margin="0,4,0,12" />
-                    <TextBlock Text="{l:T Settings_OverlayIndicators}" FontWeight="SemiBold" />
-                    <WrapPanel Margin="0,4,0,0">
-                        <CheckBox Content="{l:T Metric_Cpu}" IsChecked="{Binding ShowCpu}" Margin="0,0,16,4" />
-                        <CheckBox Content="{l:T Metric_Memory}" IsChecked="{Binding ShowMemory}" Margin="0,0,16,4" />
-                        <CheckBox Content="{l:T Metric_Disk}" IsChecked="{Binding ShowDisk}" Margin="0,0,16,4" />
-                        <CheckBox Content="{l:T Metric_Network}" IsChecked="{Binding ShowNetwork}" Margin="0,0,16,4" />
-                        <CheckBox Content="{l:T Metric_Temperature}" IsChecked="{Binding ShowTemperature}" Margin="0,0,16,4" />
-                        <CheckBox Content="{l:T Metric_Battery}" IsChecked="{Binding ShowBattery}" Margin="0,0,16,4" />
-                    </WrapPanel>
-                </StackPanel>
-            </ui:Card>
+                    <!-- Général -->
+                    <Border Style="{StaticResource PcsCard}" Padding="26,22">
+                        <StackPanel>
+                            <TextBlock Text="{l:T Settings_General}" Style="{StaticResource PcsText.SectionTitle}" Margin="0,0,0,8" />
 
-            <ui:Button Style="{StaticResource PrimaryAction}" HorizontalAlignment="Left" Content="{l:T Settings_Save}"
-                       Icon="{ui:SymbolIcon Save24}" Command="{Binding SaveCommand}" Margin="0,20,0,0" />
+                            <DockPanel Margin="0,10">
+                                <ComboBox DockPanel.Dock="Right" MinWidth="200" ItemsSource="{Binding Languages}" SelectedValuePath="Value" DisplayMemberPath="Label"
+                                          SelectedValue="{Binding Language}" AutomationProperties.Name="{l:T Settings_Language}" VerticalAlignment="Center" />
+                                <TextBlock Text="{l:T Settings_Language}" Style="{StaticResource PcsText.Strong}" VerticalAlignment="Center" />
+                            </DockPanel>
+                            <Border Style="{StaticResource PcsDivider}" />
 
-            <!-- Console d'entreprise (offre PME) : visible seulement si la version en est équipée -->
-            <StackPanel Visibility="{Binding PmeAvailable, Converter={StaticResource Visible}}">
-                <TextBlock Text="{l:T Pme_Title}" Style="{StaticResource SectionTitle}" />
-                <ui:Card Padding="20">
-                    <StackPanel>
-                        <TextBlock Text="{l:T Pme_Explanation}" TextWrapping="Wrap" Style="{StaticResource Technical}" Margin="0,0,0,8" />
-                        <TextBlock Text="{Binding PmeStatusText}" TextWrapping="Wrap" Margin="0,0,0,8" />
-                        <StackPanel Visibility="{Binding PmeEnrolled, Converter={StaticResource Collapsed}}">
-                            <ui:TextBox Text="{Binding PmeCode, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="PME-XXXXX-XXXXX-XXXXX" FontFamily="Consolas"
-                                        FlowDirection="LeftToRight" MaxWidth="360" HorizontalAlignment="Left" AutomationProperties.Name="{l:T Pme_Code}" />
-                            <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T Pme_Enroll}" Command="{Binding EnrollPmeCommand}"
-                                       IsEnabled="{Binding PmeCodeLooksValid}" Margin="0,8,0,0" />
+                            <DockPanel Margin="0,10">
+                                <Border DockPanel.Dock="Right" Style="{StaticResource PcsSegmentHost}" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" AutomationProperties.Name="{l:T Settings_Theme}">
+                                        <RadioButton Style="{StaticResource PcsSegment}" Content="{l:T Theme_Light}" GroupName="theme"
+                                                     IsChecked="{Binding Theme, Converter={StaticResource EqualsParam}, ConverterParameter=Light}" />
+                                        <RadioButton Style="{StaticResource PcsSegment}" Content="{l:T Theme_Dark}" GroupName="theme"
+                                                     IsChecked="{Binding Theme, Converter={StaticResource EqualsParam}, ConverterParameter=Dark}" />
+                                        <RadioButton Style="{StaticResource PcsSegment}" Content="{l:T Theme_System}" GroupName="theme"
+                                                     IsChecked="{Binding Theme, Converter={StaticResource EqualsParam}, ConverterParameter=System}" />
+                                    </StackPanel>
+                                </Border>
+                                <TextBlock Text="{l:T Settings_Theme}" Style="{StaticResource PcsText.Strong}" VerticalAlignment="Center" />
+                            </DockPanel>
+                            <Border Style="{StaticResource PcsDivider}" />
+
+                            <DockPanel Margin="0,10">
+                                <ToggleButton DockPanel.Dock="Right" Style="{StaticResource PcsSwitch}" IsChecked="{Binding AdvancedMode}"
+                                              AutomationProperties.Name="{l:T Settings_AdvancedMode}" VerticalAlignment="Center" />
+                                <StackPanel Margin="0,0,16,0">
+                                    <TextBlock Text="{l:T Settings_AdvancedMode}" Style="{StaticResource PcsText.Strong}" />
+                                    <TextBlock Text="{l:T Settings_AdvancedModeHelp}" Style="{StaticResource PcsText.Muted}" />
+                                </StackPanel>
+                            </DockPanel>
                         </StackPanel>
-                        <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T Pme_Leave}" Command="{Binding LeavePmeCommand}"
-                                   Visibility="{Binding PmeEnrolled, Converter={StaticResource Visible}}" />
-                    </StackPanel>
-                </ui:Card>
-            </StackPanel>
+                    </Border>
 
-            <TextBlock Text="{l:T Settings_Updates}" Style="{StaticResource SectionTitle}" />
-            <ui:Card Padding="20">
-                <StackPanel>
-                    <TextBlock Text="{Binding Version}" />
-                    <TextBlock Text="{l:T Settings_UpdatesHelp}" Style="{StaticResource Technical}" Margin="0,4,0,8" />
-                    <TextBlock Text="{Binding UpdateText}" Margin="0,0,0,8" />
-                    <StackPanel Orientation="Horizontal">
-                        <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T Settings_CheckUpdates}" Command="{Binding CheckUpdateCommand}" />
-                        <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T Command_InstallAppUpdate}" Command="{Binding InstallUpdateCommand}"
-                                   Visibility="{Binding UpdateAvailable, Converter={StaticResource Visible}}" />
-                    </StackPanel>
-                </StackPanel>
-            </ui:Card>
-        </StackPanel>
-    </ScrollViewer>
-    <v:BusyOverlay />
+                    <!-- Mini-affichage -->
+                    <Border Grid.Column="2" Style="{StaticResource PcsCard}" Padding="26,22">
+                        <StackPanel>
+                            <TextBlock Text="{l:T Settings_Overlay}" Style="{StaticResource PcsText.SectionTitle}" Margin="0,0,0,8" />
+                            <DockPanel Margin="0,6">
+                                <ToggleButton DockPanel.Dock="Right" Style="{StaticResource PcsSwitch}" IsChecked="{Binding OverlayEnabled}" AutomationProperties.Name="{l:T Settings_OverlayEnabled}" />
+                                <TextBlock Text="{l:T Settings_OverlayEnabled}" VerticalAlignment="Center" Margin="0,0,12,0" />
+                            </DockPanel>
+                            <DockPanel Margin="0,6">
+                                <ToggleButton DockPanel.Dock="Right" Style="{StaticResource PcsSwitch}" IsChecked="{Binding OverlayTrayOnly}" AutomationProperties.Name="{l:T Settings_OverlayTray}" />
+                                <TextBlock Text="{l:T Settings_OverlayTray}" VerticalAlignment="Center" Margin="0,0,12,0" />
+                            </DockPanel>
+                            <DockPanel Margin="0,6">
+                                <ToggleButton DockPanel.Dock="Right" Style="{StaticResource PcsSwitch}" IsChecked="{Binding OverlayHideFullScreen}" AutomationProperties.Name="{l:T Settings_OverlayFullScreen}" />
+                                <TextBlock Text="{l:T Settings_OverlayFullScreen}" VerticalAlignment="Center" Margin="0,0,12,0" />
+                            </DockPanel>
+                            <Border Style="{StaticResource PcsDivider}" Margin="0,8" />
+                            <DockPanel Margin="0,6">
+                                <ComboBox DockPanel.Dock="Right" MinWidth="200" ItemsSource="{Binding Positions}" SelectedValuePath="Value" DisplayMemberPath="Label"
+                                          SelectedValue="{Binding OverlayPosition}" AutomationProperties.Name="{l:T Settings_OverlayPosition}" />
+                                <TextBlock Text="{l:T Settings_OverlayPosition}" VerticalAlignment="Center" />
+                            </DockPanel>
+                            <DockPanel Margin="0,6">
+                                <Slider DockPanel.Dock="Right" Width="200" Minimum="14" Maximum="32" TickFrequency="2" IsSnapToTickEnabled="True" Value="{Binding OverlayFontSize}"
+                                        AutomationProperties.Name="{l:T Settings_OverlaySize}" VerticalAlignment="Center" />
+                                <TextBlock Text="{l:T Settings_OverlaySize}" VerticalAlignment="Center" />
+                            </DockPanel>
+                            <DockPanel Margin="0,6">
+                                <Slider DockPanel.Dock="Right" Width="200" Minimum="30" Maximum="100" TickFrequency="10" IsSnapToTickEnabled="True" Value="{Binding OverlayOpacity}"
+                                        AutomationProperties.Name="{l:T Settings_OverlayOpacity}" VerticalAlignment="Center" />
+                                <TextBlock Text="{l:T Settings_OverlayOpacity}" VerticalAlignment="Center" />
+                            </DockPanel>
+                            <TextBlock Text="{l:T Settings_OverlayIndicators}" Style="{StaticResource PcsText.Strong}" Margin="0,10,0,6" />
+                            <WrapPanel>
+                                <CheckBox Content="{l:T Metric_Cpu}" IsChecked="{Binding ShowCpu}" Margin="0,0,16,6" />
+                                <CheckBox Content="{l:T Metric_Memory}" IsChecked="{Binding ShowMemory}" Margin="0,0,16,6" />
+                                <CheckBox Content="{l:T Metric_Disk}" IsChecked="{Binding ShowDisk}" Margin="0,0,16,6" />
+                                <CheckBox Content="{l:T Metric_Network}" IsChecked="{Binding ShowNetwork}" Margin="0,0,16,6" />
+                                <CheckBox Content="{l:T Metric_Temperature}" IsChecked="{Binding ShowTemperature}" Margin="0,0,16,6" />
+                                <CheckBox Content="{l:T Metric_Battery}" IsChecked="{Binding ShowBattery}" Margin="0,0,16,6" />
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Enregistrer (un seul bouton principal) -->
+                <DockPanel Margin="0,16,0,0">
+                    <Button DockPanel.Dock="Right" Style="{StaticResource PcsButton.Primary}" c:Ui.Icon="{StaticResource PcsIcon.check}"
+                            Content="{l:T Settings_Save}" Command="{Binding SaveCommand}" />
+                    <TextBlock Text="{l:T Settings_SaveHint}" Style="{StaticResource PcsText.Muted}" VerticalAlignment="Center" Margin="0,0,16,0" />
+                </DockPanel>
+
+                <Grid Margin="0,24,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Mises à jour de PC Santé -->
+                    <Border Style="{StaticResource PcsCard}" Padding="26,22">
+                        <StackPanel>
+                            <TextBlock Text="{l:T Settings_Updates}" Style="{StaticResource PcsText.SectionTitle}" />
+                            <TextBlock Text="{Binding Version}" Style="{StaticResource PcsText.Strong}" Margin="0,8,0,0" />
+                            <TextBlock Text="{l:T Settings_UpdatesHelp}" Style="{StaticResource PcsText.Muted}" Margin="0,2,0,8" />
+                            <TextBlock Text="{Binding UpdateText}" Style="{StaticResource PcsText.Caption}" Margin="0,0,0,10"
+                                       Visibility="{Binding UpdateText, Converter={StaticResource Visible}}" />
+                            <WrapPanel>
+                                <Button Style="{StaticResource PcsButton.Secondary.Small}" c:Ui.Icon="{StaticResource PcsIcon.refresh}" Content="{l:T Settings_CheckUpdates}"
+                                        Command="{Binding CheckUpdateCommand}" Margin="0,0,8,0" />
+                                <Button Style="{StaticResource PcsButton.Secondary.Small}" c:Ui.Icon="{StaticResource PcsIcon.download}" Content="{l:T Command_InstallAppUpdate}"
+                                        Command="{Binding InstallUpdateCommand}" Visibility="{Binding UpdateAvailable, Converter={StaticResource Visible}}" />
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Console d'entreprise (offre PME) : visible seulement si la version en est équipée -->
+                    <Border Grid.Column="2" Style="{StaticResource PcsCard}" Padding="26,22" Visibility="{Binding PmeAvailable, Converter={StaticResource Visible}}">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <c:LineIcon Data="{StaticResource PcsIcon.building}" Size="20" Foreground="{DynamicResource PcsBrandTextBrush}" Margin="0,0,10,0" />
+                                <TextBlock Text="{l:T Pme_Title}" Style="{StaticResource PcsText.SectionTitle}" />
+                            </StackPanel>
+                            <TextBlock Text="{l:T Pme_Explanation}" Style="{StaticResource PcsText.Muted}" Margin="0,6,0,8" />
+                            <TextBlock Text="{Binding PmeStatusText}" Style="{StaticResource PcsText.Caption}" Margin="0,0,0,10" />
+                            <Grid Visibility="{Binding PmeEnrolled, Converter={StaticResource Collapsed}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox Style="{StaticResource PcsInput}" Text="{Binding PmeCode, UpdateSourceTrigger=PropertyChanged}" Tag="PME-XXXXX-XXXXX-XXXXX"
+                                         FontFamily="Consolas" FlowDirection="LeftToRight" AutomationProperties.Name="{l:T Pme_Code}" />
+                                <Button Grid.Column="1" Style="{StaticResource PcsButton.Secondary}" MinHeight="44" Content="{l:T Pme_Enroll}" Command="{Binding EnrollPmeCommand}"
+                                        IsEnabled="{Binding PmeCodeLooksValid}" Margin="10,0,0,0" />
+                            </Grid>
+                            <Button Style="{StaticResource PcsButton.Danger.Small}" Content="{l:T Pme_Leave}" Command="{Binding LeavePmeCommand}" HorizontalAlignment="Left"
+                                    Visibility="{Binding PmeEnrolled, Converter={StaticResource Visible}}" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+        <v:BusyOverlay />
     </Grid>
 </UserControl>

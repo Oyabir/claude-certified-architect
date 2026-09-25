@@ -1,63 +1,100 @@
 <UserControl x:Class="PcSante.App.Views.ReportsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:l="clr-namespace:PcSante.App.Localization"
              xmlns:vm="clr-namespace:PcSante.App.ViewModels"
-             xmlns:v="clr-namespace:PcSante.App.Views">
+             xmlns:v="clr-namespace:PcSante.App.Views"
+             xmlns:c="clr-namespace:PcSante.App.Controls">
+    <!-- Rapports (§ 6.7) : évolution du score avec bandes des seuils, rapport PDF, journal des actions. -->
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
             <StackPanel Margin="40,28,40,32">
-                <TextBlock Text="{Binding Title}" Style="{StaticResource PageTitle}" />
-                <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PageSubtitle}" />
+                <TextBlock Text="{Binding Title}" Style="{StaticResource PcsText.PageTitle}" />
+                <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PcsText.Muted}" Margin="0,4,0,24" />
 
-                <ui:Card Padding="20">
-                    <StackPanel>
-                        <TextBlock Text="{l:T Reports_Evolution}" FontSize="18" FontWeight="SemiBold" />
-                        <TextBlock Text="{Binding ScoreRange}" Style="{StaticResource Technical}" Margin="0,0,0,8" />
-                        <Border Height="160" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" CornerRadius="4" ClipToBounds="True">
-                            <Viewbox Stretch="Fill">
-                                <Canvas Width="600" Height="100">
-                                    <Line X1="0" X2="600" Y1="20" Y2="20" Stroke="#1E7B34" StrokeDashArray="4 4" Opacity="0.6" />
-                                    <Line X1="0" X2="600" Y1="50" Y2="50" Stroke="#B42318" StrokeDashArray="4 4" Opacity="0.6" />
-                                    <Polyline Points="{Binding ScorePoints}" Stroke="{DynamicResource PcsBrandBrush}" StrokeThickness="2" />
-                                </Canvas>
-                            </Viewbox>
-                        </Border>
-                    </StackPanel>
-                </ui:Card>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="400" />
+                    </Grid.ColumnDefinitions>
 
-                <ui:Card Padding="20" Margin="0,12,0,0">
-                    <StackPanel>
-                        <TextBlock Text="{l:T Reports_Pdf}" FontSize="18" FontWeight="SemiBold" />
-                        <TextBlock Text="{l:T Reports_PdfExplanation}" Margin="0,4,0,8" />
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                            <RadioButton Content="{l:T Reports_Weekly}" GroupName="period" Margin="0,0,24,0" />
-                            <RadioButton Content="{l:T Reports_Monthly}" GroupName="period" IsChecked="{Binding Monthly}" />
+                    <!-- Évolution du score : bandes vert / orange / rouge à 8 % (seuils du score : 80 et 50) -->
+                    <Border Style="{StaticResource PcsCard}" Padding="24,20">
+                        <DockPanel>
+                            <DockPanel DockPanel.Dock="Top" Margin="0,0,0,14">
+                                <TextBlock DockPanel.Dock="Right" Text="{Binding ScoreRange}" Style="{StaticResource PcsText.Muted}" VerticalAlignment="Center" />
+                                <TextBlock Text="{l:T Reports_Evolution}" Style="{StaticResource PcsText.SectionTitle}" />
+                            </DockPanel>
+                            <DockPanel DockPanel.Dock="Bottom" Margin="0,6,0,0" Visibility="{Binding HasHistory, Converter={StaticResource Visible}}">
+                                <TextBlock DockPanel.Dock="Right" Text="{Binding LastDate}" Style="{StaticResource PcsText.Muted}" />
+                                <TextBlock Text="{Binding FirstDate}" Style="{StaticResource PcsText.Muted}" />
+                            </DockPanel>
+                            <Grid Height="200">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20*" />
+                                    <RowDefinition Height="30*" />
+                                    <RowDefinition Height="50*" />
+                                </Grid.RowDefinitions>
+                                <Border Grid.Row="0" Background="{DynamicResource PcsGoodBrush}" Opacity="0.08" CornerRadius="8,8,0,0" />
+                                <Border Grid.Row="1" Background="{DynamicResource PcsWarnBrush}" Opacity="0.08" />
+                                <Border Grid.Row="2" Background="{DynamicResource PcsCriticalBrush}" Opacity="0.08" CornerRadius="0,0,8,8" />
+                                <c:SparkChart Grid.RowSpan="3" Points="{Binding ScorePoints}" CoordinateWidth="600" ShowArea="False"
+                                              Stroke="{DynamicResource PcsBrandBrush}" />
+                                <TextBlock Grid.RowSpan="3" Text="{l:T Reports_NoHistory}" Style="{StaticResource PcsText.Muted}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           Visibility="{Binding HasHistory, Converter={StaticResource Collapsed}}" />
+                            </Grid>
+                        </DockPanel>
+                    </Border>
+
+                    <!-- Rapport PDF : un seul bouton principal -->
+                    <Border Grid.Column="2" Style="{StaticResource PcsCard}" Padding="24,20">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <c:LineIcon Data="{StaticResource PcsIcon.report}" Size="20" Foreground="{DynamicResource PcsBrandTextBrush}" Margin="0,0,10,0" />
+                                <TextBlock Text="{l:T Reports_Pdf}" Style="{StaticResource PcsText.SectionTitle}" />
+                            </StackPanel>
+                            <TextBlock Text="{l:T Reports_PdfExplanation}" Style="{StaticResource PcsText.Caption}" Margin="0,6,0,14" />
+                            <Border Style="{StaticResource PcsSegmentHost}" Margin="0,0,0,16">
+                                <StackPanel Orientation="Horizontal">
+                                    <RadioButton Style="{StaticResource PcsSegment}" Content="{l:T Reports_Weekly}" GroupName="period"
+                                                 IsChecked="{Binding Monthly, Converter={StaticResource Not}}" />
+                                    <RadioButton Style="{StaticResource PcsSegment}" Content="{l:T Reports_Monthly}" GroupName="period" IsChecked="{Binding Monthly}" />
+                                </StackPanel>
+                            </Border>
+                            <Button Style="{StaticResource PcsButton.Primary}" HorizontalAlignment="Stretch" c:Ui.Icon="{StaticResource PcsIcon.download}"
+                                    Content="{l:T Reports_Generate}" Command="{Binding GenerateCommand}" />
+                            <Button Style="{StaticResource PcsButton.Secondary}" HorizontalAlignment="Stretch" Content="{l:T Reports_ExportCsv}"
+                                    Command="{Binding ExportCsvCommand}" Margin="0,10,0,0" />
+                            <Border Style="{StaticResource PcsDivider}" Margin="0,18,0,14" />
+                            <TextBlock Text="{l:T Reports_MonthlyAuto}" Style="{StaticResource PcsText.Muted}" Margin="0,0,0,10" />
+                            <Button Style="{StaticResource PcsButton.Ghost}" HorizontalAlignment="Left" c:Ui.Icon="{StaticResource PcsIcon.arrow-right}"
+                                    Content="{l:T Reports_OpenFolder}" Command="{Binding OpenReportsFolderCommand}" Padding="0,0,10,0" />
                         </StackPanel>
-                        <ui:Button Style="{StaticResource PrimaryAction}" HorizontalAlignment="Left" Content="{l:T Reports_Generate}"
-                                   Icon="{ui:SymbolIcon DocumentPdf24}" Command="{Binding GenerateCommand}" />
-                        <ui:Button Style="{StaticResource SecondaryAction}" HorizontalAlignment="Left" Content="{l:T Reports_ExportCsv}"
-                                   Icon="{ui:SymbolIcon Table24}" Command="{Binding ExportCsvCommand}" Margin="0,8,0,0" />
-                        <!-- Rapports mensuels produits par la tâche planifiée « Rapport mensuel ». -->
-                        <TextBlock Text="{l:T Reports_MonthlyAuto}" TextWrapping="Wrap" Margin="0,20,0,8" />
-                        <ui:Button Style="{StaticResource SecondaryAction}" HorizontalAlignment="Left" Content="{l:T Reports_OpenFolder}"
-                                   Icon="{ui:SymbolIcon FolderOpen24}" Command="{Binding OpenReportsFolderCommand}" />
-                    </StackPanel>
-                </ui:Card>
+                    </Border>
+                </Grid>
 
-                <StackPanel Visibility="{Binding IsAdvanced, Converter={StaticResource Visible}}">
-                    <TextBlock Text="{l:T Reports_Journal}" Style="{StaticResource SectionTitle}" />
-                    <DataGrid ItemsSource="{Binding Journal}" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" MaxHeight="400"
-                              AutomationProperties.Name="{l:T Reports_Journal}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="{l:T Report_Date}" Binding="{Binding Date}" Width="150" />
-                            <DataGridTextColumn Header="{l:T Reports_Who}" Binding="{Binding Who}" Width="150" />
-                            <DataGridTextColumn Header="{l:T Report_Action}" Binding="{Binding Action}" Width="2*" />
-                            <DataGridTextColumn Header="{l:T Report_Result}" Binding="{Binding Outcome}" Width="*" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
+                <!-- Journal des actions (mode Avancé) -->
+                <Border Style="{StaticResource PcsCard}" Padding="24,20" Margin="0,20,0,0" Visibility="{Binding IsAdvanced, Converter={StaticResource Visible}}">
+                    <StackPanel>
+                        <TextBlock Text="{l:T Reports_Journal}" Style="{StaticResource PcsText.SectionTitle}" Margin="0,0,0,12" />
+                        <DataGrid ItemsSource="{Binding Journal}" Style="{StaticResource PcsDataGrid}" MaxHeight="420"
+                                  AutomationProperties.Name="{l:T Reports_Journal}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{l:T Report_Date}" Binding="{Binding Date}" Width="170" />
+                                <DataGridTextColumn Header="{l:T Reports_Who}" Binding="{Binding Who}" Width="170" />
+                                <DataGridTextColumn Header="{l:T Report_Action}" Binding="{Binding Action}" Width="2*" />
+                                <DataGridTemplateColumn Header="{l:T Report_Result}" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="{x:Type vm:AuditRowView}">
+                                            <c:StatusChip Tone="{Binding Tone}" Text="{Binding Outcome}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
             </StackPanel>
         </ScrollViewer>
         <v:BusyOverlay />

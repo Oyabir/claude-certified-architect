@@ -10,7 +10,25 @@ using PcSante.Core.Windows;
 namespace PcSante.App.ViewModels;
 
 /// <summary>Session affichée : utilisateur, locale ou à distance (adresse), état, heure d'ouverture.</summary>
-public sealed record SessionRow(int SessionId, string User, string Origin, string State, string Since);
+public sealed record SessionRow(int SessionId, string User, string Origin, string State, string Since, SessionState RawState = SessionState.Other)
+{
+    /// <summary>Initiale du nom d'utilisateur (sans le domaine) pour l'avatar.</summary>
+    public string Initial
+    {
+        get
+        {
+            var name = User.Contains('\\', StringComparison.Ordinal) ? User[(User.LastIndexOf('\\') + 1)..] : User;
+            return string.IsNullOrWhiteSpace(name) ? "?" : name.Trim()[..1].ToUpper(Loc.Culture);
+        }
+    }
+
+    public Infrastructure.Tone StateTone => RawState switch
+    {
+        SessionState.Active => Infrastructure.Tone.Good,
+        SessionState.Disconnected => Infrastructure.Tone.Warn,
+        _ => Infrastructure.Tone.Neutral,
+    };
+}
 
 /// <summary>Sessions locales et Bureau à distance (M7, mode Avancé) : message, déconnexion, fermeture.</summary>
 [SupportedOSPlatform("windows")]
@@ -36,7 +54,8 @@ public sealed partial class SessionsViewModel(MainViewModel main) : PageViewMode
                 s.UserName,
                 s.IsRemote ? (s.ClientAddress is { } ip ? Loc.F("Sessions_Remote", ip) : Loc.T("Sessions_RemoteUnknown")) : Loc.T("Sessions_Local"),
                 Loc.T($"SessionState_{s.State}"),
-                s.LogonTime is { } at ? Loc.F("Sessions_Since", Loc.Date(at)) : string.Empty));
+                s.LogonTime is { } at ? Loc.F("Sessions_Since", Loc.When(at)) : string.Empty,
+                s.State));
         }
     }
 

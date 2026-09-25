@@ -16,7 +16,10 @@ using PcSante.Reporting;
 
 namespace PcSante.App.ViewModels;
 
-public sealed record AuditRowView(string Date, string Who, string Action, string Outcome, bool Ok);
+public sealed record AuditRowView(string Date, string Who, string Action, string Outcome, bool Ok)
+{
+    public Tone Tone => Ok ? Tone.Good : Tone.Critical;
+}
 
 [SupportedOSPlatform("windows")]
 public sealed partial class ReportsViewModel(MainViewModel main) : PageViewModel(main)
@@ -31,6 +34,16 @@ public sealed partial class ReportsViewModel(MainViewModel main) : PageViewModel
 
     [ObservableProperty]
     private string _scoreRange = string.Empty;
+
+    /// <summary>Axe des dates du graphique : première et dernière journée.</summary>
+    [ObservableProperty]
+    private string _firstDate = string.Empty;
+
+    [ObservableProperty]
+    private string _lastDate = string.Empty;
+
+    [ObservableProperty]
+    private bool _hasHistory;
 
     public ObservableCollection<AuditRowView> Journal { get; } = [];
 
@@ -50,6 +63,9 @@ public sealed partial class ReportsViewModel(MainViewModel main) : PageViewModel
         ScorePoints = points;
         ScoreRange = daily.Count == 0 ? Loc.T("Reports_NoHistory")
             : Loc.F("Reports_Range", daily[0].At.ToLocalTime().ToString("d", Loc.Culture), daily[^1].At.ToLocalTime().ToString("d", Loc.Culture));
+        FirstDate = daily.Count == 0 ? string.Empty : daily[0].At.ToLocalTime().ToString("d", Loc.Culture);
+        LastDate = daily.Count == 0 ? string.Empty : daily[^1].At.ToLocalTime().ToString("d", Loc.Culture);
+        HasHistory = daily.Count > 1;
 
         Journal.Clear();
         if (IsAdvanced)
