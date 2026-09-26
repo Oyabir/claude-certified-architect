@@ -22,7 +22,9 @@ param(
     [string]$LicenseServerUrl,
     [string]$LicensePublicKey,
     # Build de TEST : toutes les fonctions Premium sans licence. Jamais pour un MSI distribué.
-    [switch]$TestPremium
+    [switch]$TestPremium,
+    # Adresse de la console PME (remplace branding.props pour cette compilation), ex. console locale de test.
+    [string]$ConsoleUrl
 )
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
@@ -42,6 +44,10 @@ if ($LicenseServerUrl) {
 if ($LicensePublicKey) {
     if ([Convert]::FromBase64String($LicensePublicKey).Length -ne 32) { throw "Clé publique Ed25519 invalide (32 octets en base64 attendus)." }
     $overrides += "-p:PcSanteLicensePublicKey=$LicensePublicKey"
+}
+if ($ConsoleUrl) {
+    if (-not $ConsoleUrl.EndsWith("/")) { throw "L'URL de la console PME doit se terminer par « / »." }
+    $overrides += "-p:PcSanteConsoleUrl=$ConsoleUrl"
 }
 if ($TestPremium) {
     $overrides += "-p:PcSanteTestPremium=true"

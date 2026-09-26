@@ -53,6 +53,25 @@
             <ui:Button Style="{StaticResource PrimaryAction}" HorizontalAlignment="Left" Content="{l:T Settings_Save}"
                        Icon="{ui:SymbolIcon Save24}" Command="{Binding SaveCommand}" Margin="0,20,0,0" />
 
+            <!-- Console d'entreprise (offre PME) : visible seulement si la version en est équipée -->
+            <StackPanel Visibility="{Binding PmeAvailable, Converter={StaticResource Visible}}">
+                <TextBlock Text="{l:T Pme_Title}" Style="{StaticResource SectionTitle}" />
+                <ui:Card Padding="20">
+                    <StackPanel>
+                        <TextBlock Text="{l:T Pme_Explanation}" TextWrapping="Wrap" Style="{StaticResource Technical}" Margin="0,0,0,8" />
+                        <TextBlock Text="{Binding PmeStatusText}" TextWrapping="Wrap" Margin="0,0,0,8" />
+                        <StackPanel Visibility="{Binding PmeEnrolled, Converter={StaticResource Collapsed}}">
+                            <ui:TextBox Text="{Binding PmeCode, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="PME-XXXXX-XXXXX-XXXXX" FontFamily="Consolas"
+                                        FlowDirection="LeftToRight" MaxWidth="360" HorizontalAlignment="Left" AutomationProperties.Name="{l:T Pme_Code}" />
+                            <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T Pme_Enroll}" Command="{Binding EnrollPmeCommand}"
+                                       IsEnabled="{Binding PmeCodeLooksValid}" Margin="0,8,0,0" />
+                        </StackPanel>
+                        <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T Pme_Leave}" Command="{Binding LeavePmeCommand}"
+                                   Visibility="{Binding PmeEnrolled, Converter={StaticResource Visible}}" />
+                    </StackPanel>
+                </ui:Card>
+            </StackPanel>
+
             <TextBlock Text="{l:T Settings_Updates}" Style="{StaticResource SectionTitle}" />
             <ui:Card Padding="20">
                 <StackPanel>

@@ -512,6 +512,40 @@ public sealed class ActionTests
     }
 
     [Fact]
+    public async Task Poste_rattache_a_la_console_pme_envoie_ses_rapports()
+    {
+        await using var svc = new ServiceFixture();
+        var status = (await svc.Run(CommandId.GetPmeStatus)).GetData<Service.Pme.PmeStatus>()!;
+        status.Available.Should().BeTrue();
+        status.Enrolled.Should().BeFalse();
+
+        (await svc.Run(CommandId.EnrollInPme, new() { ["code"] = "pas-un-code" })).Status.Should().Be(CommandStatus.Refused);
+        svc.Pme.EnrollError = Core.Pme.PmeError.NoSeatLeft;
+        (await svc.Run(CommandId.EnrollInPme, new() { ["code"] = "PME-ABCDE-FGHJK-MNPQR" })).MessageKey.Should().Be("Result_PmeNoSeatLeft");
+
+        svc.Pme.EnrollError = Core.Pme.PmeError.None;
+        var enrolled = await svc.Run(CommandId.EnrollInPme, new() { ["code"] = "pme-abcde-fghjk-mnpqr" });
+        enrolled.MessageKey.Should().Be("Result_PmeEnrolled");
+        enrolled.MessageArgs.Should().Equal("Cabinet Test");
+        File.Exists(svc.Paths.PmeEnrollment).Should().BeTrue("inscription gardée par le service (chiffrée par DPAPI sur un vrai PC)");
+
+        await svc.Run(CommandId.RunHealthAnalysis);
+        svc.Pme.Reports.Should().ContainSingle().Which.Score.Should().BeInRange(0, 100);
+        svc.Pme.LastCredentials.Should().Be($"{svc.Pme.DeviceId}:{svc.Pme.Secret}");
+        (await svc.Run(CommandId.GetPmeStatus)).GetData<Service.Pme.PmeStatus>()!.Should().Match<Service.Pme.PmeStatus>(s => s.Enrolled && s.LastReportAt != null && s.OrganizationName == "Cabinet Test");
+
+        // Poste retiré par le gérant : plus aucun envoi.
+        svc.Pme.ReportError = Core.Pme.PmeError.Revoked;
+        await svc.Run(CommandId.RunHealthAnalysis);
+        await svc.Run(CommandId.RunHealthAnalysis);
+        svc.Pme.Reports.Should().HaveCount(2, "après le refus « Revoked », le poste arrête d'envoyer");
+
+        (await svc.Run(CommandId.LeavePme)).MessageKey.Should().Be("Result_PmeLeft");
+        (await svc.Run(CommandId.GetPmeStatus)).GetData<Service.Pme.PmeStatus>()!.Enrolled.Should().BeFalse();
+        (await svc.Run(CommandId.LeavePme)).Status.Should().Be(CommandStatus.AlreadyDone);
+    }
+
+    [Fact]
     public async Task Antivirus_declares_consultables_en_offre_gratuite()
     {
         await using var svc = new ServiceFixture(premium: false);

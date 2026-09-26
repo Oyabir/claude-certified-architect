@@ -20,6 +20,9 @@ public static class ProductInfo
 
     public static string LicenseServerUrl { get; } = Metadata("PcSante.LicenseServerUrl") ?? string.Empty;
 
+    /// <summary>Adresse de la console PME ; vide si l'offre PME n'est pas configurée (fonction masquée).</summary>
+    public static string ConsoleUrl { get; } = Metadata("PcSante.ConsoleUrl") ?? string.Empty;
+
     /// <summary>Clé publique Ed25519 (base64). Vide si la licence n'est pas configurée.</summary>
     public static string LicensePublicKey { get; } = Metadata("PcSante.LicensePublicKey") ?? string.Empty;
 

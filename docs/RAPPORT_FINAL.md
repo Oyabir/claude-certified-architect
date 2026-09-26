@@ -1,12 +1,13 @@
-# Rapport final — PC Santé (MVP + serveur de licences)
+# Rapport final — PC Santé (MVP, serveur de licences, V2 et console PME)
 
-22 septembre 2026 · Branche `claude/pc-sante-app-license-server-7xm4xs`
+22 septembre 2026, mis à jour le 25 septembre 2026 (V2 et console PME, tests réels sous Windows 11)
 
 ## En bref
 
 - **Livré** : l'application Windows complète du périmètre MVP (interface WPF, service SYSTEM, mini-affichage, rapports PDF), le **serveur de licences** avec son administration, l'installeur WiX et les guides.
-- **Qualité** : toute la solution compile en Release **sans erreur ni avertissement** (analyseurs .NET activés) ; **311 tests automatisés** passent. Couverture : Core 96,9 %, Licensing 97,8 %, serveur de licences 98,1 %.
-- **À savoir** : le chantier a été mené sur une machine **Linux** (aucun Windows disponible, voir `DECISIONS.md`). Tout compile, mais les accès Windows réels (WMI, COM, P/Invoke), l'affichage WPF et l'installeur MSI **n'ont pas pu être exécutés**. Ils sont couverts par des simulations et doivent être validés en VM avec `docs/TESTS_MANUELS_VM.md` avant la bêta.
+- **V2 (périmètre étendu par le commanditaire le 24 septembre)** : modules locaux (planification étendue, réseau, comptes, antivirus tiers, BitLocker, sessions, profils de services, effets visuels, disque, export CSV, réputation enrichie) et **console PME** (serveur, interface web React, rattachement des postes, alertes et rapports par e-mail). Voir la section 1 bis.
+- **Qualité** : toute la solution compile en Release **sans erreur ni avertissement** (analyseurs .NET activés) ; **385 tests automatisés** passent ; intégration continue sous Linux **et Windows**.
+- **Exécuté sous Windows 11** (25 septembre) : MSI compilé et signé (certificat de test), installé, testé par le commanditaire (Accueil, Protection, Nettoyage, licence), requêtes Windows des modules V2 vérifiées en lecture, interface de la console vérifiée par captures d'écran. Les **actions système réelles** (BitLocker, sessions, réseau, disque…) restent à valider en VM avec `docs/TESTS_MANUELS_VM.md` (section 10 pour la V2).
 
 ## 1. Ce qui est livré et fonctionne
 
@@ -26,6 +27,23 @@
 **Écrans** : Accueil, Protection, Nettoyage/Optimisation, Performance, Processus, Système, Rapports, Planification, Paramètres, Licence, assistant de premier lancement (langue → licence → analyse → 3 tâches recommandées).
 
 **UX (section 11)** : mode Simple par défaut (Accueil, Protection, Nettoyage, Rapports), mode Avancé dans les Paramètres ; un seul bouton principal par écran ; vocabulaire simple avec terme technique en petit (« Protection contre les intrusions » / Pare-feu Windows) ; vert/orange/rouge constants ; aucun code d'erreur brut (lien « Détails ») ; confirmation avant fermeture de programme, suppression ou redémarrage ; message de résultat après chaque action ; texte ≥ 14 px, thèmes clair/sombre, noms pour le Narrateur, arabe de droite à gauche. 565 textes en 3 langues, complétude vérifiée par test.
+
+### 1 bis. Extensions V2 (accord du commanditaire du 24 septembre 2026)
+
+| Module | Livré | Vérification |
+| --- | --- | --- |
+| M9 Planification | Modèles « vérification des mises à jour » et « rapport mensuel » (PDF produit par le service dans la langue choisie, Documents publics) ; fréquence « 1er du mois » | Tests ; VM |
+| M4/M6 Réseau | Vidage DNS ; réinitialisation Winsock et TCP/IP (point de restauration, confirmation, redémarrage laissé à l'utilisateur) | Tests ; VM |
+| M6 Comptes | Comptes locaux et administrateurs (groupe par SID, toutes langues) ; compte Invité désactivable et annulable ; problème dans l'analyse | Tests ; requêtes vérifiées sur Windows 11 |
+| M2 Antivirus tiers | Produits du Centre de sécurité Windows, état et mise à jour ; « aucun antivirus » = problème rouge | Tests ; vérifié sur Windows 11 |
+| M6 BitLocker | État, clé de récupération enregistrée par l'utilisateur **avant** tout chiffrement, chiffrement de l'espace utilisé ; administrateurs seulement ; TPM prête ; masqué sur Famille | Tests (tous les garde-fous) ; VM |
+| M7 Sessions | Sessions locales et Bureau à distance, message (liste fermée), déconnexion, fermeture (administrateurs) ; alerte « adresse inhabituelle » | Tests ; VM |
+| M4 Optimisation | Profils de services (Manuel seulement, annulable), effets visuels allégés (annulable), disque (TRIM ou défragmentation), fichier d'échange automatique (annulable) | Tests ; requêtes vérifiées sur Windows 11 ; VM |
+| M8 Rapports | Export CSV (Excel, protection contre l'injection de formules) | Tests |
+| M3 Processus | Base de réputation enrichie (fichier de données), descriptions en langage simple | Tests |
+| Console PME | Serveur (organisations, sièges, gérants/lecteurs, alertes, rapport consolidé, CSV), interface web React fr/en/ar, rattachement des postes, e-mails d'alerte et rapport mensuel | 16 tests d'intégration ; captures d'écran ; VM |
+
+Sécurité de la V2 : toutes les nouvelles actions passent par le catalogue fermé et le cycle complet ; aucune saisie libre transmise au service SYSTEM ; BitLocker et sessions réservés aux administrateurs du PC ; console : mots de passe PBKDF2, verrouillage, cookie SameSite=Strict + en-tête anti-CSRF, CSP stricte, secrets des postes et codes d'inscription stockés en empreinte seulement, isolation entre organisations testée.
 
 ### Sécurité du service SYSTEM (section 5)
 
@@ -50,10 +68,10 @@
 | Critère | État |
 | --- | --- |
 | Toute la solution compile en Release sans erreur ni avertissement | ✅ `PcSante.sln` : 0 erreur, 0 avertissement. L'installeur WiX, hors solution, ne se compile que sous Windows (justifié ci-dessous). |
-| Tous les tests automatisés passent | ✅ 311 / 311 |
+| Tous les tests automatisés passent | ✅ 385 / 385 (Linux et Windows en intégration continue) |
 | Chaque module MVP fonctionne ou est désactivé et justifié | ✅ tous livrés et testés avec simulations ; 2 fonctions désactivées et justifiées (section 2) ; validation réelle en VM à faire |
 | Une licence activée sur un PC est refusée sur un second | ✅ tests d'intégration + essai réel du serveur |
-| L'installeur MSI installe, met à jour et désinstalle proprement | ⚠️ Rédigé (service SYSTEM, MajorUpgrade, désinstallation propre, vérification .NET) et vérifié structurellement par tests ; **compilation et essai à faire sous Windows** (WiX ne fonctionne pas sous Linux) |
+| L'installeur MSI installe, met à jour et désinstalle proprement | ✅ Compilé sous Windows (16,6 Mo), signé avec un certificat de test, installé et désinstallé sur Windows 11 et Windows Sandbox (`tools/installation-test`) ; mise à jour par-dessus une version à valider en VM (checklist I5) |
 | Service au repos < 1 % CPU, mini-affichage < 30 Mo | ⚠️ Conçu pour (aucune mesure permanente : échantillonnage des processus toutes les 10 min, mesures à la demande ; mini-affichage Win32 sans WPF, GC économe) ; **mesure à faire en VM** (checklist, section 9) |
 | Interface en français, anglais et arabe | ✅ 565 textes, test de complétude et de cohérence des paramètres, RTL |
 | Guide utilisateur et guide de déploiement rédigés | ✅ `docs/GUIDE_UTILISATEUR.md`, `docs/GUIDE_DEPLOIEMENT.md` |
@@ -62,13 +80,14 @@
 
 | Élément | État | Raison |
 | --- | --- | --- |
-| Exécution réelle sous Windows (WPF, WMI, COM, P/Invoke) | Non exécutée | Machine de développement Linux ; tout compile et la logique est testée avec simulations. Des ajustements peuvent apparaître pendant la checklist VM (par ex. mise en page, codes de retour d'outils Windows). |
-| Compilation du MSI | Non réalisée | WiX 4.0.5 et 5.0.2 essayés : « The WiX Toolset only supports Windows » (WIX0389). `installer/build.ps1` fait tout sous Windows. |
+| Actions système réelles de la V2 (BitLocker, sessions, réseau, disque, profils) | À valider en VM | Testées avec simulations ; les requêtes Windows ont été vérifiées en lecture sur Windows 11, mais aucune action destructive n'est exécutée sur le poste de développement (règle du chantier). Checklist `TESTS_MANUELS_VM.md`, section 10. |
 | Suppression d'un élément de la quarantaine | Désactivée (restauration seule) | Aucune API documentée pour supprimer un élément précis ; Defender purge lui-même la quarantaine et un élément en quarantaine est déjà neutralisé. |
 | Consommation réseau par processus | Affichée « non disponible » | Nécessite ETW en temps réel, trop coûteux pour l'objectif < 1 % CPU. |
 | Températures | Selon le PC | Lecture via WMI (`MSAcpi_ThermalZoneTemperature`), souvent absente ; LibreHardwareMonitor écarté car son pilote WinRing0 est détecté par Defender (risque n°1 du projet). Affiche « non disponible » sinon. |
 | Signature des binaires | Prête, non réalisée | Aucun certificat (achat interdit sans accord). En Release, le service **refuse** une interface non signée : signer avant tout test Release en VM. |
-| Hors MVP (section 7) | Non développés | M7 Sessions, BitLocker, réseau (DNS/Winsock), comptes, effets visuels, profils de services, antivirus tiers, défragmentation/TRIM, M10 assistant IA (seule l'interface `IAiAssistant` existe), console PME, export CSV PME. |
+| Températures GPU (M5, V2) | Désactivée | LibreHardwareMonitor et son pilote WinRing0 sont détectés par Defender (risque n°1 du projet) ; affiché « non disponible ». |
+| Hors périmètre retenu | Non développés | M10 assistant IA (seule l'interface `IAiAssistant` existe : service payant, non retenu par le commanditaire) ; V3 (modèle IA local, marque blanche de la console). |
+| Mise en ligne de la console PME | Non réalisée | Hébergement, domaine et HTTPS payants et publics : accord du commanditaire requis (`GUIDE_DEPLOIEMENT.md` § 5 bis). |
 
 ## 3. Décisions prises seul (résumé de `DECISIONS.md`)
 
@@ -88,6 +107,8 @@
 5. **Soumission** des binaires signés à Microsoft (SmartScreen) et aux éditeurs antivirus.
 6. Choix de l'hébergement (Maroc ou Europe), conformité loi 09-08 / CNDP ; conservation hors ligne de la clé privée et des tables d'obfuscation.
 7. Revoir, si souhaité, les décisions de `docs/DECISIONS.md`.
+8. **Console PME** : hébergement (Maroc ou Europe, loi 09-08), domaine et HTTPS, serveur SMTP (mot de passe en variable d'environnement `PCSANTE_SMTP_PASSWORD`), puis `PcSanteConsoleUrl` dans `branding.props` et MSI reconstruit (`GUIDE_DEPLOIEMENT.md` § 5 bis).
+9. **Checklist V2** en VM (`TESTS_MANUELS_VM.md`, section 10), notamment BitLocker sur Windows Pro avec TPM et sessions Bureau à distance.
 
 ## 5. Commandes
 

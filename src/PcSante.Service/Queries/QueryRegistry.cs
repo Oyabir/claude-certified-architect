@@ -31,6 +31,7 @@ public sealed class QueryRegistry(
     IServiceControlApi services,
     IVisualEffectsApi visualEffects,
     IDiskOptimizationApi disk,
+    Pme.PmeReporter pme,
     IWindowsUpdateApi updates,
     IProcessApi processes,
     ISignatureVerifier signatures,
@@ -68,6 +69,7 @@ public sealed class QueryRegistry(
         yield return Q(CommandId.GetVisualEffects, async (_, c, ct) => CommandResult.WithData(
             c.UserSid is null ? null : await visualEffects.ReadAsync(c.UserSid, ct).ConfigureAwait(false)));
         yield return Q(CommandId.GetDiskOptimizationInfo, async (_, _, ct) => CommandResult.WithData(await disk.GetSystemDiskAsync(ct).ConfigureAwait(false)));
+        yield return Q(CommandId.GetPmeStatus, (_, _, _) => Task.FromResult(CommandResult.WithData(pme.Status())));
         yield return Q(CommandId.GetLocalAccounts, async (_, _, ct) => CommandResult.WithData(await accounts.ListAsync(ct).ConfigureAwait(false)));
         yield return Q(CommandId.GetUpdateStatus, async (_, _, ct) => CommandResult.WithData(await updates.GetStatusAsync(ct).ConfigureAwait(false)));
 

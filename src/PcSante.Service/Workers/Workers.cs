@@ -119,3 +119,22 @@ public sealed partial class RemoteSessionWorker(ISessionApi sessions, RemoteAcce
     [LoggerMessage(Level = LogLevel.Warning, Message = "Relevé des sessions impossible")]
     private partial void LogFailed(Exception ex);
 }
+
+/// <summary>Envoi du dernier rapport de santé à la console PME toutes les 6 heures (si le poste est rattaché).</summary>
+public sealed class PmeReportWorker(Pme.PmeReporter pme, HistoryStore history) : BackgroundService
+{
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        if (!pme.IsAvailable)
+        {
+            return;
+        }
+
+        using var timer = new PeriodicTimer(Pme.PmeReporter.Interval);
+        do
+        {
+            await pme.SendAsync(await history.GetLastReportAsync(stoppingToken).ConfigureAwait(false), stoppingToken).ConfigureAwait(false);
+        }
+        while (await timer.WaitForNextTickAsync(stoppingToken).ConfigureAwait(false));
+    }
+}

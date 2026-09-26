@@ -102,6 +102,11 @@ public enum CommandId
     OptimizeSystemDrive = 1105,
     SetPageFileAutomatic = 1106,
 
+    // --- Console PME (offre PME) ---
+    GetPmeStatus = 1200,
+    EnrollInPme = 1201,
+    LeavePme = 1202,
+
     // --- Sessions (M7) ---
     GetSessions = 1000,
     SendSessionMessage = 1001,

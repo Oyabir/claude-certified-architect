@@ -19,6 +19,7 @@ public sealed partial class HealthAnalyzer(
     ILocalAccountsApi accounts,
     ISessionApi sessions,
     RemoteAccessTracker remoteAccess,
+    Pme.PmeReporter pme,
     IStartupApi startup,
     ICleanupApi cleanup,
     IMetricsProvider metrics,
@@ -71,6 +72,7 @@ public sealed partial class HealthAnalyzer(
         var issues = DiagnosticRules.EvaluateAll(snapshot);
         var report = HealthScoreCalculator.BuildReport(now, issues, watch.Elapsed);
         await history.SaveReportAsync(report, cancellationToken).ConfigureAwait(false);
+        await pme.SendAsync(report, cancellationToken).ConfigureAwait(false);
         return report;
     }
 

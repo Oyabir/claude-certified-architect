@@ -72,6 +72,11 @@ public static class CommandDefinitions
         A(CommandId.DisableGuestAccount, SafeguardKind.OwnBackup),
         Q(CommandId.GetBitLockerStatus),
 
+        // Console PME : rattachement du poste (métriques techniques seulement)
+        Q(CommandId.GetPmeStatus),
+        A(CommandId.EnrollInPme, SafeguardKind.None, p: new ParameterSpec("code", ParameterType.EnrollmentCode)),
+        A(CommandId.LeavePme, SafeguardKind.None),
+
         // Profils de services (M4) : passage en Manuel seulement, point de restauration + sauvegarde pour « Annuler »
         Q(CommandId.GetServiceProfileChanges, RequiredTier.Free, ServiceProfileParameter),
         A(CommandId.ApplyServiceProfile, SafeguardKind.RestorePointAndOwnBackup, p: ServiceProfileParameter),

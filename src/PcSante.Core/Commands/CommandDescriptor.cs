@@ -72,6 +72,9 @@ public enum ParameterType
 
     /// <summary>GUID.</summary>
     Guid,
+
+    /// <summary>Code d'inscription à une console PME (PME-XXXXX-XXXXX-XXXXX).</summary>
+    EnrollmentCode,
 }
 
 public sealed record ParameterSpec(

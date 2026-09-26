@@ -138,6 +138,23 @@ API équivalente (en-tête `X-Admin-Key`) : `POST /admin/api/licenses`, `GET /ad
 
 Sauvegarder chaque jour `licenses.db` (ou la base PostgreSQL) et, **hors ligne**, la clé privée.
 
+## 5 bis. Console PME (offre PME, V2)
+
+Projet `server/PcSante.PmeConsole` : postes des entreprises clientes, alertes, rapports consolidés, e-mails aux gérants. Service indépendant du serveur de licences (ASP.NET Core, SQLite ou PostgreSQL), à héberger au Maroc ou en Europe (loi 09-08, CNDP) derrière un proxy HTTPS, comme le serveur de licences (§ 5.3).
+
+1. **Publier** : `dotnet publish server/PcSante.PmeConsole -c Release -o /opt/pcsante-console` ; le dossier de travail doit être le dossier publié (interface web dans `wwwroot`).
+2. **Configurer** (variables d'environnement) :
+   - `ASPNETCORE_URLS=http://127.0.0.1:5090` (seul le proxy HTTPS est exposé) ;
+   - `ConnectionStrings__Console=…` et `Database__Provider=PostgreSql` en production ;
+   - `Email__From`, `Email__SmtpHost`, `Email__SmtpPort`, `Email__UserName` ; **mot de passe SMTP uniquement dans `PCSANTE_SMTP_PASSWORD`** (jamais dans un fichier du dépôt). Sans SMTP, les e-mails sont écrits en `.eml` dans `Email__PickupDirectory`.
+3. **Créer une organisation cliente** (une par entreprise) :
+   `dotnet PcSante.PmeConsole.dll create-organization "Nom de l'entreprise" gerant@entreprise.ma <nombre de postes>`
+   La commande affiche **une seule fois** le mot de passe provisoire du gérant (à changer à la première connexion) et le code d'inscription `PME-XXXXX-XXXXX-XXXXX`.
+4. **Postes** : dans `branding.props`, renseigner `PcSanteConsoleUrl` (URL HTTPS de la console, terminée par « / ») puis reconstruire le MSI. Sur chaque PC : PC Santé → Paramètres → Console d'entreprise → code → « Rattacher ce PC ». Le poste envoie ensuite son état après chaque analyse et toutes les 6 heures.
+5. **Données** : score, sous-scores, codes des problèmes, version de Windows et de PC Santé, nom du PC ; ni nom d'utilisateur ni fichier. Sauvegarder la base comme celle du serveur de licences.
+
+Test local : `tools/pme/demarrer-console.ps1` (http://127.0.0.1:5090/), et la version de test `tools/installation-test/construire.ps1` vise cette adresse par défaut.
+
 ## 6. Construire l'installeur MSI (Windows)
 
 ```powershell
