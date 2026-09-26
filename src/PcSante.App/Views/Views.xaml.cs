@@ -1,13 +1,68 @@
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+
 namespace PcSante.App.Views;
 
 public partial class HomeView
 {
-    public HomeView() => InitializeComponent();
+    public HomeView()
+    {
+        InitializeComponent();
+        SizeChanged += (_, _) => Responsive.Apply(ActualWidth, SideColumn, SidePanel, SubScoreColumn, SubScoreList);
+    }
+
+    /// <summary>« Voir le détail » : amène la liste des problèmes à l'écran et place le focus sur la première action.</summary>
+    private void OnShowDetails(object sender, RoutedEventArgs e)
+    {
+        IssuesCard.BringIntoView();
+        IssuesCard.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
+    }
+}
+
+/// <summary>
+/// Fenêtre étroite (moins de 1200 px) : la colonne latérale passe sous le contenu principal
+/// et les sous-scores sous la conclusion (dossier de refonte § 5).
+/// </summary>
+internal static class Responsive
+{
+    public const double NarrowWidth = 1200 - 248;
+
+    public static void Apply(double width, ColumnDefinition sideColumn, FrameworkElement sidePanel,
+        ColumnDefinition subScoreColumn, FrameworkElement subScores)
+    {
+        var narrow = width < NarrowWidth;
+        sideColumn.Width = narrow ? new GridLength(0) : new GridLength(380);
+        Grid.SetColumn(sidePanel, narrow ? 0 : 1);
+        Grid.SetRow(sidePanel, narrow ? 1 : 0);
+        sidePanel.Margin = narrow ? new Thickness(0, 24, 0, 0) : new Thickness(24, 0, 0, 0);
+
+        subScoreColumn.Width = narrow ? new GridLength(0) : new GridLength(440);
+        Grid.SetColumn(subScores, narrow ? 1 : 2);
+        Grid.SetRow(subScores, narrow ? 1 : 0);
+        subScores.Margin = narrow ? new Thickness(33, 16, 33, 0) : new Thickness(0);
+    }
 }
 
 public partial class ProtectionView
 {
     public ProtectionView() => InitializeComponent();
+
+    private void OnOpenMenu(object sender, RoutedEventArgs e) => Menus.Open(sender);
+}
+
+/// <summary>Bouton qui ouvre un menu (« Autres scans », « ⋯ ») sous lui-même, au clic ou au clavier.</summary>
+internal static class Menus
+{
+    public static void Open(object sender)
+    {
+        if (sender is FrameworkElement { ContextMenu: { } menu } element)
+        {
+            menu.PlacementTarget = element;
+            menu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            menu.IsOpen = true;
+        }
+    }
 }
 
 public partial class OptimizationView
@@ -23,6 +78,8 @@ public partial class PerformanceView
 public partial class ProcessesView
 {
     public ProcessesView() => InitializeComponent();
+
+    private void OnOpenMenu(object sender, RoutedEventArgs e) => Menus.Open(sender);
 }
 
 public partial class SessionsView

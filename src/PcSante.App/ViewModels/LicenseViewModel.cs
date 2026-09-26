@@ -30,6 +30,15 @@ public sealed partial class LicenseViewModel(MainViewModel main) : PageViewModel
 
     public string Offer => Main.LicenseBadge;
 
+    /// <summary>Couleur de l'état : vert (active), orange (à reconnecter, expirée), rouge (anomalie), neutre (Gratuite).</summary>
+    public Tone StateTone => Status?.State switch
+    {
+        LicenseState.Active => Tone.Good,
+        LicenseState.OfflineTooLong or LicenseState.Expired => Tone.Warn,
+        LicenseState.Revoked or LicenseState.ClockTampered or LicenseState.WrongComputer or LicenseState.InvalidToken => Tone.Critical,
+        _ => Tone.Neutral,
+    };
+
     public string StateText => Status is null ? Loc.T("License_State_Unknown") : Loc.T($"License_State_{Status.State}");
 
     public string Details => Status is not { State: LicenseState.Active } s ? string.Empty
@@ -87,6 +96,7 @@ public sealed partial class LicenseViewModel(MainViewModel main) : PageViewModel
         OnPropertyChanged(nameof(IsActive));
         OnPropertyChanged(nameof(Offer));
         OnPropertyChanged(nameof(StateText));
+        OnPropertyChanged(nameof(StateTone));
         OnPropertyChanged(nameof(Details));
     }
 }

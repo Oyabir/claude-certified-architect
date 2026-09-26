@@ -41,9 +41,22 @@ public sealed record ProcessRow(ProcessView Process, string? StartupId)
     public bool CanRemoveFromStartup => StartupId is not null;
 
     public bool HasLocation => Process.ExecutablePath is not null;
+
+    /// <summary>Tonalité de la puce de réputation : « Utile » vert, « Inutile » orange, « Suspect » rouge, « Inconnu » orange.</summary>
+    public Infrastructure.Tone ReputationTone => Process.Reputation switch
+    {
+        Reputation.Useful => Infrastructure.Tone.Good,
+        Reputation.Suspicious => Infrastructure.Tone.Critical,
+        _ => Infrastructure.Tone.Warn,
+    };
+
+    public string CpuText => Loc.F("Metric_Percent", Cpu.ToString("0.#", Loc.Culture));
+
+    /// <summary>Filtre « Gourmands » : au moins 5 % de processeur ou 500 Mo de mémoire.</summary>
+    public bool IsHeavy => Process.CpuPercent >= ProcessesViewModel.HeavyCpuPercent || Process.MemoryBytes >= ProcessesViewModel.HeavyMemoryBytes;
 }
 
-public sealed record HistoryRow(string Name, string Cpu, string Memory, string Presence);
+public sealed record HistoryRow(string Name, string Cpu, string Memory, string Presence, double Ratio = 0);
 
 [SupportedOSPlatform("windows")]
 public sealed partial class ProcessesViewModel(MainViewModel main) : PageViewModel(main)
@@ -53,6 +66,33 @@ public sealed partial class ProcessesViewModel(MainViewModel main) : PageViewMod
     public ObservableCollection<ProcessRow> Processes { get; } = [];
 
     public ObservableCollection<HistoryRow> History { get; } = [];
+
+    public const double HeavyCpuPercent = 5;
+
+    public const long HeavyMemoryBytes = 500L * 1024 * 1024;
+
+    public System.ComponentModel.ICollectionView ProcessView => _processView ??= new System.Windows.Data.ListCollectionView(Processes)
+    {
+        Filter = o => o is ProcessRow r
+            && (Filter switch { "Heavy" => r.IsHeavy, "Unsigned" => !r.Process.IsSigned, _ => true })
+            && (Search.Length == 0 || r.Name.Contains(Search.Trim(), StringComparison.CurrentCultureIgnoreCase)
+                || r.Signed.Contains(Search.Trim(), StringComparison.CurrentCultureIgnoreCase)),
+    };
+
+    private System.ComponentModel.ICollectionView? _processView;
+
+    [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+    private string _search = string.Empty;
+
+    /// <summary>« All », « Heavy » (gourmands) ou « Unsigned » (non signés).</summary>
+    [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+    private string _filter = "All";
+
+    partial void OnSearchChanged(string value) => ProcessView.Refresh();
+
+    partial void OnFilterChanged(string value) => ProcessView.Refresh();
+
+    public bool HasHistory => History.Count > 0;
 
     public override async Task LoadAsync()
     {
@@ -69,9 +109,11 @@ public sealed partial class ProcessesViewModel(MainViewModel main) : PageViewMod
         History.Clear();
         foreach (var h in await Query<List<ProcessHistoryEntry>>(CommandId.GetProcessHistory).ConfigureAwait(true) ?? [])
         {
-            History.Add(new HistoryRow(h.Name, Loc.F("Metric_Percent", h.AverageCpuPercent), Loc.Bytes(h.AverageMemoryBytes),
-                Loc.F("Process_HighUsage", Math.Round(h.HighUsageRatio * 100))));
+            History.Add(new HistoryRow(h.Name, Loc.F("Metric_Percent", Math.Round(h.AverageCpuPercent, 1).ToString("0.#", Loc.Culture)), Loc.Bytes(h.AverageMemoryBytes),
+                Loc.F("Process_HighUsage", Math.Round(h.HighUsageRatio * 100)), Math.Clamp(h.HighUsageRatio * 100, 0, 100)));
         }
+
+        OnPropertyChanged(nameof(HasHistory));
     }
 
     [RelayCommand]

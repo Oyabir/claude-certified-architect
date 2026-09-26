@@ -1,87 +1,158 @@
 <UserControl x:Class="PcSante.App.Views.ProcessesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:l="clr-namespace:PcSante.App.Localization"
              xmlns:vm="clr-namespace:PcSante.App.ViewModels"
-             xmlns:v="clr-namespace:PcSante.App.Views">
+             xmlns:v="clr-namespace:PcSante.App.Views"
+             xmlns:c="clr-namespace:PcSante.App.Controls">
+    <!-- Processus (§ 6.7) : tableau style « Programmes au démarrage », actions dans un menu « ⋯ », carte « 7 jours » séparée. -->
     <Grid>
-        <Grid Margin="4,0,12,12">
+        <Grid Margin="40,28,40,32">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="{Binding Title}" Style="{StaticResource PageTitle}" />
-            <TextBlock Grid.Row="1" Text="{Binding Subtitle}" Style="{StaticResource PageSubtitle}" />
-            <ui:Button Grid.Row="2" Style="{StaticResource PrimaryAction}" HorizontalAlignment="Left" Content="{l:T Process_Refresh}"
-                       Icon="{ui:SymbolIcon ArrowSync24}" Command="{Binding RefreshCommand}" Margin="0,0,0,12" />
 
-            <DataGrid Grid.Row="3" ItemsSource="{Binding Processes}" AutoGenerateColumns="False" IsReadOnly="True"
-                      CanUserSortColumns="True" HeadersVisibility="Column" SelectionMode="Single"
-                      AutomationProperties.Name="{l:T Nav_Processes}">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="{l:T Process_Name}" SortMemberPath="Name" Width="2*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Name}" />
-                                    <TextBlock Text="{Binding Description}" Style="{StaticResource Technical}" TextWrapping="Wrap" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="{l:T Process_Cpu}" Binding="{Binding Cpu, StringFormat={}{0:0.#} %}" SortMemberPath="Cpu" Width="80" />
-                    <DataGridTextColumn Header="{l:T Process_Memory}" Binding="{Binding Memory}" SortMemberPath="MemoryBytes" Width="100" />
-                    <DataGridTextColumn Header="{l:T Process_Disk}" Binding="{Binding Disk}" Width="100" />
-                    <DataGridTextColumn Header="{l:T Process_Network}" Binding="{Binding Network}" Width="100" />
-                    <DataGridTemplateColumn Header="{l:T Process_Reputation}" SortMemberPath="Reputation" Width="120">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="{x:Type vm:ProcessRow}">
-                                <Border Style="{StaticResource Badge}" Background="{Binding Reputation, Converter={StaticResource HealthBrush}}" Padding="6,2">
-                                    <TextBlock Text="{Binding ReputationLabel}" Foreground="White" />
-                                </Border>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="{l:T Process_Signature}" Binding="{Binding Signed}" Width="1.5*" />
-                    <DataGridTemplateColumn Header="{l:T Process_Actions}" Width="Auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="{x:Type vm:ProcessRow}">
-                                <StackPanel Orientation="Horizontal">
-                                    <ui:Button Content="{l:T Process_Stop}" Appearance="Secondary" Margin="2" Padding="8,2"
-                                               AutomationProperties.Name="{Binding Name}"
-                                               Command="{Binding DataContext.StopCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                               CommandParameter="{Binding}" Visibility="{Binding CanStop, Converter={StaticResource Visible}}" />
-                                    <ui:Button Content="{l:T Process_RemoveStartup}" Appearance="Secondary" Margin="2" Padding="8,2"
-                                               Command="{Binding DataContext.RemoveFromStartupCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                               CommandParameter="{Binding}" Visibility="{Binding CanRemoveFromStartup, Converter={StaticResource Visible}}" />
-                                    <ui:Button Content="{l:T Process_DisableService}" Appearance="Secondary" Margin="2" Padding="8,2"
-                                               Command="{Binding DataContext.DisableServiceCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                               CommandParameter="{Binding}" Visibility="{Binding HasService, Converter={StaticResource Visible}}" />
-                                    <ui:Button Content="{l:T Process_OpenLocation}" Appearance="Transparent" Margin="2" Padding="8,2"
-                                               Command="{Binding DataContext.OpenLocationCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                               CommandParameter="{Binding}" Visibility="{Binding HasLocation, Converter={StaticResource Visible}}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+            <DockPanel Margin="0,0,0,24">
+                <Button DockPanel.Dock="Right" Style="{StaticResource PcsButton.Secondary}" c:Ui.Icon="{StaticResource PcsIcon.refresh}"
+                        Content="{l:T Process_Refresh}" Command="{Binding RefreshCommand}" VerticalAlignment="Center" />
+                <StackPanel>
+                    <TextBlock Text="{Binding Title}" Style="{StaticResource PcsText.PageTitle}" />
+                    <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PcsText.Muted}" Margin="0,4,0,0" />
+                </StackPanel>
+            </DockPanel>
 
-            <TextBlock Grid.Row="4" Text="{l:T Process_History}" Style="{StaticResource SectionTitle}" />
-            <DataGrid Grid.Row="5" ItemsSource="{Binding History}" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column"
-                      AutomationProperties.Name="{l:T Process_History}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="{l:T Process_Name}" Binding="{Binding Name}" Width="2*" />
-                    <DataGridTextColumn Header="{l:T Process_AvgCpu}" Binding="{Binding Cpu}" Width="*" />
-                    <DataGridTextColumn Header="{l:T Process_AvgMemory}" Binding="{Binding Memory}" Width="*" />
-                    <DataGridTextColumn Header="{l:T Process_Presence}" Binding="{Binding Presence}" Width="2*" />
-                </DataGrid.Columns>
-            </DataGrid>
+            <Border Grid.Row="1" Style="{StaticResource PcsCard}" Padding="24,20">
+                <DockPanel>
+                    <Grid DockPanel.Dock="Top" Margin="0,0,0,14">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Style="{StaticResource PcsSearchBox}" Tag="{l:T Process_Search}" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}"
+                                 AutomationProperties.Name="{l:T Process_Search}" MaxWidth="420" HorizontalAlignment="Left" MinWidth="320" />
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <RadioButton Style="{StaticResource PcsPill}" Content="{l:T Process_FilterAll}" GroupName="ProcessFilter"
+                                         IsChecked="{Binding Filter, Converter={StaticResource EqualsParam}, ConverterParameter=All}" />
+                            <RadioButton Style="{StaticResource PcsPill}" Content="{l:T Process_FilterHeavy}" GroupName="ProcessFilter"
+                                         IsChecked="{Binding Filter, Converter={StaticResource EqualsParam}, ConverterParameter=Heavy}" />
+                            <RadioButton Style="{StaticResource PcsPill}" Content="{l:T Process_FilterUnsigned}" GroupName="ProcessFilter" Margin="0"
+                                         IsChecked="{Binding Filter, Converter={StaticResource EqualsParam}, ConverterParameter=Unsigned}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <DataGrid x:Name="Table" ItemsSource="{Binding ProcessView}" Style="{StaticResource PcsDataGrid}" CanUserSortColumns="True"
+                              AutomationProperties.Name="{l:T Nav_Processes}" Tag="{Binding}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="{l:T Process_Name}" SortMemberPath="Name" Width="2.4*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="{x:Type vm:ProcessRow}">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" />
+                                            <TextBlock Text="{Binding Description}" Style="{StaticResource PcsText.Muted}"
+                                                       Visibility="{Binding Description, Converter={StaticResource Visible}}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{l:T Process_Cpu}" SortMemberPath="Cpu" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="{x:Type vm:ProcessRow}">
+                                        <TextBlock Text="{Binding CpuText}" Typography.NumeralAlignment="Tabular" TextWrapping="NoWrap" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{l:T Process_Memory}" SortMemberPath="MemoryBytes" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="{x:Type vm:ProcessRow}">
+                                        <TextBlock Text="{Binding Memory}" Typography.NumeralAlignment="Tabular" TextWrapping="NoWrap" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{l:T Process_Disk}" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="{x:Type vm:ProcessRow}">
+                                        <TextBlock Text="{Binding Disk}" Typography.NumeralAlignment="Tabular" TextWrapping="NoWrap" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{l:T Process_Reputation}" SortMemberPath="Reputation" Width="1.1*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="{x:Type vm:ProcessRow}">
+                                        <c:StatusChip Tone="{Binding ReputationTone}" Text="{Binding ReputationLabel}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{l:T Process_Publisher}" SortMemberPath="Signed" Width="1.6*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="{x:Type vm:ProcessRow}">
+                                        <TextBlock Text="{Binding Signed}" Style="{StaticResource PcsText.Caption}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"
+                                                   ToolTip="{Binding Signed}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="56">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="{x:Type vm:ProcessRow}">
+                                        <Button Style="{StaticResource PcsMoreButton}" Click="OnOpenMenu" HorizontalAlignment="Right"
+                                                AutomationProperties.Name="{l:T Process_MoreActions}" AutomationProperties.HelpText="{Binding Name}"
+                                                Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                            <Button.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{l:T Process_Stop}" Visibility="{Binding CanStop, Converter={StaticResource Visible}}"
+                                                              Command="{Binding PlacementTarget.Tag.StopCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
+                                                    <MenuItem Header="{l:T Process_RemoveStartup}" Visibility="{Binding CanRemoveFromStartup, Converter={StaticResource Visible}}"
+                                                              Command="{Binding PlacementTarget.Tag.RemoveFromStartupCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
+                                                    <MenuItem Header="{l:T Process_DisableService}" Visibility="{Binding HasService, Converter={StaticResource Visible}}"
+                                                              Command="{Binding PlacementTarget.Tag.DisableServiceCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
+                                                    <MenuItem Header="{l:T Process_OpenLocation}" Visibility="{Binding HasLocation, Converter={StaticResource Visible}}"
+                                                              Command="{Binding PlacementTarget.Tag.OpenLocationCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
+                                                </ContextMenu>
+                                            </Button.ContextMenu>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </Border>
+
+            <!-- Programmes gourmands sur 7 jours : part du temps en consommation élevée -->
+            <Border Grid.Row="2" Style="{StaticResource PcsCard}" Padding="24,18" Margin="0,20,0,0">
+                <StackPanel>
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Right" Text="{l:T Process_HistoryNote}" Style="{StaticResource PcsText.Muted}" VerticalAlignment="Center" />
+                        <TextBlock Text="{l:T Process_History}" Style="{StaticResource PcsText.CardTitle}" />
+                    </DockPanel>
+                    <TextBlock Text="{l:T Process_HistoryEmpty}" Style="{StaticResource PcsText.Muted}" Margin="0,8,0,0"
+                               Visibility="{Binding HasHistory, Converter={StaticResource Collapsed}}" />
+                    <ScrollViewer MaxHeight="150" VerticalScrollBarVisibility="Auto" Focusable="False" Margin="0,6,0,0">
+                        <ItemsControl ItemsSource="{Binding History}" Focusable="False">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type vm:HistoryRow}">
+                                    <Grid Margin="0,6">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*" />
+                                            <ColumnDefinition Width="3*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="130" />
+                                            <ColumnDefinition Width="130" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" />
+                                        <ProgressBar Grid.Column="1" Style="{StaticResource PcsProgress}" Value="{Binding Ratio, Mode=OneWay}" Foreground="{DynamicResource PcsWarnBrush}"
+                                                     VerticalAlignment="Center" Margin="12,0" />
+                                        <TextBlock Grid.Column="2" Text="{Binding Presence}" Style="{StaticResource PcsText.Caption}" VerticalAlignment="Center" MinWidth="110" />
+                                        <TextBlock Grid.Column="3" Text="{Binding Cpu}" Style="{StaticResource PcsText.Muted}" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                        <TextBlock Grid.Column="4" Text="{Binding Memory}" Style="{StaticResource PcsText.Muted}" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </StackPanel>
+            </Border>
         </Grid>
         <v:BusyOverlay />
     </Grid>

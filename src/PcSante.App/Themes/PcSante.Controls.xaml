@@ -1,0 +1,869 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  PC Santé — composants de la refonte (docs/redesign/HANDOFF.md § 4).
+  Toutes les couleurs viennent des jetons (Pcs…Brush) : aucune couleur en dur.
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:c="clr-namespace:PcSante.App.Controls"
+                    xmlns:infra="clr-namespace:PcSante.App.Infrastructure">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="PcSante.Icons.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <infra:HealthBrushConverter x:Key="ToneBrush" />
+    <infra:ToneConverter x:Key="ToTone" />
+    <infra:ToneIconConverter x:Key="ToneIcon" />
+    <infra:PercentToFractionConverter x:Key="PercentToFraction" />
+    <infra:UpperConverter x:Key="Upper" />
+    <infra:ResourceKeyConverter x:Key="ResourceKey" />
+    <infra:AllTrueToVisibilityConverter x:Key="AllTrue" />
+    <infra:NotConverter x:Key="Not" />
+    <infra:EqualsParameterConverter x:Key="EqualsParam" />
+
+    <!-- Texte des cartes de marque (Nuit) : blanc dans les deux thèmes, la carte Nuit ne change pas (§ 8). -->
+    <SolidColorBrush x:Key="PcsOnNightBrush" Color="#FFFFFF" />
+    <!-- Curseur des interrupteurs : blanc sur Brand comme sur SwitchOff, dans les deux thèmes (§ 4). -->
+    <SolidColorBrush x:Key="PcsSwitchThumbBrush" Color="#FFFFFF" />
+
+    <!-- ===== Anneau de focus : 2 px FocusRing décalé de 2 px ===== -->
+    <Style x:Key="PcsFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Margin="-4" CornerRadius="12" BorderThickness="2" BorderBrush="{DynamicResource PcsFocusRingBrush}" SnapsToDevicePixels="True" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Typographie (§ 3.3, tailles relevées à 14 px minimum) ===== -->
+    <Style x:Key="PcsText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{DynamicResource PcsFontSizeBody}" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsTextPrimaryBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <Style x:Key="PcsText.Display" TargetType="TextBlock" BasedOn="{StaticResource PcsText}">
+        <Setter Property="FontSize" Value="{DynamicResource PcsFontSizeDisplay}" />
+        <Setter Property="FontWeight" Value="ExtraBold" />
+        <Setter Property="LineHeight" Value="46" />
+    </Style>
+    <Style x:Key="PcsText.PageTitle" TargetType="TextBlock" BasedOn="{StaticResource PcsText}">
+        <Setter Property="FontSize" Value="{DynamicResource PcsFontSizePageTitle}" />
+        <Setter Property="FontWeight" Value="ExtraBold" />
+    </Style>
+    <Style x:Key="PcsText.HeroTitle" TargetType="TextBlock" BasedOn="{StaticResource PcsText}">
+        <Setter Property="FontSize" Value="{DynamicResource PcsFontSizeHeroTitle}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="LineHeight" Value="29" />
+    </Style>
+    <Style x:Key="PcsText.SectionTitle" TargetType="TextBlock" BasedOn="{StaticResource PcsText}">
+        <Setter Property="FontSize" Value="{DynamicResource PcsFontSizeSectionTitle}" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style x:Key="PcsText.CardTitle" TargetType="TextBlock" BasedOn="{StaticResource PcsText}">
+        <Setter Property="FontSize" Value="{DynamicResource PcsFontSizeCardTitle}" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style x:Key="PcsText.RowTitle" TargetType="TextBlock" BasedOn="{StaticResource PcsText}">
+        <Setter Property="FontSize" Value="{DynamicResource PcsFontSizeRowTitle}" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style x:Key="PcsText.Strong" TargetType="TextBlock" BasedOn="{StaticResource PcsText}">
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style x:Key="PcsText.Caption" TargetType="TextBlock" BasedOn="{StaticResource PcsText}">
+        <Setter Property="FontSize" Value="{DynamicResource PcsFontSizeCaption}" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsTextSecondaryBrush}" />
+    </Style>
+    <Style x:Key="PcsText.Muted" TargetType="TextBlock" BasedOn="{StaticResource PcsText}">
+        <Setter Property="FontSize" Value="{DynamicResource PcsFontSizeSmall}" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsTextMutedBrush}" />
+    </Style>
+    <Style x:Key="PcsText.Overline" TargetType="TextBlock" BasedOn="{StaticResource PcsText.Muted}">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+    </Style>
+    <Style x:Key="PcsText.Score" TargetType="TextBlock" BasedOn="{StaticResource PcsText}">
+        <Setter Property="FontSize" Value="{DynamicResource PcsFontSizeScore}" />
+        <Setter Property="FontWeight" Value="ExtraBold" />
+        <Setter Property="Typography.NumeralAlignment" Value="Tabular" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+    </Style>
+    <Style x:Key="PcsText.Kpi" TargetType="TextBlock" BasedOn="{StaticResource PcsText.Score}">
+        <Setter Property="FontSize" Value="{DynamicResource PcsFontSizeKpiValue}" />
+    </Style>
+    <Style x:Key="PcsText.Link" TargetType="TextBlock" BasedOn="{StaticResource PcsText}">
+        <Setter Property="Foreground" Value="{DynamicResource PcsBrandTextBrush}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <!-- ===== Cartes ===== -->
+    <Style x:Key="PcsCard" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource PcsSurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PcsBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{DynamicResource PcsRadiusCard}" />
+        <Setter Property="Padding" Value="24,22" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+    </Style>
+    <Style x:Key="PcsCard.Small" TargetType="Border" BasedOn="{StaticResource PcsCard}">
+        <Setter Property="CornerRadius" Value="{DynamicResource PcsRadiusCardS}" />
+        <Setter Property="Padding" Value="20,18" />
+    </Style>
+    <Style x:Key="PcsTile" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource PcsSurfaceSubtleBrush}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource PcsRadiusXl}" />
+        <Setter Property="Padding" Value="16,14" />
+    </Style>
+    <Style x:Key="PcsNightCard" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource PcsNightBrush}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource PcsRadiusCard}" />
+        <Setter Property="Padding" Value="24,22" />
+    </Style>
+    <Style x:Key="PcsDivider" TargetType="Border">
+        <Setter Property="Height" Value="1" />
+        <Setter Property="Background" Value="{DynamicResource PcsDividerBrush}" />
+    </Style>
+
+    <!-- ===== Icône au trait ===== -->
+    <Style TargetType="c:LineIcon">
+        <Setter Property="Foreground" Value="{DynamicResource PcsTextSecondaryBrush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:LineIcon">
+                    <Viewbox x:Name="Box" Width="{TemplateBinding Size}" Height="{TemplateBinding Size}" FlowDirection="LeftToRight">
+                        <Canvas Width="24" Height="24">
+                            <Path Data="{TemplateBinding Data}" Stroke="{TemplateBinding Foreground}" StrokeThickness="{TemplateBinding StrokeThickness}"
+                                  StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                        </Canvas>
+                    </Viewbox>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Directional" Value="True">
+                            <Setter TargetName="Box" Property="FlowDirection" Value="{Binding FlowDirection, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Tuile d'icône ===== -->
+    <Style TargetType="c:IconTile">
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:IconTile">
+                    <Border Width="{TemplateBinding Size}" Height="{TemplateBinding Size}" CornerRadius="{TemplateBinding CornerRadius}"
+                            Background="{Binding Tone, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ToneBrush}, ConverterParameter=Soft}">
+                        <c:LineIcon Data="{TemplateBinding Icon}" Size="{TemplateBinding IconSize}" HorizontalAlignment="Center"
+                                    Foreground="{Binding Tone, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ToneBrush}, ConverterParameter=Icon}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Puce de statut (h 28, arrondie, icône 14 + mot) ===== -->
+    <Style TargetType="c:StatusChip">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:StatusChip">
+                    <Border MinHeight="28" CornerRadius="14" Padding="10,2,12,2"
+                            Background="{Binding Tone, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ToneBrush}, ConverterParameter=Soft}">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <c:LineIcon x:Name="Icon" Size="14" StrokeThickness="2.6" Margin="0,0,6,0"
+                                        Data="{Binding Tone, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ToneIcon}}"
+                                        Foreground="{Binding Tone, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ToneBrush}, ConverterParameter=Text}" />
+                            <TextBlock Text="{TemplateBinding Text}" FontSize="14" FontWeight="Bold" VerticalAlignment="Center" TextWrapping="NoWrap"
+                                       Foreground="{Binding Tone, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ToneBrush}, ConverterParameter=Text}" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Tone" Value="Neutral">
+                            <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Étiquette (rayon 6, sans icône) ===== -->
+    <Style TargetType="c:TagLabel">
+        <Setter Property="Tone" Value="Warn" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:TagLabel">
+                    <Border CornerRadius="6" Padding="8,1"
+                            Background="{Binding Tone, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ToneBrush}, ConverterParameter=Soft}">
+                        <TextBlock Text="{TemplateBinding Text}" FontSize="14" FontWeight="Bold" TextWrapping="NoWrap"
+                                   Foreground="{Binding Tone, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ToneBrush}, ConverterParameter=Text}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Barre de progression (6 px, arrondie ; remplie depuis la droite en arabe) ===== -->
+    <Style x:Key="PcsProgress" TargetType="ProgressBar">
+        <Setter Property="Height" Value="{DynamicResource PcsProgressHeight}" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsBrandBrush}" />
+        <Setter Property="Background" Value="{DynamicResource PcsTrackBrush}" />
+        <Setter Property="Maximum" Value="100" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Grid>
+                        <Border x:Name="PART_Track" CornerRadius="3" Background="{TemplateBinding Background}" />
+                        <Border x:Name="PART_Indicator" CornerRadius="3" Background="{TemplateBinding Foreground}" HorizontalAlignment="Left" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Anneau de score ===== -->
+    <Style TargetType="c:ScoreRing">
+        <Setter Property="Width" Value="{DynamicResource PcsScoreRing}" />
+        <Setter Property="Height" Value="{DynamicResource PcsScoreRing}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:ScoreRing">
+                    <Grid>
+                        <c:RingArc x:Name="Arc" Thickness="{TemplateBinding Thickness}" TrackBrush="{DynamicResource PcsRingTrackBrush}"
+                                   Fraction="{TemplateBinding DisplayedFraction}" RenderTransformOrigin="0.5,0.5"
+                                   Stroke="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ToneBrush}}">
+                            <c:RingArc.RenderTransform>
+                                <RotateTransform Angle="{Binding SpinAngle, RelativeSource={RelativeSource TemplatedParent}}" />
+                            </c:RingArc.RenderTransform>
+                        </c:RingArc>
+                        <StackPanel x:Name="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock x:Name="Number" Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue='—'}"
+                                       FontSize="{TemplateBinding ValueFontSize}" FontWeight="ExtraBold" Typography.NumeralAlignment="Tabular"
+                                       Foreground="{DynamicResource PcsTextPrimaryBrush}" HorizontalAlignment="Center" LineHeight="{TemplateBinding ValueFontSize}"
+                                       LineStackingStrategy="BlockLineHeight" />
+                            <TextBlock Text="{TemplateBinding Caption}" FontSize="14" Foreground="{DynamicResource PcsTextMutedBrush}" HorizontalAlignment="Center" Margin="0,4,0,0" />
+                        </StackPanel>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Value" Value="{x:Null}">
+                            <Setter TargetName="Arc" Property="Stroke" Value="{x:Null}" />
+                        </Trigger>
+                        <Trigger Property="IsIndeterminate" Value="True">
+                            <Setter TargetName="Arc" Property="Stroke" Value="{DynamicResource PcsBrandBrush}" />
+                            <Setter TargetName="Number" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Tuile de sous-score ===== -->
+    <Style TargetType="c:SubScoreTile">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:SubScoreTile">
+                    <Border Style="{StaticResource PcsTile}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <c:IconTile Size="30" IconSize="17" CornerRadius="9" Icon="{TemplateBinding Icon}"
+                                        Tone="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ToTone}}" />
+                            <TextBlock Grid.Column="1" Text="{TemplateBinding Label}" FontSize="14" FontWeight="SemiBold" Margin="10,0" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource PcsTextStrongBrush}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" />
+                            <TextBlock Grid.Column="2" Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}" FontSize="16" FontWeight="ExtraBold" VerticalAlignment="Center"
+                                       Typography.NumeralAlignment="Tabular"
+                                       Foreground="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ToneBrush}, ConverterParameter=Text}" />
+                            <ProgressBar Grid.Row="1" Grid.ColumnSpan="3" Margin="0,12,0,0" Style="{StaticResource PcsProgress}" Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                         Foreground="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ToneBrush}}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Ligne de problème / de réglage ===== -->
+    <Style TargetType="c:ListRow">
+        <Setter Property="HorizontalContentAlignment" Value="Right" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:ListRow">
+                    <Border x:Name="Root" BorderBrush="{DynamicResource PcsDividerBrush}" BorderThickness="0,0,0,1" Padding="0,11">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <c:IconTile x:Name="Tile" Icon="{TemplateBinding Icon}" Tone="{TemplateBinding Tone}" Size="{TemplateBinding IconTileSize}"
+                                        VerticalAlignment="Center" Margin="0,0,14,0" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <WrapPanel>
+                                    <TextBlock Text="{TemplateBinding Title}" Style="{StaticResource PcsText.RowTitle}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                    <c:TagLabel x:Name="Tag" Text="{TemplateBinding TagText}" Tone="{TemplateBinding TagTone}" />
+                                </WrapPanel>
+                                <TextBlock x:Name="Description" Text="{TemplateBinding Description}" Style="{StaticResource PcsText.Caption}" Margin="0,2,0,0" />
+                            </StackPanel>
+                            <ContentPresenter Grid.Column="2" Margin="16,0,0,0" VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ShowDivider" Value="False">
+                            <Setter TargetName="Root" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                        <Trigger Property="Icon" Value="{x:Null}">
+                            <Setter TargetName="Tile" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="TagText" Value="">
+                            <Setter TargetName="Tag" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="TagText" Value="{x:Null}">
+                            <Setter TargetName="Tag" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Description" Value="">
+                            <Setter TargetName="Description" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== État vide ===== -->
+    <Style TargetType="c:EmptyState">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:EmptyState">
+                    <StackPanel Orientation="Horizontal" Margin="0,8">
+                        <Border Width="44" Height="44" CornerRadius="12" Background="{DynamicResource PcsSurfaceSubtleBrush}">
+                            <c:LineIcon Data="{TemplateBinding Icon}" Size="22" HorizontalAlignment="Center" Foreground="{DynamicResource PcsGoodBrush}" />
+                        </Border>
+                        <TextBlock Text="{TemplateBinding Text}" Style="{StaticResource PcsText.Caption}" Margin="14,0,0,0" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Boutons (§ 4) ===== -->
+    <Style x:Key="PcsButton" TargetType="ButtonBase">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource PcsFocusVisual}" />
+        <Setter Property="FontSize" Value="{DynamicResource PcsFontSizeButton}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="MinHeight" Value="{DynamicResource PcsButtonHeight}" />
+        <Setter Property="Padding" Value="18,0" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ButtonBase">
+                    <Border x:Name="Root" CornerRadius="10" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <c:Spinner x:Name="Spinner" Width="16" Height="16" Margin="0,0,8,0" Visibility="Collapsed" Stroke="{TemplateBinding Foreground}" />
+                            <c:LineIcon x:Name="Icon" Size="18" Margin="0,0,8,0" Data="{TemplateBinding c:Ui.Icon}" Foreground="{TemplateBinding Foreground}" StrokeThickness="2" />
+                            <ContentPresenter x:Name="Content" RecognizesAccessKey="True" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="c:Ui.Icon" Value="{x:Null}">
+                            <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Content" Value="{x:Null}">
+                            <Setter TargetName="Icon" Property="Margin" Value="0" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Root" Property="Background" Value="{Binding (c:Ui.HoverBackground), RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Root" Property="Background" Value="{Binding (c:Ui.PressedBackground), RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Trigger>
+                        <Trigger Property="c:Ui.IsLoading" Value="True">
+                            <Setter TargetName="Spinner" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
+                            <Setter Property="IsHitTestVisible" Value="False" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Root" Property="Opacity" Value="0.45" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PcsButton.Primary" TargetType="ButtonBase" BasedOn="{StaticResource PcsButton}">
+        <Setter Property="Background" Value="{DynamicResource PcsBrandBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PcsBrandBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsOnBrandBrush}" />
+        <Setter Property="c:Ui.HoverBackground" Value="{DynamicResource PcsBrandHoverBrush}" />
+        <Setter Property="c:Ui.PressedBackground" Value="{DynamicResource PcsBrandPressedBrush}" />
+    </Style>
+    <Style x:Key="PcsButton.Secondary" TargetType="ButtonBase" BasedOn="{StaticResource PcsButton}">
+        <Setter Property="Background" Value="{DynamicResource PcsSurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PcsControlBorderBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsBrandTextBrush}" />
+        <Setter Property="c:Ui.HoverBackground" Value="{DynamicResource PcsBrandSoftBrush}" />
+        <Setter Property="c:Ui.PressedBackground" Value="{DynamicResource PcsBrandSoftBrush}" />
+    </Style>
+    <Style x:Key="PcsButton.Ghost" TargetType="ButtonBase" BasedOn="{StaticResource PcsButton}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsBrandTextBrush}" />
+        <Setter Property="Padding" Value="10,0" />
+        <Setter Property="c:Ui.HoverBackground" Value="{DynamicResource PcsBrandSoftBrush}" />
+        <Setter Property="c:Ui.PressedBackground" Value="{DynamicResource PcsBrandSoftBrush}" />
+    </Style>
+    <Style x:Key="PcsButton.Danger" TargetType="ButtonBase" BasedOn="{StaticResource PcsButton}">
+        <Setter Property="Background" Value="{DynamicResource PcsSurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PcsDangerBorderBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsCriticalTextBrush}" />
+        <Setter Property="c:Ui.HoverBackground" Value="{DynamicResource PcsCriticalSoftBrush}" />
+        <Setter Property="c:Ui.PressedBackground" Value="{DynamicResource PcsCriticalSoftBrush}" />
+    </Style>
+    <!-- Carte de marque (Night) : bouton clair sur fond sombre. -->
+    <Style x:Key="PcsButton.Night" TargetType="ButtonBase" BasedOn="{StaticResource PcsButton}">
+        <Setter Property="Background" Value="{DynamicResource PcsNightAccentBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PcsNightAccentBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsOnNightAccentBrush}" />
+        <Setter Property="c:Ui.HoverBackground" Value="{DynamicResource PcsBrandSoftBrush}" />
+        <Setter Property="c:Ui.PressedBackground" Value="{DynamicResource PcsBrandSoftBrush}" />
+    </Style>
+
+    <Style x:Key="PcsButton.Primary.Small" TargetType="ButtonBase" BasedOn="{StaticResource PcsButton.Primary}">
+        <Setter Property="MinHeight" Value="{DynamicResource PcsButtonHeightSmall}" />
+        <Setter Property="Padding" Value="14,0" />
+    </Style>
+    <Style x:Key="PcsButton.Secondary.Small" TargetType="ButtonBase" BasedOn="{StaticResource PcsButton.Secondary}">
+        <Setter Property="MinHeight" Value="{DynamicResource PcsButtonHeightSmall}" />
+        <Setter Property="Padding" Value="14,0" />
+    </Style>
+    <Style x:Key="PcsButton.Danger.Small" TargetType="ButtonBase" BasedOn="{StaticResource PcsButton.Danger}">
+        <Setter Property="MinHeight" Value="{DynamicResource PcsButtonHeightSmall}" />
+        <Setter Property="Padding" Value="14,0" />
+    </Style>
+    <Style x:Key="PcsButton.Primary.Large" TargetType="ButtonBase" BasedOn="{StaticResource PcsButton.Primary}">
+        <Setter Property="MinHeight" Value="{DynamicResource PcsButtonHeightLarge}" />
+        <Setter Property="FontSize" Value="15" />
+    </Style>
+
+    <!-- ===== Interrupteur 44 × 26 (Espace pour basculer) ===== -->
+    <Style x:Key="PcsSwitch" TargetType="ToggleButton">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource PcsFocusVisual}" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsTextSecondaryBrush}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ContentPresenter x:Name="Label" VerticalAlignment="Center" Margin="0,0,10,0" />
+                        <Border x:Name="Track" Grid.Column="1" Width="{DynamicResource PcsSwitchWidth}" Height="{DynamicResource PcsSwitchHeight}"
+                                CornerRadius="13" Background="{DynamicResource PcsSwitchOffBrush}">
+                            <Ellipse x:Name="Thumb" Width="{DynamicResource PcsSwitchThumb}" Height="{DynamicResource PcsSwitchThumb}" Fill="{DynamicResource PcsSwitchThumbBrush}"
+                                     HorizontalAlignment="Left" Margin="3,0" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Track" Property="Background" Value="{DynamicResource PcsBrandBrush}" />
+                            <Setter TargetName="Thumb" Property="HorizontalAlignment" Value="Right" />
+                        </Trigger>
+                        <Trigger Property="Content" Value="{x:Null}">
+                            <Setter TargetName="Label" Property="Margin" Value="0" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--
+      Interrupteur piloté par une commande (pare-feu, démarrage, tâches) : l'état affiché (c:Ui.IsOn) vient du modèle ;
+      si l'utilisateur annule la confirmation, l'interrupteur reste juste. Espace ou Entrée pour basculer.
+    -->
+    <Style x:Key="PcsSwitchButton" TargetType="ButtonBase">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource PcsFocusVisual}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ButtonBase">
+                    <Border x:Name="Track" Width="{DynamicResource PcsSwitchWidth}" Height="{DynamicResource PcsSwitchHeight}"
+                            CornerRadius="13" Background="{DynamicResource PcsSwitchOffBrush}">
+                        <Ellipse x:Name="Thumb" Width="{DynamicResource PcsSwitchThumb}" Height="{DynamicResource PcsSwitchThumb}" Fill="{DynamicResource PcsSwitchThumbBrush}"
+                                 HorizontalAlignment="Left" Margin="3,0" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="c:Ui.IsOn" Value="True">
+                            <Setter TargetName="Track" Property="Background" Value="{DynamicResource PcsBrandBrush}" />
+                            <Setter TargetName="Thumb" Property="HorizontalAlignment" Value="Right" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Track" Property="Opacity" Value="0.45" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Contenu d'une ligne « état » : icône + mot + couleur (Activée / Désactivée). -->
+    <Style x:Key="PcsStateText" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+    </Style>
+
+    <!-- ===== Onglets segmentés (flèches pour changer d'onglet) ===== -->
+    <Style x:Key="PcsSegmentedTabs" TargetType="TabControl">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabControl">
+                    <Grid KeyboardNavigation.TabNavigation="Local">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Border Background="{DynamicResource PcsChipNeutralBrush}" CornerRadius="12" Padding="4" HorizontalAlignment="Left" Margin="0,0,0,20">
+                            <StackPanel IsItemsHost="True" Orientation="Horizontal" KeyboardNavigation.TabIndex="1" />
+                        </Border>
+                        <ContentPresenter Grid.Row="1" x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="TabItem">
+                    <Setter Property="FocusVisualStyle" Value="{StaticResource PcsFocusVisual}" />
+                    <Setter Property="Foreground" Value="{DynamicResource PcsTextSecondaryBrush}" />
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Border x:Name="Root" MinHeight="38" CornerRadius="9" Padding="16,0" Background="Transparent">
+                                    <ContentPresenter ContentSource="Header" VerticalAlignment="Center" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Root" Property="Background" Value="{DynamicResource PcsSurfaceBrush}" />
+                                        <Setter TargetName="Root" Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect BlurRadius="2" ShadowDepth="1" Direction="270" Opacity="0.08" Color="{DynamicResource PcsColorTextPrimary}" />
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Foreground" Value="{DynamicResource PcsTextPrimaryBrush}" />
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="{DynamicResource PcsTextPrimaryBrush}" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Choix exclusif sous forme d'onglets segmentés (Apparence, Semaine / Mois) : RadioButton dans un PcsSegmentHost. -->
+    <Style x:Key="PcsSegmentHost" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource PcsChipNeutralBrush}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+    <Style x:Key="PcsSegment" TargetType="RadioButton">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource PcsFocusVisual}" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsTextSecondaryBrush}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border x:Name="Root" MinHeight="36" CornerRadius="9" Padding="16,0" Background="Transparent">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Root" Property="Background" Value="{DynamicResource PcsSurfaceBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource PcsTextPrimaryBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource PcsTextPrimaryBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Grande tuile de choix (premier lancement : langue, mode) : sélection = bordure 2 px Brand + halo BrandSoft ===== -->
+    <Style x:Key="PcsChoiceTile" TargetType="RadioButton">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource PcsFocusVisual}" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsTextPrimaryBrush}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border x:Name="Halo" CornerRadius="20" Padding="3" Background="Transparent">
+                        <Border x:Name="Root" CornerRadius="17" BorderThickness="1" BorderBrush="{DynamicResource PcsBorderBrush}"
+                                Background="{DynamicResource PcsSurfaceBrush}" Padding="20,18">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter />
+                                <Grid Grid.Column="1" Width="22" Height="22" VerticalAlignment="Top" Margin="12,0,0,0">
+                                    <Ellipse x:Name="Ring" Stroke="{DynamicResource PcsControlBorderBrush}" StrokeThickness="1.5" />
+                                    <Ellipse x:Name="Dot" Width="12" Height="12" Fill="{DynamicResource PcsBrandBrush}" Visibility="Collapsed" />
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Halo" Property="Background" Value="{DynamicResource PcsBrandSoftBrush}" />
+                            <Setter TargetName="Root" Property="BorderBrush" Value="{DynamicResource PcsBrandBrush}" />
+                            <Setter TargetName="Root" Property="BorderThickness" Value="2" />
+                            <Setter TargetName="Ring" Property="Stroke" Value="{DynamicResource PcsBrandBrush}" />
+                            <Setter TargetName="Dot" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Root" Property="BorderBrush" Value="{DynamicResource PcsBrandBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Filtres en pilules ===== -->
+    <Style x:Key="PcsPill" TargetType="RadioButton">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource PcsFocusVisual}" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsTextPrimaryBrush}" />
+        <Setter Property="Background" Value="{DynamicResource PcsChipNeutralBrush}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Margin" Value="0,0,8,0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border x:Name="Root" MinHeight="32" CornerRadius="16" Padding="14,0" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource PcsTextPrimaryBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource PcsSurfaceBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Tableau (Processus, journal des actions) : lignes séparées par Divider, en-têtes en petites capitales ===== -->
+    <Style x:Key="PcsDataGrid" TargetType="DataGrid">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsTextPrimaryBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="GridLinesVisibility" Value="Horizontal" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource PcsDividerBrush}" />
+        <Setter Property="HeadersVisibility" Value="Column" />
+        <Setter Property="RowBackground" Value="Transparent" />
+        <Setter Property="AlternatingRowBackground" Value="Transparent" />
+        <Setter Property="CanUserResizeRows" Value="False" />
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="SelectionUnit" Value="FullRow" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ColumnHeaderStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Foreground" Value="{DynamicResource PcsTextMutedBrush}" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridColumnHeader">
+                                <Border BorderBrush="{DynamicResource PcsDividerBrush}" BorderThickness="0,0,0,1" Padding="12,4,12,10" Background="Transparent">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Upper}}"
+                                                   Foreground="{TemplateBinding Foreground}" TextWrapping="NoWrap" />
+                                        <c:LineIcon x:Name="Sort" Data="{StaticResource PcsIcon.chevron-down}" Size="14" Margin="4,0,0,0" Visibility="Collapsed"
+                                                    Foreground="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5" />
+                                    </StackPanel>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="SortDirection" Value="Descending">
+                                        <Setter TargetName="Sort" Property="Visibility" Value="Visible" />
+                                    </Trigger>
+                                    <Trigger Property="SortDirection" Value="Ascending">
+                                        <Setter TargetName="Sort" Property="Visibility" Value="Visible" />
+                                        <Setter TargetName="Sort" Property="RenderTransform">
+                                            <Setter.Value><ScaleTransform ScaleY="-1" /></Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="{DynamicResource PcsTextPrimaryBrush}" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="CellStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridCell">
+                                <Border Background="Transparent" Padding="12,10">
+                                    <ContentPresenter VerticalAlignment="Center" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="RowStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Foreground" Value="{DynamicResource PcsTextPrimaryBrush}" />
+                    <Setter Property="FocusVisualStyle" Value="{StaticResource PcsFocusVisual}" />
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource PcsSurfaceSubtleBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource PcsRowSelectedBrush}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Bouton « ⋯ » d'une ligne de tableau (ouvre un menu). -->
+    <Style x:Key="PcsMoreButton" TargetType="ButtonBase" BasedOn="{StaticResource PcsButton.Ghost}">
+        <Setter Property="MinHeight" Value="32" />
+        <Setter Property="Padding" Value="8,0" />
+        <Setter Property="Content" Value="⋯" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsTextSecondaryBrush}" />
+    </Style>
+
+    <!-- ===== Champ de saisie (clé de licence, code d'inscription) : h 44, Tag = texte d'aide ===== -->
+    <Style x:Key="PcsInput" TargetType="TextBox">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsTextPrimaryBrush}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource PcsTextPrimaryBrush}" />
+        <Setter Property="Background" Value="{DynamicResource PcsSurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PcsInputBorderBrush}" />
+        <Setter Property="MinHeight" Value="44" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="Root" CornerRadius="10" BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" Padding="12,0">
+                        <Grid>
+                            <TextBlock x:Name="Hint" Text="{TemplateBinding Tag}" Foreground="{DynamicResource PcsTextMutedBrush}" VerticalAlignment="Center"
+                                       Visibility="Collapsed" IsHitTestVisible="False" Margin="2,0" FontFamily="{TemplateBinding FontFamily}" />
+                            <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Focusable="False" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Text" Value="">
+                            <Setter TargetName="Hint" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="Root" Property="BorderBrush" Value="{DynamicResource PcsBrandBrush}" />
+                            <Setter TargetName="Root" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Champ de recherche (Tag = texte d'aide) ===== -->
+    <Style x:Key="PcsSearchBox" TargetType="TextBox">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{DynamicResource PcsTextPrimaryBrush}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource PcsTextPrimaryBrush}" />
+        <Setter Property="Background" Value="{DynamicResource PcsSurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PcsInputBorderBrush}" />
+        <Setter Property="MinHeight" Value="38" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="Root" CornerRadius="10" BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" Padding="12,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <c:LineIcon Data="{StaticResource PcsIcon.search}" Size="16" Foreground="{DynamicResource PcsTextMutedBrush}" Margin="0,0,8,0" />
+                            <TextBlock x:Name="Hint" Grid.Column="1" Text="{TemplateBinding Tag}" Foreground="{DynamicResource PcsTextMutedBrush}" VerticalAlignment="Center"
+                                       Visibility="Collapsed" IsHitTestVisible="False" Margin="2,0" />
+                            <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1" VerticalAlignment="Center" Focusable="False" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Text" Value="">
+                            <Setter TargetName="Hint" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="Root" Property="BorderBrush" Value="{DynamicResource PcsBrandBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

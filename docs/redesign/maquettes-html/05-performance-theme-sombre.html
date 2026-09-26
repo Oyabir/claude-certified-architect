@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<title>PC Santé — Performance (thème sombre)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<style>
+
+body{margin:0;background:#0C1412}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 18px;border-radius:10px;font:600 14px 'Plus Jakarta Sans','Segoe UI',sans-serif;cursor:pointer;border:1px solid transparent;white-space:nowrap;box-sizing:border-box}
+.btn-secondary{background:#17221F;color:#BFEAE4;border-color:#2C3B38}
+.wbtn{width:46px;height:40px;border:0;background:transparent;color:#93A39F;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.num{font-variant-numeric:tabular-nums}
+
+body{margin:0}
+</style>
+</head>
+<body>
+
+
+<div style="width: 1440px; height: 940px; display: flex; flex-direction: column; font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif; color: #E6EEEC; background: #0C1412; overflow: hidden">
+
+<header style="height: 40px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding-left: 16px; background: #101816; border-bottom: 1px solid #23302D">
+<div style="display: flex; align-items: center; gap: 10px">
+<div style="width: 22px; height: 22px; border-radius: 6px; background: #0B6E69; display: flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 13h4l2.5-6 4 11 3-7H22"></path></svg></div>
+<span style="font-size: 13px; font-weight: 700">PC Santé</span>
+</div>
+<div style="display: flex">
+<button class="wbtn" aria-label="Réduire"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 6h10" stroke="currentColor" stroke-width="1.2"></path></svg></button>
+<button class="wbtn" aria-label="Agrandir"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="1.5" width="9" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.2"></rect></svg></button>
+<button class="wbtn" aria-label="Fermer"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M1.5 1.5l9 9M10.5 1.5l-9 9" stroke="currentColor" stroke-width="1.2"></path></svg></button>
+</div>
+</header>
+
+<div style="flex-grow: 1; display: flex; min-height: 0">
+
+
+<nav dir="ltr" aria-label="Navigation principale" style="width: 248px; height: 900px; box-sizing: border-box; padding: 8px 12px 16px; display: flex; flex-direction: column; gap: 4px; font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif; background: #101816; border-inline-end: 1px solid #23302D; color: #E6EEEC">
+<div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #93A39F; padding: 12px 12px 6px">Essentiel</div>
+
+<a href="#" style="position: relative; display: flex; align-items: center; gap: 12px; height: 42px; padding: 0 12px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 500; color: #E6EEEC; background: transparent">
+<span style="position: absolute; inset-inline-start: 0; top: 11px; width: 3px; height: 20px; border-radius: 3px; background: transparent"></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>
+<span style="flex-grow: 1">Accueil</span>
+<span style="min-width: 20px; height: 20px; padding: 0 6px; box-sizing: border-box; border-radius: 10px; background: #3A2A14; color: #F2A94B; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center">2</span>
+</a>
+
+<a href="#" style="position: relative; display: flex; align-items: center; gap: 12px; height: 42px; padding: 0 12px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 500; color: #E6EEEC; background: transparent">
+<span style="position: absolute; inset-inline-start: 0; top: 11px; width: 3px; height: 20px; border-radius: 3px; background: transparent"></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"></path></svg>
+<span style="flex-grow: 1">Protection</span>
+
+</a>
+
+<a href="#" style="position: relative; display: flex; align-items: center; gap: 12px; height: 42px; padding: 0 12px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 500; color: #E6EEEC; background: transparent">
+<span style="position: absolute; inset-inline-start: 0; top: 11px; width: 3px; height: 20px; border-radius: 3px; background: transparent"></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.3 6.3l2.5 2.5M15.2 15.2l2.5 2.5M6.3 17.7l2.5-2.5M15.2 8.8l2.5-2.5"></path></svg>
+<span style="flex-grow: 1">Optimisation</span>
+
+</a>
+
+<a href="#" style="position: relative; display: flex; align-items: center; gap: 12px; height: 42px; padding: 0 12px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 500; color: #E6EEEC; background: transparent">
+<span style="position: absolute; inset-inline-start: 0; top: 11px; width: 3px; height: 20px; border-radius: 3px; background: transparent"></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zM14 3v5h5M9 13h6M9 17h6"></path></svg>
+<span style="flex-grow: 1">Rapports</span>
+
+</a>
+
+<div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #93A39F; padding: 18px 12px 6px">Avancé</div>
+
+<a href="#" style="position: relative; display: flex; align-items: center; gap: 12px; height: 42px; padding: 0 12px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 700; color: #7FDCD2; background: #16302C">
+<span style="position: absolute; inset-inline-start: 0; top: 11px; width: 3px; height: 20px; border-radius: 3px; background: #4FC7BC"></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"></path></svg>
+<span style="flex-grow: 1">Performance</span>
+</a>
+
+<a href="#" style="position: relative; display: flex; align-items: center; gap: 12px; height: 42px; padding: 0 12px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 500; color: #E6EEEC; background: transparent">
+<span style="position: absolute; inset-inline-start: 0; top: 11px; width: 3px; height: 20px; border-radius: 3px; background: transparent"></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"></path></svg>
+<span style="flex-grow: 1">Processus</span>
+</a>
+
+<a href="#" style="position: relative; display: flex; align-items: center; gap: 12px; height: 42px; padding: 0 12px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 500; color: #E6EEEC; background: transparent">
+<span style="position: absolute; inset-inline-start: 0; top: 11px; width: 3px; height: 20px; border-radius: 3px; background: transparent"></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h18v12H3zM8 20h8M12 16v4"></path></svg>
+<span style="flex-grow: 1">Système</span>
+</a>
+
+<a href="#" style="position: relative; display: flex; align-items: center; gap: 12px; height: 42px; padding: 0 12px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 500; color: #E6EEEC; background: transparent">
+<span style="position: absolute; inset-inline-start: 0; top: 11px; width: 3px; height: 20px; border-radius: 3px; background: transparent"></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"></path></svg>
+<span style="flex-grow: 1">Sessions</span>
+</a>
+
+<a href="#" style="position: relative; display: flex; align-items: center; gap: 12px; height: 42px; padding: 0 12px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 500; color: #E6EEEC; background: transparent">
+<span style="position: absolute; inset-inline-start: 0; top: 11px; width: 3px; height: 20px; border-radius: 3px; background: transparent"></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18v16H3zM3 10h18M8 3v4M16 3v4"></path></svg>
+<span style="flex-grow: 1">Planification</span>
+</a>
+
+<div style="flex-grow: 1"></div>
+<div style="padding: 14px; border-radius: 12px; background: #17221F; border: 1px solid #23302D; display: flex; align-items: center; gap: 12px; margin-bottom: 8px">
+<div style="width: 36px; height: 36px; flex-shrink: 0; border-radius: 10px; background: #15332F; color: #4FC7BC; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6zM8.5 12l2.5 2.5 4.5-5"></path></svg></div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 14px; font-weight: 700">Premium</span>
+<span style="font-size: 12px; color: #93A39F">Licence active sur ce PC</span>
+</div>
+</div>
+
+<a href="#" style="position: relative; display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 12px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 500; color: #E6EEEC; background: transparent">
+<span style="position: absolute; inset-inline-start: 0; top: 10px; width: 3px; height: 20px; border-radius: 3px; background: transparent"></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 2l-2 2m-7.6 7.6a5.5 5.5 0 1 1-7.8 7.8 5.5 5.5 0 0 1 7.8-7.8zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+<span>Licence</span>
+</a>
+
+<a href="#" style="position: relative; display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 12px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 500; color: #E6EEEC; background: transparent">
+<span style="position: absolute; inset-inline-start: 0; top: 10px; width: 3px; height: 20px; border-radius: 3px; background: transparent"></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"></path></svg>
+<span>Paramètres</span>
+</a>
+
+</nav>
+
+
+<main style="flex-grow: 1; box-sizing: border-box; padding: 28px 40px 32px; display: flex; flex-direction: column; gap: 20px; min-width: 0">
+
+<div style="display: flex; align-items: flex-end; justify-content: space-between">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.02em">Performance</h1>
+<p style="margin: 0; font-size: 14px; color: #93A39F">Ce que votre PC utilise en ce moment · 60 dernières secondes</p>
+</div>
+<span style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: #93A39F"><span style="width: 8px; height: 8px; border-radius: 4px; background: #4FC7BC"></span>En direct</span>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+
+<section style="background: #141F1C; border: 1px solid #23302D; border-radius: 18px; padding: 20px 22px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px">
+<div style="width: 32px; height: 32px; border-radius: 9px; background: #15332F; color: #7FDCD2; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14v14H5zM9 9h6v6H9zM9 1v4M15 1v4M9 19v4M15 19v4M1 9h4M1 15h4M19 9h4M19 15h4"></path></svg></div>
+<span style="font-size: 14px; font-weight: 600; color: #BCCAC6">Processeur</span>
+<span style="margin-left: auto; font-size: 12px; color: #93A39F">Utilisation</span>
+</div>
+<span class="num" style="font-size: 32px; font-weight: 800; letter-spacing: -0.02em; line-height: 1">6 %</span>
+<svg viewBox="0 0 300 70" preserveAspectRatio="none" style="width: 100%; height: 90px; display: block" aria-hidden="true">
+<line x1="0" y1="17.5" x2="300" y2="17.5" stroke="#1E2A27" stroke-width="1"></line>
+<line x1="0" y1="35" x2="300" y2="35" stroke="#1E2A27" stroke-width="1"></line>
+<line x1="0" y1="52.5" x2="300" y2="52.5" stroke="#1E2A27" stroke-width="1"></line>
+<path d="M0,70 L0.0,64.2 L15.8,65.5 L31.6,62.3 L47.4,64.9 L63.2,66.2 L78.9,61.0 L94.7,55.9 L110.5,63.0 L126.3,65.5 L142.1,66.2 L157.9,64.2 L173.7,66.8 L189.5,64.9 L205.3,62.3 L221.1,65.5 L236.8,66.2 L252.6,66.8 L268.4,64.2 L284.2,66.2 L300.0,66.2 L300,70 Z" fill="#4FC7BC" fill-opacity="0.14"></path>
+<polyline points="0.0,64.2 15.8,65.5 31.6,62.3 47.4,64.9 63.2,66.2 78.9,61.0 94.7,55.9 110.5,63.0 126.3,65.5 142.1,66.2 157.9,64.2 173.7,66.8 189.5,64.9 205.3,62.3 221.1,65.5 236.8,66.2 252.6,66.8 268.4,64.2 284.2,66.2 300.0,66.2" fill="none" stroke="#4FC7BC" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline>
+
+</svg>
+</section>
+
+<section style="background: #141F1C; border: 1px solid #23302D; border-radius: 18px; padding: 20px 22px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px">
+<div style="width: 32px; height: 32px; border-radius: 9px; background: #15332F; color: #7FDCD2; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 7h20v10H2zM6 7v10M10 7v10M14 7v10M18 7v10"></path></svg></div>
+<span style="font-size: 14px; font-weight: 600; color: #BCCAC6">Mémoire</span>
+<span style="margin-left: auto; font-size: 12px; color: #93A39F">10,6 Go sur 15,8 Go</span>
+</div>
+<span class="num" style="font-size: 32px; font-weight: 800; letter-spacing: -0.02em; line-height: 1">67 %</span>
+<svg viewBox="0 0 300 70" preserveAspectRatio="none" style="width: 100%; height: 90px; display: block" aria-hidden="true">
+<line x1="0" y1="17.5" x2="300" y2="17.5" stroke="#1E2A27" stroke-width="1"></line>
+<line x1="0" y1="35" x2="300" y2="35" stroke="#1E2A27" stroke-width="1"></line>
+<line x1="0" y1="52.5" x2="300" y2="52.5" stroke="#1E2A27" stroke-width="1"></line>
+<path d="M0,70 L0.0,29.0 L15.8,29.0 L31.6,28.4 L47.4,27.8 L63.2,27.8 L78.9,28.4 L94.7,27.1 L110.5,26.5 L126.3,27.1 L142.1,27.1 L157.9,27.8 L173.7,27.1 L189.5,27.1 L205.3,26.5 L221.1,27.1 L236.8,27.1 L252.6,27.8 L268.4,27.1 L284.2,27.1 L300.0,27.1 L300,70 Z" fill="#4FC7BC" fill-opacity="0.14"></path>
+<polyline points="0.0,29.0 15.8,29.0 31.6,28.4 47.4,27.8 63.2,27.8 78.9,28.4 94.7,27.1 110.5,26.5 126.3,27.1 142.1,27.1 157.9,27.8 173.7,27.1 189.5,27.1 205.3,26.5 221.1,27.1 236.8,27.1 252.6,27.8 268.4,27.1 284.2,27.1 300.0,27.1" fill="none" stroke="#4FC7BC" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline>
+
+</svg>
+</section>
+
+<section style="background: #141F1C; border: 1px solid #23302D; border-radius: 18px; padding: 20px 22px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px">
+<div style="width: 32px; height: 32px; border-radius: 9px; background: #15332F; color: #7FDCD2; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12H2M5.5 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.7 1.1z"></path></svg></div>
+<span style="font-size: 14px; font-weight: 600; color: #BCCAC6">Disque</span>
+<span style="margin-left: auto; font-size: 12px; color: #93A39F">SSD · C:</span>
+</div>
+<span class="num" style="font-size: 32px; font-weight: 800; letter-spacing: -0.02em; line-height: 1">0 %</span>
+<svg viewBox="0 0 300 70" preserveAspectRatio="none" style="width: 100%; height: 90px; display: block" aria-hidden="true">
+<line x1="0" y1="17.5" x2="300" y2="17.5" stroke="#1E2A27" stroke-width="1"></line>
+<line x1="0" y1="35" x2="300" y2="35" stroke="#1E2A27" stroke-width="1"></line>
+<line x1="0" y1="52.5" x2="300" y2="52.5" stroke="#1E2A27" stroke-width="1"></line>
+<path d="M0,70 L0.0,68.7 L15.8,70.0 L31.6,70.0 L47.4,64.9 L63.2,68.1 L78.9,70.0 L94.7,70.0 L110.5,70.0 L126.3,61.0 L142.1,67.4 L157.9,70.0 L173.7,70.0 L189.5,69.4 L205.3,70.0 L221.1,70.0 L236.8,66.2 L252.6,68.7 L268.4,70.0 L284.2,70.0 L300.0,70.0 L300,70 Z" fill="#4FC7BC" fill-opacity="0.14"></path>
+<polyline points="0.0,68.7 15.8,70.0 31.6,70.0 47.4,64.9 63.2,68.1 78.9,70.0 94.7,70.0 110.5,70.0 126.3,61.0 142.1,67.4 157.9,70.0 173.7,70.0 189.5,69.4 205.3,70.0 221.1,70.0 236.8,66.2 252.6,68.7 268.4,70.0 284.2,70.0 300.0,70.0" fill="none" stroke="#4FC7BC" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline>
+
+</svg>
+</section>
+
+<section style="background: #141F1C; border: 1px solid #23302D; border-radius: 18px; padding: 20px 22px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px">
+<div style="width: 32px; height: 32px; border-radius: 9px; background: #15332F; color: #7FDCD2; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M2 9a15 15 0 0 1 20 0M12 20h.01"></path></svg></div>
+<span style="font-size: 14px; font-weight: 600; color: #BCCAC6">Réseau</span>
+<span style="margin-left: auto; font-size: 12px; color: #93A39F">Réception · envoi</span>
+</div>
+<span class="num" style="font-size: 32px; font-weight: 800; letter-spacing: -0.02em; line-height: 1">↓ 4,9 · ↑ 6,1 Ko/s</span>
+<svg viewBox="0 0 300 70" preserveAspectRatio="none" style="width: 100%; height: 90px; display: block" aria-hidden="true">
+<line x1="0" y1="17.5" x2="300" y2="17.5" stroke="#1E2A27" stroke-width="1"></line>
+<line x1="0" y1="35" x2="300" y2="35" stroke="#1E2A27" stroke-width="1"></line>
+<line x1="0" y1="52.5" x2="300" y2="52.5" stroke="#1E2A27" stroke-width="1"></line>
+<path d="M0,70 L0.0,61.5 L15.8,57.2 L31.6,59.3 L47.4,44.4 L63.2,52.9 L78.9,59.3 L94.7,61.5 L110.5,27.3 L126.3,50.8 L142.1,59.3 L157.9,57.2 L173.7,61.5 L189.5,55.1 L205.3,59.3 L221.1,46.5 L236.8,57.2 L252.6,61.5 L268.4,59.3 L284.2,57.2 L300.0,59.3 L300,70 Z" fill="#4FC7BC" fill-opacity="0.14"></path>
+<polyline points="0.0,61.5 15.8,57.2 31.6,59.3 47.4,44.4 63.2,52.9 78.9,59.3 94.7,61.5 110.5,27.3 126.3,50.8 142.1,59.3 157.9,57.2 173.7,61.5 189.5,55.1 205.3,59.3 221.1,46.5 236.8,57.2 252.6,61.5 268.4,59.3 284.2,57.2 300.0,59.3" fill="none" stroke="#4FC7BC" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline>
+<polyline points="0.0,59.3 15.8,55.1 31.6,57.2 47.4,52.9 63.2,57.2 78.9,50.8 94.7,55.1 110.5,57.2 126.3,59.3 142.1,52.9 157.9,55.1 173.7,57.2 189.5,59.3 205.3,50.8 221.1,57.2 236.8,55.1 252.6,52.9 268.4,57.2 284.2,57.2 300.0,57.2" fill="none" stroke="#F2A94B" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline>
+</svg>
+</section>
+
+</div>
+
+<div style="flex-grow: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+<section style="background: #141F1C; border: 1px solid #23302D; border-radius: 18px; padding: 20px 22px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px">
+<div style="width: 32px; height: 32px; border-radius: 9px; background: #15332F; color: #7FDCD2; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z"></path></svg></div>
+<span style="font-size: 14px; font-weight: 600; color: #BCCAC6">Température</span>
+<span style="margin-left: auto; font-size: 12px; font-weight: 700; color: #7FDCD2">Normale</span>
+</div>
+<span class="num" style="font-size: 32px; font-weight: 800; line-height: 1">43 °C</span>
+<div style="height: 8px; border-radius: 4px; background: #23302D"><div style="width: 43%; height: 8px; border-radius: 4px; background: #4FC7BC"></div></div>
+</section>
+<section style="background: #141F1C; border: 1px solid #23302D; border-radius: 18px; padding: 20px 22px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px">
+<div style="width: 32px; height: 32px; border-radius: 9px; background: #3A2A14; color: #F2A94B; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h15v10H3zM22 11v2M6 10v4"></path></svg></div>
+<span style="font-size: 14px; font-weight: 600; color: #BCCAC6">Batterie</span>
+<span style="margin-left: auto; font-size: 12px; font-weight: 700; color: #F2A94B">Faible · sur batterie</span>
+</div>
+<span class="num" style="font-size: 32px; font-weight: 800; line-height: 1">22 %</span>
+<div style="height: 8px; border-radius: 4px; background: #23302D"><div style="width: 22%; height: 8px; border-radius: 4px; background: #F2A94B"></div></div>
+</section>
+<section style="background: #101816; border: 1px dashed #2C3B38; border-radius: 18px; padding: 20px 22px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<span style="font-size: 14px; font-weight: 600; color: #BCCAC6">Mini-affichage</span>
+<button aria-pressed="true" aria-label="Mini-affichage" style="width: 44px; height: 26px; border-radius: 13px; border: 0; background: #4FC7BC; padding: 3px; display: flex; justify-content: flex-end; cursor: pointer"><span style="width: 20px; height: 20px; border-radius: 10px; background: #0C1412; display: block"></span></button>
+</div>
+<div style="align-self: flex-start; display: flex; gap: 14px; padding: 8px 12px; border-radius: 10px; background: rgba(20,31,28,0.92); border: 1px solid #2C3B38; font-size: 12px; font-weight: 700" class="num">
+<span><span style="color: #93A39F; font-weight: 600">CPU</span> 6 %</span>
+<span><span style="color: #93A39F; font-weight: 600">RAM</span> 67 %</span>
+<span><span style="color: #93A39F; font-weight: 600">°C</span> 43</span>
+<span style="color: #F2A94B"><span style="color: #93A39F; font-weight: 600">BAT</span> 22 %</span>
+</div>
+<span style="font-size: 12px; color: #93A39F">Toujours visible en haut à droite, masqué pendant les jeux et présentations.</span>
+</section>
+</div>
+
+</main>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-# Rapport final — PC Santé (MVP, serveur de licences, V2 et console PME)
+# Rapport final — PC Santé (MVP, serveur de licences, V2, console PME et refonte visuelle)
 
 22 septembre 2026, mis à jour le 25 septembre 2026 (V2 et console PME, tests réels sous Windows 11)
 
@@ -6,6 +6,7 @@
 
 - **Livré** : l'application Windows complète du périmètre MVP (interface WPF, service SYSTEM, mini-affichage, rapports PDF), le **serveur de licences** avec son administration, l'installeur WiX et les guides.
 - **V2 (périmètre étendu par le commanditaire le 24 septembre)** : modules locaux (planification étendue, réseau, comptes, antivirus tiers, BitLocker, sessions, profils de services, effets visuels, disque, export CSV, réputation enrichie) et **console PME** (serveur, interface web React, rattachement des postes, alertes et rapports par e-mail). Voir la section 1 bis.
+- **Refonte visuelle (25 septembre)** : nouvelle identité (couleur de marque, polices, icône), composants réutilisables, 11 écrans, premier lancement, arabe et thème sombre, console PME ; présentation seulement, validée visuellement par le commanditaire. Voir la section 1 ter et `docs/redesign/COMPTE-RENDU.md`.
 - **Qualité** : toute la solution compile en Release **sans erreur ni avertissement** (analyseurs .NET activés) ; **385 tests automatisés** passent ; intégration continue sous Linux **et Windows**.
 - **Exécuté sous Windows 11** (25 septembre) : MSI compilé et signé (certificat de test), installé, testé par le commanditaire (Accueil, Protection, Nettoyage, licence), requêtes Windows des modules V2 vérifiées en lecture, interface de la console vérifiée par captures d'écran. Les **actions système réelles** (BitLocker, sessions, réseau, disque…) restent à valider en VM avec `docs/TESTS_MANUELS_VM.md` (section 10 pour la V2).
 
@@ -44,6 +45,10 @@
 | Console PME | Serveur (organisations, sièges, gérants/lecteurs, alertes, rapport consolidé, CSV), interface web React fr/en/ar, rattachement des postes, e-mails d'alerte et rapport mensuel | 16 tests d'intégration ; captures d'écran ; VM |
 
 Sécurité de la V2 : toutes les nouvelles actions passent par le catalogue fermé et le cycle complet ; aucune saisie libre transmise au service SYSTEM ; BitLocker et sessions réservés aux administrateurs du PC ; console : mots de passe PBKDF2, verrouillage, cookie SameSite=Strict + en-tête anti-CSRF, CSP stricte, secrets des postes et codes d'inscription stockés en empreinte seulement, isolation entre organisations testée.
+
+### 1 ter. Refonte visuelle (dossier `docs/redesign`, 25 septembre 2026)
+
+Appliquée lot par lot (11 commits), sans toucher aux services, au calcul du score, au catalogue de commandes ni aux licences. Couleur de marque imposée à la place de l'accent Windows, polices Plus Jakarta Sans et IBM Plex Sans Arabic embarquées (OFL), barre latérale ESSENTIEL / AVANCÉ, statuts toujours en icône + mot + couleur, boutons au verbe explicite, Optimisation en 4 onglets, graphiques de Performance lisibles dès l'ouverture, premier lancement avec choix Simple / Avancé, arabe entièrement en miroir avec chiffres latins, console PME aux mêmes jetons (polices servies localement, CSP inchangée). Texte maintenu à 14 px minimum (cahier des charges § 11) ; seuils du score du code conservés (80 / 50) ; données non fournies par le service masquées plutôt qu'inventées. Écarts et liste de contrôle : `docs/redesign/COMPTE-RENDU.md`. Textes arabes nouveaux à faire relire par un arabophone.
 
 ### Sécurité du service SYSTEM (section 5)
 
@@ -109,6 +114,7 @@ Sécurité de la V2 : toutes les nouvelles actions passent par le catalogue ferm
 7. Revoir, si souhaité, les décisions de `docs/DECISIONS.md`.
 8. **Console PME** : hébergement (Maroc ou Europe, loi 09-08), domaine et HTTPS, serveur SMTP (mot de passe en variable d'environnement `PCSANTE_SMTP_PASSWORD`), puis `PcSanteConsoleUrl` dans `branding.props` et MSI reconstruit (`GUIDE_DEPLOIEMENT.md` § 5 bis).
 9. **Checklist V2** en VM (`TESTS_MANUELS_VM.md`, section 10), notamment BitLocker sur Windows Pro avec TPM et sessions Bureau à distance.
+10. **Relecture des textes arabes** ajoutés par la refonte visuelle par un arabophone (`src/PcSante.App/Resources/Strings.ar.resx`, `server/PcSante.PmeConsole/wwwroot/i18n.js`).
 
 ## 5. Commandes
 

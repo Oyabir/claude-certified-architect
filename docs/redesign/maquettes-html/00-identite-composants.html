@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<title>PC Santé — Identité et composants</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<style>
+
+body{margin:0;background:#F4F6F5}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 18px;border-radius:10px;font:600 14px 'Plus Jakarta Sans','Segoe UI',sans-serif;cursor:pointer;border:1px solid transparent;white-space:nowrap;box-sizing:border-box}
+.btn-primary{background:#0B6E69;color:#FFFFFF}
+.btn-secondary{background:#FFFFFF;color:#084F4B;border-color:#C9D6D3}
+.btn-ghost{background:transparent;color:#084F4B}
+.btn-danger{background:#FFFFFF;color:#B42318;border-color:#F0C4BE}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5E6D68}
+.num{font-variant-numeric:tabular-nums}
+
+</style>
+</head>
+<body>
+
+
+<div style="width: 1440px; height: 940px; box-sizing: border-box; padding: 48px 56px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif; color: #102321; background: #F4F6F5">
+
+<section style="background: #0B3F3C; color: #EAF6F4; border-radius: 24px; padding: 36px; display: flex; flex-direction: column; gap: 28px">
+<span class="lbl" style="color: #8FC9C2">Logo &amp; icône</span>
+<div style="display: flex; align-items: center; gap: 16px">
+<div style="width: 64px; height: 64px; border-radius: 18px; background: #0B6E69; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12)"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 13h4l2.5-6 4 11 3-7H22"></path></svg></div>
+<div style="display: flex; flex-direction: column">
+<span style="font-size: 34px; font-weight: 800; letter-spacing: -0.03em; line-height: 1">PC Santé</span>
+<span style="font-size: 13px; color: #A9CFCA; margin-top: 6px">Votre PC en bonne santé, réparé en un clic.</span>
+</div>
+</div>
+<div style="display: flex; align-items: flex-end; gap: 18px">
+<div style="width: 96px; height: 96px; border-radius: 24px; background: #0B6E69; display: flex; align-items: center; justify-content: center"><svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 13h4l2.5-6 4 11 3-7H22"></path></svg></div>
+<div style="width: 48px; height: 48px; border-radius: 13px; background: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0B6E69" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 13h4l2.5-6 4 11 3-7H22"></path></svg></div>
+<div style="width: 24px; height: 24px; border-radius: 7px; background: #0B6E69; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 13h4l2.5-6 4 11 3-7H22"></path></svg></div>
+</div>
+<p style="margin: 0; font-size: 14px; line-height: 1.6; color: #C4DEDA">Un pouls dans un carré arrondi : la santé, lisible à 16 px dans la barre des tâches. La couleur de marque remplace l'accent Windows, pour que PC Santé soit reconnaissable sur tous les PC.</p>
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px">
+<span class="lbl" style="color: #8FC9C2">Principes</span>
+<div style="font-size: 14px; line-height: 1.5; display: flex; flex-direction: column; gap: 8px">
+<span>1 · Un écran répond à une question.</span>
+<span>2 · Chaque problème a son bouton d'action.</span>
+<span>3 · Le statut se lit par icône + mot, pas seulement par couleur.</span>
+<span>4 · Chiffres au format local : 28,7 Go.</span>
+</div>
+</div>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #E2E7E5; border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 22px">
+<span class="lbl">Couleurs</span>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="height: 72px; border-radius: 14px; background: #0B6E69; border: 1px solid rgba(16,35,33,0.08)"></div>
+<span style="font-size: 13px; font-weight: 700">Pouls (marque)</span>
+<span class="num" style="font-size: 12px; color: #5E6D68">#0B6E69</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="height: 72px; border-radius: 14px; background: #084F4B; border: 1px solid rgba(16,35,33,0.08)"></div>
+<span style="font-size: 13px; font-weight: 700">Pouls foncé</span>
+<span class="num" style="font-size: 12px; color: #5E6D68">#084F4B</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="height: 72px; border-radius: 14px; background: #0B3F3C; border: 1px solid rgba(16,35,33,0.08)"></div>
+<span style="font-size: 13px; font-weight: 700">Nuit</span>
+<span class="num" style="font-size: 12px; color: #5E6D68">#0B3F3C</span>
+</div>
+
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="height: 44px; border-radius: 12px; background: #F4F6F5; border: 1px solid rgba(16,35,33,0.08)"></div>
+<span style="font-size: 13px; font-weight: 700">Fond</span>
+<span class="num" style="font-size: 12px; color: #5E6D68">#F4F6F5</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="height: 44px; border-radius: 12px; background: #FFFFFF; border: 1px solid rgba(16,35,33,0.08)"></div>
+<span style="font-size: 13px; font-weight: 700">Surface</span>
+<span class="num" style="font-size: 12px; color: #5E6D68">#FFFFFF</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="height: 44px; border-radius: 12px; background: #102321; border: 1px solid rgba(16,35,33,0.08)"></div>
+<span style="font-size: 13px; font-weight: 700">Encre</span>
+<span class="num" style="font-size: 12px; color: #5E6D68">#102321</span>
+</div>
+
+</div>
+<span class="lbl" style="margin-top: 6px">Statuts — toujours icône + mot</span>
+<div style="display: flex; flex-direction: column; gap: 10px">
+
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px; border-radius: 14px; background: #E3F3EA; color: #17663B; font-size: 13px; font-weight: 700; min-width: 128px; box-sizing: border-box"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Tout va bien</span>
+<span style="font-size: 13px; color: #465956">Score 85 – 100</span>
+<span class="num" style="margin-left: auto; font-size: 12px; color: #5E6D68">#1D7A48</span>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px; border-radius: 14px; background: #FBEEDC; color: #8A4705; font-size: 13px; font-weight: 700; min-width: 128px; box-sizing: border-box"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8v5M12 16.5h.01"></path></svg>À surveiller</span>
+<span style="font-size: 13px; color: #465956">Score 60 – 84</span>
+<span class="num" style="margin-left: auto; font-size: 12px; color: #5E6D68">#C06A0B</span>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px; border-radius: 14px; background: #FBE6E3; color: #9A1D13; font-size: 13px; font-weight: 700; min-width: 128px; box-sizing: border-box"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg>À corriger</span>
+<span style="font-size: 13px; color: #465956">Score 0 – 59</span>
+<span class="num" style="margin-left: auto; font-size: 12px; color: #5E6D68">#B42318</span>
+</div>
+
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 24px">
+<div style="background: #FFFFFF; border: 1px solid #E2E7E5; border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 14px">
+<span class="lbl">Typographie · Plus Jakarta Sans</span>
+<span style="font-size: 28px; font-weight: 800; letter-spacing: -0.02em">Titre d'écran 28</span>
+<span style="font-size: 20px; font-weight: 700">Titre de section 20</span>
+<span style="font-size: 15px; font-weight: 700">Titre de ligne 15</span>
+<span style="font-size: 14px; color: #465956">Texte courant 14 — phrases courtes, sans jargon.</span>
+<span class="num" style="font-size: 44px; font-weight: 800; letter-spacing: -0.03em; line-height: 1">79 · 28,7 Go</span>
+<span style="font-size: 12px; color: #5E6D68">Chiffres tabulaires : les valeurs ne « sautent » pas quand elles changent. Arabe : IBM Plex Sans Arabic.</span>
+</div>
+<div style="flex-grow: 1; background: #FFFFFF; border: 1px solid #E2E7E5; border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 18px">
+<span class="lbl">Composants</span>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<button class="btn btn-primary">Tout corriger</button>
+<button class="btn btn-secondary">Libérer de l'espace</button>
+<button class="btn btn-ghost">Voir le détail</button>
+<button class="btn btn-danger">Fermer la session</button>
+</div>
+<div style="display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px; background: #F7F9F8">
+<div style="width: 36px; height: 36px; border-radius: 10px; background: #E2F0EE; color: #0B6E69; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"></path></svg></div>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 14px; font-weight: 700">Surveillance permanente</span>
+<span style="font-size: 12px; color: #5E6D68">Protection en temps réel</span>
+</div>
+<button aria-pressed="true" aria-label="Surveillance permanente" style="width: 44px; height: 26px; border-radius: 13px; border: 0; background: #0B6E69; padding: 3px; display: flex; justify-content: flex-end; cursor: pointer"><span style="width: 20px; height: 20px; border-radius: 10px; background: #FFFFFF; display: block"></span></button>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<span style="height: 30px; padding: 0 14px; border-radius: 15px; background: #102321; color: #FFFFFF; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center">Nettoyage</span>
+<span style="height: 30px; padding: 0 14px; border-radius: 15px; background: #E9EEEC; color: #243633; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center">Démarrage</span>
+<span style="height: 30px; padding: 0 14px; border-radius: 15px; background: #E9EEEC; color: #243633; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center">Réglages Windows</span>
+</div>
+</div>
+</section>
+
+</div>
+
+</body>
+</html>

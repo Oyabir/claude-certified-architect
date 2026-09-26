@@ -1,0 +1,138 @@
+<Window x:Class="PcSante.App.Views.GalleryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c="clr-namespace:PcSante.App.Controls"
+        Title="Galerie des composants (Debug)" Width="1440" Height="940"
+        Background="{DynamicResource PcsBackgroundBrush}" Foreground="{DynamicResource PcsTextPrimaryBrush}">
+    <!-- Outil de développement (Debug seulement, option galerie) : tous les composants et leurs états, à comparer à 00-identite-composants.png. -->
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="40,28,40,32">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Colonne 1 : marque, typographie -->
+            <StackPanel>
+                <Border Style="{StaticResource PcsNightCard}" Margin="0,0,0,20">
+                    <StackPanel>
+                        <TextBlock Text="LOGO &amp; ICÔNE" Style="{StaticResource PcsText.Overline}" Foreground="{DynamicResource PcsNightTextBrush}" />
+                        <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                            <Image Source="pack://application:,,,/Assets/Logo/app-icon-64.png" Width="56" Height="56" />
+                            <StackPanel Margin="14,0,0,0" VerticalAlignment="Center">
+                                <TextBlock Text="PC Santé" FontSize="28" FontWeight="ExtraBold" Foreground="White" />
+                                <TextBlock Text="Votre PC en bonne santé, réparé en un clic." Foreground="{DynamicResource PcsNightTextBrush}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <Button Style="{StaticResource PcsButton.Night}" Content="Activer les 3 tâches" HorizontalAlignment="Left" Margin="0,20,0,0" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource PcsCard}">
+                    <StackPanel>
+                        <TextBlock Text="TYPOGRAPHIE" Style="{StaticResource PcsText.Overline}" />
+                        <TextBlock Text="Titre d'écran 28" Style="{StaticResource PcsText.PageTitle}" Margin="0,10,0,0" />
+                        <TextBlock Text="Votre PC est bien protégé." Style="{StaticResource PcsText.HeroTitle}" />
+                        <TextBlock Text="Titre de section 17" Style="{StaticResource PcsText.SectionTitle}" />
+                        <TextBlock Text="Titre de ligne 15" Style="{StaticResource PcsText.RowTitle}" />
+                        <TextBlock Text="Texte courant 14 — phrases courtes, sans jargon." Style="{StaticResource PcsText}" />
+                        <TextBlock Text="Description de ligne (secondaire)" Style="{StaticResource PcsText.Caption}" />
+                        <TextBlock Text="Métadonnée (atténuée)" Style="{StaticResource PcsText.Muted}" />
+                        <TextBlock Text="79 · 28,7 Go" Style="{StaticResource PcsText.Score}" Margin="0,8,0,0" />
+                        <TextBlock Text="Tout voir" Style="{StaticResource PcsText.Link}" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- Colonne 2 : statuts, anneaux, sous-scores -->
+            <StackPanel Grid.Column="2">
+                <Border Style="{StaticResource PcsCard}" Margin="0,0,0,20">
+                    <StackPanel>
+                        <TextBlock Text="STATUTS — TOUJOURS ICÔNE + MOT" Style="{StaticResource PcsText.Overline}" Margin="0,0,0,12" />
+                        <c:StatusChip Tone="Good" Text="Tout va bien" Margin="0,0,0,8" />
+                        <c:StatusChip Tone="Warn" Text="À surveiller" Margin="0,0,0,8" />
+                        <c:StatusChip Tone="Critical" Text="À corriger" Margin="0,0,0,8" />
+                        <StackPanel Orientation="Horizontal">
+                            <c:TagLabel Text="Important" />
+                            <c:TagLabel Text="Conseillé" Tone="Brand" Margin="8,0,0,0" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource PcsCard}" Margin="0,0,0,20">
+                    <StackPanel Orientation="Horizontal">
+                        <c:ScoreRing Value="79" Caption="sur 100" />
+                        <c:ScoreRing IsIndeterminate="True" Caption="Analyse…" Width="128" Height="128" ValueFontSize="40" Thickness="12" Margin="20,0,0,0" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource PcsCard}">
+                    <UniformGrid Columns="2">
+                        <c:SubScoreTile Label="Sécurité" Value="100" Icon="{StaticResource PcsIcon.shield}" Margin="0,0,7,14" />
+                        <c:SubScoreTile Label="Performance" Value="72" Icon="{StaticResource PcsIcon.pulse}" Margin="7,0,0,14" />
+                        <c:SubScoreTile Label="Stabilité" Value="92" Icon="{StaticResource PcsIcon.monitor}" Margin="0,0,7,0" />
+                        <c:SubScoreTile Label="Stockage" Value="41" Icon="{StaticResource PcsIcon.hard-drive}" Margin="7,0,0,0" />
+                    </UniformGrid>
+                </Border>
+            </StackPanel>
+
+            <!-- Colonne 3 : boutons, lignes, interrupteur, onglets -->
+            <StackPanel Grid.Column="4">
+                <Border Style="{StaticResource PcsCard}" Margin="0,0,0,20">
+                    <StackPanel>
+                        <TextBlock Text="COMPOSANTS" Style="{StaticResource PcsText.Overline}" Margin="0,0,0,12" />
+                        <WrapPanel>
+                            <Button Style="{StaticResource PcsButton.Primary}" c:Ui.Icon="{StaticResource PcsIcon.check}" Content="Tout corriger" Margin="0,0,8,8" />
+                            <Button Style="{StaticResource PcsButton.Secondary}" Content="Libérer de l'espace" Margin="0,0,8,8" />
+                            <Button Style="{StaticResource PcsButton.Ghost}" Content="Voir le détail" Margin="0,0,8,8" />
+                            <Button Style="{StaticResource PcsButton.Danger}" Content="Fermer la session" Margin="0,0,8,8" />
+                            <Button Style="{StaticResource PcsButton.Primary}" c:Ui.IsLoading="True" Content="Nettoyage…" Margin="0,0,8,8" />
+                            <Button Style="{StaticResource PcsButton.Primary.Small}" Content="Activer" IsEnabled="False" Margin="0,0,8,8" />
+                            <Button Style="{StaticResource PcsButton.Secondary.Small}" c:Ui.Icon="{StaticResource PcsIcon.refresh}" Content="Relancer l'analyse" Margin="0,0,8,8" />
+                        </WrapPanel>
+                        <Border Style="{StaticResource PcsTile}" Margin="0,8,0,0">
+                            <c:ListRow Title="Surveillance permanente" Description="Protection en temps réel" Icon="{StaticResource PcsIcon.shield}" IconTileSize="34" ShowDivider="False">
+                                <ToggleButton Style="{StaticResource PcsSwitch}" IsChecked="True" Content="Activée" />
+                            </c:ListRow>
+                        </Border>
+                        <c:ListRow Title="Espace disque faible" TagText="Important" Tone="Warn" Icon="{StaticResource PcsIcon.hard-drive}"
+                                   Description="Il reste 28,7 Go sur le disque C:. Windows ralentit sous 15 %.">
+                            <Button Style="{StaticResource PcsButton.Secondary}" Content="Libérer de l'espace" />
+                        </c:ListRow>
+                        <c:ListRow Title="Fichiers inutiles" TagText="Conseillé" TagTone="Brand" Tone="Brand" Icon="{StaticResource PcsIcon.trash}"
+                                   Description="Fichiers temporaires et corbeille." ShowDivider="False">
+                            <Button Style="{StaticResource PcsButton.Primary}" Content="Nettoyer 1,2 Go" />
+                        </c:ListRow>
+                        <c:EmptyState Icon="{StaticResource PcsIcon.check}" Text="Aucune menace détectée." />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource PcsCard}">
+                    <StackPanel>
+                        <TabControl Style="{StaticResource PcsSegmentedTabs}">
+                            <TabItem Header="Nettoyage">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                        <RadioButton Style="{StaticResource PcsPill}" Content="Tous" IsChecked="True" GroupName="f" />
+                                        <RadioButton Style="{StaticResource PcsPill}" Content="Se lancent" GroupName="f" />
+                                        <RadioButton Style="{StaticResource PcsPill}" Content="Désactivés" GroupName="f" />
+                                    </StackPanel>
+                                    <TextBox Style="{StaticResource PcsSearchBox}" Tag="Rechercher un programme" />
+                                    <ProgressBar Style="{StaticResource PcsProgress}" Value="62" Margin="0,16,0,0" />
+                                    <Border Style="{StaticResource PcsSegmentHost}" Margin="0,16,0,0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <RadioButton Style="{StaticResource PcsSegment}" Content="Clair" IsChecked="True" GroupName="t" />
+                                            <RadioButton Style="{StaticResource PcsSegment}" Content="Sombre" GroupName="t" />
+                                            <RadioButton Style="{StaticResource PcsSegment}" Content="Système" GroupName="t" />
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </TabItem>
+                            <TabItem Header="Démarrage" />
+                            <TabItem Header="Réglages Windows" />
+                        </TabControl>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Window>

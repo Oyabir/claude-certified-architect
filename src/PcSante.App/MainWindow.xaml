@@ -5,13 +5,15 @@
                  xmlns:l="clr-namespace:PcSante.App.Localization"
                  xmlns:vm="clr-namespace:PcSante.App.ViewModels"
                  xmlns:v="clr-namespace:PcSante.App.Views"
-                 xmlns:infra="clr-namespace:PcSante.App.Infrastructure"
+                 xmlns:c="clr-namespace:PcSante.App.Controls"
                  Title="{Binding ProductName}"
-                 Width="1180" Height="780" MinWidth="900" MinHeight="600"
+                 Width="1440" Height="940" MinWidth="960" MinHeight="640"
                  FontSize="14"
                  WindowStartupLocation="CenterScreen"
                  ExtendsContentIntoTitleBar="True"
-                 WindowBackdropType="Mica"
+                 WindowBackdropType="None"
+                 Background="{DynamicResource PcsBackgroundBrush}"
+                 Foreground="{DynamicResource PcsTextPrimaryBrush}"
                  WindowCornerPreference="Round"
                  Icon="pack://application:,,,/Assets/pcsante.ico">
     <ui:FluentWindow.Resources>
@@ -26,15 +28,99 @@
         <DataTemplate DataType="{x:Type vm:SessionsViewModel}"><v:SessionsView /></DataTemplate>
         <DataTemplate DataType="{x:Type vm:SettingsViewModel}"><v:SettingsView /></DataTemplate>
         <DataTemplate DataType="{x:Type vm:LicenseViewModel}"><v:LicenseView /></DataTemplate>
+
+        <CollectionViewSource x:Key="NavGroups" Source="{Binding Items}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Group" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+
+        <!-- Élément de navigation (§ 4) : h 42, rayon 10, repère vertical côté début quand il est actif. -->
+        <Style x:Key="NavItemContainer" TargetType="ListBoxItem">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource PcsFocusVisual}" />
+            <Setter Property="Foreground" Value="{DynamicResource PcsTextPrimaryBrush}" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="AutomationProperties.Name" Value="{Binding Label}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Grid Height="{DynamicResource PcsNavItemHeight}" Margin="0,1">
+                            <Border x:Name="Bg" CornerRadius="10" Background="Transparent" />
+                            <Border x:Name="Mark" Width="3" Height="20" CornerRadius="2" HorizontalAlignment="Left" Background="{DynamicResource PcsBrandBrush}" Visibility="Collapsed" />
+                            <ContentPresenter Margin="12,0" VerticalAlignment="Center" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource PcsSurfaceSubtleBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource PcsBrandSoftBrush}" />
+                                <Setter TargetName="Mark" Property="Visibility" Value="Visible" />
+                                <Setter Property="Foreground" Value="{DynamicResource PcsBrandTextBrush}" />
+                                <Setter Property="FontWeight" Value="Bold" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="NavItemTemplate" DataType="{x:Type vm:NavItem}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <c:LineIcon Data="{Binding Icon, Converter={StaticResource ResourceKey}}" Size="20"
+                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" />
+                <TextBlock Grid.Column="1" Text="{Binding Label}" Margin="12,0,0,0" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                           Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" />
+                <Border Grid.Column="2" MinWidth="22" Height="22" CornerRadius="11" Padding="6,0" Background="{DynamicResource PcsWarnSoftBrush}"
+                        Visibility="{Binding HasBadge, Converter={StaticResource Visible}}">
+                    <TextBlock Text="{Binding Badge}" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource PcsWarnTextBrush}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Typography.NumeralAlignment="Tabular" />
+                </Border>
+            </Grid>
+        </DataTemplate>
+
+        <Style x:Key="NavList" TargetType="ListBox">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource NavItemContainer}" />
+            <Setter Property="ItemTemplate" Value="{StaticResource NavItemTemplate}" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <ScrollViewer Focusable="False" VerticalScrollBarVisibility="Auto" Padding="{TemplateBinding Padding}">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </ui:FluentWindow.Resources>
 
-    <Grid>
+    <!-- Fond explicite : la fenêtre WPF-UI ne dessine pas toujours son Background (jeton Background, § 3.1). -->
+    <Grid Background="{DynamicResource PcsBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ui:TitleBar Grid.Row="0" Title="{Binding ProductName}" />
+        <!-- Barre de titre 40 px : logo + « PC Santé » au début, boutons de fenêtre à la fin (inversés en arabe). -->
+        <Border Grid.Row="0" Background="{DynamicResource PcsSidebarBrush}" BorderBrush="{DynamicResource PcsBorderBrush}" BorderThickness="0,0,0,1">
+            <Grid>
+                <ui:TitleBar Title="" Height="{DynamicResource PcsTitleBarHeight}" ButtonsForeground="{DynamicResource PcsTextPrimaryBrush}" />
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="16,0,0,0" IsHitTestVisible="False">
+                    <Image Source="pack://application:,,,/Assets/Logo/app-icon-64.png" Width="22" Height="22" RenderOptions.BitmapScalingMode="HighQuality" />
+                    <TextBlock Text="{Binding ProductName}" FontSize="14" FontWeight="Bold" Margin="8,0,0,0" VerticalAlignment="Center"
+                               Foreground="{DynamicResource PcsTextPrimaryBrush}" />
+                </StackPanel>
+            </Grid>
+        </Border>
 
         <!-- Premier lancement : assistant en 3 étapes. -->
         <v:WelcomeView Grid.Row="1" DataContext="{Binding Welcome}"
@@ -42,54 +128,64 @@
 
         <Grid Grid.Row="1" Visibility="{Binding ShowWelcome, Converter={StaticResource Collapsed}}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="248" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!-- Navigation latérale -->
-            <DockPanel Grid.Column="0" Margin="8,4,8,12" LastChildFill="True">
-                <StackPanel DockPanel.Dock="Bottom">
-                    <Border Margin="12,8" Padding="10,6" CornerRadius="6" Background="{DynamicResource ControlFillColorSecondaryBrush}">
-                        <StackPanel>
-                            <TextBlock Text="{l:T Nav_Offer}" Style="{StaticResource Technical}" />
-                            <TextBlock Text="{Binding LicenseBadge}" FontWeight="SemiBold" />
-                        </StackPanel>
-                    </Border>
-                    <ItemsControl ItemsSource="{Binding FooterItems}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="{x:Type vm:NavItem}">
-                                <ui:Button Appearance="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
-                                           Padding="12,10" Margin="0,2"
-                                           Command="{Binding DataContext.NavigateToCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                           CommandParameter="{Binding Screen}"
-                                           AutomationProperties.Name="{Binding Label}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="20" Margin="0,0,12,0" />
-                                        <TextBlock Text="{Binding Label}" FontSize="15" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </ui:Button>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
+            <!-- Barre latérale 248 px : ESSENTIEL, AVANCÉ (masqué en mode Simple), offre, Licence et Paramètres. -->
+            <Border Grid.Column="0" Background="{DynamicResource PcsSidebarBrush}" BorderBrush="{DynamicResource PcsBorderBrush}" BorderThickness="0,0,1,0">
+                <DockPanel Margin="12,8,12,16" LastChildFill="True">
+                    <StackPanel DockPanel.Dock="Bottom">
+                        <Border CornerRadius="16" BorderThickness="1" BorderBrush="{DynamicResource PcsBorderBrush}" Background="{DynamicResource PcsSurfaceBrush}"
+                                Padding="12" Margin="0,8,0,8">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <c:IconTile Icon="{StaticResource PcsIcon.shield-check}" Size="40" IconSize="20" VerticalAlignment="Center" />
+                                <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding LicenseBadge}" FontWeight="Bold" />
+                                    <TextBlock Text="{Binding LicenseCaption}" Style="{StaticResource PcsText.Muted}" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                        <ListBox ItemsSource="{Binding FooterItems}" SelectedItem="{Binding SelectedFooterItem, Mode=TwoWay}" Style="{StaticResource NavList}"
+                                 AutomationProperties.Name="{l:T Nav_Menu}" />
+                    </StackPanel>
 
-                <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                         BorderThickness="0" Background="Transparent"
-                         AutomationProperties.Name="{l:T Nav_Menu}"
-                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="{x:Type vm:NavItem}">
-                            <StackPanel Orientation="Horizontal" Margin="4,8" AutomationProperties.Name="{Binding Label}">
-                                <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="22" Margin="0,0,12,0" />
-                                <TextBlock Text="{Binding Label}" FontSize="16" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </DockPanel>
+                    <ListBox ItemsSource="{Binding Source={StaticResource NavGroups}}" IsSynchronizedWithCurrentItem="False" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" Style="{StaticResource NavList}"
+                             AutomationProperties.Name="{l:T Nav_Menu}">
+                        <ListBox.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.ContainerStyle>
+                                    <Style TargetType="GroupItem">
+                                        <Setter Property="Focusable" Value="False" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="GroupItem">
+                                                    <StackPanel>
+                                                        <ContentPresenter />
+                                                        <ItemsPresenter />
+                                                    </StackPanel>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GroupStyle.ContainerStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name, Converter={StaticResource Upper}}" Style="{StaticResource PcsText.Overline}" Margin="12,14,0,6" />
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </ListBox.GroupStyle>
+                    </ListBox>
+                </DockPanel>
+            </Border>
 
             <!-- Contenu -->
-            <Grid Grid.Column="1" Margin="8,0,16,16">
+            <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -97,41 +193,81 @@
                 </Grid.RowDefinitions>
 
                 <!-- Service injoignable : message clair et action proposée. -->
-                <Border Grid.Row="0" Background="{x:Static infra:HealthBrushes.Red}" CornerRadius="8" Padding="16,12" Margin="0,0,0,12"
+                <Border Grid.Row="0" Background="{DynamicResource PcsCriticalSoftBrush}" CornerRadius="14" Padding="18,14" Margin="40,20,40,0"
                         Visibility="{Binding ServiceAvailable, Converter={StaticResource Collapsed}}">
                     <DockPanel>
-                        <ui:Button DockPanel.Dock="Right" Content="{l:T Common_Retry}" Command="{Binding RetryServiceCommand}" Appearance="Light" />
-                        <StackPanel>
-                            <TextBlock Text="{l:T Service_Unavailable}" Foreground="White" FontWeight="SemiBold" FontSize="16" />
-                            <TextBlock Text="{l:T Service_UnavailableHelp}" Foreground="White" />
+                        <Button DockPanel.Dock="Right" Style="{StaticResource PcsButton.Secondary}" c:Ui.Icon="{StaticResource PcsIcon.refresh}"
+                                Content="{l:T Common_Retry}" Command="{Binding RetryServiceCommand}" VerticalAlignment="Center" />
+                        <c:LineIcon DockPanel.Dock="Left" Data="{StaticResource PcsIcon.alert-triangle}" Size="22" Foreground="{DynamicResource PcsCriticalTextBrush}"
+                                    VerticalAlignment="Top" Margin="0,2,12,0" />
+                        <StackPanel Margin="0,0,12,0">
+                            <TextBlock Text="{l:T Service_Unavailable}" FontWeight="Bold" Foreground="{DynamicResource PcsCriticalTextBrush}" />
+                            <TextBlock Text="{l:T Service_UnavailableHelp}" Foreground="{DynamicResource PcsTextSecondaryBrush}" />
                         </StackPanel>
                     </DockPanel>
                 </Border>
 
                 <!--
-                  Message de résultat après chaque action (jamais de silence).
-                  L'InfoBar de WPF-UI 3 n'affiche pas son contenu : « Détails » et « Passer à Premium » sont donc placés dessous.
+                  Message de résultat (jamais de silence) : bandeau pour une information, un avertissement ou un échec ;
+                  une réussite s'affiche en message court en bas à droite (voir plus bas).
                 -->
-                <StackPanel Grid.Row="1" Margin="0,0,0,12">
-                    <ui:InfoBar IsOpen="{Binding Message.IsOpen, Mode=TwoWay}"
-                                Severity="{Binding Message.Severity}"
-                                Title="{Binding Message.Text}"
-                                IsClosable="True"
-                                AutomationProperties.LiveSetting="Assertive" />
-                    <StackPanel Visibility="{Binding Message.IsOpen, Converter={StaticResource Visible}}">
-                        <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                            <ui:Button Content="{l:T License_GetPremium}" Appearance="Primary" Command="{Binding GoToLicenseCommand}"
-                                       Visibility="{Binding Message.SuggestPremium, Converter={StaticResource Visible}}" Margin="0,0,8,0" />
-                            <ui:Button Content="{l:T Common_Details}" Appearance="Transparent" Command="{Binding ToggleDetailsCommand}"
-                                       Visibility="{Binding Message.HasDetails, Converter={StaticResource Visible}}" />
-                        </StackPanel>
-                        <TextBox Text="{Binding Message.Details, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" Margin="0,6,0,0"
-                                 FontFamily="Consolas" FontSize="13"
+                <Border Grid.Row="1" CornerRadius="14" Padding="18,12" Margin="40,20,40,0" AutomationProperties.LiveSetting="Assertive"
+                        Background="{Binding Message.Tone, Converter={StaticResource ToneBrush}, ConverterParameter=Soft}">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Message.IsOpen}" Value="True" />
+                                        <Condition Binding="{Binding Message.IsSuccess}" Value="False" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <DockPanel>
+                            <Button DockPanel.Dock="Right" Style="{StaticResource PcsButton.Ghost}" c:Ui.Icon="{StaticResource PcsIcon.x}" Padding="10,0"
+                                    Command="{Binding CloseMessageCommand}" AutomationProperties.Name="{l:T Common_Close}" ToolTip="{l:T Common_Close}" />
+                            <Button DockPanel.Dock="Right" Style="{StaticResource PcsButton.Ghost}" Content="{l:T Common_Details}" Command="{Binding ToggleDetailsCommand}"
+                                    Visibility="{Binding Message.HasDetails, Converter={StaticResource Visible}}" Margin="8,0,0,0" />
+                            <Button DockPanel.Dock="Right" Style="{StaticResource PcsButton.Primary.Small}" Content="{l:T License_GetPremium}" Command="{Binding GoToLicenseCommand}"
+                                    Visibility="{Binding Message.SuggestPremium, Converter={StaticResource Visible}}" Margin="8,0,0,0" />
+                            <c:LineIcon DockPanel.Dock="Left" Size="20" Margin="0,0,12,0" StrokeThickness="2.2"
+                                        Data="{Binding Message.Tone, Converter={StaticResource ToneIcon}}"
+                                        Foreground="{Binding Message.Tone, Converter={StaticResource ToneBrush}, ConverterParameter=Text}" />
+                            <TextBlock Text="{Binding Message.Text}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        </DockPanel>
+                        <TextBox Text="{Binding Message.Details, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" Margin="0,10,0,0"
+                                 FontFamily="Consolas" FontSize="14"
                                  Visibility="{Binding Message.ShowDetails, Converter={StaticResource Visible}}" />
                     </StackPanel>
-                </StackPanel>
+                </Border>
 
                 <ContentControl Grid.Row="2" Content="{Binding CurrentPage}" Focusable="False" />
+
+                <!-- Réussite : message court en bas à droite (4 s), lu par le Narrateur. -->
+                <Border x:Name="Toast" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,32,28" MaxWidth="440"
+                        Style="{StaticResource PcsCard.Small}" Padding="16,12" AutomationProperties.LiveSetting="Polite">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="18" ShadowDepth="4" Direction="270" Opacity="0.12" Color="{DynamicResource PcsColorTextPrimary}" />
+                    </Border.Effect>
+                    <Border.Visibility>
+                        <MultiBinding Converter="{StaticResource AllTrue}">
+                            <Binding Path="Message.IsOpen" />
+                            <Binding Path="Message.IsSuccess" />
+                        </MultiBinding>
+                    </Border.Visibility>
+                    <DockPanel>
+                        <Button DockPanel.Dock="Right" Style="{StaticResource PcsButton.Ghost}" c:Ui.Icon="{StaticResource PcsIcon.x}" Padding="8,0" MinHeight="32"
+                                Command="{Binding CloseMessageCommand}" AutomationProperties.Name="{l:T Common_Close}" Margin="8,0,0,0" />
+                        <c:IconTile DockPanel.Dock="Left" Tone="Good" Icon="{StaticResource PcsIcon.check}" Size="32" IconSize="18" CornerRadius="9"
+                                    VerticalAlignment="Center" Margin="0,0,12,0" />
+                        <TextBlock Text="{Binding Message.Text}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    </DockPanel>
+                </Border>
             </Grid>
         </Grid>
     </Grid>

@@ -24,7 +24,7 @@ public sealed partial class TemplateRow : ObservableObject
         _time = view.Settings.Time.ToString("HH:mm", CultureInfo.InvariantCulture);
         _onlyWhenIdle = view.Settings.OnlyWhenIdle;
         _onlyOnAcPower = view.Settings.OnlyOnAcPower;
-        LastRun = view.LastRun is { } r ? Loc.F(r.Succeeded ? "Scheduling_LastRunOk" : "Scheduling_LastRunFailed", Loc.Date(r.StartedAt)) : Loc.T("Scheduling_NeverRun");
+        LastRun = view.LastRun is { } r ? Loc.F(r.Succeeded ? "Scheduling_LastRunOk" : "Scheduling_LastRunFailed", Loc.When(r.StartedAt)) : Loc.T("Scheduling_NeverRun");
     }
 
     public ScheduledTemplateId Id { get; }
@@ -38,6 +38,8 @@ public sealed partial class TemplateRow : ObservableObject
     public string State => Loc.T(Enabled ? "Scheduling_Active" : "Scheduling_Inactive");
 
     public string ActionLabel => Loc.T(Enabled ? "Scheduling_Save" : "Scheduling_Enable");
+
+    public string SwitchName => Label + " : " + State;
 
     public string LastRun { get; }
 
@@ -91,7 +93,7 @@ public sealed partial class SchedulingViewModel(MainViewModel main) : PageViewMo
         RunLog.Clear();
         foreach (var r in (await Query<List<TaskRunEntry>>(CommandId.GetTaskRunLog).ConfigureAwait(true) ?? []).Take(50))
         {
-            RunLog.Add(Loc.F("Scheduling_LogLine", Loc.Date(r.StartedAt), Loc.T($"Template_{r.Template}"), Loc.T(r.MessageKey)));
+            RunLog.Add(Loc.F("Scheduling_LogLine", Loc.Capitalize(Loc.When(r.StartedAt)), Loc.T($"Template_{r.Template}"), Loc.T(r.MessageKey)));
         }
     }
 
@@ -105,6 +107,14 @@ public sealed partial class SchedulingViewModel(MainViewModel main) : PageViewMo
         }
 
         await EnableAllAsync(this, Main.Settings.Language).ConfigureAwait(true);
+    }
+
+    /// <summary>Interrupteur Active / Inactive : active avec les réglages affichés, ou désactive.</summary>
+    [RelayCommand]
+    private Task ToggleAsync(TemplateRow row)
+    {
+        ArgumentNullException.ThrowIfNull(row);
+        return row.Enabled ? DisableAsync(row) : SaveAsync(row);
     }
 
     [RelayCommand]
