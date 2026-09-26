@@ -194,6 +194,7 @@ public sealed partial class MainViewModel : ObservableObject
                 ScreenId.System => new SystemViewModel(this),
                 ScreenId.Reports => new ReportsViewModel(this),
                 ScreenId.Scheduling => new SchedulingViewModel(this),
+                ScreenId.Sessions => new SessionsViewModel(this),
                 ScreenId.Settings => new SettingsViewModel(this),
                 _ => new LicenseViewModel(this),
             };
@@ -235,6 +236,7 @@ public sealed partial class MainViewModel : ObservableObject
         ScreenId.System => Wpf.Ui.Controls.SymbolRegular.Wrench24,
         ScreenId.Reports => Wpf.Ui.Controls.SymbolRegular.DocumentPdf24,
         ScreenId.Scheduling => Wpf.Ui.Controls.SymbolRegular.CalendarClock24,
+        ScreenId.Sessions => Wpf.Ui.Controls.SymbolRegular.People24,
         ScreenId.Settings => Wpf.Ui.Controls.SymbolRegular.Settings24,
         ScreenId.License => Wpf.Ui.Controls.SymbolRegular.Key24,
         _ => Wpf.Ui.Controls.SymbolRegular.Circle24,

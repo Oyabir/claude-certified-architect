@@ -22,7 +22,8 @@ public sealed record ProcessView(
     bool IsSigned,
     string? Publisher,
     Reputation Reputation,
-    bool IsProtected);
+    bool IsProtected,
+    string? DescriptionKey = null);
 
 public sealed record ProcessHistoryEntry(string Name, double AverageCpuPercent, long AverageMemoryBytes, int Samples, double HighUsageRatio);
 
@@ -43,13 +44,8 @@ public static class ProcessReputation
         "pcsante", "pcsante.service", "pcsante.overlay",
     };
 
-    /// <summary>Programmes courants dont le lancement permanent est rarement utile.</summary>
-    public static IReadOnlySet<string> UsuallyUnnecessary { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-    {
-        "adobearm", "adobeupdateservice", "acrotray", "jusched", "jucheck", "itunhelper", "ituneshelper",
-        "googleupdate", "ccleaner", "ccleaner64", "skypeapp", "spotifywebhelper", "steamwebhelper",
-        "epicgameslauncher", "cortana", "yourphone", "phoneexperiencehost", "teams_updater",
-    };
+    /// <summary>Programmes courants dont le lancement permanent est rarement utile (base de réputation, ReputationBase.json).</summary>
+    public static IReadOnlySet<string> UsuallyUnnecessary => ReputationBase.Unnecessary;
 
     /// <summary>Noms système souvent usurpés par des logiciels malveillants s'ils tournent hors de System32.</summary>
     private static readonly HashSet<string> SystemNames = new(StringComparer.OrdinalIgnoreCase)

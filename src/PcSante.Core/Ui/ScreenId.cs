@@ -46,7 +46,6 @@ public static class ScreenCatalog
 
     public static ScreenAvailability GetAvailability(ScreenId screen, DisplayMode mode) => screen switch
     {
-        ScreenId.Sessions => ScreenAvailability.NotInThisVersion,
         ScreenId.Home or ScreenId.Protection or ScreenId.Optimization or ScreenId.Reports
             or ScreenId.Settings or ScreenId.License => ScreenAvailability.Visible,
         _ => mode == DisplayMode.Advanced ? ScreenAvailability.Visible : ScreenAvailability.HiddenInSimpleMode,

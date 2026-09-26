@@ -584,4 +584,203 @@ A restore point is created when needed. Continue?</value></data>
   <data name="Welcome_Tasks" xml:space="preserve"><value>Let PC Santé keep watch automatically?</value></data>
   <data name="Welcome_TasksHelp" xml:space="preserve"><value>An antivirus scan every day, a clean-up and a restore point every week.</value></data>
   <data name="Welcome_Title" xml:space="preserve"><value>Welcome to PC Santé</value></data>
+  <data name="Command_GenerateMonthlyReport" xml:space="preserve"><value>Automatic monthly report</value></data>
+  <data name="Template_WeeklyUpdateCheck" xml:space="preserve"><value>Weekly update check</value></data>
+  <data name="Template_WeeklyUpdateCheck_Why" xml:space="preserve"><value>Looks for Windows updates every week, so no security hole stays open.</value></data>
+  <data name="Template_MonthlyReport" xml:space="preserve"><value>Monthly report</value></data>
+  <data name="Template_MonthlyReport_Why" xml:space="preserve"><value>Prepares a PDF report on the PC's health every month, saved in Public Documents.</value></data>
+  <data name="Day_MonthStart" xml:space="preserve"><value>1st of the month</value></data>
+  <data name="Result_MonthlyReportSaved" xml:space="preserve"><value>Monthly report saved: {0}</value></data>
+  <data name="Reports_MonthlyAuto" xml:space="preserve"><value>Automatic monthly reports ("Monthly report" task in Scheduling) are saved in Public Documents, folder "PC Santé", subfolder "Rapports".</value></data>
+  <data name="Reports_OpenFolder" xml:space="preserve"><value>Open the reports folder</value></data>
+  <data name="Reports_NoMonthlyReport" xml:space="preserve"><value>No monthly report yet. Turn on the "Monthly report" task in Scheduling.</value></data>
+  <data name="Command_FlushDnsCache" xml:space="preserve"><value>Clear the Internet address cache</value></data>
+  <data name="Explain_FlushDnsCache" xml:space="preserve"><value>Useful if a website won't open while the Internet works. Risk-free (DNS flush).</value></data>
+  <data name="Duration_FlushDnsCache" xml:space="preserve"><value>A few seconds</value></data>
+  <data name="Busy_FlushDnsCache" xml:space="preserve"><value>Clearing the address cache…</value></data>
+  <data name="Command_ResetNetworkStack" xml:space="preserve"><value>Repair the network connection</value></data>
+  <data name="Explain_ResetNetworkStack" xml:space="preserve"><value>Resets Windows network settings if the Internet doesn't work at all. A restore point is created first; restart required (Winsock and TCP/IP).</value></data>
+  <data name="Duration_ResetNetworkStack" xml:space="preserve"><value>Under a minute, then a restart</value></data>
+  <data name="Busy_ResetNetworkStack" xml:space="preserve"><value>Repairing the network connection…</value></data>
+  <data name="Result_DnsFlushed" xml:space="preserve"><value>Internet address cache cleared. Try opening the website again.</value></data>
+  <data name="Result_NetworkResetRestart" xml:space="preserve"><value>Network settings reset. Restart the PC to finish the repair.</value></data>
+  <data name="Result_NetworkRepairFailed" xml:space="preserve"><value>The network repair did not complete. Your settings were not changed, or a restore point lets you go back.</value></data>
+  <data name="System_Network" xml:space="preserve"><value>Internet connection</value></data>
+  <data name="System_NetworkTech" xml:space="preserve"><value>Network (DNS, Winsock, TCP/IP)</value></data>
+  <data name="Command_GetLocalAccounts" xml:space="preserve"><value>PC accounts</value></data>
+  <data name="Command_DisableGuestAccount" xml:space="preserve"><value>Turn off the Guest account</value></data>
+  <data name="Explain_DisableGuestAccount" xml:space="preserve"><value>The Guest account lets anyone sign in without a password. Turning it off is safe and can be undone.</value></data>
+  <data name="Duration_DisableGuestAccount" xml:space="preserve"><value>A few seconds</value></data>
+  <data name="Busy_DisableGuestAccount" xml:space="preserve"><value>Turning off the Guest account…</value></data>
+  <data name="Fix_DisableGuestAccount" xml:space="preserve"><value>Turn off</value></data>
+  <data name="Result_GuestDisabled" xml:space="preserve"><value>Guest account turned off. You can undo this from Optimization.</value></data>
+  <data name="Result_GuestAlreadyDisabled" xml:space="preserve"><value>The Guest account is already turned off.</value></data>
+  <data name="Result_NoGuestAccount" xml:space="preserve"><value>This PC has no Guest account.</value></data>
+  <data name="Result_AccountFailed" xml:space="preserve"><value>The account could not be changed. Nothing was modified.</value></data>
+  <data name="Issue_GuestEnabled_Title" xml:space="preserve"><value>The Guest account is open</value></data>
+  <data name="Issue_GuestEnabled_Why" xml:space="preserve"><value>Anyone can sign in to this PC without a password.</value></data>
+  <data name="System_Accounts" xml:space="preserve"><value>PC accounts</value></data>
+  <data name="System_AccountsTech" xml:space="preserve"><value>Local accounts and administrators</value></data>
+  <data name="System_AccountsAdmins" xml:space="preserve"><value>{0} administrator account(s): they can change anything on this PC.</value></data>
+  <data name="System_AccountsManyAdmins" xml:space="preserve"><value>{0} administrator accounts: that's a lot. Use a standard account day to day and keep administrator for settings.</value></data>
+  <data name="Account_Admin" xml:space="preserve"><value>Administrator</value></data>
+  <data name="Account_Standard" xml:space="preserve"><value>Standard</value></data>
+  <data name="Account_Guest" xml:space="preserve"><value>Guest</value></data>
+  <data name="Account_Enabled" xml:space="preserve"><value>Active</value></data>
+  <data name="Account_Disabled" xml:space="preserve"><value>Turned off</value></data>
+  <data name="Command_GetAntivirusProducts" xml:space="preserve"><value>Installed antivirus</value></data>
+  <data name="Protection_AvInstalled" xml:space="preserve"><value>Installed antivirus</value></data>
+  <data name="Protection_AvInstalledTech" xml:space="preserve"><value>Registered with Windows Security Center</value></data>
+  <data name="Protection_AvUpToDate" xml:space="preserve"><value>Protection up to date</value></data>
+  <data name="Protection_AvOutdated" xml:space="preserve"><value>Protection not up to date: open this antivirus to update it</value></data>
+  <data name="Command_GetBitLockerStatus" xml:space="preserve"><value>Disk encryption status</value></data>
+  <data name="Command_GetBitLockerRecoveryKey" xml:space="preserve"><value>Encryption recovery key</value></data>
+  <data name="Command_EnableBitLocker" xml:space="preserve"><value>Encrypt the disk</value></data>
+  <data name="Confirm_EncryptsDisk" xml:space="preserve"><value>"{0}" protects your files if the PC is stolen. Keep the recovery key you just saved in a safe place: without it, your files may be lost. Encryption continues in the background; you can keep using the PC. Continue?</value></data>
+  <data name="Result_BitLockerNotSupported" xml:space="preserve"><value>Disk encryption is not available on this edition of Windows.</value></data>
+  <data name="Result_AdminRequired" xml:space="preserve"><value>Only an administrator account on this PC can do this.</value></data>
+  <data name="Result_TpmNotReady" xml:space="preserve"><value>The PC's security chip is not ready: encryption cannot be turned on automatically.</value></data>
+  <data name="Result_BitLockerAlreadyOn" xml:space="preserve"><value>The disk is already encrypted (or being encrypted).</value></data>
+  <data name="Result_BitLockerBusy" xml:space="preserve"><value>Encryption is paused or being changed: try again later.</value></data>
+  <data name="Result_BitLockerKeyFirst" xml:space="preserve"><value>Save the recovery key first.</value></data>
+  <data name="Result_BitLockerStarted" xml:space="preserve"><value>Encryption started. It continues in the background; you can use the PC normally.</value></data>
+  <data name="Result_BitLockerFailed" xml:space="preserve"><value>Encryption could not be started. Nothing was changed on the disk.</value></data>
+  <data name="Result_BitLockerKeyReady" xml:space="preserve"><value>Recovery key ready to be saved.</value></data>
+  <data name="System_BitLocker" xml:space="preserve"><value>Disk encryption</value></data>
+  <data name="System_BitLockerTech" xml:space="preserve"><value>BitLocker (Windows Pro)</value></data>
+  <data name="BitLocker_Off" xml:space="preserve"><value>The disk is not encrypted: if the PC is stolen, your files can be read.</value></data>
+  <data name="BitLocker_On" xml:space="preserve"><value>The disk is encrypted: your files are protected if the PC is stolen.</value></data>
+  <data name="BitLocker_Encrypting" xml:space="preserve"><value>Encryption in progress: {0}%.</value></data>
+  <data name="BitLocker_Decrypting" xml:space="preserve"><value>Decryption in progress: {0}%.</value></data>
+  <data name="BitLocker_Paused" xml:space="preserve"><value>Encryption is paused or suspended.</value></data>
+  <data name="BitLocker_Unknown" xml:space="preserve"><value>Encryption status unknown.</value></data>
+  <data name="BitLocker_TpmNotReady" xml:space="preserve"><value>The disk is not encrypted and the PC's security chip (TPM) is not ready: encryption cannot be turned on here.</value></data>
+  <data name="BitLocker_Explanation" xml:space="preserve"><value>The recovery key (48 digits) is the only way to get your files back if Windows asks for it. Keep it off the PC: USB drive or paper.</value></data>
+  <data name="BitLocker_Enable" xml:space="preserve"><value>Encrypt the disk</value></data>
+  <data name="BitLocker_SaveKey" xml:space="preserve"><value>Save the recovery key</value></data>
+  <data name="BitLocker_SaveKeyTitle" xml:space="preserve"><value>Recovery key</value></data>
+  <data name="BitLocker_SaveKeyExplanation" xml:space="preserve"><value>Choose where to save the recovery key. Best: a USB drive you keep separately. Don't keep it only on this PC.</value></data>
+  <data name="BitLocker_KeyFileFilter" xml:space="preserve"><value>Text file</value></data>
+  <data name="BitLocker_KeyFileContent" xml:space="preserve"><value>BitLocker recovery key - PC: {0}
+Key ID: {1}
+Recovery key: {2}
+
+If Windows asks for this key at startup, check that the displayed ID matches, then type the 48 digits.
+Keep this file off the PC (USB drive, paper).</value></data>
+  <data name="BitLocker_KeySaved" xml:space="preserve"><value>Recovery key saved: {0}. Keep it off the PC.</value></data>
+  <data name="BitLocker_KeyNotSaved" xml:space="preserve"><value>Key not saved: encryption was not started.</value></data>
+  <data name="BitLocker_Starting" xml:space="preserve"><value>Starting encryption…</value></data>
+  <data name="Command_GetSessions" xml:space="preserve"><value>Open sessions</value></data>
+  <data name="Command_SendSessionMessage" xml:space="preserve"><value>Send a message</value></data>
+  <data name="Command_DisconnectSession" xml:space="preserve"><value>Disconnect the session</value></data>
+  <data name="Command_LogOffSession" xml:space="preserve"><value>Sign out the session</value></data>
+  <data name="Confirm_InterruptsUser" xml:space="preserve"><value>"{0}": the user will be sent back to the sign-in screen. Their programs stay open. Continue?</value></data>
+  <data name="Result_SendSessionMessageDone" xml:space="preserve"><value>Message sent.</value></data>
+  <data name="Result_DisconnectSessionDone" xml:space="preserve"><value>Session disconnected. The user can sign in again.</value></data>
+  <data name="Result_LogOffSessionDone" xml:space="preserve"><value>Session signed out.</value></data>
+  <data name="Result_SessionFailed" xml:space="preserve"><value>The action on the session did not complete.</value></data>
+  <data name="Result_SessionNotFound" xml:space="preserve"><value>This session no longer exists. Refresh the list.</value></data>
+  <data name="Result_SessionAlreadyDisconnected" xml:space="preserve"><value>This session is already disconnected.</value></data>
+  <data name="SessionMessage_SaveWork" xml:space="preserve"><value>Please save your work: this session is about to be closed.</value></data>
+  <data name="SessionMessage_RestartSoon" xml:space="preserve"><value>The PC will restart soon. Save your work.</value></data>
+  <data name="SessionMessage_Maintenance" xml:space="preserve"><value>Maintenance in progress on this PC. Please wait a few minutes.</value></data>
+  <data name="Sessions_AdminNote" xml:space="preserve"><value>Reserved for administrator accounts on this PC.</value></data>
+  <data name="Sessions_Refresh" xml:space="preserve"><value>Refresh</value></data>
+  <data name="Sessions_Message" xml:space="preserve"><value>Message to send:</value></data>
+  <data name="Sessions_Send" xml:space="preserve"><value>Send the message</value></data>
+  <data name="Sessions_Disconnect" xml:space="preserve"><value>Disconnect</value></data>
+  <data name="Sessions_LogOff" xml:space="preserve"><value>Sign out</value></data>
+  <data name="Sessions_Local" xml:space="preserve"><value>On this PC</value></data>
+  <data name="Sessions_Remote" xml:space="preserve"><value>Remote from {0} (Remote Desktop)</value></data>
+  <data name="Sessions_RemoteUnknown" xml:space="preserve"><value>Remote (Remote Desktop)</value></data>
+  <data name="Sessions_Since" xml:space="preserve"><value>· opened {0}</value></data>
+  <data name="Sessions_None" xml:space="preserve"><value>No open session.</value></data>
+  <data name="Sessions_ConfirmSubject" xml:space="preserve"><value>{0} ({1})</value></data>
+  <data name="SessionState_Active" xml:space="preserve"><value>Active</value></data>
+  <data name="SessionState_Locked" xml:space="preserve"><value>Locked</value></data>
+  <data name="SessionState_Disconnected" xml:space="preserve"><value>Disconnected</value></data>
+  <data name="SessionState_Other" xml:space="preserve"><value>Changing</value></data>
+  <data name="Issue_NewRemoteConnection_Title" xml:space="preserve"><value>Remote connection from an unusual address ({0})</value></data>
+  <data name="Issue_NewRemoteConnection_Why" xml:space="preserve"><value>Someone connected to this PC through Remote Desktop from {0}, a never-seen address. If it wasn't you, sign out the session.</value></data>
+  <data name="Command_GetServiceProfileChanges" xml:space="preserve"><value>Service profile preview</value></data>
+  <data name="Command_ApplyServiceProfile" xml:space="preserve"><value>Apply a service profile</value></data>
+  <data name="Result_ProfileApplied" xml:space="preserve"><value>{0} service(s) switched to manual start. You can undo below.</value></data>
+  <data name="Result_ProfileNothingToDo" xml:space="preserve"><value>Nothing to change: these services no longer start automatically.</value></data>
+  <data name="Result_ProfileFailed" xml:space="preserve"><value>A service could not be changed. The changes were undone.</value></data>
+  <data name="Profile_Title" xml:space="preserve"><value>Windows services for your use</value></data>
+  <data name="Profile_Explanation" xml:space="preserve"><value>Services you don't need switch to manual start: Windows restarts them if a program needs them. None is turned off, and you can undo.</value></data>
+  <data name="Profile_Office" xml:space="preserve"><value>Office (work, Internet)</value></data>
+  <data name="Profile_Gaming" xml:space="preserve"><value>Gaming</value></data>
+  <data name="Profile_Laptop" xml:space="preserve"><value>Laptop (battery life)</value></data>
+  <data name="Profile_Preview" xml:space="preserve"><value>{0} service(s) will switch to manual start: {1}.</value></data>
+  <data name="Profile_NothingToDo" xml:space="preserve"><value>Nothing to change for this profile on this PC.</value></data>
+  <data name="Profile_Apply" xml:space="preserve"><value>Apply the profile</value></data>
+  <data name="Profile_Applying" xml:space="preserve"><value>Applying the profile…</value></data>
+  <data name="Command_GetVisualEffects" xml:space="preserve"><value>Visual effects</value></data>
+  <data name="Command_LightenVisualEffects" xml:space="preserve"><value>Lighten visual effects</value></data>
+  <data name="Result_VisualEffectsLightened" xml:space="preserve"><value>Visual effects lightened. The change applies the next time you sign in.</value></data>
+  <data name="Result_VisualEffectsAlreadyLight" xml:space="preserve"><value>Visual effects are already lightened.</value></data>
+  <data name="Result_VisualEffectsUnavailable" xml:space="preserve"><value>Visual effects for this account cannot be changed right now.</value></data>
+  <data name="Visual_Title" xml:space="preserve"><value>Visual effects</value></data>
+  <data name="Visual_Explanation" xml:space="preserve"><value>Turning off animations and transparency makes an older PC more responsive. Text stays smooth. Can be undone.</value></data>
+  <data name="Visual_Light" xml:space="preserve"><value>Visual effects lightened.</value></data>
+  <data name="Visual_Default" xml:space="preserve"><value>Full visual effects (Windows setting).</value></data>
+  <data name="Visual_Lighten" xml:space="preserve"><value>Lighten</value></data>
+  <data name="Command_GetDiskOptimizationInfo" xml:space="preserve"><value>Disk status</value></data>
+  <data name="Command_OptimizeSystemDrive" xml:space="preserve"><value>Optimize the disk</value></data>
+  <data name="Command_SetPageFileAutomatic" xml:space="preserve"><value>Let Windows manage the page file</value></data>
+  <data name="Result_DiskOptimizationStarted" xml:space="preserve"><value>Disk optimization started. It continues in the background; you can use the PC.</value></data>
+  <data name="Result_DiskOptimized" xml:space="preserve"><value>Disk optimized.</value></data>
+  <data name="Result_DiskOptimizationFailed" xml:space="preserve"><value>The disk optimization did not complete.</value></data>
+  <data name="Result_DiskOptimizationRunning" xml:space="preserve"><value>A disk optimization is already running.</value></data>
+  <data name="Result_PageFileAutomatic" xml:space="preserve"><value>Windows now manages the page file. Restart the PC to apply it.</value></data>
+  <data name="Result_PageFileAlreadyAutomatic" xml:space="preserve"><value>The page file is already managed by Windows.</value></data>
+  <data name="Result_PageFileUnavailable" xml:space="preserve"><value>The page file cannot be changed on this PC.</value></data>
+  <data name="Disk_Title" xml:space="preserve"><value>Disk</value></data>
+  <data name="Disk_Explanation" xml:space="preserve"><value>Windows picks the right treatment: TRIM for an SSD, defragmentation for a hard drive (defrag /O).</value></data>
+  <data name="Disk_Ssd" xml:space="preserve"><value>Drive {0}: SSD (optimized with TRIM).</value></data>
+  <data name="Disk_Hdd" xml:space="preserve"><value>Drive {0}: hard drive (defragmentation, may take a while).</value></data>
+  <data name="Disk_Unknown" xml:space="preserve"><value>Drive {0}: type not recognized, Windows will pick the treatment.</value></data>
+  <data name="Disk_Optimize" xml:space="preserve"><value>Optimize</value></data>
+  <data name="Disk_Starting" xml:space="preserve"><value>Starting optimization…</value></data>
+  <data name="PageFile_Automatic" xml:space="preserve"><value>Page file managed by Windows (recommended).</value></data>
+  <data name="PageFile_Manual" xml:space="preserve"><value>Page file set manually ({0} MB). Letting Windows manage it is safest.</value></data>
+  <data name="PageFile_SetAutomatic" xml:space="preserve"><value>Let Windows manage it</value></data>
+  <data name="Reports_ExportCsv" xml:space="preserve"><value>Export as CSV (spreadsheet)</value></data>
+  <data name="Reports_CsvFileName" xml:space="preserve"><value>PC-Sante-data-{0}</value></data>
+  <data name="Reports_CsvFilter" xml:space="preserve"><value>CSV file (spreadsheet)</value></data>
+  <data name="Csv_Type" xml:space="preserve"><value>Type</value></data>
+  <data name="Csv_Date" xml:space="preserve"><value>Date</value></data>
+  <data name="Csv_Item" xml:space="preserve"><value>Item</value></data>
+  <data name="Csv_Value" xml:space="preserve"><value>Value</value></data>
+  <data name="Csv_Detail" xml:space="preserve"><value>Detail</value></data>
+  <data name="Csv_Score" xml:space="preserve"><value>Health score</value></data>
+  <data name="Csv_Action" xml:space="preserve"><value>Action</value></data>
+  <data name="Csv_Threat" xml:space="preserve"><value>Threat</value></data>
+  <data name="Csv_SubScores" xml:space="preserve"><value>Security {0} · Performance {1} · Stability {2} · Storage {3}</value></data>
+  <data name="Proc_AdobeUpdater" xml:space="preserve"><value>Adobe automatic updater (Reader, Acrobat): not needed at startup.</value></data>
+  <data name="Proc_AcroTray" xml:space="preserve"><value>Adobe Acrobat taskbar icon: rarely useful.</value></data>
+  <data name="Proc_JavaUpdater" xml:space="preserve"><value>Java update checker: not needed at startup.</value></data>
+  <data name="Proc_ITunesHelper" xml:space="preserve"><value>iTunes helper for iPhones: useful only if you connect an iPhone.</value></data>
+  <data name="Proc_GoogleUpdater" xml:space="preserve"><value>Google Chrome updater: Chrome also updates itself when opened.</value></data>
+  <data name="Proc_EdgeUpdater" xml:space="preserve"><value>Microsoft Edge updater: Edge also updates itself when opened.</value></data>
+  <data name="Proc_CCleaner" xml:space="preserve"><value>CCleaner always-on monitoring: not needed, PC Santé does the cleaning.</value></data>
+  <data name="Proc_Skype" xml:space="preserve"><value>Skype: useful only if you use it for calls.</value></data>
+  <data name="Proc_SpotifyHelper" xml:space="preserve"><value>Spotify helper: starts again when you open Spotify.</value></data>
+  <data name="Proc_SteamHelper" xml:space="preserve"><value>Steam's internal web page: useful only while gaming.</value></data>
+  <data name="Proc_EpicLauncher" xml:space="preserve"><value>Epic games launcher: not needed at startup.</value></data>
+  <data name="Proc_Cortana" xml:space="preserve"><value>Cortana voice assistant: rarely used.</value></data>
+  <data name="Proc_PhoneLink" xml:space="preserve"><value>Phone Link: useful only if you use it.</value></data>
+  <data name="Proc_TeamsUpdater" xml:space="preserve"><value>Microsoft Teams updater: not needed at startup.</value></data>
+  <data name="Proc_IntelTray" xml:space="preserve"><value>Intel graphics settings icon: rarely useful.</value></data>
+  <data name="Proc_Browser" xml:space="preserve"><value>Web browser.</value></data>
+  <data name="Proc_OneDrive" xml:space="preserve"><value>Backs up your files to OneDrive.</value></data>
+  <data name="Proc_Teams" xml:space="preserve"><value>Microsoft Teams (meetings, chat).</value></data>
+  <data name="Proc_Office" xml:space="preserve"><value>Microsoft Office program.</value></data>
+  <data name="Proc_Zoom" xml:space="preserve"><value>Zoom (video meetings).</value></data>
+  <data name="Proc_RealtekAudio" xml:space="preserve"><value>Sound driver (Realtek): needed for the PC's sound.</value></data>
+  <data name="Proc_NvidiaDriver" xml:space="preserve"><value>NVIDIA graphics card driver.</value></data>
+  <data name="Proc_AmdDriver" xml:space="preserve"><value>AMD graphics card driver.</value></data>
+  <data name="Proc_WindowsSecurity" xml:space="preserve"><value>Windows Security icon.</value></data>
+  <data name="Proc_Defender" xml:space="preserve"><value>Microsoft Defender antivirus: essential.</value></data>
 </root>

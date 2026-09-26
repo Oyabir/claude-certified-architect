@@ -63,5 +63,22 @@ Fin : ✅ tests d'intégration serveur (activation, refus 2e PC, transfert, hors
 - ✅ Rapport final (`docs/RAPPORT_FINAL.md`)
 - ⛔ Bêta publique, site de vente, soumission antivirus : interdits (publication) → commanditaire
 
-## Hors MVP (non développé, section 7)
-M7 Sessions, BitLocker, réseau (DNS/Winsock), comptes, effets visuels, profils de services, antivirus tiers, M10 assistant IA (interface `IAiAssistant` seulement), console PME, export CSV PME.
+## V2 — périmètre étendu par le commanditaire (2026-09-24)
+
+Accord du commanditaire : modules locaux V2 + console PME. Hors périmètre : M10 assistant IA (interface `IAiAssistant` seulement), V3 (modèle IA local, marque blanche). Toute action V2 est Premium, passe par le catalogue fermé et le cycle `SystemActionPipeline`, texte fr/en/ar, confirmation si elle ferme un programme, redémarre ou supprime. Critère de fin de chaque lot : compilation sans avertissement, tests verts, version déposée dans `C:\dev\PcSante-Installation`.
+
+- ✅ V2-1 Planification (M9) : modèles « vérification des mises à jour » (hebdomadaire) et « rapport mensuel » (le 1er du mois, PDF produit par le service dans la langue choisie, Documents publics) ; fréquence « 1er du mois » pour tous les modèles 🖥️
+- ✅ V2-2 Réseau (M4/M6) : vidage DNS, réinitialisation Winsock et TCP/IP (point de restauration, confirmation, redémarrage laissé à l'utilisateur), écran Système 🖥️
+- ✅ V2-3 Comptes (M6) : comptes locaux et administrateurs affichés (groupe trouvé par SID, toutes langues), compte Invité désactivable et annulable, problème « compte Invité ouvert » dans l'analyse 🖥️
+- ✅ V2-4 Antivirus tiers (M2) : produits du Centre de sécurité Windows (activé, à jour) sur l'écran Protection, consultation seulement ; « aucun antivirus » = problème rouge (fait lors des retours de test) 🖥️
+- ✅ V2-5 BitLocker (M6, éditions Pro) : état, sauvegarde de la clé de récupération (fichier choisi par l'utilisateur), chiffrement de l'espace utilisé ; administrateur seulement, TPM prête, clé enregistrée avant tout chiffrement ; masqué sur Famille 🖥️
+- ✅ V2-6 Sessions (M7, mode Avancé) : sessions locales et RDP (état, heure, IP) par wtsapi32, message (liste fermée), déconnexion, fermeture ; administrateurs seulement ; alerte « connexion à distance depuis une adresse inhabituelle » (relevé toutes les 2 min, adresse nouvelle depuis moins de 24 h) 🖥️
+- ✅ V2-7 Optimisation (M4, mode Avancé) : profils de services (bureautique, jeu, portable ; liste prudente, passage en Manuel, jamais désactivé, annulable), effets visuels allégés (profil de l'utilisateur, texte lisse conservé, annulable), disque (defrag /O : TRIM SSD ou défragmentation HDD, en arrière-plan), fichier d'échange (état, retour à la gestion automatique, annulable) 🖥️
+- ✅ V2-8 Rapports (M8) : export CSV de la période (scores, actions, menaces), « ; » et UTF-8 avec BOM pour Excel, cellules protégées contre l'injection de formules (Premium)
+- ✅ V2-9 Processus (M3) : base de réputation enrichie dans un fichier de données embarqué (ReputationBase.json : programmes inutiles au démarrage et programmes courants), description en langage simple sur l'écran Processus (fr, en, ar)
+- ⛔ V2-10 Températures GPU (M5) : LibreHardwareMonitor écarté (pilote WinRing0 détecté par Defender) ; reste « non disponible »
+- ⏳ V2-11 Console PME — serveur : ASP.NET Core + SQLite/PostgreSQL, organisations, comptes gérants, codes d'inscription des postes, offre PME au serveur de licences
+- ⏳ V2-12 Console PME — postes : inscription depuis l'application, envoi périodique par le service (HTTPS, métriques techniques uniquement, loi 09-08)
+- ⏳ V2-13 Console PME — interface web : liste des postes avec score, carte des alertes, détail d'un poste, utilisateurs et licences
+- ⏳ V2-14 Console PME — alertes e-mail et rapport consolidé mensuel (SMTP configurable, aucun service payant ; en local, fichiers .eml)
+- ⛔ Mise en ligne de la console (hébergement, domaine, HTTPS) : payante et publique → accord du commanditaire requis

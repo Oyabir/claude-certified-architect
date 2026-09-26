@@ -142,3 +142,200 @@ public sealed class EnableSystemRestoreAction(IRestorePointApi restore) : System
     public override Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) =>
         restore.IsEnabledAsync(cancellationToken);
 }
+
+/// <summary>Vidage du cache DNS : corrige les sites qui ne s'ouvrent plus après un changement d'adresse.</summary>
+public sealed class FlushDnsAction(INetworkRepairApi network) : SystemAction
+{
+    public override CommandId Command => CommandId.FlushDnsCache;
+
+    public override Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken) => Task.FromResult(CheckResult.Proceed);
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await network.FlushDnsAsync(cancellationToken).ConfigureAwait(false)
+            ? ExecutionResult.Ok("Result_DnsFlushed")
+            : ExecutionResult.Fail("Result_NetworkRepairFailed");
+
+    public override Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) => Task.FromResult(true);
+}
+
+/// <summary>
+/// Réinitialisation de Winsock et TCP/IP (point de restauration avant). Effet au redémarrage : le résultat le dit,
+/// le PC n'est jamais redémarré sans l'utilisateur.
+/// </summary>
+public sealed class ResetNetworkStackAction(INetworkRepairApi network) : SystemAction
+{
+    public override CommandId Command => CommandId.ResetNetworkStack;
+
+    public override Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken) => Task.FromResult(CheckResult.Proceed);
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await network.ResetNetworkStackAsync(cancellationToken).ConfigureAwait(false)
+            ? ExecutionResult.Ok("Result_NetworkResetRestart")
+            : ExecutionResult.Fail("Result_NetworkRepairFailed");
+
+    public override Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) => Task.FromResult(true);
+}
+
+/// <summary>Désactivation du compte Invité (réversible : l'état précédent est sauvegardé pour « Annuler »).</summary>
+public sealed class DisableGuestAccountAction(ILocalAccountsApi accounts) : SystemAction
+{
+    [System.Reflection.Obfuscation(Exclude = true, ApplyToMembers = true)]
+    private sealed record GuestState(string Sid);
+
+    public override CommandId Command => CommandId.DisableGuestAccount;
+
+    public override async Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        var guest = await GuestAsync(cancellationToken).ConfigureAwait(false);
+        return guest switch
+        {
+            null => Checks.NotAvailable("Result_NoGuestAccount"),
+            { Enabled: false } => CheckResult.AlreadyDone("Result_GuestAlreadyDisabled"),
+            _ => CheckResult.Proceed,
+        };
+    }
+
+    public override async Task<BackupData?> BackupAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await GuestAsync(cancellationToken).ConfigureAwait(false) is { } guest ? Backup.Of("Compte Invité", new GuestState(guest.Sid)) : null;
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await GuestAsync(cancellationToken).ConfigureAwait(false) is { } guest && await accounts.SetEnabledAsync(guest.Sid, false, cancellationToken).ConfigureAwait(false)
+            ? ExecutionResult.Ok("Result_GuestDisabled")
+            : ExecutionResult.Fail("Result_AccountFailed");
+
+    public override async Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await GuestAsync(cancellationToken).ConfigureAwait(false) is { Enabled: false };
+
+    public override Task<bool> UndoAsync(BackupData backup, CancellationToken cancellationToken) =>
+        accounts.SetEnabledAsync(Backup.Read<GuestState>(backup).Sid, true, cancellationToken);
+
+    private async Task<LocalAccount?> GuestAsync(CancellationToken cancellationToken) =>
+        (await accounts.ListAsync(cancellationToken).ConfigureAwait(false)).FirstOrDefault(a => a.IsGuest);
+}
+
+/// <summary>
+/// Chiffrement BitLocker du disque système : administrateur seulement, puce TPM prête, et clé de récupération
+/// existante ET enregistrée par l'utilisateur (paramètre keySaved, donné par l'interface après l'enregistrement).
+/// Le chiffrement se poursuit en arrière-plan ; il ne se défait pas par un point de restauration.
+/// </summary>
+public sealed class EnableBitLockerAction(IBitLockerApi bitLocker, ILocalAccountsApi accounts) : SystemAction
+{
+    public override CommandId Command => CommandId.EnableBitLocker;
+
+    public override async Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+        var status = await bitLocker.GetStatusAsync(cancellationToken).ConfigureAwait(false);
+        if (!status.Supported)
+        {
+            return Checks.NotAvailable("Result_BitLockerNotSupported");
+        }
+
+        if (!await accounts.IsAdministratorAsync(context.Caller.UserSid, cancellationToken).ConfigureAwait(false))
+        {
+            return CheckResult.Blocked(FailureReason.PreconditionFailed, "Result_AdminRequired");
+        }
+
+        if (status.State is BitLockerState.On or BitLockerState.Encrypting)
+        {
+            return CheckResult.AlreadyDone("Result_BitLockerAlreadyOn");
+        }
+
+        if (status.State != BitLockerState.Off)
+        {
+            return CheckResult.Blocked(FailureReason.PreconditionFailed, "Result_BitLockerBusy");
+        }
+
+        if (!status.TpmReady)
+        {
+            return Checks.NotAvailable("Result_TpmNotReady");
+        }
+
+        return status.HasRecoveryKey && context.Parameters.GetBool("keySaved")
+            ? CheckResult.Proceed
+            : CheckResult.Blocked(FailureReason.PreconditionFailed, "Result_BitLockerKeyFirst");
+    }
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken) =>
+        await bitLocker.StartEncryptionAsync(cancellationToken).ConfigureAwait(false)
+            ? ExecutionResult.Background("Result_BitLockerStarted")
+            : ExecutionResult.Fail("Result_BitLockerFailed");
+
+    public override async Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken) =>
+        (await bitLocker.GetStatusAsync(cancellationToken).ConfigureAwait(false)).State is BitLockerState.Encrypting or BitLockerState.On;
+}
+
+/// <summary>
+/// Actions sur une session (M7) : message d'une liste fermée, déconnexion, fermeture. Réservées aux administrateurs :
+/// un compte standard ne doit pas pouvoir déconnecter ou fermer la session d'un autre utilisateur par le service.
+/// </summary>
+public sealed class SessionAction(CommandId command, ISessionApi sessions, ILocalAccountsApi accounts) : SystemAction
+{
+    public override CommandId Command { get; } = command;
+
+    public override async Task<CheckResult> CheckAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+        if (!await accounts.IsAdministratorAsync(context.Caller.UserSid, cancellationToken).ConfigureAwait(false))
+        {
+            return CheckResult.Blocked(FailureReason.PreconditionFailed, "Result_AdminRequired");
+        }
+
+        var session = await FindAsync(context, cancellationToken).ConfigureAwait(false);
+        if (session is null)
+        {
+            return CheckResult.Blocked(FailureReason.NotFound, "Result_SessionNotFound");
+        }
+
+        return Command == CommandId.DisconnectSession && session.State == SessionState.Disconnected
+            ? CheckResult.AlreadyDone("Result_SessionAlreadyDisconnected")
+            : CheckResult.Proceed;
+    }
+
+    public override async Task<ExecutionResult> ExecuteAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+        var id = context.Parameters.GetInt("sessionId");
+        var ok = Command switch
+        {
+            CommandId.SendSessionMessage => await SendAsync(id, context.Parameters, cancellationToken).ConfigureAwait(false),
+            CommandId.DisconnectSession => await sessions.DisconnectAsync(id, cancellationToken).ConfigureAwait(false),
+            _ => await sessions.LogOffAsync(id, cancellationToken).ConfigureAwait(false),
+        };
+        return ok ? ExecutionResult.Ok($"Result_{Command}Done") : ExecutionResult.Fail("Result_SessionFailed");
+    }
+
+    public override async Task<bool> VerifyAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        if (Command == CommandId.SendSessionMessage)
+        {
+            return true;
+        }
+
+        // La fermeture d'une session peut prendre quelques secondes.
+        for (var attempt = 0; attempt < 10; attempt++)
+        {
+            var session = await FindAsync(context, cancellationToken).ConfigureAwait(false);
+            if (session is null || (Command == CommandId.DisconnectSession && session.State == SessionState.Disconnected))
+            {
+                return true;
+            }
+
+            await Task.Delay(TimeSpan.FromMilliseconds(500), cancellationToken).ConfigureAwait(false);
+        }
+
+        return false;
+    }
+
+    private Task<bool> SendAsync(int id, CommandParameters parameters, CancellationToken cancellationToken)
+    {
+        var translate = Reporting.ReportStrings.For(Reporting.ReportStrings.CultureOf(parameters.GetOptionalString("language")));
+        return sessions.SendMessageAsync(id, Core.ProductInfo.Name, translate($"SessionMessage_{parameters.GetString("message")}"), cancellationToken);
+    }
+
+    private async Task<UserSession?> FindAsync(ActionContext context, CancellationToken cancellationToken)
+    {
+        var id = context.Parameters.GetInt("sessionId");
+        return (await sessions.ListAsync(cancellationToken).ConfigureAwait(false)).FirstOrDefault(s => s.SessionId == id);
+    }
+}

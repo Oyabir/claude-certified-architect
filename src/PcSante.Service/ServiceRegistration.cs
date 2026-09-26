@@ -35,6 +35,7 @@ public static class ServiceRegistration
         services.AddSingleton<SystemActionPipeline>();
         services.AddSingleton<BackgroundJobs>();
         services.AddSingleton<HealthAnalyzer>();
+        services.AddSingleton<RemoteAccessTracker>();
         services.AddSingleton<QueryRegistry>();
         services.AddSingleton<AppUpdateService>();
 
@@ -67,6 +68,8 @@ public static class ServiceRegistration
             new UndoOperation(sp.GetRequiredService<SystemActionPipeline>(), sp),
             new RunTemplateOperation(sp, sp.GetRequiredService<HistoryStore>(), sp.GetRequiredService<TimeProvider>()),
             new InstallUpdateOperation(sp.GetRequiredService<AppUpdateService>()),
+            new BitLockerRecoveryKeyOperation(sp.GetRequiredService<IBitLockerApi>(), sp.GetRequiredService<ILocalAccountsApi>()),
+            new GenerateMonthlyReportOperation(sp.GetRequiredService<QueryRegistry>(), sp.GetRequiredService<ServicePaths>(), sp.GetRequiredService<TimeProvider>()),
         });
         services.AddSingleton<IEnumerable<SystemAction>>(sp => CreateActions(sp).ToList());
         services.AddSingleton<CommandCatalog>();
@@ -107,6 +110,18 @@ public static class ServiceRegistration
 
         yield return new RepairAction(CommandId.RunSystemFileCheck, S<ISystemRepairApi>());
         yield return new RepairAction(CommandId.RunDismRepair, S<ISystemRepairApi>());
+        yield return new FlushDnsAction(S<INetworkRepairApi>());
+        yield return new ResetNetworkStackAction(S<INetworkRepairApi>());
+        yield return new DisableGuestAccountAction(S<ILocalAccountsApi>());
+        yield return new EnableBitLockerAction(S<IBitLockerApi>(), S<ILocalAccountsApi>());
+        yield return new ServiceProfileAction(S<IServiceControlApi>());
+        yield return new LightenVisualEffectsAction(S<IVisualEffectsApi>());
+        yield return new OptimizeSystemDriveAction(S<IDiskOptimizationApi>(), S<BackgroundJobs>());
+        yield return new PageFileAutomaticAction(S<IDiskOptimizationApi>());
+        foreach (var command in new[] { CommandId.SendSessionMessage, CommandId.DisconnectSession, CommandId.LogOffSession })
+        {
+            yield return new SessionAction(command, S<ISessionApi>(), S<ILocalAccountsApi>());
+        }
         yield return new CreateRestorePointAction(S<IRestorePointApi>(), S<TimeProvider>());
         yield return new EnableSystemRestoreAction(S<IRestorePointApi>());
 

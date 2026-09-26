@@ -12,7 +12,10 @@ public static class CommandDefinitions
     public static readonly IReadOnlyList<string> ScanTypes = ["Quick", "Full"];
     public static readonly IReadOnlyList<string> TemplateIds = Enum.GetNames<Scheduling.ScheduledTemplateId>();
     public static readonly IReadOnlyList<string> Days =
-        ["Everyday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        ["Everyday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", Scheduling.ScheduleSettings.MonthStart];
+    public static readonly IReadOnlyList<string> Languages = ["fr", "en", "ar"];
+    public static readonly IReadOnlyList<string> SessionMessages = ["SaveWork", "RestartSoon", "Maintenance"];
+    public static readonly IReadOnlyList<string> ServiceProfileNames = Enum.GetNames<Optimization.ServiceProfile>();
     public static readonly IReadOnlyList<string> Periods = ["Week", "Month"];
 
     private static readonly ParameterSpec[] None = [];
@@ -32,6 +35,8 @@ public static class CommandDefinitions
     private static readonly ParameterSpec ItemId = new("id", ParameterType.Identifier);
     private static readonly ParameterSpec Key = new("key", ParameterType.LicenseKey);
     private static readonly ParameterSpec Template = new("template", ParameterType.Choice, AllowedValues: TemplateIds);
+    private static readonly ParameterSpec SessionId = new("sessionId", ParameterType.PositiveInteger);
+    private static readonly ParameterSpec ServiceProfileParameter = new("profile", ParameterType.Choice, AllowedValues: ServiceProfileNames);
 
     public static FrozenDictionary<CommandId, CommandDescriptor> All { get; } = new[]
     {
@@ -57,9 +62,37 @@ public static class CommandDefinitions
 
         // Pare-feu
         Q(CommandId.GetFirewallStatus),
+        Q(CommandId.GetAntivirusProducts),
         A(CommandId.EnableFirewallProfile, SafeguardKind.OwnBackup, p: Profile),
         A(CommandId.DisableFirewallProfile, SafeguardKind.OwnBackup, ConfirmationKind.ReducesProtection, p: Profile),
         A(CommandId.ResetFirewallRules, SafeguardKind.RestorePointAndOwnBackup, ConfirmationKind.ReducesProtection),
+        A(CommandId.FlushDnsCache, SafeguardKind.None),
+        A(CommandId.ResetNetworkStack, SafeguardKind.RestorePoint, ConfirmationKind.RestartsComputer),
+        Q(CommandId.GetLocalAccounts),
+        A(CommandId.DisableGuestAccount, SafeguardKind.OwnBackup),
+        Q(CommandId.GetBitLockerStatus),
+
+        // Profils de services (M4) : passage en Manuel seulement, point de restauration + sauvegarde pour « Annuler »
+        Q(CommandId.GetServiceProfileChanges, RequiredTier.Free, ServiceProfileParameter),
+        A(CommandId.ApplyServiceProfile, SafeguardKind.RestorePointAndOwnBackup, p: ServiceProfileParameter),
+        Q(CommandId.GetVisualEffects),
+        A(CommandId.LightenVisualEffects, SafeguardKind.RestorePointAndOwnBackup),
+        Q(CommandId.GetDiskOptimizationInfo),
+        A(CommandId.OptimizeSystemDrive, SafeguardKind.RestorePoint),
+        A(CommandId.SetPageFileAutomatic, SafeguardKind.RestorePointAndOwnBackup, ConfirmationKind.RestartsComputer),
+
+        // Sessions (M7) : messages d'une liste fermée, actions réservées aux administrateurs (vérifié par le service)
+        Q(CommandId.GetSessions),
+        A(CommandId.SendSessionMessage, SafeguardKind.None, p:
+        [
+            SessionId,
+            new ParameterSpec("message", ParameterType.Choice, AllowedValues: SessionMessages),
+            new ParameterSpec("language", ParameterType.Choice, Required: false, AllowedValues: Languages),
+        ]),
+        A(CommandId.DisconnectSession, SafeguardKind.None, ConfirmationKind.InterruptsUser, p: SessionId),
+        A(CommandId.LogOffSession, SafeguardKind.None, ConfirmationKind.ClosesProgram, p: SessionId),
+        A(CommandId.GetBitLockerRecoveryKey, SafeguardKind.None),
+        A(CommandId.EnableBitLocker, SafeguardKind.None, ConfirmationKind.EncryptsDisk, p: new ParameterSpec("keySaved", ParameterType.Boolean)),
 
         // Windows Update
         Q(CommandId.GetUpdateStatus),
@@ -108,14 +141,20 @@ public static class CommandDefinitions
             new ParameterSpec("time", ParameterType.TimeOfDay),
             new ParameterSpec("onlyWhenIdle", ParameterType.Boolean),
             new ParameterSpec("onlyOnAcPower", ParameterType.Boolean),
+            new ParameterSpec("language", ParameterType.Choice, Required: false, AllowedValues: Languages),
         ]),
         A(CommandId.DisableScheduledTemplate, SafeguardKind.None, p: Template),
-        A(CommandId.RunScheduledTemplate, SafeguardKind.None, p: Template),
+        A(CommandId.RunScheduledTemplate, SafeguardKind.None, p:
+        [
+            Template,
+            new ParameterSpec("language", ParameterType.Choice, Required: false, AllowedValues: Languages),
+        ]),
         Q(CommandId.GetTaskRunLog),
 
         // Rapports
         Q(CommandId.GetReportData, RequiredTier.Premium, new ParameterSpec("period", ParameterType.Choice, AllowedValues: Periods)),
         Q(CommandId.GetAuditLog),
+        A(CommandId.GenerateMonthlyReport, SafeguardKind.None, p: new ParameterSpec("language", ParameterType.Choice, Required: false, AllowedValues: Languages)),
 
         // Licence : toujours accessible, sinon impossible d'activer
         Q(CommandId.GetLicenseStatus),

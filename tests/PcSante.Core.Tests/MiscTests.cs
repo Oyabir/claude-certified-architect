@@ -141,19 +141,32 @@ public class ScreenCatalogTests
     }
 
     [Fact]
-    public void Mode_avance_tous_les_ecrans_du_MVP()
+    public void Mode_avance_tous_les_ecrans()
     {
         var screens = ScreenCatalog.VisibleScreens(DisplayMode.Advanced);
 
-        screens.Should().Contain([ScreenId.Performance, ScreenId.Processes, ScreenId.System, ScreenId.Scheduling]);
-        screens.Should().NotContain(ScreenId.Sessions, "les sessions sont prévues en V2");
+        screens.Should().Contain([ScreenId.Performance, ScreenId.Processes, ScreenId.System, ScreenId.Sessions, ScreenId.Scheduling]);
+        ScreenCatalog.VisibleScreens(DisplayMode.Simple).Should().NotContain(ScreenId.Sessions, "les sessions (M7) sont en mode Avancé");
+    }
+
+    [Fact]
+    public void Base_de_reputation_enrichie_chargee_depuis_le_fichier_de_donnees()
+    {
+        ReputationBase.Unnecessary.Should().Contain(["adobearm", "googleupdate", "microsoftedgeupdate"]);
+        ReputationBase.Useful.Should().Contain("chrome");
+        ReputationBase.DescriptionKeyOf("AdobeARM.exe").Should().Be("AdobeUpdater");
+        ReputationBase.DescriptionKeyOf("msedge").Should().Be("Browser");
+        ReputationBase.DescriptionKeyOf("inconnu").Should().BeNull();
+        ProcessReputation.Classify("igfxtray.exe", @"C:\Windows\System32\igfxtray.exe", new SignatureInfo(true, true, "Intel Corporation", "X"))
+            .Should().Be(Reputation.Unnecessary);
     }
 
     [Fact]
     public void Disponibilites()
     {
         ScreenCatalog.GetAvailability(ScreenId.Processes, DisplayMode.Simple).Should().Be(ScreenAvailability.HiddenInSimpleMode);
-        ScreenCatalog.GetAvailability(ScreenId.Sessions, DisplayMode.Advanced).Should().Be(ScreenAvailability.NotInThisVersion);
+        ScreenCatalog.GetAvailability(ScreenId.Sessions, DisplayMode.Advanced).Should().Be(ScreenAvailability.Visible);
+        ScreenCatalog.GetAvailability(ScreenId.Sessions, DisplayMode.Simple).Should().Be(ScreenAvailability.HiddenInSimpleMode);
         ScreenCatalog.GetAvailability(ScreenId.Settings, DisplayMode.Simple).Should().Be(ScreenAvailability.Visible);
         ScreenCatalog.FooterScreens.Should().Contain([ScreenId.Settings, ScreenId.License]);
     }
@@ -209,12 +222,19 @@ public class SettingsStoreTests : IDisposable
 public class ScheduledTemplatesTests
 {
     [Fact]
-    public void Trois_modeles_MVP()
+    public void Cinq_modeles_dont_trois_proposes_au_premier_lancement()
     {
         ScheduledTemplates.All.Select(t => t.Id).Should().Equal(
+            ScheduledTemplateId.DailyAntivirusScan, ScheduledTemplateId.WeeklyCleanup, ScheduledTemplateId.WeeklyRestorePoint,
+            ScheduledTemplateId.WeeklyUpdateCheck, ScheduledTemplateId.MonthlyReport);
+        ScheduledTemplates.Recommended.Select(t => t.Id).Should().Equal(
             ScheduledTemplateId.DailyAntivirusScan, ScheduledTemplateId.WeeklyCleanup, ScheduledTemplateId.WeeklyRestorePoint);
         ScheduledTemplates.Get(ScheduledTemplateId.DailyAntivirusScan).Default.IsDaily.Should().BeTrue();
         ScheduledTemplates.Get(ScheduledTemplateId.WeeklyCleanup).Commands.Should().Contain(CommandId.CleanTemporaryFiles);
+        ScheduledTemplates.Get(ScheduledTemplateId.WeeklyUpdateCheck).Commands.Should().Equal(CommandId.SearchUpdates);
+        var monthly = ScheduledTemplates.Get(ScheduledTemplateId.MonthlyReport).Default;
+        monthly.Monthly.Should().BeTrue();
+        monthly.IsDaily.Should().BeFalse();
     }
 
     [Fact]

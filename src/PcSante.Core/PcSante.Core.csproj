@@ -4,6 +4,9 @@
     <RootNamespace>PcSante.Core</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Processes\ReputationBase.json" LogicalName="PcSante.Core.Processes.ReputationBase.json" />
+  </ItemGroup>
+  <ItemGroup>
     <InternalsVisibleTo Include="PcSante.Core.Tests" />
   </ItemGroup>
 </Project>

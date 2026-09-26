@@ -1,0 +1,59 @@
+<UserControl x:Class="PcSante.App.Views.SessionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:l="clr-namespace:PcSante.App.Localization"
+             xmlns:vm="clr-namespace:PcSante.App.ViewModels"
+             xmlns:v="clr-namespace:PcSante.App.Views">
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
+            <StackPanel Margin="4,0,12,24">
+                <TextBlock Text="{Binding Title}" Style="{StaticResource PageTitle}" />
+                <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PageSubtitle}" />
+                <TextBlock Text="{l:T Sessions_AdminNote}" Style="{StaticResource Technical}" TextWrapping="Wrap" Margin="0,0,0,12" />
+
+                <!-- Un seul bouton principal -->
+                <ui:Button Style="{StaticResource PrimaryAction}" HorizontalAlignment="Left" Content="{l:T Sessions_Refresh}"
+                           Icon="{ui:SymbolIcon ArrowSync24}" Command="{Binding RefreshCommand}" Margin="0,0,0,16" />
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                    <TextBlock Text="{l:T Sessions_Message}" VerticalAlignment="Center" Margin="0,0,12,0" />
+                    <ComboBox MinWidth="320" ItemsSource="{Binding Messages}" SelectedValuePath="Value" DisplayMemberPath="Label"
+                              SelectedValue="{Binding SelectedMessage}" AutomationProperties.Name="{l:T Sessions_Message}" />
+                </StackPanel>
+
+                <TextBlock Text="{l:T Sessions_None}" Visibility="{Binding Sessions.Count, Converter={StaticResource Collapsed}}" />
+                <ItemsControl ItemsSource="{Binding Sessions}" Focusable="False">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type vm:SessionRow}">
+                            <ui:Card Margin="0,0,0,8" Padding="16,12">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding User}" FontSize="16" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding Origin}" />
+                                    <TextBlock Style="{StaticResource Technical}">
+                                        <Run Text="{Binding State, Mode=OneWay}" /> <Run Text="{Binding Since, Mode=OneWay}" />
+                                    </TextBlock>
+                                    <WrapPanel Margin="0,8,0,0">
+                                        <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T Sessions_Send}" Margin="0,0,8,0"
+                                                   AutomationProperties.Name="{Binding User}"
+                                                   Command="{Binding DataContext.SendMessageCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                   CommandParameter="{Binding}" />
+                                        <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T Sessions_Disconnect}" Margin="0,0,8,0"
+                                                   AutomationProperties.Name="{Binding User}"
+                                                   Command="{Binding DataContext.DisconnectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                   CommandParameter="{Binding}" />
+                                        <ui:Button Style="{StaticResource SecondaryAction}" Content="{l:T Sessions_LogOff}"
+                                                   AutomationProperties.Name="{Binding User}"
+                                                   Command="{Binding DataContext.LogOffCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                   CommandParameter="{Binding}" />
+                                    </WrapPanel>
+                                </StackPanel>
+                            </ui:Card>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+        <v:BusyOverlay />
+    </Grid>
+</UserControl>

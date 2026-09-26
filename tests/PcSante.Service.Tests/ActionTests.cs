@@ -1,3 +1,7 @@
+﻿using PcSante.Service.Diagnostics;
+using PcSante.Service.Data;
+using PcSante.Core.Ui;
+using Microsoft.Extensions.DependencyInjection;
 using PcSante.Core.Audit;
 using PcSante.Core.Commands;
 using PcSante.Core.Health;
@@ -317,19 +321,260 @@ public sealed class ActionTests
         svc.Scheduler.Registered[ScheduledTemplateId.WeeklyCleanup].Day.Should().Be(DayOfWeek.Sunday);
 
         (await svc.Run(CommandId.RunScheduledTemplate, new() { ["template"] = "DailyAntivirusScan" })).MessageKey
-            .Should().Be("Result_TaskNotScheduled", "un modèle non programmé ne peut pas être déclenché");
+            .Should().Be("Result_TaskNotScheduled", "un modÃ¨le non programmÃ© ne peut pas Ãªtre dÃ©clenchÃ©");
         var run = await svc.Run(CommandId.RunScheduledTemplate, new() { ["template"] = "WeeklyCleanup" });
         run.MessageKey.Should().Be("Result_TaskRunSucceeded");
         svc.Cleanup.Cleaned.Should().Equal(CleanupTarget.TemporaryFiles, CleanupTarget.RecycleBin);
 
         var templates = (await svc.Run(CommandId.GetScheduledTemplates)).GetData<List<TemplateView>>()!;
-        templates.Should().HaveCount(3);
+        templates.Should().HaveCount(ScheduledTemplates.All.Count);
         templates.Single(t => t.Id == ScheduledTemplateId.WeeklyCleanup).Should().Match<TemplateView>(t => t.Enabled && t.LastRun!.Succeeded);
         (await svc.Run(CommandId.GetTaskRunLog)).GetData<List<TaskRunEntry>>().Should().ContainSingle();
         (await svc.AuditAsync()).Should().Contain(a => a.Who == "Planificateur" && a.Command == "CleanTemporaryFiles");
 
         (await svc.Run(CommandId.DisableScheduledTemplate, new() { ["template"] = "WeeklyCleanup" })).MessageKey.Should().Be("Result_TaskUnscheduled");
         (await svc.Run(CommandId.DisableScheduledTemplate, new() { ["template"] = "WeeklyCleanup" })).Status.Should().Be(CommandStatus.AlreadyDone);
+    }
+
+    [Fact]
+    public async Task Reparation_reseau_dns_sans_risque_et_reinitialisation_protegee()
+    {
+        await using var svc = new ServiceFixture();
+
+        (await svc.Run(CommandId.FlushDnsCache)).MessageKey.Should().Be("Result_DnsFlushed");
+        svc.Restore.Points.Should().BeEmpty("vider le cache DNS ne modifie pas Windows");
+
+        (await svc.Run(CommandId.ResetNetworkStack)).Reason.Should().Be(FailureReason.ConfirmationRequired);
+        svc.Network.Calls.Should().Equal("dns");
+
+        (await svc.Run(CommandId.ResetNetworkStack, confirmed: true)).MessageKey.Should().Be("Result_NetworkResetRestart");
+        svc.Restore.Points.Should().ContainSingle("point de restauration avant la rÃ©initialisation");
+        svc.Network.Calls.Should().Equal("dns", "reset");
+
+        svc.Network.Succeeds = false;
+        (await svc.Run(CommandId.FlushDnsCache)).MessageKey.Should().Be("Result_NetworkRepairFailed");
+    }
+
+    [Fact]
+    public async Task BitLocker_cle_enregistree_avant_tout_chiffrement()
+    {
+        await using var svc = new ServiceFixture();
+        svc.Accounts.Accounts[0] = svc.Accounts.Accounts[0] with { Sid = ServiceFixture.Alice.UserSid! };
+        var keySaved = new Dictionary<string, string> { ["keySaved"] = "true" };
+
+        (await svc.Run(CommandId.EnableBitLocker, keySaved, confirmed: true)).MessageKey.Should().Be("Result_BitLockerKeyFirst", "aucune clÃ© de rÃ©cupÃ©ration n'existe encore");
+        (await svc.Run(CommandId.EnableBitLocker, keySaved)).Reason.Should().Be(FailureReason.ConfirmationRequired);
+
+        var key = (await svc.Run(CommandId.GetBitLockerRecoveryKey)).GetData<BitLockerRecoveryKey>()!;
+        key.Password.Should().HaveLength(55);
+        (await svc.Run(CommandId.EnableBitLocker, new() { ["keySaved"] = "false" }, confirmed: true)).MessageKey.Should().Be("Result_BitLockerKeyFirst");
+        svc.BitLocker.EncryptionStarts.Should().Be(0);
+
+        var started = await svc.Run(CommandId.EnableBitLocker, keySaved, confirmed: true);
+        started.MessageKey.Should().Be("Result_BitLockerStarted");
+        svc.BitLocker.EncryptionStarts.Should().Be(1);
+        (await svc.Run(CommandId.EnableBitLocker, keySaved, confirmed: true)).Status.Should().Be(CommandStatus.AlreadyDone);
+    }
+
+    [Fact]
+    public async Task BitLocker_refuse_aux_comptes_standard_sur_famille_et_sans_tpm()
+    {
+        await using var svc = new ServiceFixture();
+        var keySaved = new Dictionary<string, string> { ["keySaved"] = "true" };
+
+        // Appelant non administrateur : ni clÃ©, ni chiffrement.
+        (await svc.Run(CommandId.GetBitLockerRecoveryKey)).MessageKey.Should().Be("Result_AdminRequired");
+        (await svc.Run(CommandId.EnableBitLocker, keySaved, confirmed: true)).MessageKey.Should().Be("Result_AdminRequired");
+
+        svc.Accounts.Accounts[0] = svc.Accounts.Accounts[0] with { Sid = ServiceFixture.Alice.UserSid! };
+        svc.BitLocker.Status = svc.BitLocker.Status with { TpmReady = false, HasRecoveryKey = true };
+        (await svc.Run(CommandId.EnableBitLocker, keySaved, confirmed: true)).MessageKey.Should().Be("Result_TpmNotReady");
+
+        svc.BitLocker.Status = BitLockerStatus.NotSupported;
+        (await svc.Run(CommandId.GetBitLockerRecoveryKey)).MessageKey.Should().Be("Result_BitLockerNotSupported");
+        (await svc.Run(CommandId.EnableBitLocker, keySaved, confirmed: true)).MessageKey.Should().Be("Result_BitLockerNotSupported");
+        svc.BitLocker.EncryptionStarts.Should().Be(0);
+    }
+
+    [Fact]
+    public async Task Sessions_actions_reservees_aux_administrateurs()
+    {
+        await using var svc = new ServiceFixture();
+        var bob = new Dictionary<string, string> { ["sessionId"] = "2" };
+
+        (await svc.Run(CommandId.GetSessions)).GetData<List<UserSession>>().Should().HaveCount(2);
+        (await svc.Run(CommandId.LogOffSession, bob, confirmed: true)).MessageKey.Should().Be("Result_AdminRequired",
+            "un compte standard ne ferme pas la session d'un autre par le service SYSTEM");
+        svc.Sessions.Sessions.Should().HaveCount(2);
+
+        svc.Accounts.Accounts[0] = svc.Accounts.Accounts[0] with { Sid = ServiceFixture.Alice.UserSid! };
+        (await svc.Run(CommandId.SendSessionMessage, new() { ["sessionId"] = "2", ["message"] = "Maintenance", ["language"] = "en" }))
+            .MessageKey.Should().Be("Result_SendSessionMessageDone");
+        svc.Sessions.Messages.Should().ContainSingle().Which.Should().Contain("Maintenance in progress");
+        (await svc.RunRaw("SendSessionMessage", new() { ["sessionId"] = "2", ["message"] = "Tapez votre mot de passe" })).Status
+            .Should().Be(CommandStatus.Refused, "aucun texte libre : liste fermée de messages");
+
+        (await svc.Run(CommandId.DisconnectSession, bob)).Reason.Should().Be(FailureReason.ConfirmationRequired);
+        (await svc.Run(CommandId.DisconnectSession, bob, confirmed: true)).MessageKey.Should().Be("Result_DisconnectSessionDone");
+        (await svc.Run(CommandId.DisconnectSession, bob, confirmed: true)).Status.Should().Be(CommandStatus.AlreadyDone);
+        (await svc.Run(CommandId.LogOffSession, bob, confirmed: true)).MessageKey.Should().Be("Result_LogOffSessionDone");
+        svc.Sessions.Sessions.Should().ContainSingle(s => s.SessionId == 1);
+        (await svc.Run(CommandId.LogOffSession, bob, confirmed: true)).MessageKey.Should().Be("Result_SessionNotFound");
+    }
+
+    [Fact]
+    public async Task Connexion_a_distance_depuis_une_adresse_nouvelle_signalee()
+    {
+        await using var svc = new ServiceFixture();
+
+        var first = (await svc.Run(CommandId.RunHealthAnalysis)).GetData<HealthReport>()!;
+        var issue = first.Issues.Should().ContainSingle(i => i.Code == "NewRemoteConnection").Subject;
+        issue.Args.Should().Equal("203.0.113.7");
+        issue.Fix!.Screen.Should().Be(ScreenId.Sessions);
+
+        // L'adresse a été vue pour la première fois il y a plus de 24 heures : elle n'est plus inhabituelle.
+        var history = svc.Provider.GetRequiredService<HistoryStore>();
+        var old = DateTimeOffset.UtcNow - RemoteAccessTracker.NewAddressWindow - TimeSpan.FromMinutes(1);
+        await history.SetValueAsync("rdp.addresses", System.Text.Json.JsonSerializer.Serialize(
+            new Dictionary<string, DateTimeOffset> { ["203.0.113.7"] = old }, PcSante.Core.PcSanteJson.Options), default);
+        (await svc.Run(CommandId.RunHealthAnalysis)).GetData<HealthReport>()!.Issues
+            .Should().NotContain(i => i.Code == "NewRemoteConnection", "adresse déjà connue depuis plus de 24 heures");
+    }
+
+    [Fact]
+    public async Task Profil_de_services_en_manuel_seulement_et_annulable()
+    {
+        await using var svc = new ServiceFixture();
+        svc.ServicesApi.Services["DiagTrack"] = new ServiceInfo("DiagTrack", "Télémétrie", ServiceStartMode.Automatic, true, null);
+        svc.ServicesApi.Services["XblGameSave"] = new ServiceInfo("XblGameSave", "Xbox", ServiceStartMode.AutomaticDelayed, false, null);
+        svc.ServicesApi.Services["MapsBroker"] = new ServiceInfo("MapsBroker", "Cartes", ServiceStartMode.Manual, false, null);
+        var office = new Dictionary<string, string> { ["profile"] = "Office" };
+
+        var preview = (await svc.Run(CommandId.GetServiceProfileChanges, office)).GetData<List<ServiceChange>>()!;
+        preview.Select(c => c.Name).Should().BeEquivalentTo(["DiagTrack", "XblGameSave"], "seuls les services automatiques changent");
+        (await svc.Run(CommandId.GetServiceProfileChanges, new() { ["profile"] = "Gaming" })).GetData<List<ServiceChange>>()!
+            .Should().ContainSingle(c => c.Name == "DiagTrack", "le profil jeu garde les services Xbox");
+
+        var result = await svc.Run(CommandId.ApplyServiceProfile, office);
+        result.MessageKey.Should().Be("Result_ProfileApplied");
+        result.MessageArgs.Should().Equal("2");
+        svc.Restore.Points.Should().ContainSingle();
+        svc.ServicesApi.Services["DiagTrack"].StartMode.Should().Be(ServiceStartMode.Manual);
+        svc.ServicesApi.Services.Values.Should().NotContain(s => s.StartMode == ServiceStartMode.Disabled, "aucun service n'est désactivé");
+        (await svc.Run(CommandId.ApplyServiceProfile, office)).Status.Should().Be(CommandStatus.AlreadyDone);
+
+        (await svc.Run(CommandId.UndoAction, new() { ["undoId"] = result.UndoId!.Value.ToString() })).Status.Should().Be(CommandStatus.Succeeded);
+        svc.ServicesApi.Services["DiagTrack"].StartMode.Should().Be(ServiceStartMode.Automatic);
+        svc.ServicesApi.Services["XblGameSave"].StartMode.Should().Be(ServiceStartMode.AutomaticDelayed);
+    }
+
+    [Fact]
+    public async Task Effets_visuels_alleges_pour_l_utilisateur_appelant_et_annulables()
+    {
+        await using var svc = new ServiceFixture();
+        var sid = ServiceFixture.Alice.UserSid!;
+        var before = svc.VisualEffects.Users[sid];
+
+        (await svc.Run(CommandId.GetVisualEffects)).GetData<VisualEffectsSettings>()!.IsLight.Should().BeFalse();
+        var result = await svc.Run(CommandId.LightenVisualEffects);
+        result.MessageKey.Should().Be("Result_VisualEffectsLightened");
+        svc.VisualEffects.Users[sid].IsLight.Should().BeTrue("le profil de l'appelant est modifié, pas celui de SYSTEM");
+        svc.Restore.Points.Should().ContainSingle();
+        (await svc.Run(CommandId.LightenVisualEffects)).Status.Should().Be(CommandStatus.AlreadyDone);
+
+        (await svc.Run(CommandId.UndoAction, new() { ["undoId"] = result.UndoId!.Value.ToString() })).Status.Should().Be(CommandStatus.Succeeded);
+        svc.VisualEffects.Users[sid].UserPreferencesMask.Should().Equal(before.UserPreferencesMask);
+        svc.VisualEffects.Users[sid].MinAnimate.Should().Be("1");
+    }
+
+    [Fact]
+    public async Task Disque_optimise_en_arriere_plan_et_fichier_d_echange_automatique_annulable()
+    {
+        await using var svc = new ServiceFixture();
+
+        (await svc.Run(CommandId.GetDiskOptimizationInfo)).GetData<DiskOptimizationInfo>()!.MediaType.Should().Be(DiskMediaType.Ssd);
+        (await svc.Run(CommandId.OptimizeSystemDrive)).Status.Should().Be(CommandStatus.Started);
+        for (var i = 0; i < 50 && svc.Disk.Optimizations == 0; i++)
+        {
+            await Task.Delay(20);
+        }
+
+        svc.Disk.Optimizations.Should().Be(1);
+
+        (await svc.Run(CommandId.SetPageFileAutomatic)).Reason.Should().Be(FailureReason.ConfirmationRequired, "effet au redémarrage");
+        var result = await svc.Run(CommandId.SetPageFileAutomatic, confirmed: true);
+        result.MessageKey.Should().Be("Result_PageFileAutomatic");
+        svc.Disk.Info.PageFileAutomatic.Should().BeTrue();
+        (await svc.Run(CommandId.SetPageFileAutomatic, confirmed: true)).Status.Should().Be(CommandStatus.AlreadyDone);
+
+        (await svc.Run(CommandId.UndoAction, new() { ["undoId"] = result.UndoId!.Value.ToString() })).Status.Should().Be(CommandStatus.Succeeded);
+        svc.Disk.Info.PageFileAutomatic.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task Antivirus_declares_consultables_en_offre_gratuite()
+    {
+        await using var svc = new ServiceFixture(premium: false);
+        svc.SecurityCenter.Products.Add(new AntivirusProduct("Norton 360", true, false, false));
+
+        var products = (await svc.Run(CommandId.GetAntivirusProducts)).GetData<List<AntivirusProduct>>()!;
+
+        products.Should().HaveCount(2).And.Contain(p => p.Name == "Norton 360" && p.Enabled && !p.UpToDate && !p.IsDefender);
+    }
+
+    [Fact]
+    public async Task Compte_invite_desactive_puis_annule_et_signale_par_l_analyse()
+    {
+        await using var svc = new ServiceFixture();
+        (await svc.Run(CommandId.DisableGuestAccount)).Status.Should().Be(CommandStatus.AlreadyDone, "l'InvitÃ© est dÃ©sactivÃ© par dÃ©faut");
+
+        svc.Accounts.Accounts[1] = svc.Accounts.Accounts[1] with { Enabled = true };
+        var accounts = (await svc.Run(CommandId.GetLocalAccounts)).GetData<List<LocalAccount>>()!;
+        accounts.Should().Contain(a => a.IsGuest && a.Enabled).And.Contain(a => a.Name == "alice" && a.IsAdministrator);
+        (await svc.Run(CommandId.RunHealthAnalysis)).GetData<HealthReport>()!.Issues.Should().Contain(i => i.Code == "GuestEnabled");
+
+        var result = await svc.Run(CommandId.DisableGuestAccount);
+        result.MessageKey.Should().Be("Result_GuestDisabled");
+        svc.Accounts.Accounts[1].Enabled.Should().BeFalse();
+
+        (await svc.Run(CommandId.UndoAction, new() { ["undoId"] = result.UndoId!.Value.ToString() })).Status.Should().Be(CommandStatus.Succeeded);
+        svc.Accounts.Accounts[1].Enabled.Should().BeTrue("Â« Annuler Â» rÃ©active le compte InvitÃ©");
+    }
+
+    [Fact]
+    public async Task Rapport_mensuel_planifie_dans_la_langue_choisie()
+    {
+        await using var svc = new ServiceFixture();
+        var p = new Dictionary<string, string>
+        {
+            ["template"] = "MonthlyReport",
+            ["day"] = "MonthStart",
+            ["time"] = "09:00",
+            ["onlyWhenIdle"] = "false",
+            ["onlyOnAcPower"] = "false",
+            ["language"] = "en",
+        };
+
+        (await svc.Run(CommandId.EnableScheduledTemplate, p)).MessageKey.Should().Be("Result_TaskScheduled");
+        svc.Scheduler.Registered[ScheduledTemplateId.MonthlyReport].Should().Match<ScheduleSettings>(s => s.Monthly && s.Day == null && s.Language == "en");
+
+        var run = await svc.Run(CommandId.RunScheduledTemplate, new() { ["template"] = "MonthlyReport", ["language"] = "en" });
+
+        run.MessageKey.Should().Be("Result_TaskRunSucceeded");
+        var report = Directory.GetFiles(svc.Paths.Reports, "*.pdf").Should().ContainSingle().Subject;
+        (await File.ReadAllBytesAsync(report)).Take(4).Should().Equal("%PDF"u8.ToArray());
+        (await svc.AuditAsync()).Should().Contain(a => a.Who == "Planificateur" && a.Command == "GenerateMonthlyReport");
+    }
+
+    [Fact]
+    public async Task Rapport_mensuel_refuse_une_langue_inconnue_et_exige_premium()
+    {
+        await using var svc = new ServiceFixture();
+        (await svc.Run(CommandId.GenerateMonthlyReport, new() { ["language"] = "de" })).Status.Should().Be(CommandStatus.Refused);
+        (await svc.Run(CommandId.GenerateMonthlyReport, new() { ["language"] = "ar" })).MessageKey.Should().Be("Result_MonthlyReportSaved");
+
+        await using var free = new ServiceFixture(premium: false);
+        (await free.Run(CommandId.GenerateMonthlyReport)).Status.Should().Be(CommandStatus.Refused);
     }
 
     [Fact]

@@ -21,7 +21,7 @@ public sealed class AppUpdateTests : IDisposable
     public AppUpdateTests()
     {
         var root = Path.Combine(Path.GetTempPath(), "pcsante-upd-" + Guid.NewGuid().ToString("N"));
-        _paths = new ServicePaths(Path.Combine(root, "data"), Path.Combine(root, "install"));
+        _paths = new ServicePaths(Path.Combine(root, "data"), Path.Combine(root, "install"), Path.Combine(root, "reports"));
         _paths.EnsureCreated();
         _signatures.Known[_paths.ServiceExecutable] = new SignatureInfo(true, true, "PC Santé", "CERT");
     }

@@ -66,6 +66,17 @@ public class DiagnosticRulesTests
     }
 
     [Fact]
+    public void Compte_invite_actif_probleme_orange_avec_correction()
+    {
+        var issue = DiagnosticRules.EvaluateAll(Healthy with { GuestAccountEnabled = true }).Should().ContainSingle().Subject;
+
+        issue.Code.Should().Be("GuestEnabled");
+        issue.Severity.Should().Be(IssueSeverity.Warning);
+        issue.Fix!.Command.Should().Be(CommandId.DisableGuestAccount);
+        DiagnosticRules.EvaluateAll(Healthy with { GuestAccountEnabled = null }).Should().BeEmpty("inconnu : aucune conclusion");
+    }
+
+    [Fact]
     public void Aucun_antivirus_du_tout_probleme_rouge()
     {
         // Cas vu en test : Defender absent et aucun autre antivirus déclaré → Sécurité affichait 100.

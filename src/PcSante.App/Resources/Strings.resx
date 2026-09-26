@@ -584,4 +584,203 @@ Un point de restauration est créé si nécessaire. Continuer ?</value></data>
   <data name="Welcome_Tasks" xml:space="preserve"><value>Laisser PC Santé veiller automatiquement ?</value></data>
   <data name="Welcome_TasksHelp" xml:space="preserve"><value>Un scan antivirus chaque jour, un nettoyage et un point de restauration chaque semaine.</value></data>
   <data name="Welcome_Title" xml:space="preserve"><value>Bienvenue dans PC Santé</value></data>
+  <data name="Command_GenerateMonthlyReport" xml:space="preserve"><value>Rapport mensuel automatique</value></data>
+  <data name="Template_WeeklyUpdateCheck" xml:space="preserve"><value>Vérification hebdomadaire des mises à jour</value></data>
+  <data name="Template_WeeklyUpdateCheck_Why" xml:space="preserve"><value>Cherche les mises à jour de Windows chaque semaine, pour ne pas laisser de faille ouverte.</value></data>
+  <data name="Template_MonthlyReport" xml:space="preserve"><value>Rapport mensuel</value></data>
+  <data name="Template_MonthlyReport_Why" xml:space="preserve"><value>Prépare chaque mois un rapport PDF sur la santé du PC, rangé dans Documents publics.</value></data>
+  <data name="Day_MonthStart" xml:space="preserve"><value>Le 1er du mois</value></data>
+  <data name="Result_MonthlyReportSaved" xml:space="preserve"><value>Rapport mensuel enregistré : {0}</value></data>
+  <data name="Reports_MonthlyAuto" xml:space="preserve"><value>Rapports mensuels automatiques (tâche « Rapport mensuel » dans Planification) : ils sont rangés dans Documents publics, dossier « PC Santé », sous-dossier « Rapports ».</value></data>
+  <data name="Reports_OpenFolder" xml:space="preserve"><value>Ouvrir le dossier des rapports</value></data>
+  <data name="Reports_NoMonthlyReport" xml:space="preserve"><value>Aucun rapport mensuel pour l'instant. Activez la tâche « Rapport mensuel » dans Planification.</value></data>
+  <data name="Command_FlushDnsCache" xml:space="preserve"><value>Vider le cache des adresses Internet</value></data>
+  <data name="Explain_FlushDnsCache" xml:space="preserve"><value>Utile si un site ne s'ouvre plus alors qu'Internet fonctionne. Sans risque (vidage DNS).</value></data>
+  <data name="Duration_FlushDnsCache" xml:space="preserve"><value>Quelques secondes</value></data>
+  <data name="Busy_FlushDnsCache" xml:space="preserve"><value>Vidage du cache des adresses…</value></data>
+  <data name="Command_ResetNetworkStack" xml:space="preserve"><value>Réparer la connexion réseau</value></data>
+  <data name="Explain_ResetNetworkStack" xml:space="preserve"><value>Remet à zéro les réglages réseau de Windows si Internet ne marche plus du tout. Un point de restauration est créé avant ; redémarrage nécessaire (Winsock et TCP/IP).</value></data>
+  <data name="Duration_ResetNetworkStack" xml:space="preserve"><value>Moins d'une minute, puis redémarrage</value></data>
+  <data name="Busy_ResetNetworkStack" xml:space="preserve"><value>Réparation de la connexion réseau…</value></data>
+  <data name="Result_DnsFlushed" xml:space="preserve"><value>Cache des adresses Internet vidé. Réessayez d'ouvrir le site.</value></data>
+  <data name="Result_NetworkResetRestart" xml:space="preserve"><value>Réglages réseau réinitialisés. Redémarrez le PC pour terminer la réparation.</value></data>
+  <data name="Result_NetworkRepairFailed" xml:space="preserve"><value>La réparation réseau n'a pas abouti. Vos réglages n'ont pas été modifiés, ou un point de restauration permet de revenir en arrière.</value></data>
+  <data name="System_Network" xml:space="preserve"><value>Connexion Internet</value></data>
+  <data name="System_NetworkTech" xml:space="preserve"><value>Réseau (DNS, Winsock, TCP/IP)</value></data>
+  <data name="Command_GetLocalAccounts" xml:space="preserve"><value>Comptes du PC</value></data>
+  <data name="Command_DisableGuestAccount" xml:space="preserve"><value>Désactiver le compte Invité</value></data>
+  <data name="Explain_DisableGuestAccount" xml:space="preserve"><value>Le compte Invité permet d'ouvrir une session sans mot de passe. Le désactiver est sans risque et peut être annulé.</value></data>
+  <data name="Duration_DisableGuestAccount" xml:space="preserve"><value>Quelques secondes</value></data>
+  <data name="Busy_DisableGuestAccount" xml:space="preserve"><value>Désactivation du compte Invité…</value></data>
+  <data name="Fix_DisableGuestAccount" xml:space="preserve"><value>Désactiver</value></data>
+  <data name="Result_GuestDisabled" xml:space="preserve"><value>Compte Invité désactivé. Vous pouvez annuler depuis Optimisation.</value></data>
+  <data name="Result_GuestAlreadyDisabled" xml:space="preserve"><value>Le compte Invité est déjà désactivé.</value></data>
+  <data name="Result_NoGuestAccount" xml:space="preserve"><value>Ce PC n'a pas de compte Invité.</value></data>
+  <data name="Result_AccountFailed" xml:space="preserve"><value>Le compte n'a pas pu être modifié. Rien n'a changé.</value></data>
+  <data name="Issue_GuestEnabled_Title" xml:space="preserve"><value>Le compte Invité est ouvert</value></data>
+  <data name="Issue_GuestEnabled_Why" xml:space="preserve"><value>N'importe qui peut ouvrir une session sur ce PC sans mot de passe.</value></data>
+  <data name="System_Accounts" xml:space="preserve"><value>Comptes du PC</value></data>
+  <data name="System_AccountsTech" xml:space="preserve"><value>Comptes locaux et administrateurs</value></data>
+  <data name="System_AccountsAdmins" xml:space="preserve"><value>{0} compte(s) administrateur : ils peuvent tout modifier sur ce PC.</value></data>
+  <data name="System_AccountsManyAdmins" xml:space="preserve"><value>{0} comptes administrateurs : c'est beaucoup. Utilisez un compte standard au quotidien, et gardez l'administrateur pour les réglages.</value></data>
+  <data name="Account_Admin" xml:space="preserve"><value>Administrateur</value></data>
+  <data name="Account_Standard" xml:space="preserve"><value>Standard</value></data>
+  <data name="Account_Guest" xml:space="preserve"><value>Invité</value></data>
+  <data name="Account_Enabled" xml:space="preserve"><value>Actif</value></data>
+  <data name="Account_Disabled" xml:space="preserve"><value>Désactivé</value></data>
+  <data name="Command_GetAntivirusProducts" xml:space="preserve"><value>Antivirus installés</value></data>
+  <data name="Protection_AvInstalled" xml:space="preserve"><value>Antivirus installés</value></data>
+  <data name="Protection_AvInstalledTech" xml:space="preserve"><value>Déclarés au Centre de sécurité Windows</value></data>
+  <data name="Protection_AvUpToDate" xml:space="preserve"><value>Protection à jour</value></data>
+  <data name="Protection_AvOutdated" xml:space="preserve"><value>Protection pas à jour : ouvrez cet antivirus pour le mettre à jour</value></data>
+  <data name="Command_GetBitLockerStatus" xml:space="preserve"><value>État du chiffrement du disque</value></data>
+  <data name="Command_GetBitLockerRecoveryKey" xml:space="preserve"><value>Clé de récupération du chiffrement</value></data>
+  <data name="Command_EnableBitLocker" xml:space="preserve"><value>Chiffrer le disque</value></data>
+  <data name="Confirm_EncryptsDisk" xml:space="preserve"><value>« {0} » protège vos fichiers en cas de vol du PC. Gardez précieusement la clé de récupération que vous venez d'enregistrer : sans elle, vos fichiers peuvent être perdus. Le chiffrement continue en arrière-plan, vous pouvez utiliser le PC. Continuer ?</value></data>
+  <data name="Result_BitLockerNotSupported" xml:space="preserve"><value>Le chiffrement du disque n'est pas disponible sur cette version de Windows.</value></data>
+  <data name="Result_AdminRequired" xml:space="preserve"><value>Seul un compte administrateur de ce PC peut faire cette action.</value></data>
+  <data name="Result_TpmNotReady" xml:space="preserve"><value>La puce de sécurité du PC n'est pas prête : le chiffrement ne peut pas être activé automatiquement.</value></data>
+  <data name="Result_BitLockerAlreadyOn" xml:space="preserve"><value>Le disque est déjà chiffré (ou en cours de chiffrement).</value></data>
+  <data name="Result_BitLockerBusy" xml:space="preserve"><value>Le chiffrement est en pause ou en cours de modification : réessayez plus tard.</value></data>
+  <data name="Result_BitLockerKeyFirst" xml:space="preserve"><value>Enregistrez d'abord la clé de récupération.</value></data>
+  <data name="Result_BitLockerStarted" xml:space="preserve"><value>Chiffrement lancé. Il continue en arrière-plan ; vous pouvez utiliser le PC normalement.</value></data>
+  <data name="Result_BitLockerFailed" xml:space="preserve"><value>Le chiffrement n'a pas pu être lancé. Rien n'a été modifié sur le disque.</value></data>
+  <data name="Result_BitLockerKeyReady" xml:space="preserve"><value>Clé de récupération prête à être enregistrée.</value></data>
+  <data name="System_BitLocker" xml:space="preserve"><value>Chiffrement du disque</value></data>
+  <data name="System_BitLockerTech" xml:space="preserve"><value>BitLocker (Windows Professionnel)</value></data>
+  <data name="BitLocker_Off" xml:space="preserve"><value>Le disque n'est pas chiffré : en cas de vol, vos fichiers sont lisibles.</value></data>
+  <data name="BitLocker_On" xml:space="preserve"><value>Le disque est chiffré : vos fichiers sont protégés en cas de vol.</value></data>
+  <data name="BitLocker_Encrypting" xml:space="preserve"><value>Chiffrement en cours : {0} %.</value></data>
+  <data name="BitLocker_Decrypting" xml:space="preserve"><value>Déchiffrement en cours : {0} %.</value></data>
+  <data name="BitLocker_Paused" xml:space="preserve"><value>Le chiffrement est en pause ou suspendu.</value></data>
+  <data name="BitLocker_Unknown" xml:space="preserve"><value>État du chiffrement inconnu.</value></data>
+  <data name="BitLocker_TpmNotReady" xml:space="preserve"><value>Le disque n'est pas chiffré, et la puce de sécurité du PC (TPM) n'est pas prête : le chiffrement ne peut pas être activé ici.</value></data>
+  <data name="BitLocker_Explanation" xml:space="preserve"><value>La clé de récupération (48 chiffres) est le seul moyen de retrouver vos fichiers si Windows la demande. Gardez-la hors du PC : clé USB ou papier.</value></data>
+  <data name="BitLocker_Enable" xml:space="preserve"><value>Chiffrer le disque</value></data>
+  <data name="BitLocker_SaveKey" xml:space="preserve"><value>Sauvegarder la clé de récupération</value></data>
+  <data name="BitLocker_SaveKeyTitle" xml:space="preserve"><value>Clé de récupération</value></data>
+  <data name="BitLocker_SaveKeyExplanation" xml:space="preserve"><value>Choisissez où enregistrer la clé de récupération. Le mieux : une clé USB que vous rangez à part. Ne la gardez pas seulement sur ce PC.</value></data>
+  <data name="BitLocker_KeyFileFilter" xml:space="preserve"><value>Fichier texte</value></data>
+  <data name="BitLocker_KeyFileContent" xml:space="preserve"><value>Clé de récupération BitLocker - PC : {0}
+Identifiant de la clé : {1}
+Clé de récupération : {2}
+
+Si Windows demande cette clé au démarrage, vérifiez que l'identifiant affiché correspond, puis tapez les 48 chiffres.
+Gardez ce fichier hors du PC (clé USB, papier).</value></data>
+  <data name="BitLocker_KeySaved" xml:space="preserve"><value>Clé de récupération enregistrée : {0}. Rangez-la hors du PC.</value></data>
+  <data name="BitLocker_KeyNotSaved" xml:space="preserve"><value>Clé non enregistrée : le chiffrement n'a pas été lancé.</value></data>
+  <data name="BitLocker_Starting" xml:space="preserve"><value>Lancement du chiffrement…</value></data>
+  <data name="Command_GetSessions" xml:space="preserve"><value>Sessions ouvertes</value></data>
+  <data name="Command_SendSessionMessage" xml:space="preserve"><value>Envoyer un message</value></data>
+  <data name="Command_DisconnectSession" xml:space="preserve"><value>Déconnecter la session</value></data>
+  <data name="Command_LogOffSession" xml:space="preserve"><value>Fermer la session</value></data>
+  <data name="Confirm_InterruptsUser" xml:space="preserve"><value>« {0} » : l'utilisateur sera renvoyé à l'écran de connexion. Ses programmes restent ouverts. Continuer ?</value></data>
+  <data name="Result_SendSessionMessageDone" xml:space="preserve"><value>Message envoyé.</value></data>
+  <data name="Result_DisconnectSessionDone" xml:space="preserve"><value>Session déconnectée. L'utilisateur peut se reconnecter.</value></data>
+  <data name="Result_LogOffSessionDone" xml:space="preserve"><value>Session fermée.</value></data>
+  <data name="Result_SessionFailed" xml:space="preserve"><value>L'action sur la session n'a pas abouti.</value></data>
+  <data name="Result_SessionNotFound" xml:space="preserve"><value>Cette session n'existe plus. Actualisez la liste.</value></data>
+  <data name="Result_SessionAlreadyDisconnected" xml:space="preserve"><value>Cette session est déjà déconnectée.</value></data>
+  <data name="SessionMessage_SaveWork" xml:space="preserve"><value>Merci d'enregistrer votre travail : cette session va être fermée.</value></data>
+  <data name="SessionMessage_RestartSoon" xml:space="preserve"><value>Le PC va redémarrer bientôt. Enregistrez votre travail.</value></data>
+  <data name="SessionMessage_Maintenance" xml:space="preserve"><value>Maintenance en cours sur ce PC. Merci de patienter quelques minutes.</value></data>
+  <data name="Sessions_AdminNote" xml:space="preserve"><value>Réservé aux comptes administrateurs de ce PC.</value></data>
+  <data name="Sessions_Refresh" xml:space="preserve"><value>Actualiser</value></data>
+  <data name="Sessions_Message" xml:space="preserve"><value>Message à envoyer :</value></data>
+  <data name="Sessions_Send" xml:space="preserve"><value>Envoyer le message</value></data>
+  <data name="Sessions_Disconnect" xml:space="preserve"><value>Déconnecter</value></data>
+  <data name="Sessions_LogOff" xml:space="preserve"><value>Fermer la session</value></data>
+  <data name="Sessions_Local" xml:space="preserve"><value>Sur ce PC</value></data>
+  <data name="Sessions_Remote" xml:space="preserve"><value>À distance depuis {0} (Bureau à distance)</value></data>
+  <data name="Sessions_RemoteUnknown" xml:space="preserve"><value>À distance (Bureau à distance)</value></data>
+  <data name="Sessions_Since" xml:space="preserve"><value>· ouverte le {0}</value></data>
+  <data name="Sessions_None" xml:space="preserve"><value>Aucune session ouverte.</value></data>
+  <data name="Sessions_ConfirmSubject" xml:space="preserve"><value>{0} ({1})</value></data>
+  <data name="SessionState_Active" xml:space="preserve"><value>Active</value></data>
+  <data name="SessionState_Locked" xml:space="preserve"><value>Verrouillée</value></data>
+  <data name="SessionState_Disconnected" xml:space="preserve"><value>Déconnectée</value></data>
+  <data name="SessionState_Other" xml:space="preserve"><value>En cours de changement</value></data>
+  <data name="Issue_NewRemoteConnection_Title" xml:space="preserve"><value>Connexion à distance depuis une adresse inhabituelle ({0})</value></data>
+  <data name="Issue_NewRemoteConnection_Why" xml:space="preserve"><value>Quelqu'un s'est connecté à ce PC par le Bureau à distance depuis {0}, une adresse jamais vue. Si ce n'est pas vous, fermez la session.</value></data>
+  <data name="Command_GetServiceProfileChanges" xml:space="preserve"><value>Aperçu du profil de services</value></data>
+  <data name="Command_ApplyServiceProfile" xml:space="preserve"><value>Appliquer un profil de services</value></data>
+  <data name="Result_ProfileApplied" xml:space="preserve"><value>{0} service(s) passé(s) en démarrage manuel. Vous pouvez annuler ci-dessous.</value></data>
+  <data name="Result_ProfileNothingToDo" xml:space="preserve"><value>Rien à changer : ces services ne démarrent déjà plus automatiquement.</value></data>
+  <data name="Result_ProfileFailed" xml:space="preserve"><value>Un service n'a pas pu être modifié. Les changements ont été annulés.</value></data>
+  <data name="Profile_Title" xml:space="preserve"><value>Services Windows selon votre usage</value></data>
+  <data name="Profile_Explanation" xml:space="preserve"><value>Des services inutiles pour votre usage passent en démarrage manuel : Windows les relance si un programme en a besoin. Aucun n'est désactivé, et vous pouvez annuler.</value></data>
+  <data name="Profile_Office" xml:space="preserve"><value>Bureautique (travail, Internet)</value></data>
+  <data name="Profile_Gaming" xml:space="preserve"><value>Jeux vidéo</value></data>
+  <data name="Profile_Laptop" xml:space="preserve"><value>Portable (autonomie de la batterie)</value></data>
+  <data name="Profile_Preview" xml:space="preserve"><value>{0} service(s) passeront en démarrage manuel : {1}.</value></data>
+  <data name="Profile_NothingToDo" xml:space="preserve"><value>Rien à changer pour ce profil sur ce PC.</value></data>
+  <data name="Profile_Apply" xml:space="preserve"><value>Appliquer le profil</value></data>
+  <data name="Profile_Applying" xml:space="preserve"><value>Application du profil…</value></data>
+  <data name="Command_GetVisualEffects" xml:space="preserve"><value>Effets visuels</value></data>
+  <data name="Command_LightenVisualEffects" xml:space="preserve"><value>Alléger les effets visuels</value></data>
+  <data name="Result_VisualEffectsLightened" xml:space="preserve"><value>Effets visuels allégés. Le changement s'applique à votre prochaine ouverture de session.</value></data>
+  <data name="Result_VisualEffectsAlreadyLight" xml:space="preserve"><value>Les effets visuels sont déjà allégés.</value></data>
+  <data name="Result_VisualEffectsUnavailable" xml:space="preserve"><value>Les effets visuels de ce compte ne peuvent pas être modifiés maintenant.</value></data>
+  <data name="Visual_Title" xml:space="preserve"><value>Effets visuels</value></data>
+  <data name="Visual_Explanation" xml:space="preserve"><value>Couper les animations et transparences rend un PC ancien plus réactif. Le texte reste lisse. Annulable.</value></data>
+  <data name="Visual_Light" xml:space="preserve"><value>Effets visuels allégés.</value></data>
+  <data name="Visual_Default" xml:space="preserve"><value>Effets visuels complets (réglage de Windows).</value></data>
+  <data name="Visual_Lighten" xml:space="preserve"><value>Alléger</value></data>
+  <data name="Command_GetDiskOptimizationInfo" xml:space="preserve"><value>État du disque</value></data>
+  <data name="Command_OptimizeSystemDrive" xml:space="preserve"><value>Optimiser le disque</value></data>
+  <data name="Command_SetPageFileAutomatic" xml:space="preserve"><value>Laisser Windows gérer le fichier d'échange</value></data>
+  <data name="Result_DiskOptimizationStarted" xml:space="preserve"><value>Optimisation du disque lancée. Elle continue en arrière-plan ; vous pouvez utiliser le PC.</value></data>
+  <data name="Result_DiskOptimized" xml:space="preserve"><value>Disque optimisé.</value></data>
+  <data name="Result_DiskOptimizationFailed" xml:space="preserve"><value>L'optimisation du disque n'a pas abouti.</value></data>
+  <data name="Result_DiskOptimizationRunning" xml:space="preserve"><value>Une optimisation du disque est déjà en cours.</value></data>
+  <data name="Result_PageFileAutomatic" xml:space="preserve"><value>Windows gère maintenant le fichier d'échange. Redémarrez le PC pour l'appliquer.</value></data>
+  <data name="Result_PageFileAlreadyAutomatic" xml:space="preserve"><value>Le fichier d'échange est déjà géré par Windows.</value></data>
+  <data name="Result_PageFileUnavailable" xml:space="preserve"><value>Le fichier d'échange ne peut pas être modifié sur ce PC.</value></data>
+  <data name="Disk_Title" xml:space="preserve"><value>Disque</value></data>
+  <data name="Disk_Explanation" xml:space="preserve"><value>Windows choisit le bon traitement : TRIM pour un SSD, défragmentation pour un disque dur (defrag /O).</value></data>
+  <data name="Disk_Ssd" xml:space="preserve"><value>Disque {0} : SSD (optimisation par TRIM).</value></data>
+  <data name="Disk_Hdd" xml:space="preserve"><value>Disque {0} : disque dur (défragmentation, peut être long).</value></data>
+  <data name="Disk_Unknown" xml:space="preserve"><value>Disque {0} : type non reconnu, Windows choisira le traitement.</value></data>
+  <data name="Disk_Optimize" xml:space="preserve"><value>Optimiser</value></data>
+  <data name="Disk_Starting" xml:space="preserve"><value>Lancement de l'optimisation…</value></data>
+  <data name="PageFile_Automatic" xml:space="preserve"><value>Fichier d'échange géré par Windows (conseillé).</value></data>
+  <data name="PageFile_Manual" xml:space="preserve"><value>Fichier d'échange réglé à la main ({0} Mo). Le plus sûr est de laisser Windows le gérer.</value></data>
+  <data name="PageFile_SetAutomatic" xml:space="preserve"><value>Laisser Windows le gérer</value></data>
+  <data name="Reports_ExportCsv" xml:space="preserve"><value>Exporter en CSV (tableur)</value></data>
+  <data name="Reports_CsvFileName" xml:space="preserve"><value>PC-Sante-donnees-{0}</value></data>
+  <data name="Reports_CsvFilter" xml:space="preserve"><value>Fichier CSV (tableur)</value></data>
+  <data name="Csv_Type" xml:space="preserve"><value>Type</value></data>
+  <data name="Csv_Date" xml:space="preserve"><value>Date</value></data>
+  <data name="Csv_Item" xml:space="preserve"><value>Élément</value></data>
+  <data name="Csv_Value" xml:space="preserve"><value>Valeur</value></data>
+  <data name="Csv_Detail" xml:space="preserve"><value>Détail</value></data>
+  <data name="Csv_Score" xml:space="preserve"><value>Score de santé</value></data>
+  <data name="Csv_Action" xml:space="preserve"><value>Action</value></data>
+  <data name="Csv_Threat" xml:space="preserve"><value>Menace</value></data>
+  <data name="Csv_SubScores" xml:space="preserve"><value>Sécurité {0} · Performance {1} · Stabilité {2} · Stockage {3}</value></data>
+  <data name="Proc_AdobeUpdater" xml:space="preserve"><value>Mise à jour automatique d'Adobe (Reader, Acrobat) : inutile au démarrage.</value></data>
+  <data name="Proc_AcroTray" xml:space="preserve"><value>Icône d'Adobe Acrobat dans la barre des tâches : rarement utile.</value></data>
+  <data name="Proc_JavaUpdater" xml:space="preserve"><value>Vérification des mises à jour de Java : inutile au démarrage.</value></data>
+  <data name="Proc_ITunesHelper" xml:space="preserve"><value>Assistant d'iTunes pour les iPhone : utile seulement si vous branchez un iPhone.</value></data>
+  <data name="Proc_GoogleUpdater" xml:space="preserve"><value>Mise à jour de Google Chrome : Chrome se met aussi à jour à son ouverture.</value></data>
+  <data name="Proc_EdgeUpdater" xml:space="preserve"><value>Mise à jour de Microsoft Edge : Edge se met aussi à jour à son ouverture.</value></data>
+  <data name="Proc_CCleaner" xml:space="preserve"><value>CCleaner en surveillance permanente : inutile, PC Santé fait le nettoyage.</value></data>
+  <data name="Proc_Skype" xml:space="preserve"><value>Skype : utile seulement si vous l'utilisez pour appeler.</value></data>
+  <data name="Proc_SpotifyHelper" xml:space="preserve"><value>Assistant de Spotify : se relance quand vous ouvrez Spotify.</value></data>
+  <data name="Proc_SteamHelper" xml:space="preserve"><value>Page web interne de Steam : utile seulement pendant le jeu.</value></data>
+  <data name="Proc_EpicLauncher" xml:space="preserve"><value>Lanceur de jeux Epic : inutile au démarrage.</value></data>
+  <data name="Proc_Cortana" xml:space="preserve"><value>Assistant vocal Cortana : rarement utilisé.</value></data>
+  <data name="Proc_PhoneLink" xml:space="preserve"><value>Lien avec votre téléphone : utile seulement si vous l'utilisez.</value></data>
+  <data name="Proc_TeamsUpdater" xml:space="preserve"><value>Mise à jour de Microsoft Teams : inutile au démarrage.</value></data>
+  <data name="Proc_IntelTray" xml:space="preserve"><value>Icône des réglages graphiques Intel : rarement utile.</value></data>
+  <data name="Proc_Browser" xml:space="preserve"><value>Navigateur Internet.</value></data>
+  <data name="Proc_OneDrive" xml:space="preserve"><value>Sauvegarde de vos fichiers dans OneDrive.</value></data>
+  <data name="Proc_Teams" xml:space="preserve"><value>Microsoft Teams (réunions, discussions).</value></data>
+  <data name="Proc_Office" xml:space="preserve"><value>Programme Microsoft Office.</value></data>
+  <data name="Proc_Zoom" xml:space="preserve"><value>Zoom (visioconférence).</value></data>
+  <data name="Proc_RealtekAudio" xml:space="preserve"><value>Pilote du son (Realtek) : nécessaire au son du PC.</value></data>
+  <data name="Proc_NvidiaDriver" xml:space="preserve"><value>Pilote de la carte graphique NVIDIA.</value></data>
+  <data name="Proc_AmdDriver" xml:space="preserve"><value>Pilote de la carte graphique AMD.</value></data>
+  <data name="Proc_WindowsSecurity" xml:space="preserve"><value>Icône de Sécurité Windows.</value></data>
+  <data name="Proc_Defender" xml:space="preserve"><value>Antivirus Microsoft Defender : indispensable.</value></data>
 </root>

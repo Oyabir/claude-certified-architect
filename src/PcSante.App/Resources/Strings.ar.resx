@@ -584,4 +584,203 @@
   <data name="Welcome_Tasks" xml:space="preserve"><value>هل تريد أن يعتني PC Santé بحاسوبك تلقائياً؟</value></data>
   <data name="Welcome_TasksHelp" xml:space="preserve"><value>فحص للفيروسات يومياً، وتنظيف ونقطة استعادة أسبوعياً.</value></data>
   <data name="Welcome_Title" xml:space="preserve"><value>مرحباً بك في PC Santé</value></data>
+  <data name="Command_GenerateMonthlyReport" xml:space="preserve"><value>التقرير الشهري التلقائي</value></data>
+  <data name="Template_WeeklyUpdateCheck" xml:space="preserve"><value>التحقق الأسبوعي من التحديثات</value></data>
+  <data name="Template_WeeklyUpdateCheck_Why" xml:space="preserve"><value>يبحث عن تحديثات Windows كل أسبوع حتى لا تبقى أي ثغرة مفتوحة.</value></data>
+  <data name="Template_MonthlyReport" xml:space="preserve"><value>التقرير الشهري</value></data>
+  <data name="Template_MonthlyReport_Why" xml:space="preserve"><value>يُعدّ كل شهر تقريرًا بصيغة PDF عن صحة الحاسوب، يُحفظ في المستندات العامة.</value></data>
+  <data name="Day_MonthStart" xml:space="preserve"><value>أول الشهر</value></data>
+  <data name="Result_MonthlyReportSaved" xml:space="preserve"><value>تم حفظ التقرير الشهري: {0}</value></data>
+  <data name="Reports_MonthlyAuto" xml:space="preserve"><value>التقارير الشهرية التلقائية (مهمة «التقرير الشهري» في الجدولة) تُحفظ في المستندات العامة، مجلد «PC Santé»، المجلد الفرعي «Rapports».</value></data>
+  <data name="Reports_OpenFolder" xml:space="preserve"><value>فتح مجلد التقارير</value></data>
+  <data name="Reports_NoMonthlyReport" xml:space="preserve"><value>لا يوجد تقرير شهري حتى الآن. فعّل مهمة «التقرير الشهري» في الجدولة.</value></data>
+  <data name="Command_FlushDnsCache" xml:space="preserve"><value>مسح ذاكرة عناوين الإنترنت</value></data>
+  <data name="Explain_FlushDnsCache" xml:space="preserve"><value>مفيد إذا تعذّر فتح موقع بينما يعمل الإنترنت. بدون أي خطر (مسح DNS).</value></data>
+  <data name="Duration_FlushDnsCache" xml:space="preserve"><value>بضع ثوانٍ</value></data>
+  <data name="Busy_FlushDnsCache" xml:space="preserve"><value>جارٍ مسح ذاكرة العناوين…</value></data>
+  <data name="Command_ResetNetworkStack" xml:space="preserve"><value>إصلاح الاتصال بالشبكة</value></data>
+  <data name="Explain_ResetNetworkStack" xml:space="preserve"><value>يعيد ضبط إعدادات الشبكة في Windows إذا توقف الإنترنت تمامًا. تُنشأ نقطة استعادة أولًا؛ تلزم إعادة التشغيل (Winsock وTCP/IP).</value></data>
+  <data name="Duration_ResetNetworkStack" xml:space="preserve"><value>أقل من دقيقة، ثم إعادة التشغيل</value></data>
+  <data name="Busy_ResetNetworkStack" xml:space="preserve"><value>جارٍ إصلاح الاتصال بالشبكة…</value></data>
+  <data name="Result_DnsFlushed" xml:space="preserve"><value>تم مسح ذاكرة عناوين الإنترنت. أعد محاولة فتح الموقع.</value></data>
+  <data name="Result_NetworkResetRestart" xml:space="preserve"><value>تمت إعادة ضبط إعدادات الشبكة. أعد تشغيل الحاسوب لإكمال الإصلاح.</value></data>
+  <data name="Result_NetworkRepairFailed" xml:space="preserve"><value>لم يكتمل إصلاح الشبكة. لم تُغيَّر إعداداتك، أو يمكنك الرجوع عبر نقطة استعادة.</value></data>
+  <data name="System_Network" xml:space="preserve"><value>الاتصال بالإنترنت</value></data>
+  <data name="System_NetworkTech" xml:space="preserve"><value>الشبكة (DNS، Winsock، TCP/IP)</value></data>
+  <data name="Command_GetLocalAccounts" xml:space="preserve"><value>حسابات الحاسوب</value></data>
+  <data name="Command_DisableGuestAccount" xml:space="preserve"><value>تعطيل حساب الضيف</value></data>
+  <data name="Explain_DisableGuestAccount" xml:space="preserve"><value>يسمح حساب الضيف بتسجيل الدخول دون كلمة مرور. تعطيله آمن ويمكن التراجع عنه.</value></data>
+  <data name="Duration_DisableGuestAccount" xml:space="preserve"><value>بضع ثوانٍ</value></data>
+  <data name="Busy_DisableGuestAccount" xml:space="preserve"><value>جارٍ تعطيل حساب الضيف…</value></data>
+  <data name="Fix_DisableGuestAccount" xml:space="preserve"><value>تعطيل</value></data>
+  <data name="Result_GuestDisabled" xml:space="preserve"><value>تم تعطيل حساب الضيف. يمكنك التراجع من صفحة التحسين.</value></data>
+  <data name="Result_GuestAlreadyDisabled" xml:space="preserve"><value>حساب الضيف معطّل بالفعل.</value></data>
+  <data name="Result_NoGuestAccount" xml:space="preserve"><value>لا يوجد حساب ضيف على هذا الحاسوب.</value></data>
+  <data name="Result_AccountFailed" xml:space="preserve"><value>تعذّر تعديل الحساب. لم يتغير شيء.</value></data>
+  <data name="Issue_GuestEnabled_Title" xml:space="preserve"><value>حساب الضيف مفتوح</value></data>
+  <data name="Issue_GuestEnabled_Why" xml:space="preserve"><value>يمكن لأي شخص تسجيل الدخول إلى هذا الحاسوب دون كلمة مرور.</value></data>
+  <data name="System_Accounts" xml:space="preserve"><value>حسابات الحاسوب</value></data>
+  <data name="System_AccountsTech" xml:space="preserve"><value>الحسابات المحلية والمسؤولون</value></data>
+  <data name="System_AccountsAdmins" xml:space="preserve"><value>{0} حساب(ات) مسؤول: يمكنها تغيير كل شيء على هذا الحاسوب.</value></data>
+  <data name="System_AccountsManyAdmins" xml:space="preserve"><value>{0} حسابات مسؤول: هذا كثير. استخدم حسابًا عاديًا يوميًا واحتفظ بحساب المسؤول للإعدادات.</value></data>
+  <data name="Account_Admin" xml:space="preserve"><value>مسؤول</value></data>
+  <data name="Account_Standard" xml:space="preserve"><value>عادي</value></data>
+  <data name="Account_Guest" xml:space="preserve"><value>ضيف</value></data>
+  <data name="Account_Enabled" xml:space="preserve"><value>نشط</value></data>
+  <data name="Account_Disabled" xml:space="preserve"><value>معطّل</value></data>
+  <data name="Command_GetAntivirusProducts" xml:space="preserve"><value>برامج مكافحة الفيروسات المثبتة</value></data>
+  <data name="Protection_AvInstalled" xml:space="preserve"><value>برامج مكافحة الفيروسات المثبتة</value></data>
+  <data name="Protection_AvInstalledTech" xml:space="preserve"><value>مسجّلة في مركز أمان Windows</value></data>
+  <data name="Protection_AvUpToDate" xml:space="preserve"><value>الحماية محدّثة</value></data>
+  <data name="Protection_AvOutdated" xml:space="preserve"><value>الحماية غير محدّثة: افتح برنامج مكافحة الفيروسات لتحديثه</value></data>
+  <data name="Command_GetBitLockerStatus" xml:space="preserve"><value>حالة تشفير القرص</value></data>
+  <data name="Command_GetBitLockerRecoveryKey" xml:space="preserve"><value>مفتاح استرداد التشفير</value></data>
+  <data name="Command_EnableBitLocker" xml:space="preserve"><value>تشفير القرص</value></data>
+  <data name="Confirm_EncryptsDisk" xml:space="preserve"><value>«{0}» يحمي ملفاتك في حال سرقة الحاسوب. احتفظ بعناية بمفتاح الاسترداد الذي حفظته للتو: بدونه قد تفقد ملفاتك. يستمر التشفير في الخلفية ويمكنك استخدام الحاسوب. متابعة؟</value></data>
+  <data name="Result_BitLockerNotSupported" xml:space="preserve"><value>تشفير القرص غير متاح في هذا الإصدار من Windows.</value></data>
+  <data name="Result_AdminRequired" xml:space="preserve"><value>لا يمكن القيام بهذا الإجراء إلا من حساب مسؤول على هذا الحاسوب.</value></data>
+  <data name="Result_TpmNotReady" xml:space="preserve"><value>شريحة الأمان في الحاسوب غير جاهزة: لا يمكن تفعيل التشفير تلقائيًا.</value></data>
+  <data name="Result_BitLockerAlreadyOn" xml:space="preserve"><value>القرص مشفّر بالفعل (أو قيد التشفير).</value></data>
+  <data name="Result_BitLockerBusy" xml:space="preserve"><value>التشفير متوقف مؤقتًا أو قيد التعديل: أعد المحاولة لاحقًا.</value></data>
+  <data name="Result_BitLockerKeyFirst" xml:space="preserve"><value>احفظ مفتاح الاسترداد أولًا.</value></data>
+  <data name="Result_BitLockerStarted" xml:space="preserve"><value>بدأ التشفير. يستمر في الخلفية ويمكنك استخدام الحاسوب بشكل عادي.</value></data>
+  <data name="Result_BitLockerFailed" xml:space="preserve"><value>تعذّر بدء التشفير. لم يُغيَّر شيء في القرص.</value></data>
+  <data name="Result_BitLockerKeyReady" xml:space="preserve"><value>مفتاح الاسترداد جاهز للحفظ.</value></data>
+  <data name="System_BitLocker" xml:space="preserve"><value>تشفير القرص</value></data>
+  <data name="System_BitLockerTech" xml:space="preserve"><value>BitLocker (Windows Pro)</value></data>
+  <data name="BitLocker_Off" xml:space="preserve"><value>القرص غير مشفّر: في حال السرقة يمكن قراءة ملفاتك.</value></data>
+  <data name="BitLocker_On" xml:space="preserve"><value>القرص مشفّر: ملفاتك محمية في حال السرقة.</value></data>
+  <data name="BitLocker_Encrypting" xml:space="preserve"><value>التشفير جارٍ: {0}٪.</value></data>
+  <data name="BitLocker_Decrypting" xml:space="preserve"><value>فك التشفير جارٍ: {0}٪.</value></data>
+  <data name="BitLocker_Paused" xml:space="preserve"><value>التشفير متوقف مؤقتًا أو معلّق.</value></data>
+  <data name="BitLocker_Unknown" xml:space="preserve"><value>حالة التشفير غير معروفة.</value></data>
+  <data name="BitLocker_TpmNotReady" xml:space="preserve"><value>القرص غير مشفّر وشريحة الأمان (TPM) غير جاهزة: لا يمكن تفعيل التشفير هنا.</value></data>
+  <data name="BitLocker_Explanation" xml:space="preserve"><value>مفتاح الاسترداد (48 رقمًا) هو الوسيلة الوحيدة لاستعادة ملفاتك إذا طلبه Windows. احتفظ به خارج الحاسوب: ذاكرة USB أو ورقة.</value></data>
+  <data name="BitLocker_Enable" xml:space="preserve"><value>تشفير القرص</value></data>
+  <data name="BitLocker_SaveKey" xml:space="preserve"><value>حفظ مفتاح الاسترداد</value></data>
+  <data name="BitLocker_SaveKeyTitle" xml:space="preserve"><value>مفتاح الاسترداد</value></data>
+  <data name="BitLocker_SaveKeyExplanation" xml:space="preserve"><value>اختر مكان حفظ مفتاح الاسترداد. الأفضل: ذاكرة USB تحتفظ بها منفصلة. لا تحتفظ به على هذا الحاسوب فقط.</value></data>
+  <data name="BitLocker_KeyFileFilter" xml:space="preserve"><value>ملف نصي</value></data>
+  <data name="BitLocker_KeyFileContent" xml:space="preserve"><value>مفتاح استرداد BitLocker - الحاسوب: {0}
+معرّف المفتاح: {1}
+مفتاح الاسترداد: {2}
+
+إذا طلب Windows هذا المفتاح عند التشغيل، تحقق من تطابق المعرّف المعروض ثم اكتب الأرقام الـ48.
+احتفظ بهذا الملف خارج الحاسوب (ذاكرة USB، ورقة).</value></data>
+  <data name="BitLocker_KeySaved" xml:space="preserve"><value>تم حفظ مفتاح الاسترداد: {0}. احتفظ به خارج الحاسوب.</value></data>
+  <data name="BitLocker_KeyNotSaved" xml:space="preserve"><value>لم يُحفظ المفتاح: لم يبدأ التشفير.</value></data>
+  <data name="BitLocker_Starting" xml:space="preserve"><value>جارٍ بدء التشفير…</value></data>
+  <data name="Command_GetSessions" xml:space="preserve"><value>الجلسات المفتوحة</value></data>
+  <data name="Command_SendSessionMessage" xml:space="preserve"><value>إرسال رسالة</value></data>
+  <data name="Command_DisconnectSession" xml:space="preserve"><value>قطع اتصال الجلسة</value></data>
+  <data name="Command_LogOffSession" xml:space="preserve"><value>إغلاق الجلسة</value></data>
+  <data name="Confirm_InterruptsUser" xml:space="preserve"><value>«{0}»: سيعود المستخدم إلى شاشة تسجيل الدخول. تبقى برامجه مفتوحة. متابعة؟</value></data>
+  <data name="Result_SendSessionMessageDone" xml:space="preserve"><value>تم إرسال الرسالة.</value></data>
+  <data name="Result_DisconnectSessionDone" xml:space="preserve"><value>تم قطع اتصال الجلسة. يمكن للمستخدم تسجيل الدخول مجددًا.</value></data>
+  <data name="Result_LogOffSessionDone" xml:space="preserve"><value>تم إغلاق الجلسة.</value></data>
+  <data name="Result_SessionFailed" xml:space="preserve"><value>لم يكتمل الإجراء على الجلسة.</value></data>
+  <data name="Result_SessionNotFound" xml:space="preserve"><value>هذه الجلسة لم تعد موجودة. حدّث القائمة.</value></data>
+  <data name="Result_SessionAlreadyDisconnected" xml:space="preserve"><value>هذه الجلسة غير متصلة بالفعل.</value></data>
+  <data name="SessionMessage_SaveWork" xml:space="preserve"><value>يُرجى حفظ عملك: سيتم إغلاق هذه الجلسة.</value></data>
+  <data name="SessionMessage_RestartSoon" xml:space="preserve"><value>سيُعاد تشغيل الحاسوب قريبًا. احفظ عملك.</value></data>
+  <data name="SessionMessage_Maintenance" xml:space="preserve"><value>صيانة جارية على هذا الحاسوب. يُرجى الانتظار بضع دقائق.</value></data>
+  <data name="Sessions_AdminNote" xml:space="preserve"><value>مخصص لحسابات المسؤول على هذا الحاسوب.</value></data>
+  <data name="Sessions_Refresh" xml:space="preserve"><value>تحديث</value></data>
+  <data name="Sessions_Message" xml:space="preserve"><value>الرسالة المراد إرسالها:</value></data>
+  <data name="Sessions_Send" xml:space="preserve"><value>إرسال الرسالة</value></data>
+  <data name="Sessions_Disconnect" xml:space="preserve"><value>قطع الاتصال</value></data>
+  <data name="Sessions_LogOff" xml:space="preserve"><value>إغلاق الجلسة</value></data>
+  <data name="Sessions_Local" xml:space="preserve"><value>على هذا الحاسوب</value></data>
+  <data name="Sessions_Remote" xml:space="preserve"><value>عن بُعد من {0} (سطح المكتب البعيد)</value></data>
+  <data name="Sessions_RemoteUnknown" xml:space="preserve"><value>عن بُعد (سطح المكتب البعيد)</value></data>
+  <data name="Sessions_Since" xml:space="preserve"><value>· فُتحت في {0}</value></data>
+  <data name="Sessions_None" xml:space="preserve"><value>لا توجد جلسة مفتوحة.</value></data>
+  <data name="Sessions_ConfirmSubject" xml:space="preserve"><value>{0} ({1})</value></data>
+  <data name="SessionState_Active" xml:space="preserve"><value>نشطة</value></data>
+  <data name="SessionState_Locked" xml:space="preserve"><value>مقفلة</value></data>
+  <data name="SessionState_Disconnected" xml:space="preserve"><value>غير متصلة</value></data>
+  <data name="SessionState_Other" xml:space="preserve"><value>قيد التغيير</value></data>
+  <data name="Issue_NewRemoteConnection_Title" xml:space="preserve"><value>اتصال عن بُعد من عنوان غير معتاد ({0})</value></data>
+  <data name="Issue_NewRemoteConnection_Why" xml:space="preserve"><value>اتصل شخص بهذا الحاسوب عبر سطح المكتب البعيد من {0}، وهو عنوان لم يُرَ من قبل. إذا لم تكن أنت، فأغلق الجلسة.</value></data>
+  <data name="Command_GetServiceProfileChanges" xml:space="preserve"><value>معاينة ملف الخدمات</value></data>
+  <data name="Command_ApplyServiceProfile" xml:space="preserve"><value>تطبيق ملف خدمات</value></data>
+  <data name="Result_ProfileApplied" xml:space="preserve"><value>تم تحويل {0} خدمة إلى التشغيل اليدوي. يمكنك التراجع أدناه.</value></data>
+  <data name="Result_ProfileNothingToDo" xml:space="preserve"><value>لا شيء لتغييره: هذه الخدمات لم تعد تبدأ تلقائيًا.</value></data>
+  <data name="Result_ProfileFailed" xml:space="preserve"><value>تعذّر تعديل خدمة. تم التراجع عن التغييرات.</value></data>
+  <data name="Profile_Title" xml:space="preserve"><value>خدمات Windows حسب استخدامك</value></data>
+  <data name="Profile_Explanation" xml:space="preserve"><value>تتحول الخدمات غير الضرورية لاستخدامك إلى التشغيل اليدوي: يعيد Windows تشغيلها إذا احتاجها برنامج. لا يُعطَّل أي منها ويمكنك التراجع.</value></data>
+  <data name="Profile_Office" xml:space="preserve"><value>مكتبي (عمل، إنترنت)</value></data>
+  <data name="Profile_Gaming" xml:space="preserve"><value>ألعاب الفيديو</value></data>
+  <data name="Profile_Laptop" xml:space="preserve"><value>حاسوب محمول (عمر البطارية)</value></data>
+  <data name="Profile_Preview" xml:space="preserve"><value>ستتحول {0} خدمة إلى التشغيل اليدوي: {1}.</value></data>
+  <data name="Profile_NothingToDo" xml:space="preserve"><value>لا شيء لتغييره لهذا الملف على هذا الحاسوب.</value></data>
+  <data name="Profile_Apply" xml:space="preserve"><value>تطبيق الملف</value></data>
+  <data name="Profile_Applying" xml:space="preserve"><value>جارٍ تطبيق الملف…</value></data>
+  <data name="Command_GetVisualEffects" xml:space="preserve"><value>التأثيرات المرئية</value></data>
+  <data name="Command_LightenVisualEffects" xml:space="preserve"><value>تخفيف التأثيرات المرئية</value></data>
+  <data name="Result_VisualEffectsLightened" xml:space="preserve"><value>تم تخفيف التأثيرات المرئية. يُطبَّق التغيير عند تسجيل دخولك القادم.</value></data>
+  <data name="Result_VisualEffectsAlreadyLight" xml:space="preserve"><value>التأثيرات المرئية مخففة بالفعل.</value></data>
+  <data name="Result_VisualEffectsUnavailable" xml:space="preserve"><value>لا يمكن تعديل التأثيرات المرئية لهذا الحساب الآن.</value></data>
+  <data name="Visual_Title" xml:space="preserve"><value>التأثيرات المرئية</value></data>
+  <data name="Visual_Explanation" xml:space="preserve"><value>إيقاف الحركات والشفافية يجعل الحاسوب القديم أسرع استجابة. يبقى النص سلسًا. يمكن التراجع.</value></data>
+  <data name="Visual_Light" xml:space="preserve"><value>التأثيرات المرئية مخففة.</value></data>
+  <data name="Visual_Default" xml:space="preserve"><value>تأثيرات مرئية كاملة (إعداد Windows).</value></data>
+  <data name="Visual_Lighten" xml:space="preserve"><value>تخفيف</value></data>
+  <data name="Command_GetDiskOptimizationInfo" xml:space="preserve"><value>حالة القرص</value></data>
+  <data name="Command_OptimizeSystemDrive" xml:space="preserve"><value>تحسين القرص</value></data>
+  <data name="Command_SetPageFileAutomatic" xml:space="preserve"><value>ترك Windows يدير ملف الترحيل</value></data>
+  <data name="Result_DiskOptimizationStarted" xml:space="preserve"><value>بدأ تحسين القرص. يستمر في الخلفية ويمكنك استخدام الحاسوب.</value></data>
+  <data name="Result_DiskOptimized" xml:space="preserve"><value>تم تحسين القرص.</value></data>
+  <data name="Result_DiskOptimizationFailed" xml:space="preserve"><value>لم يكتمل تحسين القرص.</value></data>
+  <data name="Result_DiskOptimizationRunning" xml:space="preserve"><value>تحسين القرص جارٍ بالفعل.</value></data>
+  <data name="Result_PageFileAutomatic" xml:space="preserve"><value>يدير Windows الآن ملف الترحيل. أعد تشغيل الحاسوب لتطبيق ذلك.</value></data>
+  <data name="Result_PageFileAlreadyAutomatic" xml:space="preserve"><value>ملف الترحيل يديره Windows بالفعل.</value></data>
+  <data name="Result_PageFileUnavailable" xml:space="preserve"><value>لا يمكن تعديل ملف الترحيل على هذا الحاسوب.</value></data>
+  <data name="Disk_Title" xml:space="preserve"><value>القرص</value></data>
+  <data name="Disk_Explanation" xml:space="preserve"><value>يختار Windows المعالجة المناسبة: TRIM لقرص SSD، وإلغاء التجزئة للقرص الصلب (defrag /O).</value></data>
+  <data name="Disk_Ssd" xml:space="preserve"><value>القرص {0}: SSD (تحسين عبر TRIM).</value></data>
+  <data name="Disk_Hdd" xml:space="preserve"><value>القرص {0}: قرص صلب (إلغاء التجزئة، قد يستغرق وقتًا).</value></data>
+  <data name="Disk_Unknown" xml:space="preserve"><value>القرص {0}: نوع غير معروف، سيختار Windows المعالجة.</value></data>
+  <data name="Disk_Optimize" xml:space="preserve"><value>تحسين</value></data>
+  <data name="Disk_Starting" xml:space="preserve"><value>جارٍ بدء التحسين…</value></data>
+  <data name="PageFile_Automatic" xml:space="preserve"><value>ملف الترحيل يديره Windows (موصى به).</value></data>
+  <data name="PageFile_Manual" xml:space="preserve"><value>ملف الترحيل مضبوط يدويًا ({0} ميغابايت). الأكثر أمانًا ترك Windows يديره.</value></data>
+  <data name="PageFile_SetAutomatic" xml:space="preserve"><value>ترك Windows يديره</value></data>
+  <data name="Reports_ExportCsv" xml:space="preserve"><value>تصدير بصيغة CSV (جدول بيانات)</value></data>
+  <data name="Reports_CsvFileName" xml:space="preserve"><value>PC-Sante-بيانات-{0}</value></data>
+  <data name="Reports_CsvFilter" xml:space="preserve"><value>ملف CSV (جدول بيانات)</value></data>
+  <data name="Csv_Type" xml:space="preserve"><value>النوع</value></data>
+  <data name="Csv_Date" xml:space="preserve"><value>التاريخ</value></data>
+  <data name="Csv_Item" xml:space="preserve"><value>العنصر</value></data>
+  <data name="Csv_Value" xml:space="preserve"><value>القيمة</value></data>
+  <data name="Csv_Detail" xml:space="preserve"><value>التفاصيل</value></data>
+  <data name="Csv_Score" xml:space="preserve"><value>درجة الصحة</value></data>
+  <data name="Csv_Action" xml:space="preserve"><value>إجراء</value></data>
+  <data name="Csv_Threat" xml:space="preserve"><value>تهديد</value></data>
+  <data name="Csv_SubScores" xml:space="preserve"><value>الأمان {0} · الأداء {1} · الاستقرار {2} · التخزين {3}</value></data>
+  <data name="Proc_AdobeUpdater" xml:space="preserve"><value>التحديث التلقائي لبرامج Adobe (Reader وAcrobat): غير ضروري عند بدء التشغيل.</value></data>
+  <data name="Proc_AcroTray" xml:space="preserve"><value>أيقونة Adobe Acrobat في شريط المهام: نادرًا ما تكون مفيدة.</value></data>
+  <data name="Proc_JavaUpdater" xml:space="preserve"><value>التحقق من تحديثات Java: غير ضروري عند بدء التشغيل.</value></data>
+  <data name="Proc_ITunesHelper" xml:space="preserve"><value>مساعد iTunes لأجهزة iPhone: مفيد فقط إذا وصلت جهاز iPhone.</value></data>
+  <data name="Proc_GoogleUpdater" xml:space="preserve"><value>محدّث Google Chrome: يحدّث Chrome نفسه أيضًا عند فتحه.</value></data>
+  <data name="Proc_EdgeUpdater" xml:space="preserve"><value>محدّث Microsoft Edge: يحدّث Edge نفسه أيضًا عند فتحه.</value></data>
+  <data name="Proc_CCleaner" xml:space="preserve"><value>مراقبة CCleaner الدائمة: غير ضرورية، يقوم PC Santé بالتنظيف.</value></data>
+  <data name="Proc_Skype" xml:space="preserve"><value>Skype: مفيد فقط إذا كنت تستخدمه للاتصال.</value></data>
+  <data name="Proc_SpotifyHelper" xml:space="preserve"><value>مساعد Spotify: يعمل مجددًا عند فتح Spotify.</value></data>
+  <data name="Proc_SteamHelper" xml:space="preserve"><value>صفحة الويب الداخلية لـ Steam: مفيدة فقط أثناء اللعب.</value></data>
+  <data name="Proc_EpicLauncher" xml:space="preserve"><value>مشغّل ألعاب Epic: غير ضروري عند بدء التشغيل.</value></data>
+  <data name="Proc_Cortana" xml:space="preserve"><value>المساعد الصوتي Cortana: نادرًا ما يُستخدم.</value></data>
+  <data name="Proc_PhoneLink" xml:space="preserve"><value>الارتباط بهاتفك: مفيد فقط إذا كنت تستخدمه.</value></data>
+  <data name="Proc_TeamsUpdater" xml:space="preserve"><value>محدّث Microsoft Teams: غير ضروري عند بدء التشغيل.</value></data>
+  <data name="Proc_IntelTray" xml:space="preserve"><value>أيقونة إعدادات رسومات Intel: نادرًا ما تكون مفيدة.</value></data>
+  <data name="Proc_Browser" xml:space="preserve"><value>متصفح الإنترنت.</value></data>
+  <data name="Proc_OneDrive" xml:space="preserve"><value>نسخ ملفاتك احتياطيًا إلى OneDrive.</value></data>
+  <data name="Proc_Teams" xml:space="preserve"><value>Microsoft Teams (اجتماعات ومحادثات).</value></data>
+  <data name="Proc_Office" xml:space="preserve"><value>برنامج Microsoft Office.</value></data>
+  <data name="Proc_Zoom" xml:space="preserve"><value>Zoom (اجتماعات الفيديو).</value></data>
+  <data name="Proc_RealtekAudio" xml:space="preserve"><value>برنامج تشغيل الصوت (Realtek): ضروري لصوت الحاسوب.</value></data>
+  <data name="Proc_NvidiaDriver" xml:space="preserve"><value>برنامج تشغيل بطاقة الرسومات NVIDIA.</value></data>
+  <data name="Proc_AmdDriver" xml:space="preserve"><value>برنامج تشغيل بطاقة الرسومات AMD.</value></data>
+  <data name="Proc_WindowsSecurity" xml:space="preserve"><value>أيقونة أمان Windows.</value></data>
+  <data name="Proc_Defender" xml:space="preserve"><value>مكافح الفيروسات Microsoft Defender: ضروري.</value></data>
 </root>

@@ -20,7 +20,7 @@ internal sealed class ServiceFixture : IAsyncDisposable
     public ServiceFixture(bool premium = true)
     {
         var root = Path.Combine(Path.GetTempPath(), "pcsante-svc-" + Guid.NewGuid().ToString("N"));
-        Paths = new ServicePaths(Path.Combine(root, "data"), Path.Combine(root, "install"));
+        Paths = new ServicePaths(Path.Combine(root, "data"), Path.Combine(root, "install"), Path.Combine(root, "reports"));
         Paths.EnsureCreated();
         Directory.CreateDirectory(Paths.InstallDirectory);
 
@@ -31,6 +31,13 @@ internal sealed class ServiceFixture : IAsyncDisposable
         services.AddSingleton<IFirewallApi>(Firewall);
         services.AddSingleton<IWindowsUpdateApi>(Updates);
         services.AddSingleton<ISystemRepairApi>(Repair);
+        services.AddSingleton<INetworkRepairApi>(Network);
+        services.AddSingleton<ILocalAccountsApi>(Accounts);
+        services.AddSingleton<ISecurityCenterApi>(SecurityCenter);
+        services.AddSingleton<IBitLockerApi>(BitLocker);
+        services.AddSingleton<ISessionApi>(Sessions);
+        services.AddSingleton<IVisualEffectsApi>(VisualEffects);
+        services.AddSingleton<IDiskOptimizationApi>(Disk);
         services.AddSingleton<IRestorePointApi>(Restore);
         services.AddSingleton<IProcessApi>(Processes);
         services.AddSingleton<IServiceControlApi>(ServicesApi);
@@ -70,6 +77,20 @@ internal sealed class ServiceFixture : IAsyncDisposable
     public FakeUpdates Updates { get; } = new();
 
     public FakeRepair Repair { get; } = new();
+
+    public FakeNetwork Network { get; } = new();
+
+    public FakeAccounts Accounts { get; } = new();
+
+    public FakeSecurityCenter SecurityCenter { get; } = new();
+
+    public FakeBitLocker BitLocker { get; } = new();
+
+    public FakeSessions Sessions { get; } = new();
+
+    public FakeVisualEffects VisualEffects { get; } = new();
+
+    public FakeDisk Disk { get; } = new();
 
     public FakeRestore Restore { get; } = new();
 

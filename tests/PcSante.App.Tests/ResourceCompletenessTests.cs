@@ -92,10 +92,18 @@ public partial class ResourceCompletenessTests
         expected.AddRange(Enum.GetValues<OverlayPosition>().Select(p => $"Position_{p}"));
         expected.AddRange(new[] { "Handled", "ActionRequired" }.Select(s => $"Threat_{s}"));
         CommandId[] systemActions = [CommandId.InstallUpdates, CommandId.RepairWindowsUpdate, CommandId.RunSystemFileCheck, CommandId.RunDismRepair,
-            CommandId.CreateRestorePoint, CommandId.EnableSystemRestore, CommandId.ResetFirewallRules];
+            CommandId.CreateRestorePoint, CommandId.EnableSystemRestore, CommandId.ResetFirewallRules, CommandId.FlushDnsCache, CommandId.ResetNetworkStack,
+            CommandId.DisableGuestAccount];
         expected.AddRange(systemActions.SelectMany(c => new[] { $"Explain_{c}", $"Duration_{c}", $"Busy_{c}" }));
 
         expected.Where(k => !French.ContainsKey(k)).Should().BeEmpty();
+    }
+
+    [Fact]
+    public void Chaque_programme_connu_de_la_base_de_reputation_a_sa_description()
+    {
+        Core.Processes.ReputationBase.DescriptionKeys.Should().HaveCountGreaterThan(10);
+        Core.Processes.ReputationBase.DescriptionKeys.Select(k => $"Proc_{k}").Where(k => !French.ContainsKey(k)).Should().BeEmpty();
     }
 
     [Fact]

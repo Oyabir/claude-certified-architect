@@ -53,6 +53,10 @@
                     </StackPanel>
                 </ui:Card>
 
+                <TextBlock Text="{l:T Protection_AvInstalled}" Style="{StaticResource SectionTitle}" />
+                <TextBlock Text="{l:T Protection_AvInstalledTech}" Style="{StaticResource Technical}" Margin="0,-6,0,8" />
+                <ItemsControl ItemsSource="{Binding AntivirusProducts}" ItemTemplate="{StaticResource ProtectionRow}" Focusable="False" />
+
                 <TextBlock Text="{l:T Protection_Protections}" Style="{StaticResource SectionTitle}" />
                 <ItemsControl ItemsSource="{Binding Protections}" ItemTemplate="{StaticResource ProtectionRow}" Focusable="False" />
                 <TextBlock Text="{l:T Protection_TamperNote}" Style="{StaticResource Technical}" Margin="0,4,0,0"

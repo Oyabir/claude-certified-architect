@@ -23,6 +23,7 @@
         <DataTemplate DataType="{x:Type vm:SystemViewModel}"><v:SystemView /></DataTemplate>
         <DataTemplate DataType="{x:Type vm:ReportsViewModel}"><v:ReportsView /></DataTemplate>
         <DataTemplate DataType="{x:Type vm:SchedulingViewModel}"><v:SchedulingView /></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SessionsViewModel}"><v:SessionsView /></DataTemplate>
         <DataTemplate DataType="{x:Type vm:SettingsViewModel}"><v:SettingsView /></DataTemplate>
         <DataTemplate DataType="{x:Type vm:LicenseViewModel}"><v:LicenseView /></DataTemplate>
     </ui:FluentWindow.Resources>

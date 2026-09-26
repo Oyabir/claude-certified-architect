@@ -7,4 +7,11 @@
     <ProjectReference Include="../PcSante.Core/PcSante.Core.csproj" />
     <PackageReference Include="QuestPDF" />
   </ItemGroup>
+  <ItemGroup>
+    <!--
+      Mêmes fichiers de traduction que l'interface (source unique, aucun doublon) : le service produit ainsi
+      le rapport mensuel planifié dans la langue choisie, sans l'interface.
+    -->
+    <EmbeddedResource Include="../PcSante.App/Resources/Strings*.resx" LinkBase="Resources" />
+  </ItemGroup>
 </Project>

@@ -2,9 +2,11 @@ using Microsoft.Extensions.DependencyInjection;
 using PcSante.Core.Actions;
 using PcSante.Core.Commands;
 using PcSante.Core.Scheduling;
+using PcSante.Core.Windows;
 using PcSante.Licensing;
 using PcSante.Service.Data;
 using PcSante.Service.Dispatch;
+using PcSante.Service.Queries;
 using PcSante.Service.Updates;
 
 namespace PcSante.Service;
@@ -74,7 +76,12 @@ public sealed class RunTemplateOperation(IServiceProvider services, HistoryStore
         foreach (var command in template.Commands)
         {
             // L'utilisateur a donné son accord en activant le modèle (confirmation demandée à ce moment-là).
-            var result = await dispatcher.DispatchAsync(command.ToString(), null, confirmed: true, CallerIdentity.Scheduler, cancellationToken).ConfigureAwait(false);
+            // Seule la langue est transmise, et seulement aux commandes qui l'acceptent (rapport mensuel).
+            var language = parameters.GetOptionalString("language");
+            var commandParameters = language is not null && CommandDefinitions.Get(command).Parameters.Any(p => p.Name == "language")
+                ? new Dictionary<string, string> { ["language"] = language }
+                : null;
+            var result = await dispatcher.DispatchAsync(command.ToString(), commandParameters, confirmed: true, CallerIdentity.Scheduler, cancellationToken).ConfigureAwait(false);
             if (!result.IsSuccess)
             {
                 ok = false;
@@ -93,4 +100,53 @@ public sealed class InstallUpdateOperation(AppUpdateService updates) : IOperatio
 
     public Task<CommandResult> ExecuteAsync(CommandParameters parameters, CallerIdentity caller, CancellationToken cancellationToken) =>
         updates.InstallAsync(cancellationToken);
+}
+
+/// <summary>
+/// Rapport mensuel planifié (M8/M9) : PDF du mois écoulé, dans la langue choisie à l'activation du modèle,
+/// déposé dans Documents publics (lisible par chaque compte). N'agit pas sur Windows : pas de sauvegarde.
+/// </summary>
+public sealed class GenerateMonthlyReportOperation(QueryRegistry queries, ServicePaths paths, TimeProvider time) : IOperationHandler
+{
+    public CommandId Command => CommandId.GenerateMonthlyReport;
+
+    public async Task<CommandResult> ExecuteAsync(CommandParameters parameters, CallerIdentity caller, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(parameters);
+        var culture = Reporting.ReportStrings.CultureOf(parameters.GetOptionalString("language"));
+        var data = await queries.GetReportDataAsync(Core.Reporting.ReportPeriod.Month, cancellationToken).ConfigureAwait(false);
+        var pdf = Reporting.ReportPdfBuilder.Build(data, Reporting.ReportStrings.For(culture), culture);
+
+        Directory.CreateDirectory(paths.Reports);
+        var file = Path.Combine(paths.Reports, Core.Reporting.ReportLocations.MonthlyReportFileName(time.GetUtcNow()));
+        await File.WriteAllBytesAsync(file, pdf, cancellationToken).ConfigureAwait(false);
+        return CommandResult.Success("Result_MonthlyReportSaved", file);
+    }
+}
+
+/// <summary>
+/// Clé de récupération BitLocker (créée si besoin) remise à l'interface pour qu'elle l'enregistre hors du disque.
+/// Réservée aux administrateurs du PC : un compte standard ne doit jamais pouvoir obtenir la clé par le service.
+/// </summary>
+public sealed class BitLockerRecoveryKeyOperation(IBitLockerApi bitLocker, ILocalAccountsApi accounts) : IOperationHandler
+{
+    public CommandId Command => CommandId.GetBitLockerRecoveryKey;
+
+    public async Task<CommandResult> ExecuteAsync(CommandParameters parameters, CallerIdentity caller, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(caller);
+        if (!(await bitLocker.GetStatusAsync(cancellationToken).ConfigureAwait(false)).Supported)
+        {
+            return CommandResult.Refused(FailureReason.NotSupportedOnThisPc, "Result_BitLockerNotSupported");
+        }
+
+        if (!await accounts.IsAdministratorAsync(caller.UserSid, cancellationToken).ConfigureAwait(false))
+        {
+            return CommandResult.Refused(FailureReason.PreconditionFailed, "Result_AdminRequired");
+        }
+
+        return await bitLocker.EnsureRecoveryKeyAsync(cancellationToken).ConfigureAwait(false) is { } key
+            ? CommandResult.WithData(key, "Result_BitLockerKeyReady")
+            : CommandResult.Failure(FailureReason.ExecutionFailed, "Result_BitLockerFailed");
+    }
 }

@@ -392,3 +392,150 @@ internal sealed class FakeLauncher : IInstallerLauncher
         return true;
     }
 }
+
+internal sealed class FakeNetwork : INetworkRepairApi
+{
+    public List<string> Calls { get; } = [];
+
+    public bool Succeeds { get; set; } = true;
+
+    public Task<bool> FlushDnsAsync(CancellationToken cancellationToken)
+    {
+        Calls.Add("dns");
+        return Task.FromResult(Succeeds);
+    }
+
+    public Task<bool> ResetNetworkStackAsync(CancellationToken cancellationToken)
+    {
+        Calls.Add("reset");
+        return Task.FromResult(Succeeds);
+    }
+}
+
+internal sealed class FakeAccounts : ILocalAccountsApi
+{
+    public List<LocalAccount> Accounts { get; } =
+    [
+        new("alice", "S-1-5-21-1-2-3-1001", true, true),
+        new("Invité", "S-1-5-21-1-2-3-501", false, false),
+    ];
+
+    public Task<IReadOnlyList<LocalAccount>> ListAsync(CancellationToken cancellationToken) =>
+        Task.FromResult<IReadOnlyList<LocalAccount>>(Accounts.ToList());
+
+    public Task<bool> SetEnabledAsync(string sid, bool enabled, CancellationToken cancellationToken)
+    {
+        var index = Accounts.FindIndex(a => a.Sid == sid);
+        if (index < 0)
+        {
+            return Task.FromResult(false);
+        }
+
+        Accounts[index] = Accounts[index] with { Enabled = enabled };
+        return Task.FromResult(true);
+    }
+
+    public Task<bool> IsAdministratorAsync(string? sid, CancellationToken cancellationToken) =>
+        Task.FromResult(Accounts.Any(a => a.Sid == sid && a.IsAdministrator));
+}
+
+internal sealed class FakeSecurityCenter : ISecurityCenterApi
+{
+    public List<AntivirusProduct> Products { get; } = [new("Windows Defender", true, true, true)];
+
+    public Task<IReadOnlyList<AntivirusProduct>> ListAntivirusAsync(CancellationToken cancellationToken) =>
+        Task.FromResult<IReadOnlyList<AntivirusProduct>>(Products.ToList());
+}
+
+internal sealed class FakeBitLocker : IBitLockerApi
+{
+    public BitLockerStatus Status { get; set; } = new(true, true, BitLockerState.Off, 0, false);
+
+    public int EncryptionStarts { get; private set; }
+
+    public Task<BitLockerStatus> GetStatusAsync(CancellationToken cancellationToken) => Task.FromResult(Status);
+
+    public Task<BitLockerRecoveryKey?> EnsureRecoveryKeyAsync(CancellationToken cancellationToken)
+    {
+        Status = Status with { HasRecoveryKey = true };
+        return Task.FromResult<BitLockerRecoveryKey?>(new BitLockerRecoveryKey("{0000-KEY}", "111111-222222-333333-444444-555555-666666-777777-888888"));
+    }
+
+    public Task<bool> StartEncryptionAsync(CancellationToken cancellationToken)
+    {
+        EncryptionStarts++;
+        Status = Status with { State = BitLockerState.Encrypting };
+        return Task.FromResult(true);
+    }
+}
+
+internal sealed class FakeSessions : ISessionApi
+{
+    public List<UserSession> Sessions { get; } =
+    [
+        new(1, @"PC\alice", SessionState.Active, false, null, DateTimeOffset.UnixEpoch),
+        new(2, @"PC\bob", SessionState.Active, true, "203.0.113.7", DateTimeOffset.UnixEpoch),
+    ];
+
+    public List<string> Messages { get; } = [];
+
+    public Task<IReadOnlyList<UserSession>> ListAsync(CancellationToken cancellationToken) =>
+        Task.FromResult<IReadOnlyList<UserSession>>(Sessions.ToList());
+
+    public Task<bool> SendMessageAsync(int sessionId, string title, string message, CancellationToken cancellationToken)
+    {
+        Messages.Add($"{sessionId}:{message}");
+        return Task.FromResult(true);
+    }
+
+    public Task<bool> DisconnectAsync(int sessionId, CancellationToken cancellationToken)
+    {
+        var i = Sessions.FindIndex(s => s.SessionId == sessionId);
+        Sessions[i] = Sessions[i] with { State = SessionState.Disconnected };
+        return Task.FromResult(true);
+    }
+
+    public Task<bool> LogOffAsync(int sessionId, CancellationToken cancellationToken)
+    {
+        Sessions.RemoveAll(s => s.SessionId == sessionId);
+        return Task.FromResult(true);
+    }
+}
+
+internal sealed class FakeVisualEffects : IVisualEffectsApi
+{
+    public Dictionary<string, VisualEffectsSettings> Users { get; } = new()
+    {
+        ["S-1-5-21-1"] = new([0x9E, 0x3E, 0x07, 0x80, 0x12, 0x00, 0x00, 0x00], "1", null, null),
+    };
+
+    public Task<VisualEffectsSettings?> ReadAsync(string userSid, CancellationToken cancellationToken) =>
+        Task.FromResult(Users.TryGetValue(userSid, out var s) ? s : null);
+
+    public Task<bool> WriteAsync(string userSid, VisualEffectsSettings settings, CancellationToken cancellationToken)
+    {
+        Users[userSid] = settings;
+        return Task.FromResult(true);
+    }
+}
+
+internal sealed class FakeDisk : IDiskOptimizationApi
+{
+    public DiskOptimizationInfo Info { get; set; } = new("C:", DiskMediaType.Ssd, false, 4096);
+
+    public int Optimizations { get; private set; }
+
+    public Task<DiskOptimizationInfo?> GetSystemDiskAsync(CancellationToken cancellationToken) => Task.FromResult<DiskOptimizationInfo?>(Info);
+
+    public Task<bool> OptimizeSystemDriveAsync(CancellationToken cancellationToken)
+    {
+        Optimizations++;
+        return Task.FromResult(true);
+    }
+
+    public Task<bool> SetPageFileAutomaticAsync(bool automatic, CancellationToken cancellationToken)
+    {
+        Info = Info with { PageFileAutomatic = automatic };
+        return Task.FromResult(true);
+    }
+}

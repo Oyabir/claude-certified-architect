@@ -8,6 +8,7 @@ using PcSante.Core.Reporting;
 using PcSante.Core.Scheduling;
 using PcSante.Core.Windows;
 using PcSante.Licensing;
+using PcSante.Service.Actions;
 using PcSante.Service.Data;
 using PcSante.Service.Diagnostics;
 using PcSante.Service.Dispatch;
@@ -23,6 +24,13 @@ public sealed class QueryRegistry(
     ISystemInfoApi system,
     IDefenderApi defender,
     IFirewallApi firewall,
+    ILocalAccountsApi accounts,
+    ISecurityCenterApi securityCenter,
+    IBitLockerApi bitLocker,
+    ISessionApi sessions,
+    IServiceControlApi services,
+    IVisualEffectsApi visualEffects,
+    IDiskOptimizationApi disk,
     IWindowsUpdateApi updates,
     IProcessApi processes,
     ISignatureVerifier signatures,
@@ -52,6 +60,15 @@ public sealed class QueryRegistry(
         yield return Q(CommandId.GetQuarantine, async (_, _, ct) => CommandResult.WithData(await defender.GetQuarantineAsync(ct).ConfigureAwait(false)));
 
         yield return Q(CommandId.GetFirewallStatus, async (_, _, ct) => CommandResult.WithData(await firewall.GetStatusAsync(ct).ConfigureAwait(false)));
+        yield return Q(CommandId.GetAntivirusProducts, async (_, _, ct) => CommandResult.WithData(await securityCenter.ListAntivirusAsync(ct).ConfigureAwait(false)));
+        yield return Q(CommandId.GetBitLockerStatus, async (_, _, ct) => CommandResult.WithData(await bitLocker.GetStatusAsync(ct).ConfigureAwait(false)));
+        yield return Q(CommandId.GetSessions, async (_, _, ct) => CommandResult.WithData(await sessions.ListAsync(ct).ConfigureAwait(false)));
+        yield return Q(CommandId.GetServiceProfileChanges, async (p, _, ct) =>
+            CommandResult.WithData(await ServiceProfileAction.ChangesAsync(services, p.GetEnum<ServiceProfile>("profile"), ct).ConfigureAwait(false)));
+        yield return Q(CommandId.GetVisualEffects, async (_, c, ct) => CommandResult.WithData(
+            c.UserSid is null ? null : await visualEffects.ReadAsync(c.UserSid, ct).ConfigureAwait(false)));
+        yield return Q(CommandId.GetDiskOptimizationInfo, async (_, _, ct) => CommandResult.WithData(await disk.GetSystemDiskAsync(ct).ConfigureAwait(false)));
+        yield return Q(CommandId.GetLocalAccounts, async (_, _, ct) => CommandResult.WithData(await accounts.ListAsync(ct).ConfigureAwait(false)));
         yield return Q(CommandId.GetUpdateStatus, async (_, _, ct) => CommandResult.WithData(await updates.GetStatusAsync(ct).ConfigureAwait(false)));
 
         yield return Q(CommandId.GetProcesses, async (_, _, ct) => CommandResult.WithData(await GetProcessesAsync(ct).ConfigureAwait(false)));
@@ -83,7 +100,8 @@ public sealed class QueryRegistry(
             var signature = s.ExecutablePath is null ? SignatureInfo.Unsigned : Signature(s.ExecutablePath);
             return new ProcessView(s.ProcessId, s.Name, s.ExecutablePath, s.CpuPercent, s.MemoryBytes, s.DiskBytesPerSecond, s.ServiceNames,
                 signature.IsSigned && signature.IsTrusted, signature.Publisher,
-                ProcessReputation.Classify(s.Name, s.ExecutablePath, signature), ProcessReputation.IsProtected(s.Name));
+                ProcessReputation.Classify(s.Name, s.ExecutablePath, signature), ProcessReputation.IsProtected(s.Name),
+                ReputationBase.DescriptionKeyOf(s.Name));
         }).OrderByDescending(p => p.CpuPercent).ThenByDescending(p => p.MemoryBytes).ToList();
     }
 

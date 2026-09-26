@@ -12,6 +12,7 @@
     <ProjectReference Include="../PcSante.Core/PcSante.Core.csproj" />
     <ProjectReference Include="../PcSante.Ipc/PcSante.Ipc.csproj" />
     <ProjectReference Include="../PcSante.Licensing/PcSante.Licensing.csproj" />
+    <ProjectReference Include="../PcSante.Reporting/PcSante.Reporting.csproj" />
     <ProjectReference Include="../PcSante.WindowsApi/PcSante.WindowsApi.csproj" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" />

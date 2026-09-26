@@ -19,15 +19,22 @@ if (!OperatingSystem.IsWindows())
 var paths = ServicePaths.Default();
 
 // Mode tâche planifiée : « PcSante.Service.exe --run-task WeeklyCleanup » (lancé par le Planificateur en SYSTEM).
-if (args.Length == 2 && args[0] == "--run-task")
+// Option « --lang fr|en|ar » : langue des documents produits (rapport mensuel), validée ensuite par le catalogue.
+if ((args.Length == 2 || (args.Length == 4 && args[2] == "--lang")) && args[0] == "--run-task")
 {
     if (!Enum.TryParse<ScheduledTemplateId>(args[1], ignoreCase: false, out var template) || !Enum.IsDefined(template))
     {
         return 3;
     }
 
+    var parameters = new Dictionary<string, string> { ["template"] = template.ToString() };
+    if (args.Length == 4)
+    {
+        parameters["language"] = args[3];
+    }
+
     await using var client = new PipeClient(ProductInfo.PipeName, new WindowsServerVerifier(paths.ServiceExecutable), TimeSpan.FromSeconds(30));
-    var result = await client.SendAsync(CommandId.RunScheduledTemplate, new Dictionary<string, string> { ["template"] = template.ToString() }).ConfigureAwait(false);
+    var result = await client.SendAsync(CommandId.RunScheduledTemplate, parameters).ConfigureAwait(false);
     return result.IsSuccess ? 0 : 1;
 }
 
@@ -64,6 +71,7 @@ try
     builder.Services.AddHostedService<PipeServerWorker>();
     builder.Services.AddHostedService<ProcessHistoryWorker>();
     builder.Services.AddHostedService<LicenseWorker>();
+    builder.Services.AddHostedService<RemoteSessionWorker>();
 
     using var host = builder.Build();
     ServiceRegistration.EnsureDatabase(host.Services);

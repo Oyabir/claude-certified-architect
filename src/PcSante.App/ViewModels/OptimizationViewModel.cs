@@ -57,6 +57,53 @@ public sealed partial class OptimizationViewModel(MainViewModel main) : PageView
 
     public ObservableCollection<PowerRow> PowerPlans { get; } = [];
 
+    public IReadOnlyList<Choice> ServiceProfiles { get; } =
+        CommandDefinitions.ServiceProfileNames.Select(p => new Choice(p, Loc.T($"Profile_{p}"))).ToList();
+
+    [ObservableProperty]
+    private string _selectedProfile = CommandDefinitions.ServiceProfileNames[0];
+
+    [ObservableProperty]
+    private string _profilePreview = string.Empty;
+
+    partial void OnSelectedProfileChanged(string value) => _ = LoadProfilePreviewAsync();
+
+    private async Task LoadProfilePreviewAsync()
+    {
+        var changes = await Query<List<ServiceChange>>(CommandId.GetServiceProfileChanges, new Dictionary<string, string> { ["profile"] = SelectedProfile }).ConfigureAwait(true);
+        ProfilePreview = changes is null ? string.Empty
+            : changes.Count == 0 ? Loc.T("Profile_NothingToDo")
+            : Loc.F("Profile_Preview", changes.Count, string.Join(", ", changes.Select(c => c.DisplayName)));
+    }
+
+    [ObservableProperty]
+    private string _visualEffectsState = string.Empty;
+
+    [ObservableProperty]
+    private bool _canLightenVisualEffects;
+
+    [RelayCommand]
+    private Task LightenVisualEffectsAsync() => ExecuteAsync(CommandId.LightenVisualEffects);
+
+    [ObservableProperty]
+    private string _diskState = string.Empty;
+
+    [ObservableProperty]
+    private string _pageFileState = string.Empty;
+
+    [ObservableProperty]
+    private bool _canSetPageFileAutomatic;
+
+    [RelayCommand]
+    private Task OptimizeDriveAsync() => ExecuteAsync(CommandId.OptimizeSystemDrive, busyKey: "Disk_Starting");
+
+    [RelayCommand]
+    private Task SetPageFileAutomaticAsync() => ExecuteAsync(CommandId.SetPageFileAutomatic);
+
+    [RelayCommand]
+    private Task ApplyProfileAsync() =>
+        ExecuteAsync(CommandId.ApplyServiceProfile, new Dictionary<string, string> { ["profile"] = SelectedProfile }, busyKey: "Profile_Applying");
+
     public ObservableCollection<UndoRow> Undoable { get; } = [];
 
     [ObservableProperty]
@@ -96,6 +143,19 @@ public sealed partial class OptimizationViewModel(MainViewModel main) : PageView
             {
                 PowerPlans.Add(new PowerRow(p.Id, p.Name, p.IsActive));
             }
+
+            await LoadProfilePreviewAsync().ConfigureAwait(true);
+
+            var effects = await Query<VisualEffectsSettings>(CommandId.GetVisualEffects).ConfigureAwait(true);
+            VisualEffectsState = effects is null ? string.Empty : Loc.T(effects.IsLight ? "Visual_Light" : "Visual_Default");
+            CanLightenVisualEffects = effects is { IsLight: false };
+
+            var disk = await Query<DiskOptimizationInfo>(CommandId.GetDiskOptimizationInfo).ConfigureAwait(true);
+            DiskState = disk is null ? string.Empty : Loc.F($"Disk_{disk.MediaType}", disk.Drive);
+            PageFileState = disk is null ? string.Empty
+                : disk.PageFileAutomatic ? Loc.T("PageFile_Automatic")
+                : Loc.F("PageFile_Manual", disk.PageFileSizeMb?.ToString(System.Globalization.CultureInfo.CurrentCulture) ?? "?");
+            CanSetPageFileAutomatic = disk is { PageFileAutomatic: false };
         }
 
         Undoable.Clear();

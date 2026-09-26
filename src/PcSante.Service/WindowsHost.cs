@@ -24,6 +24,13 @@ public static class WindowsHost
         services.AddSingleton<IFirewallApi, WindowsFirewallApi>();
         services.AddSingleton<IWindowsUpdateApi, WindowsUpdateApi>();
         services.AddSingleton<ISystemRepairApi, WindowsSystemRepairApi>();
+        services.AddSingleton<INetworkRepairApi, WindowsNetworkRepairApi>();
+        services.AddSingleton<ILocalAccountsApi, WindowsLocalAccountsApi>();
+        services.AddSingleton<ISecurityCenterApi, WindowsSecurityCenterApi>();
+        services.AddSingleton<IBitLockerApi, WindowsBitLockerApi>();
+        services.AddSingleton<ISessionApi, WindowsSessionApi>();
+        services.AddSingleton<IVisualEffectsApi, WindowsVisualEffectsApi>();
+        services.AddSingleton<IDiskOptimizationApi, WindowsDiskOptimizationApi>();
         services.AddSingleton<IRestorePointApi, WindowsRestorePointApi>();
         services.AddSingleton<IProcessApi, WindowsProcessApi>();
         services.AddSingleton<IServiceControlApi, WindowsServiceControlApi>();

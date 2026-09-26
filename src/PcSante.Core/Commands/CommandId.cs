@@ -25,6 +25,7 @@ public enum CommandId
     EnableRealtimeProtection = 209,
     EnableCloudProtection = 210,
     EnableControlledFolderAccess = 211,
+    GetAntivirusProducts = 212,
 
     // --- Actions système (M6) ---
     GetFirewallStatus = 300,
@@ -39,6 +40,13 @@ public enum CommandId
     RunDismRepair = 321,
     CreateRestorePoint = 322,
     EnableSystemRestore = 323,
+    FlushDnsCache = 330,
+    ResetNetworkStack = 331,
+    GetLocalAccounts = 340,
+    DisableGuestAccount = 341,
+    GetBitLockerStatus = 350,
+    GetBitLockerRecoveryKey = 351,
+    EnableBitLocker = 352,
 
     // --- Processus (M3) ---
     GetProcesses = 400,
@@ -73,6 +81,7 @@ public enum CommandId
     // --- Rapports (M8) ---
     GetReportData = 700,
     GetAuditLog = 701,
+    GenerateMonthlyReport = 702,
 
     // --- Licence (section 12) ---
     GetLicenseStatus = 800,
@@ -83,5 +92,19 @@ public enum CommandId
 
     // --- Mises à jour de l'application (section 5) ---
     CheckAppUpdate = 900,
-    InstallAppUpdate = 901,
+    InstallAppUpdate = 901,
+    // --- Optimisations V2 (M4) ---
+    GetServiceProfileChanges = 1100,
+    ApplyServiceProfile = 1101,
+    GetVisualEffects = 1102,
+    LightenVisualEffects = 1103,
+    GetDiskOptimizationInfo = 1104,
+    OptimizeSystemDrive = 1105,
+    SetPageFileAutomatic = 1106,
+
+    // --- Sessions (M7) ---
+    GetSessions = 1000,
+    SendSessionMessage = 1001,
+    DisconnectSession = 1002,
+    LogOffSession = 1003,
 }

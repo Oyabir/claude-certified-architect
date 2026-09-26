@@ -112,10 +112,10 @@ public sealed partial class WelcomeViewModel(MainViewModel main) : ObservableObj
         IsBusy = true;
         try
         {
-            foreach (var template in Core.Scheduling.ScheduledTemplates.All)
+            foreach (var template in Core.Scheduling.ScheduledTemplates.Recommended)
             {
                 var row = new TemplateRow(new Core.Scheduling.TemplateView(template.Id, false, template.Default, template.Commands, null));
-                var result = await _main.Service.RunAsync(CommandId.EnableScheduledTemplate, row.ToParameters()).ConfigureAwait(true);
+                var result = await _main.Service.RunAsync(CommandId.EnableScheduledTemplate, row.ToParameters(_main.Settings.Language)).ConfigureAwait(true);
                 if (!result.IsSuccess)
                 {
                     Message.Show(result);

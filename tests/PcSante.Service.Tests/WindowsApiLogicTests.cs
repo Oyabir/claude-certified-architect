@@ -1,3 +1,4 @@
+using PcSante.Core.Scheduling;
 using Microsoft.Win32.TaskScheduler;
 using PcSante.Core.Windows;
 using PcSante.WindowsApi;
@@ -43,6 +44,58 @@ public class WindowsApiLogicTests
     }
 
     [Theory]
+    [InlineData(0u, 0u, BitLockerState.Off)]
+    [InlineData(1u, 1u, BitLockerState.On)]
+    [InlineData(1u, 0u, BitLockerState.Paused)]
+    [InlineData(2u, 0u, BitLockerState.Encrypting)]
+    [InlineData(3u, 1u, BitLockerState.Decrypting)]
+    [InlineData(4u, 0u, BitLockerState.Paused)]
+    [InlineData(9u, 0u, BitLockerState.Unknown)]
+    public void Etat_bitlocker(uint conversion, uint protection, BitLockerState expected)
+    {
+        WindowsBitLockerApi.MapState(conversion, protection).Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData(0, 0, SessionState.Locked)]
+    [InlineData(0, 1, SessionState.Active)]
+    [InlineData(4, 1, SessionState.Disconnected)]
+    [InlineData(1, 1, SessionState.Other)]
+    public void Etat_de_session(int wtsState, int flags, SessionState expected)
+    {
+        WindowsSessionApi.MapState(wtsState, flags).Should().Be(expected);
+    }
+
+    [Fact]
+    public void Adresse_du_client_bureau_a_distance()
+    {
+        WindowsSessionApi.ToAddress(new PcSante.WindowsApi.Native.Wts.ClientAddress { AddressFamily = 2, Address = [0, 0, 192, 168, 1, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] })
+            .Should().Be("192.168.1.20");
+        WindowsSessionApi.ToAddress(new PcSante.WindowsApi.Native.Wts.ClientAddress { AddressFamily = 2, Address = new byte[20] }).Should().BeNull();
+        WindowsSessionApi.ToAddress(new PcSante.WindowsApi.Native.Wts.ClientAddress { AddressFamily = 23, Address = new byte[20] }).Should().BeNull();
+    }
+
+    [Theory]
+    [InlineData((ushort)3, DiskMediaType.Hdd)]
+    [InlineData((ushort)4, DiskMediaType.Ssd)]
+    [InlineData((ushort)0, DiskMediaType.Unknown)]
+    public void Type_de_disque(ushort mediaType, DiskMediaType expected)
+    {
+        WindowsDiskOptimizationApi.MapMediaType(mediaType).Should().Be(expected);
+    }
+
+    [Fact]
+    public void Arguments_de_tache_avec_langue_du_rapport()
+    {
+        WindowsScheduledTemplateApi.Arguments(ScheduledTemplateId.WeeklyCleanup, null).Should().Be("--run-task WeeklyCleanup");
+        var withLanguage = WindowsScheduledTemplateApi.Arguments(ScheduledTemplateId.MonthlyReport, "ar");
+        withLanguage.Should().Be("--run-task MonthlyReport --lang ar");
+        WindowsScheduledTemplateApi.LanguageOf(withLanguage).Should().Be("ar");
+        WindowsScheduledTemplateApi.LanguageOf("--run-task WeeklyCleanup").Should().BeNull();
+        WindowsScheduledTemplateApi.LanguageOf(null).Should().BeNull();
+    }
+
+    [Theory]
     [InlineData(0x061100u, true)]
     [InlineData(0x041000u, true)]
     [InlineData(0x060100u, false)]
@@ -51,6 +104,15 @@ public class WindowsApiLogicTests
     public void Etat_d_un_antivirus_du_centre_de_securite(uint productState, bool enabled)
     {
         WindowsDefenderApi.IsProductEnabled(productState).Should().Be(enabled);
+    }
+
+    [Theory]
+    [InlineData(0x061100u, true)]
+    [InlineData(0x061110u, false)]
+    [InlineData(0x041000u, true)]
+    public void Signatures_a_jour_selon_le_centre_de_securite(uint productState, bool upToDate)
+    {
+        WindowsSecurityCenterApi.IsSignatureUpToDate(productState).Should().Be(upToDate);
     }
 
     [Fact]

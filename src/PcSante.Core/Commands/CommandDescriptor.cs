@@ -38,6 +38,12 @@ public enum ConfirmationKind
     RestartsComputer,
     DeletesFiles,
     ReducesProtection,
+
+    /// <summary>Chiffrement du disque : rappel impératif de garder la clé de récupération.</summary>
+    EncryptsDisk,
+
+    /// <summary>Interrompt la session d'un autre utilisateur (sans fermer ses programmes).</summary>
+    InterruptsUser,
 }
 
 /// <summary>Type d'un paramètre de commande. Aucun type « texte libre » exécutable n'existe.</summary>

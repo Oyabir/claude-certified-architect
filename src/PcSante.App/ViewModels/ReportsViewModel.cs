@@ -64,19 +64,81 @@ public sealed partial class ReportsViewModel(MainViewModel main) : PageViewModel
         OnPropertyChanged(nameof(IsAdvanced));
     }
 
-    /// <summary>Bouton principal : générer le rapport PDF (hebdomadaire ou mensuel).</summary>
+    /// <summary>Ouvre le dossier des rapports mensuels planifiés, ou explique qu'il n'y en a pas encore.</summary>
     [RelayCommand]
-    private async Task GenerateAsync()
+    private void OpenReportsFolder()
     {
-        var period = Monthly ? ReportPeriod.Month : ReportPeriod.Week;
+        var folder = ReportLocations.MonthlyReportsFolder;
+        if (!Directory.Exists(folder) || Directory.GetFiles(folder, "*.pdf").Length == 0)
+        {
+            Message.Show(Loc.T("Reports_NoMonthlyReport"), MessageKind.Info);
+            return;
+        }
+
+        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("explorer.exe", $"\"{folder}\"") { UseShellExecute = true });
+    }
+
+    /// <summary>Export CSV de la même période (scores, actions, menaces), pour un tableur.</summary>
+    [RelayCommand]
+    private async Task ExportCsvAsync()
+    {
+        if (Main.NeedsPremium(CommandId.GetReportData))
+        {
+            Main.ShowPremiumRequired();
+            return;
+        }
+
         IsBusy = true;
         BusyText = Loc.T("Reports_Generating");
         try
         {
-            var result = await Service.RunAsync(CommandId.GetReportData, new Dictionary<string, string> { ["period"] = period.ToString() }).ConfigureAwait(true);
-            if (!result.IsSuccess || result.GetData<ReportData>() is not { } data)
+            if (await FetchReportDataAsync().ConfigureAwait(true) is not { } data)
             {
-                Message.Show(result);
+                return;
+            }
+
+            var file = Dialogs.SaveFile(Loc.F("Reports_CsvFileName", DateTime.Now.ToString("yyyy-MM-dd", Loc.Culture)), "Reports_CsvFilter", ".csv");
+            if (file is null)
+            {
+                return;
+            }
+
+            await File.WriteAllBytesAsync(file, ReportCsvBuilder.ToFileBytes(ReportCsvBuilder.Build(data, Loc.T, Loc.Culture))).ConfigureAwait(true);
+            Message.Show(Loc.F("Reports_Saved", Path.GetFileName(file)), MessageKind.Success);
+        }
+        catch (IOException ex)
+        {
+            Message.Show(Loc.T("Reports_SaveFailed"), MessageKind.Error, ex.Message);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    private async Task<ReportData?> FetchReportDataAsync()
+    {
+        var period = Monthly ? ReportPeriod.Month : ReportPeriod.Week;
+        var result = await Service.RunAsync(CommandId.GetReportData, new Dictionary<string, string> { ["period"] = period.ToString() }).ConfigureAwait(true);
+        if (!result.IsSuccess || result.GetData<ReportData>() is not { } data)
+        {
+            Message.Show(result);
+            return null;
+        }
+
+        return data;
+    }
+
+    /// <summary>Bouton principal : générer le rapport PDF (hebdomadaire ou mensuel).</summary>
+    [RelayCommand]
+    private async Task GenerateAsync()
+    {
+        IsBusy = true;
+        BusyText = Loc.T("Reports_Generating");
+        try
+        {
+            if (await FetchReportDataAsync().ConfigureAwait(true) is not { } data)
+            {
                 return;
             }
 
